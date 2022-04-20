@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ quiz.name }}</h1>
+
+{% for lection in lections %}
+  <h3>
+    {{ lection.name }}
+    <a type="button" class="btn btn-outline-success border-0" href="{{ lection.first_question.get_detail_url }}">
+      <i class="bi bi-arrow-right"></i>
+    </a>
+  </h3>
+
+{% endfor %}
+
+
+{% endblock %}
