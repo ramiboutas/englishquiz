@@ -2,13 +2,30 @@
 
 {% block content %}
 
-<h1> List of quiz </h1>
 
-<ul>
-  {% for quiz in quiz_list %}
-    <li> <a href="{{ quiz.get_detail_url }}">{{ quiz.name}}</a> </li>
-  {% endfor %}
-</ul>
+<section>
+  <h1 class="text-success text-center py-5">Practice and learn english</h1>
+</section>
+
+<section id="quizs" class="py-5">
+    <div class="row">
+      {% for quiz in quiz_list %}
+      <!-- Listing 1 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card" style="width: 18rem;">
+          <img src="{{ quiz.image_url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ quiz.name}}</h5>
+            <p class="card-text">{{ quiz.description }}</p>
+            <a href="{{ quiz.get_detail_url }}" class="btn btn-success w-100">Check out</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+</section>
+
+
 
 
 {% endblock %}

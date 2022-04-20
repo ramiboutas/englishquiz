@@ -3,8 +3,21 @@
 
 {% block content %}
 
-  <p>{{ question.name }}</p>
 
-  
+
+
+<h1 class="display-4 text-center py-5">{{ question.name }}</h1>
+
+
+
+
+{% for answer in question.answer_set.all %}
+<p class="py-2">
+  <input type="radio" class="btn-check" name="selected_answer" id="option-{{answer.id}}" autocomplete="off">
+  <label style="font-size: 36px;" class="btn btn-lg btn-outline-primary border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+</p>
+{% endfor %}
+
+
 
 {% endblock %}

@@ -6,9 +6,10 @@ from django.urls import reverse
 class Quiz(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True, unique=True)
+    image_url = models.URLField(max_length=200, blank=True, null=True)
 
     def get_detail_url(self):
-        return reverse('quiz_detail', kwargs={'id': self.id})
+        return reverse('quiz_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name

@@ -8,10 +8,9 @@ def quiz_list(request):
     return render(request, 'quiz_list.html', context)
 
 
-def quiz_detail(request, id):
-    quiz = get_object_or_404(Quiz, id=id)
+def quiz_detail(request, slug):
+    quiz = get_object_or_404(Quiz, slug=slug)
     lections = quiz.lection_set.all()
-
     context ={'quiz':quiz, 'lections': lections}
     return render(request, 'quiz_detail.html', context)
 
