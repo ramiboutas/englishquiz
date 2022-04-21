@@ -44,11 +44,20 @@ class Question(models.Model):
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
 
+    def check_answer_url(self):
+        return reverse('check_answer', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
+
     def is_first(self):
         return self.__class__.objects.all().first() == self
 
     def is_last(self):
         return self.__class__.objects.all().last() == self
+
+    def previous_object(self):
+        return self.__class__.objects.filter(id__lt=self.id).order_by('id').last()
+
+    def next_object(self):
+        return self.__class__.objects.filter(id__gt=self.id).order_by('id').first()
 
     def __str__(self):
         return f'{self.lection.quiz.name} - {self.lection.name} - {self.name}'

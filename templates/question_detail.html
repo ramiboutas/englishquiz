@@ -3,30 +3,51 @@
 
 {% block content %}
 
+<section >
+  <div class="row" hx-boost="true">
+    <div class="col-2">
+      {% if not question.is_first %}
+        <a style="font-size: 36px;" class="btn btn-lg btn-outline-primary w-100 border-0"
+          href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
+      {% endif %}
+
+    </div>
+    <div class="col-8">
+      <h1 class="display-4 text-center py-5">{{ question.name }}</h1>
+    </div>
+    <div class="col-2">
+      {% if not question.is_last %}
+        <a  style="font-size: 36px;" class="btn btn-lg btn-outline-primary w-100 border-0"
+         href="{{ question.next_object.get_detail_url }}"><i class="bi bi-arrow-right"></i></a>
+      {% endif %}
+    </div>
+</div>
+</section>
+
+<form  >
+  <div id="answers">
+  {% for answer in question.answer_set.all %}
+    <p class="py-2">
+      <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
+      <label style="font-size: 36px;" class="btn btn-lg btn-outline-primary border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+    </p>
+  {% endfor %}
+  </div>
 
 
 
-<h1 class="display-4 text-center py-5">{{ question.name }}</h1>
 
 
+  <div class="fixed-bottom" hx-boost="true">
+    <div class="row m-5" style="height:120px;">
+      <div class="col ">
+        <button  style="font-size: 36px;" class="btn btn-lg btn-outline-primary w-100 h-100 "
+         hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers">Check</button>
+      </div>
+    </div>
+  </div>
 
-
-{% for answer in question.answer_set.all %}
-<p class="py-2">
-  <input type="radio" class="btn-check" name="selected_answer" id="option-{{answer.id}}" autocomplete="off">
-  <label style="font-size: 36px;" class="btn btn-lg btn-outline-primary border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
-</p>
-{% endfor %}
-
-
-
-{% if question.is_first %}
-This is the first question
-{% endif %}
-
-{% if question.is_last %}
-This is the last question
-{% endif %}
+</form>
 
 
 {% endblock %}

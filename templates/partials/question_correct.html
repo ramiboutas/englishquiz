@@ -1,0 +1,21 @@
+
+
+
+{% for answer in question.answer_set.all %}
+  <p class="py-2">
+    {% if answer.correct %}
+      <button type="button" name="button"
+        style="font-size: 36px;" class="btn btn-lg btn-success border-0 w-100" disabled>{{answer.name}}
+      </button>
+    {% else %}
+      <button type="button" name="button"
+        style="font-size: 36px;" class="btn btn-lg btn-outline-primary border-0 w-100" disabled>{{answer.name}}
+      </button>
+    {% endif %}
+  </p>
+{% endfor %}
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  Great!
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
