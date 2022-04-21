@@ -22,15 +22,18 @@ def question_detail(request, slug_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
     question = get_object_or_404(Question, id=id_question, lection=lection)
-    context ={'question': question}
+    questions = list(Question.objects.filter(lection=lection))
+    index = questions.index(question)
+    number_of_questions = questions.__len__()
+    progress_percentage = int(index*100/number_of_questions)
+    context ={'question': question, 'progress_percentage': progress_percentage}
     return render(request, 'question_detail.html', context)
 
 
-
 def check_answer(request, slug_quiz, slug_lection, id_question):
-    question = get_object_or_404(Question, id=id_question)
     selected_answer_id = request.POST.get('selected_answer_id')
     selected_answer = get_object_or_404(Answer, id=selected_answer_id)
+    question = get_object_or_404(Question, id=id_question)
     context = {'question': question, 'selected_answer': selected_answer}
     if selected_answer.correct == True:
         response = render(request, 'partials/question_correct.html', context)
@@ -38,3 +41,15 @@ def check_answer(request, slug_quiz, slug_lection, id_question):
         response = render(request, 'partials/question_incorrect.html',  context)
     trigger_client_event(response, "answerCheckedEvent", { },) # this is the trigger event
     return response
+
+
+def update_progress_bar(request, slug_quiz, slug_lection, id_question):
+    quiz = get_object_or_404(Quiz, slug=slug_quiz)
+    lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
+    question = get_object_or_404(Question, id=id_question, lection=lection)
+    questions = list(Question.objects.filter(lection=lection))
+    index = questions.index(question) + 1
+    number_of_questions = questions.__len__()
+    progress_percentage = int(index*100/number_of_questions)
+    context ={'progress_percentage': progress_percentage}
+    return render(request, 'partials/progress_bar.html', context)

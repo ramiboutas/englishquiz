@@ -3,46 +3,50 @@
 
 {% block content %}
 
-<section >
+<!-- when the answer is checked, we update the progress bar -->
+<div hx-get="{{ question.update_progress_bar_url }}" hx-target="#progress-bar" hx-swap="innerHTML"
+hx-trigger="answerCheckedEvent from:body"></div>
+
+
+<div class="container mt-3">
+
   <div class="row" hx-boost="true">
-    <div class="col-2">
+    <div class="col-1">
       {% if not question.is_first %}
-        <a style="font-size: 36px;" class="btn btn-lg btn-outline-primary w-100 border-0"
+        <a class="btn btn-lg btn-outline-secondary border-0"
           href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
       {% endif %}
+    </div>
 
+    <div id="progress-bar" class="col-10">
+      {% include "partials/progress_bar.html" %}
     </div>
-    <div class="col-8">
-      <h1 class="display-4 text-center py-5">{{ question.name }}</h1>
+
+    <div class="col-1">
+      <a  class="btn btn-lg btn-outline-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-x-lg"></i></a>
     </div>
-    <div class="col-2">
-      {% if not question.is_last %}
-        <a  style="font-size: 36px;" class="btn btn-lg btn-outline-primary w-100 border-0"
-         href="{{ question.next_object.get_detail_url }}"><i class="bi bi-arrow-right"></i></a>
-      {% endif %}
-    </div>
+  </div>
 </div>
-</section>
 
-<form  >
-  <div id="answers">
+<div class="row">
+  <h1 class="display-4 text-center py-5">{{ question.name }}</h1>
+</div>
+
+<form id="answers">
+  <div class="col-md-8 offset-md-2" >
   {% for answer in question.answer_set.all %}
     <p class="py-2">
       <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
-      <label style="font-size: 36px;" class="btn btn-lg btn-outline-primary border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+      <label style="font-size: 36px;" class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
     </p>
   {% endfor %}
   </div>
 
-
-
-
-
-  <div class="fixed-bottom" hx-boost="true">
-    <div class="row m-5" style="height:120px;">
-      <div class="col ">
-        <button  style="font-size: 36px;" class="btn btn-lg btn-outline-primary w-100 h-100 "
-         hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers">Check</button>
+  <div class="fixed-bottom container" hx-boost="true">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 mb-5">
+          <button id="" style="font-size: 36px;" class="btn btn-lg btn-outline-secondary w-100 h-100 "
+            hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-swap="outerHTML">Check</button>
       </div>
     </div>
   </div>

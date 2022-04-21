@@ -25,6 +25,9 @@ class Lection(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True, unique=True)
 
+    # def get_number_of_questions(self):
+    #     return self.question_set.all().count()
+
     def get_first_question(self):
         return self.question_set.all().first()
 
@@ -46,6 +49,9 @@ class Question(models.Model):
 
     def check_answer_url(self):
         return reverse('check_answer', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
+
+    def update_progress_bar_url(self):
+        return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
 
     def is_first(self):
         return self.__class__.objects.all().first() == self
