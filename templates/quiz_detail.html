@@ -11,26 +11,15 @@
     <div class="row">
       {% for lection in lections %}
       <div class="col-md-4 col-lg-2">
-        <a href="{{ lection.first_question.get_detail_url }}" class="btn btn-lg w-100 btn-outline-success" >{{ lection.name}} <i class="bi bi-arrow-right"></i></a>
+        <a href="{{ lection.get_first_question.get_detail_url }}" class="btn btn-lg w-100 btn-outline-success">
+          {{ lection.name}}
+        </a>
       </div>
       {% endfor %}
     </div>
 </section>
 
 
-
-
-<h1>{{ quiz.name }}</h1>
-
-{% for lection in lections %}
-  <h3>
-    {{ lection.name }}
-    <a type="button" class="btn btn-outline-success border-0" href="{{ lection.first_question.get_detail_url }}">
-      <i class="bi bi-arrow-right"></i>
-    </a>
-  </h3>
-
-{% endfor %}
 
 
 {% endblock %}

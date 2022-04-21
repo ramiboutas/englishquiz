@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
@@ -20,14 +21,19 @@ class Quiz(models.Model):
 
 
 class Lection(models.Model):
-    name = models.CharField(max_length=64)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(blank=True, unique=True)
 
-    def first_question(self):
+    def get_first_question(self):
         return self.question_set.all().first()
 
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.quiz.name})'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Lection, self).save(*args, **kwargs)
 
 
 class Question(models.Model):
@@ -36,11 +42,16 @@ class Question(models.Model):
     explanation = models.CharField(blank=True, null=True, max_length=128)
 
     def get_detail_url(self):
-        return reverse('question_detail', kwargs={'id_quiz': self.lection.quiz.id, 'id_lection': self.lection.id, 'id_question': self.id})
+        return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
 
+    def is_first(self):
+        return self.__class__.objects.all().first() == self
+
+    def is_last(self):
+        return self.__class__.objects.all().last() == self
 
     def __str__(self):
-        return self.name
+        return f'{self.lection.quiz.name} - {self.lection.name} - {self.name}'
 
 
 class Answer(models.Model):

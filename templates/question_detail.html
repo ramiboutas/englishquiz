@@ -20,4 +20,13 @@
 
 
 
+{% if question.is_first %}
+This is the first question
+{% endif %}
+
+{% if question.is_last %}
+This is the last question
+{% endif %}
+
+
 {% endblock %}
