@@ -42,7 +42,7 @@ hx-trigger="answerCheckedEvent from:body"></div>
       <div class="row">
         <div class="col-md-8 offset-md-2 mb-2">
             <button id="" style="font-size: 32px;" class="btn btn-lg btn-secondary w-100 h-100 "
-              hx-get="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-swap="outerHTML">Check
+              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML">Check
             </button>
         </div>
       </div>

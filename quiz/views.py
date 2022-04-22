@@ -32,7 +32,7 @@ def question_detail(request, slug_quiz, slug_lection, id_question):
 
 @never_cache
 def check_answer(request, slug_quiz, slug_lection, id_question):
-    selected_answer_id = request.GET.get('selected_answer_id')
+    selected_answer_id = request.POST.get('selected_answer_id')
     selected_answer = get_object_or_404(Answer, id=selected_answer_id)
     question = get_object_or_404(Question, id=id_question)
     context = {'question': question, 'selected_answer': selected_answer}
