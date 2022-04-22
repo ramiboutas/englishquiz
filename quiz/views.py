@@ -30,7 +30,7 @@ def question_detail(request, slug_quiz, slug_lection, id_question):
     context ={'question': question, 'progress_percentage': progress_percentage}
     return render(request, 'question_detail.html', context)
 
-@cache_page(3600 * 1)
+@never_cache
 def check_answer(request, slug_quiz, slug_lection, id_question):
     selected_answer_id = request.GET.get('selected_answer_id')
     selected_answer = get_object_or_404(Answer, id=selected_answer_id)
