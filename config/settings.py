@@ -17,7 +17,7 @@ PRODUCTION = str(os.environ.get('PRODUCTION')) == '1'
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost',]
 
-ALLOWED_HOSTS = ['englishstuff.online', 'www.englishstuff.online', '207.154.205.99', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['englishstuff.online', 'www.englishstuff.online', '207.154.205.99', 'localhost', 'www.localhost', '127.0.0.1']
 
 
 # Application definition
@@ -50,9 +50,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-# PREPEND_WWW: Whether to prepend the “www.” subdomain to URLs that don’t have it.
-# This is only used if CommonMiddleware is installed (see Middleware). See also APPEND_SLASH.
-PREPEND_WWW = True
+
 
 TEMPLATES = [
     {
@@ -168,3 +166,6 @@ if PRODUCTION:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_PRELOAD = True
+    # PREPEND_WWW: Whether to prepend the “www.” subdomain to URLs that don’t have it.
+    # This is only used if CommonMiddleware is installed (see Middleware). See also APPEND_SLASH.
+    PREPEND_WWW = True
