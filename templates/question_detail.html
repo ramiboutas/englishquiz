@@ -8,14 +8,13 @@ hx-trigger="answerCheckedEvent from:body"></div>
 
 <div class="container mt-3">
   <div class="row justify-content-center" hx-boost="true">
-    <div class="col-1">
+    <div class="d-grid gap-2 d-flex justify-content-center">
       {% if not question.is_first %}
-        <a class="btn btn-secondary border-0"
+        <a class="btn btn-secondary border-0 me-md-2"
           href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
       {% endif %}
-    </div>
-    <div id="progress-bar" class="col-10">{% include "partials/progress_bar.html" %}</div>
-    <div class="col-1">
+      <div id="progress-bar" class="col-8">{% include "partials/progress_bar.html" %}</div>
+
       <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-x-lg"></i></a>
     </div>
   </div>
