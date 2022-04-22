@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
 <!-- when the answer is checked, we update the progress bar -->
 <div hx-get="{{ question.update_progress_bar_url }}" hx-target="#progress-bar" hx-swap="innerHTML"
 hx-trigger="answerCheckedEvent from:body"></div>
 
-
 <div class="container mt-3">
-
   <div class="row" hx-boost="true">
     <div class="col-1">
       {% if not question.is_first %}
@@ -17,41 +14,39 @@ hx-trigger="answerCheckedEvent from:body"></div>
           href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
       {% endif %}
     </div>
-
-    <div id="progress-bar" class="col-10">
-      {% include "partials/progress_bar.html" %}
-    </div>
-
+    <div id="progress-bar" class="col-10">{% include "partials/progress_bar.html" %}</div>
     <div class="col-1">
       <a  class="btn btn-lg btn-outline-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-x-lg"></i></a>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <h1 class="display-4 text-center py-5">{{ question.name }}</h1>
+<div class="container">
+  <div class="row">
+    <h1 class="display-5 text-center py-5">{{ question.name }}</h1>
+  </div>
 </div>
 
-<form id="answers">
-  <div class="col-md-8 offset-md-2" >
-  {% for answer in question.answer_set.all %}
-    <p class="py-2">
-      <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
-      <label style="font-size: 36px;" class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
-    </p>
-  {% endfor %}
-  </div>
+<div class="container">
+  <form id="answers">
+    <div class="col-md-8 offset-md-2" >
+      {% for answer in question.answer_set.all %}
+        <p class="py-2">
+          <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
+          <label style="font-size: 24px;" class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+        </p>
+      {% endfor %}
+    </div>
 
-  <div class="fixed-bottom container" hx-boost="true">
-    <div class="row">
-      <div class="col-md-8 offset-md-2 mb-5">
-          <button id="" style="font-size: 36px;" class="btn btn-lg btn-outline-secondary w-100 h-100 "
-            hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-swap="outerHTML">Check</button>
+    <div class="fixed-bottom container" hx-boost="true">
+      <div class="row">
+        <div class="col-md-8 offset-md-2 mb-5">
+            <button id="" style="font-size: 36px;" class="btn btn-lg btn-outline-secondary w-100 h-100 "
+              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-swap="outerHTML">Check
+            </button>
+        </div>
       </div>
     </div>
-  </div>
-
-</form>
-
-
+  </form>
+</div>
 {% endblock %}

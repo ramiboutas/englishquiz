@@ -5,15 +5,15 @@
       <p class="py-2">
         {% if answer.correct %}
           <button type="button" name="button"
-            style="font-size: 36px;" class="btn btn-lg btn-success border-0 w-100" disabled>{{answer.name}}
+            style="font-size: 24px;" class="btn btn-lg btn-success border-0 w-100" disabled>{{answer.name}}
           </button>
         {% elif answer == selected_answer %}
           <button type="button" name="button"
-            style="font-size: 36px;" class="btn btn-lg btn-danger border-0 w-100" disabled>{{answer.name}}
+            style="font-size: 24px;" class="btn btn-lg btn-danger border-0 w-100" disabled>{{answer.name}}
           </button>
         {% else %}
           <button type="button" name="button"
-            style="font-size: 36px;" class="btn btn-lg btn-outline-dark border-0 w-100" disabled>{{answer.name}}
+            style="font-size: 24px;" class="btn btn-lg btn-outline-dark border-0 w-100" disabled>{{answer.name}}
           </button>
         {% endif %}
       </p>

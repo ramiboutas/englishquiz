@@ -8,6 +8,7 @@ class Quiz(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True, unique=True)
     image_url = models.URLField(max_length=200, blank=True, null=True)
+    image_credits_url = models.URLField(max_length=200, null=True)
 
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug})
@@ -57,16 +58,16 @@ class Question(models.Model):
         return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
 
     def is_first(self):
-        return self.__class__.objects.all().first() == self
+        return self.__class__.objects.filter(lection=self.lection).first() == self
 
     def is_last(self):
-        return self.__class__.objects.all().last() == self
+        return self.__class__.objects.filter(lection=self.lection).last() == self
 
     def previous_object(self):
-        return self.__class__.objects.filter(id__lt=self.id).order_by('id').last()
+        return self.__class__.objects.filter(id__lt=self.id, lection=self.lection).order_by('id').last()
 
     def next_object(self):
-        return self.__class__.objects.filter(id__gt=self.id).order_by('id').first()
+        return self.__class__.objects.filter(id__gt=self.id, lection=self.lection).order_by('id').first()
 
     def __str__(self):
         return f'{self.lection.quiz.name} - {self.lection.name} - {self.name}'
