@@ -3,27 +3,25 @@
 {% block content %}
 
 
-<section>
-  <h1 class="text-success text-center py-5">Practice and learn english</h1>
-</section>
+<h1 class="text-success text-center py-5">Practice and learn english</h1>
 
-<section id="quizs" class="py-5">
-    <div class="row">
-      {% for quiz in quiz_list %}
-      <!-- Listing 1 -->
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card" style="width: 18rem;">
-          <img src="{{ quiz.image_url }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">{{ quiz.name}}</h5>
-            <p class="card-text">{{ quiz.description }}</p>
-            <a href="{{ quiz.get_detail_url }}" class="btn btn-success w-100">Check out</a>
-          </div>
+<div class="container py-5">
+  <div class="row justify-content-md-center">
+    {% for quiz in quiz_list %}
+    <!-- Listing 1 -->
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
+      <div class="card" >
+        <img src="{{ quiz.image_url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ quiz.name}}</h5>
+          <p class="card-text">{{ quiz.description }}</p>
+          <a href="{{ quiz.get_detail_url }}" class="btn btn-success w-100">Check out</a>
         </div>
       </div>
-      {% endfor %}
     </div>
-</section>
+    {% endfor %}
+  </div>
+</div>
 
 
 

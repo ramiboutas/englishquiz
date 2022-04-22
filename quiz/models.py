@@ -12,6 +12,9 @@ class Quiz(models.Model):
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug})
 
+    def get_list_url(self):
+        return reverse('quiz_list')
+
     def __str__(self):
         return self.name
 
