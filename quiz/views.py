@@ -1,23 +1,24 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
 
 from django_htmx.http import trigger_client_event
 
 from .models import Quiz, Lection, Question, Answer
 
-
+@cache_page(3600 * 2)
 def quiz_list(request):
     quiz_list = Quiz.objects.all()
     context ={'quiz_list': quiz_list}
     return render(request, 'quiz_list.html', context)
 
-
+@cache_page(3600 * 24)
 def quiz_detail(request, slug):
     quiz = get_object_or_404(Quiz, slug=slug)
     lections = quiz.lection_set.all()
     context ={'quiz':quiz, 'lections': lections}
     return render(request, 'quiz_detail.html', context)
 
-
+@cache_page(3600 * 1)
 def question_detail(request, slug_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
@@ -29,7 +30,7 @@ def question_detail(request, slug_quiz, slug_lection, id_question):
     context ={'question': question, 'progress_percentage': progress_percentage}
     return render(request, 'question_detail.html', context)
 
-
+@cache_page(3600 * 1)
 def check_answer(request, slug_quiz, slug_lection, id_question):
     selected_answer_id = request.POST.get('selected_answer_id')
     selected_answer = get_object_or_404(Answer, id=selected_answer_id)
@@ -42,7 +43,7 @@ def check_answer(request, slug_quiz, slug_lection, id_question):
     trigger_client_event(response, "answerCheckedEvent", { },) # this is the trigger event
     return response
 
-
+@cache_page(3600 * 1)
 def update_progress_bar(request, slug_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
