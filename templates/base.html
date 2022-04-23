@@ -1,6 +1,10 @@
+{% load analytical %}
+{% load google_analytics_gtag %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    {% analytical_head_top %}
+    {% google_analytics_gtag %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,8 +17,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <title>{% block title %}{% endblock %}</title>
+
+    {% analytical_head_bottom %}
   </head>
   <body class="container" style="background-color: Beige;" >
+    {% analytical_body_top %}
 
     {% block content %}
     {% endblock %}
@@ -28,6 +35,7 @@
     <script src="https://unpkg.com/htmx.org@1.7.0" crossorigin="anonymous" defer
       integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo">
     </script>
-
+    
+    {% analytical_body_bottom %}
   </body>
 </html>

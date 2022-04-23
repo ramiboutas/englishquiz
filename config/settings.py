@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     # thid-party apps
     'django_htmx',
+    'analytical',
 ]
 
 MIDDLEWARE = [
@@ -157,6 +158,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# analytics
+GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
 
 if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
