@@ -45,8 +45,8 @@ class Lection(models.Model):
 
 class Question(models.Model):
     lection = models.ForeignKey(Lection, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128)
-    explanation = models.CharField(blank=True, null=True, max_length=128)
+    name = models.CharField(max_length=150)
+    explanation = models.CharField(blank=True, null=True, max_length=200)
 
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})

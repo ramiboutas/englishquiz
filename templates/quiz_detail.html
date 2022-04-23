@@ -5,18 +5,20 @@
 <div class="container mt-3">
   <div class="row justify-content-center" hx-boost="true">
     <div class="col-1"></div>
-    <div class="col-9"><h1 class="text-success text-center">{{ quiz.name }}</h1></div>
+    <div class="col-9"></div>
     <div class="col-1">
       <a  class="btn btn-secondary border-0" href="{{ quiz.get_list_url }}"><i class="bi bi-x-lg"></i></a>
     </div>
   </div>
 </div>
 
+<h1 class="text-success text-center">{{ quiz.name }}</h1>
+
 <div class="container mt-5">
   <div class="row">
     {% for lection in lections %}
       <div class="col-md-4 col-lg-2">
-        <a href="{{ lection.get_first_question.get_detail_url }}" class="btn btn-lg w-100 btn-outline-success">
+        <a href="{{ lection.get_first_question.get_detail_url }}" class="btn btn-lg w-100 btn-outline-success mb-3">
           {{ lection.name}}
         </a>
       </div>

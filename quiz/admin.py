@@ -9,12 +9,12 @@ class LectionInline(admin.StackedInline):
 
 class QuestionInline(admin.StackedInline):
     model = Question
-    extra = 1
+    extra = 5
 
 
 class AnswerInline(admin.StackedInline):
     model = Answer
-    extra = 1
+    extra = 3
 
 
 class QuizAdmin(admin.ModelAdmin):
@@ -32,7 +32,7 @@ class LectionAdmin(admin.ModelAdmin):
 
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_filter = ['name', 'lection__name']
+    list_filter = ['lection']
     inlines = [AnswerInline,]
 
 admin.site.register(Quiz, QuizAdmin)
