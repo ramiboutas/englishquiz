@@ -12,7 +12,7 @@
     {% endfor %}
 
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <strong>Well done!</strong>
+      <strong> {{ correct_message }} </strong>
       {% if question.explanation %}<p>{{ question.explanation }}</p>{% endif %}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
