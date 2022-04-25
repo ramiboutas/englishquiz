@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+
+{% block title %}  {{ quiz.name }}  {% endblock %}
+
 {% block content %}
 
 <div class="container mt-3">
@@ -12,7 +15,7 @@
   </div>
 </div>
 
-<h1 class="text-success text-center">{{ quiz.name }}</h1>
+<h1 class="text-success text-center">{{ quiz.name }} <i class="bi bi-journal-check"></i></h1>
 
 <div class="container mt-5">
   <div class="row">

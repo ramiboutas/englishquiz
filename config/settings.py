@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'utils.context_processors.seo',
             ],
         },
     },
@@ -148,9 +149,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # analytics
-GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
+GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
+
+# seo
+META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
+META_DESCRIPTION = 'Advanced English | Learn and practice english with quizzes | Free and without registration | Phrasal verbs, prepositions, collocations, common mistakes, and so on.'
+
 
 if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
