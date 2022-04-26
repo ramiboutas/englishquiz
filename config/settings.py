@@ -168,8 +168,6 @@ if PRODUCTION:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_PRELOAD = True
-    # PREPEND_WWW: Whether to prepend the “www.” subdomain to URLs that don’t have it.
-    # This is only used if CommonMiddleware is installed (see Middleware). See also APPEND_SLASH.
     PREPEND_WWW = True
 
     # caching
