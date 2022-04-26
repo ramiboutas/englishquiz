@@ -157,7 +157,7 @@ GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
 
 # seo
 META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
-META_DESCRIPTION = 'Advanced English | Learn and practice english with quizzes | Free and without registration | Phrasal verbs, prepositions, collocations, common mistakes, and so on.'
+META_DESCRIPTION = 'Advanced English | Learn and practice english with quizzes | Free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
 
 
 if PRODUCTION:
