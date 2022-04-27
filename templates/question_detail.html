@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}  {{ question.name }}  {% endblock %}
+{% block title %}  {{ question.text_one }}  {% endblock %}
 
 {% block content %}
 
@@ -9,7 +9,8 @@
 <div hx-get="{{ question.update_progress_bar_url }}" hx-target="#progress-bar" hx-swap="innerHTML"
 hx-trigger="answerCheckedEvent from:body"></div>
 
-<div class="container mt-3">
+<div class="container">
+  <h1 class="lead fs-6 text-center mt-2"> {{ question.lection.quiz.name }} - {{ question.lection.name }}</h1>
   <div class="row justify-content-center" hx-boost="true">
     <div class="d-grid gap-2 d-flex justify-content-center">
       {% if not question.is_first %}
@@ -17,38 +18,52 @@ hx-trigger="answerCheckedEvent from:body"></div>
           href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
       {% endif %}
       <div id="progress-bar" class="col-8">{% include "partials/progress_bar.html" %}</div>
-
       <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-x-lg"></i></a>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="row">
-    <h1 class="display-6 text-center py-3">{{ question.name }}</h1>
-  </div>
-</div>
 
-<div class="container">
-  <form id="answers">
-    <div class="col-md-8 offset-md-2">
-      {% for answer in question.answer_set.all %}
-        <p class="py-2">
-          <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
-          <label class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+<form id="answers">
+
+  <div class="container">
+    <div class="row">
+      {% if question.type == 1 %}
+        <p class="display-6 text-center pt-3">{{ question.text_one }}</p>
+        {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
+        {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
+      {% elif question.type == 3 %}
+        <p class="display-6 text-center py-1">
+          {{ question.text_one }}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom"  type="text" name="question_input_one" value="">{{ question.text_two }}
+          {% if question.text_three  %}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom" type="text" name="question_input_two" value="">{{ question.text_three }} {% endif %}
         </p>
-      {% endfor %}
+      {% endif %}
     </div>
+  </div>
+
+  {% if question.type == 1 %}
+    <div class="container">
+      <div class="col-md-8 offset-md-2">
+        {% for answer in question.answer_set.all %}
+          <p class="py-1">
+            <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
+            <label class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+          </p>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     <div class="fixed-bottom container" hx-boost="true">
       <div class="row">
         <div class="col-md-8 offset-md-2 mb-2">
-            <button id="" style="font-size: 32px;" class="btn btn-lg btn-secondary w-100 h-100 "
-              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML">Check
-            </button>
+          <button id="" style="font-size: 32px;" class="btn btn-lg btn-secondary w-100 h-100"
+            hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML">Check
+          </button>
         </div>
       </div>
     </div>
-  </form>
-</div>
+
+  </div>
+
+</form>
 {% endblock %}

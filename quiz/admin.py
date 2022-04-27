@@ -31,7 +31,7 @@ class LectionAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    search_fields = ['name']
+    search_fields = ['text_one']
     list_filter = ['lection']
     inlines = [AnswerInline,]
 

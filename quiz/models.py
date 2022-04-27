@@ -3,9 +3,25 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 
+QUIZ_LEVEL_CHOICES = (
+    (1, 'A1'),
+    (2, 'A2'),
+    (3, 'B1'),
+    (4, 'B2'),
+    (5, 'C1'),
+    (6, 'C2'),
+)
+
+QUESTION_TYPE_CHOICES = (
+    (1, '1: One choice selection'),
+    (2, '2: Multiple choice selection'),
+    (3, '3: Text input'),
+)
+
 
 class Quiz(models.Model):
     name = models.CharField(max_length=64)
+    level = models.IntegerField(default=5, choices=QUIZ_LEVEL_CHOICES)
     slug = models.SlugField(blank=True, unique=True)
     image_url = models.URLField(max_length=200, blank=True, null=True)
     image_credits_url = models.URLField(max_length=200, null=True)
@@ -45,8 +61,11 @@ class Lection(models.Model):
 
 class Question(models.Model):
     lection = models.ForeignKey(Lection, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    explanation = models.CharField(blank=True, null=True, max_length=250)
+    text_one = models.CharField(max_length=200)
+    text_two = models.CharField(max_length=150, null=True, blank=True)
+    text_three = models.CharField(max_length=150, null=True, blank=True)
+    type = models.IntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
+    explanation = models.CharField(max_length=250, blank=True, null=True)
 
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
@@ -70,7 +89,7 @@ class Question(models.Model):
         return self.__class__.objects.filter(id__gt=self.id, lection=self.lection).order_by('id').first()
 
     def __str__(self):
-        return f'{self.lection.quiz.name} - {self.lection.name} - {self.name}'
+        return f'{self.lection.quiz.name} - {self.lection.name} - {self.text_one}'
 
 
 class Answer(models.Model):
