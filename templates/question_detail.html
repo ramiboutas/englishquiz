@@ -27,29 +27,33 @@ hx-trigger="answerCheckedEvent from:body"></div>
 <form id="answers">
 
   <div class="container">
-    <div class="row">
-      {% if question.type == 1 %}
-        <p class="display-6 text-center pt-3">{{ question.text_one }}</p>
-        {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
-        {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
-      {% elif question.type == 3 %}
-        <p class="display-6 text-center py-1">
-          {{ question.text_one }}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom"  type="text" name="question_input_one" value="">{{ question.text_two }}
-          {% if question.text_three  %}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom" type="text" name="question_input_two" value="">{{ question.text_three }} {% endif %}
-        </p>
-      {% endif %}
+    <div class="col-md-8 offset-md-2">
+      <div class="row">
+        {% if question.type == 1 %}
+          <p class="display-6 text-center mt-3">{{ question.text_one }}</p>
+          {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
+          {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
+        {% elif question.type == 3 %}
+          <p class="display-6 text-center py-1">
+            {{ question.text_one }}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom"  type="text" name="answer_input_one" value="">{{ question.text_two }}
+            {% if question.text_three  %}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom" type="text" name="answer_input_two" value="">{{ question.text_three }} {% endif %}
+          </p>
+        {% endif %}
+      </div>
     </div>
   </div>
 
-  {% if question.type == 1 %}
-    <div class="container">
-      <div class="col-md-8 offset-md-2">
-        {% for answer in question.answer_set.all %}
-          <p class="py-1">
-            <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
-            <label class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
-          </p>
-        {% endfor %}
+  <div class="container">
+    {% if question.type == 1 %}
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          {% for answer in question.answer_set.all %}
+            <p class="py-1">
+              <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
+              <label class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+            </p>
+          {% endfor %}
+        </div>
       </div>
     {% endif %}
 
@@ -62,7 +66,6 @@ hx-trigger="answerCheckedEvent from:body"></div>
         </div>
       </div>
     </div>
-
   </div>
 
 </form>

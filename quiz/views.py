@@ -1,8 +1,9 @@
 import random
-
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.cache import cache_page
-from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_page, never_cache
+
+
 from django_htmx.http import trigger_client_event
 
 from .models import Quiz, Lection, Question, Answer
@@ -35,7 +36,7 @@ def question_detail(request, slug_quiz, slug_lection, id_question):
     context ={'question': question, 'progress_percentage': progress_percentage}
     return render(request, 'question_detail.html', context)
 
-
+@csrf_exempt
 @never_cache
 def check_answer(request, slug_quiz, slug_lection, id_question):
     question = get_object_or_404(Question, id=id_question)
@@ -45,23 +46,41 @@ def check_answer(request, slug_quiz, slug_lection, id_question):
         selected_answer = get_object_or_404(Answer, id=selected_answer_id)
         question_answered_correcty = selected_answer.correct
         context = {'question': question, 'selected_answer': selected_answer}
+
     elif question.type == 2: # multiple choice selection
         pass
+
     elif question.type == 3: # text input (one or two inputs)
-        question_input_one = request.POST.get('question_input_one')
+        answer_input_one = request.POST.get('answer_input_one')
+        answer_input_two = request.POST.get('answer_input_two')
         answers = question.answer_set.all()
+        answer_one_is_correct = answers[0].name.strip()==answer_input_one.strip()
         if answers.count() > 1:
-            question_input_two = request.POST.get('question_input_two')
-            question_answered_correcty = answers[0].name.strip()==question_input_one.strip() and answers[1].name.strip()==question_input_two.strip()
-            context = {'question': question, 'question_input_one': question_input_one, 'question_input_two': question_input_two}
-        else:
-            question_answered_correcty = answers[0].name.strip()==question_input_one.strip()
-            context = {'question': question, 'question_input_one': question_input_one}
+            answer_two_is_correct = answers[1].name.strip()==answer_input_two.strip()
+            question_answered_correcty = answer_one_is_correct and answer_two_is_correct
+            context = {
+                'question': question,
+                'answer_input_one': answer_input_one,
+                'answer_input_two': answer_input_two,
+                'answer_one_is_correct': answer_one_is_correct,
+                'answer_two_is_correct': answer_two_is_correct,
+                'correct_answer_one': answers[0].name.strip(),
+                'correct_answer_two': answers[1].name.strip(),
+            }
+        else: # only one input
+            question_answered_correcty = answer_one_is_correct
+            context = {
+                'question': question,
+                'answer_input_one': answer_input_one,
+                'answer_one_is_correct': answer_one_is_correct,
+                'correct_answer_one': answers[0].name.strip(),
+            }
 
     if question_answered_correcty == True:
         correct_messages = ["Great!", "Correct!", "Well done!", "Terrific!", "Fantastic!", "Excelent!", "Super!", "Marvellous!", "Outstanding!",  ":)"]
         context['correct_message'] = random.choice(correct_messages)
         response = render(request, 'partials/question_correct.html', context)
+
     else:
         incorrect_messages = ["Next time you'll get it!", "There's a more accurate answer!", "Oops!", "Wrong :(", "Not quite correct!", ":("]
         context['incorrect_message'] = random.choice(incorrect_messages)
