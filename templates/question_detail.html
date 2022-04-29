@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}  {{ question.text_one }}  {% endblock %}
+{% block title %}  {{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
 
 {% block content %}
 
@@ -35,8 +35,8 @@ hx-trigger="answerCheckedEvent from:body"></div>
           {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
         {% elif question.type == 3 %}
           <p class="display-6 text-center py-1">
-            {{ question.text_one }}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom"  type="text" name="answer_input_one" value="">{{ question.text_two }}
-            {% if question.text_three  %}<input style="background-color: Beige; width: 200px;" class="text-center border-0 border-bottom" type="text" name="answer_input_two" value="">{{ question.text_three }} {% endif %}
+            {{ question.text_one }}<input style="background-color: Beige; width: 100px;" onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" class="text-center border-0 border-bottom"  type="text" name="answer_input_one" value="">{{ question.text_two }}
+            {% if question.text_three  %}<input style="background-color: Beige; width: 100px;" onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" class="text-center border-0 border-bottom" type="text" name="answer_input_two" value="">{{ question.text_three }} {% endif %}
           </p>
         {% endif %}
       </div>

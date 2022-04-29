@@ -9,11 +9,18 @@ from django_htmx.http import trigger_client_event
 from .models import Quiz, Lection, Question, Answer
 
 
-@cache_page(3600 * 24)
-def quiz_list(request):
+@cache_page(3600 * 6)
+def home(request):
     quiz_list = Quiz.objects.all()
     context ={'quiz_list': quiz_list}
-    return render(request, 'quiz_list.html', context)
+    return render(request, 'home.html', context)
+
+@never_cache
+def search_quizzes(request):
+    search_term = request.GET.get('search_term')
+    quiz_list = Quiz.objects.filter(name__icontains=search_term)
+    context = {'quiz_list': quiz_list}
+    return render(request, 'partials/quiz_list.html', context)
 
 
 @cache_page(3600 * 6)
@@ -54,9 +61,9 @@ def check_answer(request, slug_quiz, slug_lection, id_question):
         answer_input_one = request.POST.get('answer_input_one')
         answer_input_two = request.POST.get('answer_input_two')
         answers = question.answer_set.all()
-        answer_one_is_correct = answers[0].name.strip()==answer_input_one.strip()
+        answer_one_is_correct = answers[0].name.strip().lower()==answer_input_one.strip().lower()
         if answers.count() > 1:
-            answer_two_is_correct = answers[1].name.strip()==answer_input_two.strip()
+            answer_two_is_correct = answers[1].name.strip().lower()==answer_input_two.strip().lower()
             question_answered_correcty = answer_one_is_correct and answer_two_is_correct
             context = {
                 'question': question,

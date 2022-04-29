@@ -30,7 +30,7 @@ class Quiz(models.Model):
         return reverse('quiz_detail', kwargs={'slug': self.slug})
 
     def get_list_url(self):
-        return reverse('quiz_list')
+        return reverse('home')
 
     def __str__(self):
         return self.name

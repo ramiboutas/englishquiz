@@ -22,7 +22,7 @@
   <div class="col-md-8 offset-md-2">
     {% if question.type == 1 %}
       {% for answer in question.answer_set.all %}
-        <p class="py-2">
+        <p class="py-1">
           {% if answer.correct %}
             <button type="button" name="button" class="btn btn-lg btn-success border-0 w-100" disabled>{{answer.name}}</button>
           {% else %}
