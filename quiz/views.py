@@ -48,40 +48,37 @@ def question_detail(request, slug_quiz, slug_lection, id_question):
 def check_answer(request, slug_quiz, slug_lection, id_question):
     question = get_object_or_404(Question, id=id_question)
 
-    if question.type == 1: # one choice selection
-        selected_answer_id = request.POST.get('selected_answer_id')
-        selected_answer = get_object_or_404(Answer, id=selected_answer_id)
-        question_answered_correcty = selected_answer.correct
-        context = {'question': question, 'selected_answer': selected_answer}
+    if question.type == 1: # one text input
+        answer_input_one = request.POST.get('answer_input_one')
+        answers = question.answer_set.all()
+        answer_one_is_correct = answers[0].name.strip().lower()==answer_input_one.strip().lower()
+        question_answered_correcty = answer_one_is_correct
+        context = {
+            'question': question,
+            'answer_one_is_correct': answer_one_is_correct,
+            'correct_answer_one': answers[0].name.strip(),
+        }
 
-    elif question.type == 2: # multiple choice selection
-        pass
-
-    elif question.type == 3: # text input (one or two inputs)
+    elif question.type == 2: # two text input
         answer_input_one = request.POST.get('answer_input_one')
         answer_input_two = request.POST.get('answer_input_two')
         answers = question.answer_set.all()
         answer_one_is_correct = answers[0].name.strip().lower()==answer_input_one.strip().lower()
-        if answers.count() > 1:
-            answer_two_is_correct = answers[1].name.strip().lower()==answer_input_two.strip().lower()
-            question_answered_correcty = answer_one_is_correct and answer_two_is_correct
-            context = {
-                'question': question,
-                'answer_input_one': answer_input_one,
-                'answer_input_two': answer_input_two,
-                'answer_one_is_correct': answer_one_is_correct,
-                'answer_two_is_correct': answer_two_is_correct,
-                'correct_answer_one': answers[0].name.strip(),
-                'correct_answer_two': answers[1].name.strip(),
-            }
-        else: # only one input
-            question_answered_correcty = answer_one_is_correct
-            context = {
-                'question': question,
-                'answer_input_one': answer_input_one,
-                'answer_one_is_correct': answer_one_is_correct,
-                'correct_answer_one': answers[0].name.strip(),
-            }
+        answer_two_is_correct = answers[1].name.strip().lower()==answer_input_two.strip().lower()
+        question_answered_correcty = answer_one_is_correct and answer_two_is_correct
+        context = {
+            'question': question,
+            'answer_one_is_correct': answer_one_is_correct,
+            'answer_two_is_correct': answer_two_is_correct,
+            'correct_answer_one': answers[0].name.strip(),
+            'correct_answer_two': answers[1].name.strip(),
+        }
+
+    elif question.type == 5: # one choice selection
+        selected_answer_id = request.POST.get('selected_answer_id')
+        selected_answer = get_object_or_404(Answer, id=selected_answer_id)
+        question_answered_correcty = selected_answer.correct
+        context = {'question': question, 'selected_answer': selected_answer}
 
     if question_answered_correcty == True:
         correct_messages = ["Great!", "Correct!", "Well done!", "Terrific!", "Fantastic!", "Excelent!", "Super!", "Marvellous!", "Outstanding!",  ":)"]

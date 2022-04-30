@@ -26,25 +26,37 @@ hx-trigger="answerCheckedEvent from:body"></div>
 
 <form id="answers">
 
-  <div class="container">
+  <div class="container mt-3">
     <div class="col-md-8 offset-md-2">
       <div class="row">
         {% if question.type == 1 %}
-          <p class="display-6 text-center mt-3">{{ question.text_one }}</p>
+          <p class="display-6 text-center py-1">
+            {{ question.text_one }}
+            <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
+              onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" type="text" name="answer_input_one" value="">
+            {{ question.text_two }}
+          </p>
+        {% elif question.type == 2 %}
+          <p class="display-6 text-center py-1">
+            {{ question.text_one }}
+            <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
+              onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" type="text" name="answer_input_one" value="">
+            {{ question.text_two }}
+            <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
+              onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" type="text" name="answer_input_two" value="">
+            {{ question.text_three }}
+          </p>
+        {% elif question.type == 5 %}
+          <p class="display-6 text-center py-1">{{ question.text_one }}</p>
           {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
           {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
-        {% elif question.type == 3 %}
-          <p class="display-6 text-center py-1">
-            {{ question.text_one }}<input style="background-color: Beige; width: 100px;" onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" class="text-center border-0 border-bottom"  type="text" name="answer_input_one" value="">{{ question.text_two }}
-            {% if question.text_three  %}<input style="background-color: Beige; width: 100px;" onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" class="text-center border-0 border-bottom" type="text" name="answer_input_two" value="">{{ question.text_three }} {% endif %}
-          </p>
         {% endif %}
       </div>
     </div>
   </div>
 
-  <div class="container">
-    {% if question.type == 1 %}
+  <div class="container mt-3">
+    {% if question.type == 5 %}
       <div class="row">
         <div class="col-md-8 offset-md-2">
           {% for answer in question.answer_set.all %}

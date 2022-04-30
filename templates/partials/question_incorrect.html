@@ -1,28 +1,41 @@
 
-<div class="container">
+<div class="container mt-3">
   <div class="row">
     <div class="col-md-8 offset-md-2">
       {% if question.type == 1 %}
-        <p class="display-6 text-center mt-3">{{ question.text_one }}</p>
-        {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
-        {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
-      {% elif question.type == 3 %}
         <p class="display-6 text-center py-1">
           {{ question.text_one }}
            <strong {% if answer_one_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %} ><u>{{ correct_answer_one }}</u></strong>
            {{ question.text_two }}
-          {% if correct_answer_two  %} <strong {% if answer_two_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %}><u>{{ correct_answer_two }}</u></strong> {% endif %}
-          {% if question.text_three  %} {{ question.text_three }} {% endif %}
         </p>
+
+      {% elif question.type == 2 %}
+        <p class="display-6 text-center py-1">
+          {{ question.text_one }}
+           <strong {% if answer_one_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %} ><u>{{ correct_answer_one }}</u></strong>
+           {{ question.text_two }}
+          <strong {% if answer_two_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %}><u>{{ correct_answer_two }}</u></strong>
+          {{ question.text_three }}
+        </p>
+
+      {% elif question.type == 5 %}
+        <p class="display-6 text-center py-1">{{ question.text_one }}</p>
+        {% if question.text_two %}
+          <p class="display-6 text-center py-1">{{ question.text_two }}</p>
+        {% endif %}
+        {% if question.text_three %}
+          <p class="display-6 text-center py-1">{{ question.text_three }}</p>
+        {% endif %}
+
       {% endif %}
     </div>
   </div>
 </div>
 
 
-<div class="container">
+<div class="container mt-3">
   <div class="col-md-8 offset-md-2">
-    {% if question.type == 1 %}
+    {% if question.type == 5 %}
       {% for answer in question.answer_set.all %}
         <p class="py-1">
           {% if answer.correct %}

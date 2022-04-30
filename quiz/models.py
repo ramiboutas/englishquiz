@@ -13,9 +13,10 @@ QUIZ_LEVEL_CHOICES = (
 )
 
 QUESTION_TYPE_CHOICES = (
-    (1, '1: One choice selection'),
-    (2, '2: Multiple choice selection'),
-    (3, '3: Text input'),
+    (1, '1: One text input'),
+    (2, '2: Two text input'),
+    (5, '5: One choice selection'),
+    (6, '6: Multiple choice selection'),
 )
 
 
