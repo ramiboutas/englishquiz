@@ -4,18 +4,18 @@
     <div class="col-md-8 offset-md-2">
       {% if question.type == 1 %}
         <p class="display-6 text-center py-1">
-          {{ question.text_one }}
+          {% if question.text_one %} {{ question.text_one }} {% endif %}
            <strong {% if answer_one_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %} ><u>{{ correct_answer_one }}</u></strong>
-           {{ question.text_two }}
+           {% if question.text_two %} {{ question.text_two }} {% endif %}
         </p>
 
       {% elif question.type == 2 %}
         <p class="display-6 text-center py-1">
-          {{ question.text_one }}
+          {% if question.text_one %} {{ question.text_one }} {% endif %}
            <strong {% if answer_one_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %} ><u>{{ correct_answer_one }}</u></strong>
-           {{ question.text_two }}
+           {% if question.text_two %} {{ question.text_two }} {% endif %}
           <strong {% if answer_two_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %}><u>{{ correct_answer_two }}</u></strong>
-          {{ question.text_three }}
+          {% if question.text_three %} {{ question.text_three }} {% endif %}
         </p>
 
       {% elif question.type == 5 %}

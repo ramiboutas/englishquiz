@@ -6,13 +6,18 @@
 
       {% if question.type == 1 %}
         <p class="display-6 text-center py-1">
-          {{ question.text_one }} <strong class="text-success" ><u>{{ correct_answer_one }}</u></strong> {{ question.text_two }}
+          {% if question.text_one %} {{ question.text_one }} {% endif %}
+          <strong class="text-success" ><u>{{ correct_answer_one }}</u></strong>
+          {% if question.text_two %} {{ question.text_two }} {% endif %}
         </p>
 
       {% elif question.type == 2 %}
         <p class="display-6 text-center py-1">
-          {{ question.text_one }} <strong class="text-success" ><u>{{ correct_answer_one }}</u></strong> {{ question.text_two }}
-          <strong class="text-success"><u>{{ correct_answer_two }}</u></strong> {{ question.text_three }}
+          {% if question.text_one %} {{ question.text_one }} {% endif %}
+          <strong class="text-success" ><u>{{ correct_answer_one }}</u></strong>
+          {% if question.text_two %} {{ question.text_two }} {% endif %}
+          <strong class="text-success"><u>{{ correct_answer_two }}</u></strong>
+          {% if question.text_three %}{{ question.text_three }} {% endif %}
         </p>
 
       {% elif question.type == 5 %}

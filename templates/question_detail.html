@@ -31,20 +31,20 @@ hx-trigger="answerCheckedEvent from:body"></div>
       <div class="row">
         {% if question.type == 1 %}
           <p class="display-6 text-center py-1">
-            {{ question.text_one }}
+            {% if question.text_one %} {{ question.text_one }} {% endif %}
             <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
               onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" type="text" name="answer_input_one" value="">
-            {{ question.text_two }}
+            {% if question.text_two %} {{ question.text_two }} {% endif %}
           </p>
         {% elif question.type == 2 %}
           <p class="display-6 text-center py-1">
-            {{ question.text_one }}
+            {% if question.text_one %} {{ question.text_one }} {% endif %}
             <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
               onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" type="text" name="answer_input_one" value="">
-            {{ question.text_two }}
+            {% if question.text_two %} {{ question.text_two }} {% endif %}
             <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
               onkeypress="this.style.width = ((this.value.length + 10) * 10) + 'px';" type="text" name="answer_input_two" value="">
-            {{ question.text_three }}
+            {% if question.text_three %} {{ question.text_three }} {% endif %}
           </p>
         {% elif question.type == 5 %}
           <p class="display-6 text-center py-1">{{ question.text_one }}</p>
