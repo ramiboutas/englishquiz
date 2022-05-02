@@ -1,3 +1,5 @@
+{% load humanize %}
+
 {% for quiz in quiz_list %}
   <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
     <div class="card" style="background-color: Beige;">
@@ -6,6 +8,16 @@
       <div class="card-body " >
         <!-- <h3 class="text-center card-title">{{ quiz.name}}</h3> -->
         <p class="card-text">{{ quiz.description }}</p>
+        <p class="text-secondary">Dificulty
+          <span class="text-success float-end">
+            {% if quiz.level > 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle-fill"></i> <i class="bi bi-circle-fill"></i> {% endif %}
+            {% if quiz.level == 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> {% endif %}
+            {% if quiz.level < 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> <i class="bi bi-circle"></i> {% endif %}
+          </span>
+         </p>
+         <p class="text-secondary">Views
+           <span class="text-success float-end"> {{ quiz.views | intcomma }} </span>
+          </p>
         <a href="{{ quiz.get_detail_url }}" class="btn btn-lg btn-outline-success w-100">{{ quiz.name}}</a>
       </div>
     </div>

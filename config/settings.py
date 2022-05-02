@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     # own apps
     'quiz',
@@ -156,8 +157,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
 
 # seo
+SITE_TITLE = 'English Stuff Online'
 META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
-META_DESCRIPTION = 'Advanced English | Learn and practice english with quizzes | Free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
+META_DESCRIPTION = 'English Stuff Online. Learn and practice english with quizzes for free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
 
 
 if PRODUCTION:

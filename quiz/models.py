@@ -26,12 +26,17 @@ class Quiz(models.Model):
     slug = models.SlugField(blank=True, unique=True)
     image_url = models.URLField(max_length=200, blank=True, null=True)
     image_credits_url = models.URLField(max_length=200, null=True)
+    views =  models.PositiveIntegerField(default=0)
 
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
 
     def get_list_url(self):
         return reverse('home')
+
+    def add_view(self):
+        self.views += 1
+        self.save()
 
     def __str__(self):
         return self.name
@@ -45,12 +50,17 @@ class Lection(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True, unique=True)
+    views =  models.PositiveIntegerField(default=0)
 
     # def get_number_of_questions(self):
     #     return self.question_set.all().count()
 
     def get_first_question(self):
         return self.question_set.all().first()
+
+    def add_view(self):
+        self.views += 1
+        self.save()
 
     def __str__(self):
         return f'{self.name} ({self.quiz.name})'
@@ -65,7 +75,7 @@ class Question(models.Model):
     text_one = models.CharField(max_length=200, null=True, blank=True)
     text_two = models.CharField(max_length=200, null=True, blank=True)
     text_three = models.CharField(max_length=200, null=True, blank=True)
-    type = models.IntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
+    type = models.PositiveSmallIntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
     explanation = models.CharField(max_length=250, blank=True, null=True)
 
     def get_detail_url(self):

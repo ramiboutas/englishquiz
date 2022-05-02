@@ -12,6 +12,7 @@ def general(request):
 
     return {
         'copyright_year': get_copyright_year(timezone.now().year),
+        'site_title': settings.SITE_TITLE,
         'meta_keywords': settings.META_KEYWORDS,
         'meta_description': settings.META_DESCRIPTION,
         'request': request

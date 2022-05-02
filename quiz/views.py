@@ -18,7 +18,7 @@ def home(request):
 # @never_cache
 @cache_page(3600 * 6)
 def search_quizzes(request):
-    search_term = request.GET.get('search_term')
+    search_term = request.GET.get('q')
     quiz_list = Quiz.objects.filter(name__icontains=search_term)
     context = {'quiz_list': quiz_list}
     return render(request, 'partials/quiz_list.html', context)
@@ -27,6 +27,7 @@ def search_quizzes(request):
 @cache_page(3600 * 6)
 def quiz_detail(request, slug, level):
     quiz = get_object_or_404(Quiz, slug=slug, level=level)
+    quiz.add_view()
     lections = quiz.lection_set.all()
     context ={'quiz':quiz, 'lections': lections}
     return render(request, 'quiz_detail.html', context)
@@ -36,6 +37,7 @@ def quiz_detail(request, slug, level):
 def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
+    lection.add_view()
     question = get_object_or_404(Question, id=id_question, lection=lection)
     questions = list(Question.objects.filter(lection=lection))
     index = questions.index(question)
