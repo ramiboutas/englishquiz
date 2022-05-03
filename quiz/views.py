@@ -52,7 +52,7 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
 @csrf_exempt
 # @never_cache
 @cache_page(3600 * 6)
-def check_answer(request, slug_quiz, slug_lection, id_question):
+def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
     question = get_object_or_404(Question, id=id_question)
 
     if question.type == 1: # one text input
@@ -102,8 +102,8 @@ def check_answer(request, slug_quiz, slug_lection, id_question):
 
 
 @cache_page(3600 * 6)
-def update_progress_bar(request, slug_quiz, slug_lection, id_question):
-    quiz = get_object_or_404(Quiz, slug=slug_quiz)
+def update_progress_bar(request, slug_quiz, level_quiz, slug_lection, id_question):
+    quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
     question = get_object_or_404(Question, id=id_question, lection=lection)
     questions = list(Question.objects.filter(lection=lection))

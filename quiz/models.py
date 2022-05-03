@@ -39,12 +39,14 @@ class Quiz(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
+        return f'{self.get_level_display()} - {self.name}'
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Quiz, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering = ('-views', )
 
 class Lection(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
@@ -69,6 +71,9 @@ class Lection(models.Model):
         self.slug = slugify(self.name)
         super(Lection, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering = ('name', )
+
 
 class Question(models.Model):
     lection = models.ForeignKey(Lection, on_delete=models.CASCADE)
@@ -80,13 +85,15 @@ class Question(models.Model):
 
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
-                                        'slug_lection': self.lection.slug,'id_question': self.id})
+                                            'slug_lection': self.lection.slug,'id_question': self.id})
 
     def check_answer_url(self):
-        return reverse('check_answer', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
+        return reverse('check_answer', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
+                                        'slug_lection': self.lection.slug, 'id_question': self.id})
 
     def update_progress_bar_url(self):
-        return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'slug_lection': self.lection.slug, 'id_question': self.id})
+        return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
+                                                'slug_lection': self.lection.slug, 'id_question': self.id})
 
     def is_first(self):
         return self.__class__.objects.filter(lection=self.lection).first() == self
@@ -102,6 +109,9 @@ class Question(models.Model):
 
     def __str__(self):
         return f'{self.lection.quiz.name} - {self.lection.name} - {self.text_one}'
+
+    class Meta:
+        ordering = ('id', )
 
 
 class Answer(models.Model):

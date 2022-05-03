@@ -19,6 +19,7 @@ class AnswerInline(admin.StackedInline):
 
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    readonly_fields = ['views']
     list_filter = ['name']
     inlines = [LectionInline,]
 
