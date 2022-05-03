@@ -19,7 +19,10 @@ def home(request):
 @cache_page(3600 * 6)
 def search_quizzes(request):
     search_term = request.GET.get('q')
-    quiz_list = Quiz.objects.filter(name__icontains=search_term)
+    level_one = request.GET.get('level_one')
+    level_two = request.GET.get('level_two')
+    level_three = request.GET.get('level_three')
+    quiz_list = Quiz.objects.filter(name__icontains=search_term, level__in=[level_one, level_two, level_three])
     context = {'quiz_list': quiz_list}
     return render(request, 'partials/quiz_list.html', context)
 
