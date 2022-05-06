@@ -26,6 +26,7 @@ class QuizAdmin(admin.ModelAdmin):
 
 class LectionAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    readonly_fields = ['views']
     list_filter = ['name', 'quiz__name']
     prepopulated_fields = {"slug": ("name",)}
     inlines = [QuestionInline,]
