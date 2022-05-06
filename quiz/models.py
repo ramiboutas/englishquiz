@@ -51,7 +51,7 @@ class Quiz(models.Model):
 class Lection(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
-    slug = models.SlugField(blank=True, unique=True)
+    slug = models.SlugField(blank=True)
     views =  models.PositiveIntegerField(default=0)
 
     # def get_number_of_questions(self):
