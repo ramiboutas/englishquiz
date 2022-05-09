@@ -30,14 +30,14 @@ hx-trigger="answerCheckedEvent from:body"></div>
     <div class="col-md-8 offset-md-2">
       <div class="row">
         {% if question.type == 1 %}
-          <p class="display-6 text-center py-1">
+          <p class="fs-2 text-center py-1">
             {% if question.text_one %} {{ question.text_one }} {% endif %}
             <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
               onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
             {% if question.text_two %} {{ question.text_two }} {% endif %}
           </p>
         {% elif question.type == 2 %}
-          <p class="display-6 text-center py-1">
+          <p class="fs-2 text-center py-1">
             {% if question.text_one %} {{ question.text_one }} {% endif %}
             <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
               onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
@@ -47,9 +47,9 @@ hx-trigger="answerCheckedEvent from:body"></div>
             {% if question.text_three %} {{ question.text_three }} {% endif %}
           </p>
         {% elif question.type == 5 %}
-          <p class="display-6 text-center py-1">{{ question.text_one }}</p>
-          {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
-          {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
+          <p class="fs-2 text-center py-1">{{ question.text_one }}</p>
+          {% if question.text_two %}<p class="fs-2 text-center py-1">{{ question.text_two }}</p>{% endif %}
+          {% if question.text_three %}<p class="fs-2 text-center py-1">{{ question.text_three }}</p>{% endif %}
         {% endif %}
       </div>
     </div>
@@ -72,7 +72,7 @@ hx-trigger="answerCheckedEvent from:body"></div>
     <div class="fixed-bottom container" hx-boost="true">
       <div class="row">
         <div class="col-md-8 offset-md-2 mb-2">
-          <button id="" style="font-size: 32px;" class="btn btn-lg btn-secondary w-100 h-100"
+          <button id="" class="btn btn-lg btn-secondary w-100 h-100"
             hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML">Check
           </button>
         </div>

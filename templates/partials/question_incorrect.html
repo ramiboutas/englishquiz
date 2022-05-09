@@ -3,14 +3,14 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       {% if question.type == 1 %}
-        <p class="display-6 text-center py-1">
+        <p class="fs-2 text-center py-1">
           {% if question.text_one %} {{ question.text_one }} {% endif %}
            <strong {% if answer_one_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %} ><u>{{ correct_answer_one }}</u></strong>
            {% if question.text_two %} {{ question.text_two }} {% endif %}
         </p>
 
       {% elif question.type == 2 %}
-        <p class="display-6 text-center py-1">
+        <p class="fs-2 text-center py-1">
           {% if question.text_one %} {{ question.text_one }} {% endif %}
            <strong {% if answer_one_is_correct %}class="text-success"{% else %}class="text-danger"{% endif %} ><u>{{ correct_answer_one }}</u></strong>
            {% if question.text_two %} {{ question.text_two }} {% endif %}
@@ -19,12 +19,12 @@
         </p>
 
       {% elif question.type == 5 %}
-        <p class="display-6 text-center py-1">{{ question.text_one }}</p>
+        <p class="fs-2 text-center py-1">{{ question.text_one }}</p>
         {% if question.text_two %}
-          <p class="display-6 text-center py-1">{{ question.text_two }}</p>
+          <p class="fs-2 text-center py-1">{{ question.text_two }}</p>
         {% endif %}
         {% if question.text_three %}
-          <p class="display-6 text-center py-1">{{ question.text_three }}</p>
+          <p class="fs-2 text-center py-1">{{ question.text_three }}</p>
         {% endif %}
 
       {% endif %}

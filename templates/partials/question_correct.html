@@ -5,14 +5,14 @@
     <div class="col-md-8 offset-md-2">
 
       {% if question.type == 1 %}
-        <p class="display-6 text-center py-1">
+        <p class="fs-2 text-center py-1">
           {% if question.text_one %} {{ question.text_one }} {% endif %}
           <strong class="text-success" ><u>{{ correct_answer_one }}</u></strong>
           {% if question.text_two %} {{ question.text_two }} {% endif %}
         </p>
 
       {% elif question.type == 2 %}
-        <p class="display-6 text-center py-1">
+        <p class="fs-2 text-center py-1">
           {% if question.text_one %} {{ question.text_one }} {% endif %}
           <strong class="text-success" ><u>{{ correct_answer_one }}</u></strong>
           {% if question.text_two %} {{ question.text_two }} {% endif %}
@@ -21,9 +21,9 @@
         </p>
 
       {% elif question.type == 5 %}
-        <p class="display-6 text-center py-1">{{ question.text_one }}</p>
-        {% if question.text_two %}<p class="display-6 text-center py-1">{{ question.text_two }}</p>{% endif %}
-        {% if question.text_three %}<p class="display-6 text-center py-1">{{ question.text_three }}</p>{% endif %}
+        <p class="fs-2 text-center py-1">{{ question.text_one }}</p>
+        {% if question.text_two %}<p class="fs-2 text-center py-1">{{ question.text_two }}</p>{% endif %}
+        {% if question.text_three %}<p class="fs-2 text-center py-1">{{ question.text_three }}</p>{% endif %}
 
       {% endif %}
     </div>
