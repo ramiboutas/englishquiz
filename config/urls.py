@@ -16,10 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
 
+from quiz.models import Quiz
+
+info_dict = {
+    'queryset': Quiz.objects.all(),
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('quiz.urls')),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),),
+    path('sitemap.xml', sitemap, # new
+        {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}},
+        name='django.contrib.sitemaps.views.sitemap'),
 ]

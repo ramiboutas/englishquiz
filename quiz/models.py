@@ -31,6 +31,9 @@ class Quiz(models.Model):
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
 
+    def get_absolute_url(self):
+        return self.get_detail_url()
+
     def get_list_url(self):
         return reverse('home')
 
@@ -60,6 +63,9 @@ class Lection(models.Model):
     def get_first_question(self):
         return self.question_set.all().first()
 
+    def get_absolute_url(self):
+        return self.get_first_question().get_detail_url()
+
     def add_view(self):
         self.views += 1
         self.save()
@@ -86,6 +92,9 @@ class Question(models.Model):
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
                                             'slug_lection': self.lection.slug,'id_question': self.id})
+
+    def get_absolute_url(self):
+        return self.get_detail_url()
 
     def check_answer_url(self):
         return reverse('check_answer', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,

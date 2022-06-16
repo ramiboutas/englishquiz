@@ -1,3 +1,7 @@
 User-Agent: *
 Disallow: /private/
 Disallow: /junk/
+Disallow: /admin/
+
+Sitemap: https://www.englishstuff.online/sitemap.xml
+Sitemap: https://www.englishstuff.online/questions/sitemap.xml
