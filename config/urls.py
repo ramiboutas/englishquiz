@@ -18,6 +18,8 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
+from django.conf import settings
+
 
 from quiz.models import Quiz
 
@@ -32,4 +34,15 @@ urlpatterns = [
     path('sitemap.xml', sitemap, # new
         {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}},
         name='django.contrib.sitemaps.views.sitemap'),
+    path('', include('puput.urls')),
 ]
+
+
+if settings.DEBUG:
+    import os
+    from django.conf.urls.static import static
+    from django.views.generic.base import RedirectView
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+    urlpatterns += staticfiles_urlpatterns() # tell gunicorn where static files are in dev mode
+    urlpatterns += static(settings.MEDIA_URL + 'images/', document_root=os.path.join(settings.MEDIA_ROOT, 'images'))

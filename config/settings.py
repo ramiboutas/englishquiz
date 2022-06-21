@@ -33,14 +33,45 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
 
-
     # own apps
     'quiz',
+    'sharing',
 
     # thid-party apps
     'django_htmx',
     'analytical',
+
+    # for the blog
+    'wagtail.core',
+    'wagtail.admin',
+    'wagtail.documents',
+    'wagtail.snippets',
+    'wagtail.users',
+    'wagtail.images',
+    'wagtail.embeds',
+    'wagtail.search',
+    'wagtail.sites',
+    'wagtail.contrib.redirects',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.sitemaps',
+    'wagtail.contrib.routable_page',
+    'taggit',
+    'modelcluster',
+    'django_social_share',
+    'puput'
 ]
+
+# for the blog
+
+WAGTAIL_SITE_NAME = 'Puput blog'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# https://stackoverflow.com/questions/70382084/import-error-force-text-from-django-utils-encoding
+import django
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str
 
 SITE_ID = 1
 
@@ -53,7 +84,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -76,7 +109,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+# WSGI_APPLICATION = 'config.wsgi.app'
 
 
 # Database
@@ -165,6 +198,36 @@ GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
 SITE_TITLE = 'English Stuff Online'
 META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
 META_DESCRIPTION = 'English Stuff Online. Learn and practice english with quizzes for free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
+
+# social media sharing
+# Telegram
+TELEGRAM_ACCOUNT = {
+    'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+    'CHANNEL_NAME': '@english_stuff_online',
+}
+
+
+# Linkedin
+LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") # not needed at the moment
+LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET") # not needed at the moment
+LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
+LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
+
+# Twitter
+TWITTER_CLIENT_ID = os.environ.get("TWITTER_CLIENT_ID")
+TWITTER_CLIENT_SECRET = os.environ.get("TWITTER_CLIENT_SECRET")
+
+TWITTER_API_KEY = os.environ.get("TWITTER_API_KEY")
+TWITTER_API_KEY_SECRET = os.environ.get("TWITTER_API_KEY_SECRET")
+
+TWITTER_ACCESS_TOKEN = os.environ.get("TWITTER_ACCESS_TOKEN")
+TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
+
+TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
+
+# celery
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
+CELERY_RESULT_BACKEND = 'django-db'
 
 
 if PRODUCTION:
