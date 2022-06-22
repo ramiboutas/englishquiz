@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 
 # for the blog
 
-WAGTAIL_SITE_NAME = 'Puput blog'
+WAGTAIL_SITE_NAME = 'Blog | English Stuff Online'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
