@@ -17,13 +17,18 @@ def escape_html_for_telegram(text):
     text.replace("&", "&amp;")
     return text
 
+def get_hashtag_str_from_instance_tags(instance):
+    hashtag_str = ''
+    for tag in instance.tags.all():
+        hashtag_str += '#'+tag.name + ' '
+    return hashtag_str
 
 
 @shared_task(bind=True)
 def promote_post_instance_in_telegram(self, instance):
     try:
-
-        parsed_text = "testing message"
+        hashtag_str = get_hashtag_str_from_instance_tags(instance)
+        parsed_text = escape_html_for_telegram(f'{instance.title} \n👉 {instance.full_url} \n \n {hashtag_str}')
         telegram_account = settings.TELEGRAM_ACCOUNT
         api_key = telegram_account["BOT_API_KEY"]
         channel = telegram_account["CHANNEL_NAME"]
@@ -32,7 +37,9 @@ def promote_post_instance_in_telegram(self, instance):
             parse_mode=telegram.ParseMode.HTML, disable_web_page_preview=False)
 
     except Exception as e:
-        pass
+        print("Exception in promote_post_instance_in_telegram")
+        raise e
+        # pass
         # NEED TO SET UP EMAIL BACKEND FIRST
         # extra_subject = 'Telegram promotion FAILED'
         # body_text = f'Exception occurred: {instance.full_url} \n {e}'
@@ -43,6 +50,9 @@ def promote_post_instance_in_telegram(self, instance):
 def promote_post_instance_in_linkedin(self, instance):
     # scope: w_member_social,r_liteprofile
     try:
+        hashtag_str = get_hashtag_str_from_instance_tags(instance)
+        text = f'{instance.title} \n👉 {instance.full_url} \n \n {hashtag_str}'
+
         profile_id = settings.LINKEDIN_PROFILE_ID
         access_token = settings.LINKEDIN_ACCESS_TOKEN
 
@@ -58,7 +68,7 @@ def promote_post_instance_in_linkedin(self, instance):
             "specificContent": {
                 "com.linkedin.ugc.ShareContent": {
                     "shareCommentary": {
-                        "text": f'New post available \n {instance.full_url} '
+                        "text": text
                     },
                     "shareMediaCategory": "NONE"
                 }
@@ -70,14 +80,14 @@ def promote_post_instance_in_linkedin(self, instance):
 
         response = requests.post(url, headers=headers, json=post_data)
         if not response.status_code == 201:
-            pass
+            print(response.status_code)
             # NEED TO SET UP EMAIL BACKEND FIRST
             # extra_subject = 'Linkedin promotion FAILED'
             # body_text = f'Response is not 201: {instance.full_url} \n {response}'
             # send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
 
     except Exception as e:
-        pass
+        raise e
         # NEED TO SET UP EMAIL BACKEND FIRST
         # extra_subject = 'Linkedin promotion FAILED'
         # body_text = f'Exception occurred: {instance.full_url} \n {e}'
@@ -87,6 +97,8 @@ def promote_post_instance_in_linkedin(self, instance):
 @shared_task(bind=True)
 def promote_post_instance_in_twitter(self, instance):
     try:
+        hashtag_str = get_hashtag_str_from_instance_tags(instance)
+        text = f'{instance.title} \n👉 {instance.full_url} \n \n {hashtag_str}'
         # API keys
         api_key = settings.TWITTER_API_KEY
         api_secret = settings.TWITTER_API_KEY_SECRET
@@ -99,8 +111,7 @@ def promote_post_instance_in_twitter(self, instance):
 
         api = tweepy.API(auth, wait_on_rate_limit=True)
 
-        status = f"New post available \n {instance.full_url}"
-        api.update_status(status=status)
+        api.update_status(status=text)
 
     except Exception as e:
         pass
