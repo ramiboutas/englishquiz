@@ -1,0 +1,1 @@
+(()=>{var t=function(){function t(t,e){this.html=t,this.idPattern=e}return t.prototype.render=function(t,e,r,n){var o=this.html.replace(/__NAME__/g,e).replace(/__ID__/g,r);t.outerHTML=o;var a=createDocumentChooser(r);return a.setState(n),a},t}();window.telepath.register("wagtail.documents.widgets.DocumentChooser",t)})();

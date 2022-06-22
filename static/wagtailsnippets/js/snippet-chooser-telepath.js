@@ -1,0 +1,1 @@
+(()=>{var t=function(){function t(t,e){this.html=t,this.idPattern=e}return t.prototype.render=function(t,e,r,i){var n=this.html.replace(/__NAME__/g,e).replace(/__ID__/g,r);t.outerHTML=n;var a=createSnippetChooser(r);return a.setState(i),a},t}();window.telepath.register("wagtail.snippets.widgets.SnippetChooser",t)})();
