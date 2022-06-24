@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'analytical',
     'django_minify_html',
     'compressor',
+    'corsheaders',
 
     # for the blog
     'wagtail.core',
@@ -82,6 +83,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -287,6 +289,10 @@ else:
 
 
 
+
+CORS_ALLOWED_ORIGINS = [
+    'https://spaces.ramiboutas.com'
+]
 
 
 if PRODUCTION:
