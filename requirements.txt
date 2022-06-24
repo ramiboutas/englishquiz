@@ -36,7 +36,6 @@ django-treebeard==4.5.1
 djangorestframework==3.13.1
 draftjs-exporter==2.1.7
 et-xmlfile==1.1.0
-fontawesomefree==6.1.1
 gunicorn==20.1.0
 hiredis==2.0.0
 html5lib==1.1

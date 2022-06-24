@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'analytical',
     'django_minify_html',
     'compressor',
-    'fontawesomefree',
 
     # for the blog
     'wagtail.core',
