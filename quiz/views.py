@@ -9,14 +9,14 @@ from django_htmx.http import trigger_client_event
 from .models import Quiz, Lection, Question, Answer
 
 
-@cache_page(3600 * 6)
+@cache_page(3600 * 24 * 7)
 def home(request):
     quiz_list = Quiz.objects.all()
     context ={'quiz_list': quiz_list}
     return render(request, 'home.html', context)
 
 # @never_cache
-@cache_page(3600 * 6)
+@cache_page(3600 * 24 * 7)
 def search_quizzes(request):
     search_term = request.GET.get('q')
     level_one = request.GET.get('level_one')
@@ -27,7 +27,7 @@ def search_quizzes(request):
     return render(request, 'partials/quiz_list.html', context)
 
 
-@cache_page(3600 * 6)
+@cache_page(3600 * 24 * 7)
 def quiz_detail(request, slug, level):
     quiz = get_object_or_404(Quiz, slug=slug, level=level)
     quiz.add_view()
@@ -36,7 +36,7 @@ def quiz_detail(request, slug, level):
     return render(request, 'quiz_detail.html', context)
 
 
-@cache_page(3600 * 6)
+@cache_page(3600 * 24 * 7)
 def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
@@ -51,7 +51,7 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
 
 @csrf_exempt
 # @never_cache
-@cache_page(3600 * 6)
+@cache_page(3600 * 24 * 7)
 def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
     question = get_object_or_404(Question, id=id_question)
 
@@ -101,7 +101,7 @@ def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
     return response
 
 
-@cache_page(3600 * 6)
+@cache_page(3600 * 24 * 7)
 def update_progress_bar(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)

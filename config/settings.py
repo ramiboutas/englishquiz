@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # thid-party apps
     'django_htmx',
     'analytical',
+    'django_minify_html',
+    'compressor',
 
     # for the blog
     'wagtail.core',
@@ -58,7 +60,7 @@ INSTALLED_APPS = [
     'taggit',
     'modelcluster',
     'django_social_share',
-    'puput'
+    'puput',
 ]
 
 # for the blog
@@ -67,6 +69,8 @@ WAGTAIL_SITE_NAME = 'Blog | English Stuff Online'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
 
 # https://stackoverflow.com/questions/70382084/import-error-force-text-from-django-utils-encoding
 import django
@@ -85,6 +89,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'django_minify_html.middleware.MinifyHtmlMiddleware',
 ]
 
 
@@ -178,13 +183,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
-
-STATIC_ROOT = str(BASE_DIR.joinpath('static'))
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -228,6 +226,67 @@ TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 # celery
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
 CELERY_RESULT_BACKEND = 'django-db'
+
+
+# Static
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static_dev'),
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
+
+
+# Storage
+USE_SPACES = os.environ.get('USE_SPACES') == '1'
+
+if USE_SPACES:
+
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
+    AWS_S3_CUSTOM_DOMAIN = 'spaces.ramiboutas.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', 'ACL': 'public-read'}
+    # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
+
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+    DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaRootStorage'
+    STATICFILES_STORAGE = 'config.storage_backends.StaticRootStorage'
+
+    AWS_STATIC_LOCATION = 'englishstuff-static'
+    # STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_STATIC_LOCATION}/'
+    STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+    STATIC_ROOT = f'{AWS_STATIC_LOCATION}/'
+
+    AWS_MEDIA_LOCATION = 'englishstuff-media'
+    # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
+    # MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_MEDIA_LOCATION}/'
+    MEDIA_URL = '{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_MEDIA_LOCATION)
+    MEDIA_ROOT = f'{AWS_MEDIA_LOCATION}/'
+
+    # compressor
+    COMPRESS_ROOT = STATIC_ROOT
+    COMPRESS_URL = STATIC_URL
+    COMPRESS_STORAGE = STATICFILES_STORAGE
+
+
+
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+
 
 
 if PRODUCTION:
