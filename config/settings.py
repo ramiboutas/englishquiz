@@ -290,9 +290,7 @@ else:
 
 
 
-CORS_ALLOWED_ORIGINS = [
-    'https://spaces.ramiboutas.com'
-]
+CORS_ORIGIN_ALLOW_ALL = True 
 
 
 if PRODUCTION:
