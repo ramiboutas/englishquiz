@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_minify_html',
     'compressor',
     'corsheaders',
+    'django_celery_beat',
+    'django_celery_results',
 
     # for the blog
     'wagtail.core',
@@ -178,7 +180,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin' 
 
 USE_I18N = True
 

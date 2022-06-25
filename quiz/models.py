@@ -27,6 +27,8 @@ class Quiz(models.Model):
     image_url = models.URLField(max_length=200, blank=True, null=True)
     image_credits_url = models.URLField(max_length=200, null=True)
     views =  models.PositiveIntegerField(default=0)
+    promote = models.BooleanField(default=False, null=True, blank=True)
+    promote_date = models.DateTimeField(null=True, blank=True)
 
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
@@ -56,6 +58,8 @@ class Lection(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True)
     views =  models.PositiveIntegerField(default=0)
+    promote = models.BooleanField(default=False, null=True, blank=True)
+    promote_date = models.DateTimeField(null=True, blank=True)
 
     # def get_number_of_questions(self):
     #     return self.question_set.all().count()
