@@ -28,7 +28,6 @@ class Quiz(models.Model):
     image_credits_url = models.URLField(max_length=200, null=True)
     views =  models.PositiveIntegerField(default=0)
     promote = models.BooleanField(default=False, null=True, blank=True)
-    already_promoted = models.BooleanField(default=False, null=True, blank=True)
     promote_date = models.DateTimeField(null=True, blank=True)
 
     def get_detail_url(self):
@@ -60,7 +59,6 @@ class Lection(models.Model):
     slug = models.SlugField(blank=True)
     views =  models.PositiveIntegerField(default=0)
     promote = models.BooleanField(default=False, null=True, blank=True)
-    already_promoted = models.BooleanField(default=False, null=True, blank=True)
     promote_date = models.DateTimeField(null=True, blank=True)
 
     # def get_number_of_questions(self):

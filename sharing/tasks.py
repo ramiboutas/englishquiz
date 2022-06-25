@@ -135,6 +135,8 @@ def promote_quiz_instance_in_telegram(self, **kwargs):
         instance = Quiz.objects.get(pk=kwargs["pk"])
         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_telegram(text)
+        instance.promote = False
+        instance.save()
 
     except Exception as e:
         pass
@@ -146,6 +148,8 @@ def promote_quiz_instance_in_linkedin(self, **kwargs):
         instance = Quiz.objects.get(pk=kwargs["pk"])
         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n Follow the linkedin page: https://www.linkedin.com/company/english-stuff-online/ \n \n  #english #learnenglish #{instance.name.replace(" ", "")}'
         response = post_text_in_linkedin(text)
+        instance.promote = False
+        instance.save()
 
         if not response.status_code == 201:
             pass
@@ -160,12 +164,13 @@ def promote_quiz_instance_in_twitter(self, **kwargs):
         instance = Quiz.objects.get(pk=kwargs["pk"])
         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_twitter(text)
+        instance.promote = False
+        instance.save()
 
     except Exception as e:
         pass
 
 # Lection tasks
-
 
 def get_question_text(instance):
     text = ""
@@ -198,6 +203,8 @@ def promote_lection_instance_in_telegram(self, **kwargs):
         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_telegram(text)
+        instance.promote = False
+        instance.save()
     except Exception as e:
         pass
 
@@ -212,6 +219,8 @@ def promote_lection_instance_in_linkedin(self, **kwargs):
         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_linkedin(text)
+        instance.promote = False
+        instance.save()
 
     except Exception as e:
         pass
@@ -227,6 +236,8 @@ def promote_lection_instance_in_telegram(self, **kwargs):
         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_twitter(text)
+        instance.promote = False
+        instance.save()
 
     except Exception as e:
         pass
