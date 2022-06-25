@@ -130,45 +130,61 @@ def promote_post_instance_in_twitter(self, instance):
 
 # Quiz tasks
 @shared_task(bind=True)
-def promote_quiz_instance_in_telegram(self, **kwargs):
+def promote_quiz_instance(self, **kwargs):
     try:
         instance = Quiz.objects.get(pk=kwargs["pk"])
         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_telegram(text)
-        instance.promote = False
-        instance.save()
-
-    except Exception as e:
-        pass
-
-
-@shared_task(bind=True)
-def promote_quiz_instance_in_linkedin(self, **kwargs):
-    try:
-        instance = Quiz.objects.get(pk=kwargs["pk"])
-        text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n Follow the linkedin page: https://www.linkedin.com/company/english-stuff-online/ \n \n  #english #learnenglish #{instance.name.replace(" ", "")}'
-        response = post_text_in_linkedin(text)
-        instance.promote = False
-        instance.save()
-
-        if not response.status_code == 201:
-            pass
-
-    except Exception as e:
-        pass
-
-
-@shared_task(bind=True)
-def promote_quiz_instance_in_twitter(self, **kwargs):
-    try:
-        instance = Quiz.objects.get(pk=kwargs["pk"])
-        text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
+        post_text_in_linkedin(text)
         post_text_in_twitter(text)
+
         instance.promote = False
         instance.save()
 
     except Exception as e:
         pass
+
+
+# @shared_task(bind=True)
+# def promote_quiz_instance_in_telegram(self, **kwargs):
+#     try:
+#         instance = Quiz.objects.get(pk=kwargs["pk"])
+#         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
+#         post_text_in_telegram(text)
+#         instance.promote = False
+#         instance.save()
+#
+#     except Exception as e:
+#         pass
+#
+#
+# # @shared_task(bind=True)
+# # def promote_quiz_instance_in_linkedin(self, **kwargs):
+#     try:
+#         instance = Quiz.objects.get(pk=kwargs["pk"])
+#         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n Follow the linkedin page: https://www.linkedin.com/company/english-stuff-online/ \n \n  #english #learnenglish #{instance.name.replace(" ", "")}'
+#         response = post_text_in_linkedin(text)
+#         instance.promote = False
+#         instance.save()
+#
+#         if not response.status_code == 201:
+#             pass
+#
+#     except Exception as e:
+#         pass
+#
+#
+# @shared_task(bind=True)
+# def promote_quiz_instance_in_twitter(self, **kwargs):
+#     try:
+#         instance = Quiz.objects.get(pk=kwargs["pk"])
+#         text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
+#         post_text_in_twitter(text)
+#         instance.promote = False
+#         instance.save()
+#
+#     except Exception as e:
+#         pass
 
 # Lection tasks
 
@@ -179,9 +195,6 @@ def get_salutation_text():
 
 def get_question_text(instance):
     text = ""
-    if instance.type == 1 or instance.type == 5:
-        salutation_options = ["Hey there!", "Hey, how is it going?", "Hi!", "Hey!", "Hey, what's up?"]
-        text += f"{random.choice(salutation_options)} \n\n"
     if instance.type == 1:
         text += f"📚 What do you think that comes in the gap? 🤔\n\n"
         text += f"{instance.text_one} ____ {instance.text_two}"
@@ -198,7 +211,7 @@ def get_question_text(instance):
 
 
 @shared_task(bind=True)
-def promote_lection_instance_in_telegram(self, **kwargs):
+def promote_lection_instance(self, **kwargs):
     try:
         instance = Lection.objects.get(pk=kwargs["pk"])
         question_text = get_question_text(instance.get_first_question())
@@ -208,48 +221,70 @@ def promote_lection_instance_in_telegram(self, **kwargs):
         text += f'Check out the right answer here:\n'
         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
+
         post_text_in_telegram(text)
-        if instance.promote:
-            instance.promote = False
-            instance.save()
-    except Exception as e:
-        raise e
-
-
-@shared_task(bind=True)
-def promote_lection_instance_in_linkedin(self, **kwargs):
-    try:
-        instance = Lection.objects.get(pk=kwargs["pk"])
-        question_text = get_question_text(instance.get_first_question())
-        salutation_text = get_salutation_text()
-        text = f"{salutation_text} \n\n"
-        text += f'{question_text} \n\n'
-        text += f'Check out the right answer here:\n'
-        text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
-        text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_linkedin(text)
-        if instance.promote:
-            instance.promote = False
-            instance.save()
-
-    except Exception as e:
-        raise e
-
-
-@shared_task(bind=True)
-def promote_lection_instance_in_twitter(self, **kwargs):
-    try:
-        instance = Lection.objects.get(pk=kwargs["pk"])
-        question_text = get_question_text(instance.get_first_question())
-        text = f'{question_text} \n\n'
-        text += f'Check the answer:\n'
-        text += f'👉 englishstuff.online{instance.get_absolute_url()} \n'
-        text += f'#english #learnenglish'
         post_text_in_twitter(text)
 
-        if instance.promote:
-            instance.promote = False
-            instance.save()
-
+        instance.promote = False
+        instance.save()
     except Exception as e:
         raise e
+
+#
+# @shared_task(bind=True)
+# def promote_lection_instance_in_telegram(self, **kwargs):
+#     try:
+#         instance = Lection.objects.get(pk=kwargs["pk"])
+#         question_text = get_question_text(instance.get_first_question())
+#         salutation_text = get_salutation_text()
+#         text = f"{salutation_text} \n\n"
+#         text += f'{question_text} \n\n'
+#         text += f'Check out the right answer here:\n'
+#         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
+#         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
+#         post_text_in_telegram(text)
+#         if instance.promote:
+#             instance.promote = False
+#             instance.save()
+#     except Exception as e:
+#         raise e
+#
+#
+# @shared_task(bind=True)
+# def promote_lection_instance_in_linkedin(self, **kwargs):
+#     try:
+#         instance = Lection.objects.get(pk=kwargs["pk"])
+#         question_text = get_question_text(instance.get_first_question())
+#         salutation_text = get_salutation_text()
+#         text = f"{salutation_text} \n\n"
+#         text += f'{question_text} \n\n'
+#         text += f'Check out the right answer here:\n'
+#         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
+#         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
+#         post_text_in_linkedin(text)
+#         if instance.promote:
+#             instance.promote = False
+#             instance.save()
+#
+#     except Exception as e:
+#         raise e
+#
+#
+# @shared_task(bind=True)
+# def promote_lection_instance_in_twitter(self, **kwargs):
+#     try:
+#         instance = Lection.objects.get(pk=kwargs["pk"])
+#         question_text = get_question_text(instance.get_first_question())
+#         text = f'{question_text} \n\n'
+#         text += f'Check the answer:\n'
+#         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n'
+#         text += f'#english #learnenglish'
+#         post_text_in_twitter(text)
+#
+#         if instance.promote:
+#             instance.promote = False
+#             instance.save()
+#
+#     except Exception as e:
+#         raise e
