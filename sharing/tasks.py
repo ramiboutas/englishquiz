@@ -189,7 +189,7 @@ def get_question_text(instance):
 
 
 @shared_task(bind=True)
-def promote_lection_instance(self, **kwargs):
+def promote_lection_instance_in_telegram(self, **kwargs):
     try:
         instance = Lection.objects.get(pk=kwargs["pk"])
         question_text = get_question_text(instance.get_first_question())
@@ -198,7 +198,34 @@ def promote_lection_instance(self, **kwargs):
         text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
         text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_telegram(text)
+    except Exception as e:
+        pass
+
+
+@shared_task(bind=True)
+def promote_lection_instance_in_linkedin(self, **kwargs):
+    try:
+        instance = Lection.objects.get(pk=kwargs["pk"])
+        question_text = get_question_text(instance.get_first_question())
+        text = f'{question_text} \n\n'
+        text += f'Check out the right answer here:\n'
+        text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
+        text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_linkedin(text)
+
+    except Exception as e:
+        pass
+
+
+@shared_task(bind=True)
+def promote_lection_instance_in_telegram(self, **kwargs):
+    try:
+        instance = Lection.objects.get(pk=kwargs["pk"])
+        question_text = get_question_text(instance.get_first_question())
+        text = f'{question_text} \n\n'
+        text += f'Check out the right answer here:\n'
+        text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
+        text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
         post_text_in_twitter(text)
 
     except Exception as e:
