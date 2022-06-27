@@ -1,3 +1,4 @@
+from time import sleep
 import random
 import requests
 import telegram
@@ -16,7 +17,9 @@ from utils.management import send_mail_to_admin
 # body_text = f'Response is not 201: {instance.full_url} \n {response}'
 # send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
 
-# General functions
+# General variables and functions
+
+common_hashtags = "#english #learnenglish #improveyourenglish #englishquiz #englishquizzes"
 
 def escape_html_for_telegram(text):
     text.replace("<", "&lt;")
@@ -29,6 +32,15 @@ def get_hashtag_str_from_post_instance_tags(instance):
     for tag in instance.tags.all():
         hashtag_str += '#'+tag.name + ' '
     return hashtag_str
+
+def get_cool_random_emoji():
+    cool_emojis = ["🤙", "😎", "🙃", "🤟"]
+    return random.choice(cool_emojis)
+
+
+def get_salutation_text():
+    salutation_options = ["Hey there!", "Hey, how is it going?", "Hi!", "Hey!", "Hey, what's up?"]
+    return random.choice(salutation_options)
 
 
 def post_text_in_twitter(text):
@@ -90,11 +102,26 @@ def post_text_in_linkedin(text):
 
 
 # Blog post tasks
+
+def get_post_promotion_text(instance):
+    """
+    It generates text from a instance post
+    """
+    hashtags_from_instance_tags = get_hashtag_str_from_post_instance_tags(instance)
+    text = f'✍️ New post: {instance.title} \n\n'
+    text += f'{instance.full_url} \n \n'
+    text += f'{hashtags_from_instance_tags}'
+    return text
+
+
 @shared_task(bind=True)
 def promote_post_instance_in_telegram(self, instance):
+    """
+    Promote post instance in Telegram
+    """
     try:
-        hashtag_str = get_hashtag_str_from_post_instance_tags(instance)
-        parsed_text = escape_html_for_telegram(f'{instance.title} \n👉 {instance.full_url} \n \n {hashtag_str}')
+        text = get_post_promotion_text(instance)
+        parsed_text = escape_html_for_telegram(text)
         post_text_in_telegram(parsed_text)
 
     except Exception as e:
@@ -103,9 +130,11 @@ def promote_post_instance_in_telegram(self, instance):
 
 @shared_task(bind=True)
 def promote_post_instance_in_linkedin(self, instance):
+    """
+    Promote post instance in Linkedin
+    """
     try:
-        hashtag_str = get_hashtag_str_from_post_instance_tags(instance)
-        text = f'{instance.title} \n👉 {instance.full_url} \n \n {hashtag_str}'
+        text = get_post_promotion_text(instance)
         response = post_text_in_linkedin(text)
 
         if not response.status_code == 201:
@@ -117,9 +146,11 @@ def promote_post_instance_in_linkedin(self, instance):
 
 @shared_task(bind=True)
 def promote_post_instance_in_twitter(self, instance):
+    """
+    Promote post instance in Twitter
+    """
     try:
-        hashtag_str = get_hashtag_str_from_post_instance_tags(instance)
-        text = f'{instance.title} \n👉 {instance.full_url} \n \n {hashtag_str}'
+        text = get_post_promotion_text(instance)
         post_text_in_twitter(text)
 
     except Exception as e:
@@ -127,33 +158,26 @@ def promote_post_instance_in_twitter(self, instance):
 
 
 
-# Quiz tasks
-@shared_task(bind=True)
-def promote_quiz_instance(self, **kwargs):
-    try:
-        instance = Quiz.objects.get(pk=kwargs["pk"])
-        text = f'🧑‍🏫 New quiz: {instance.name} \n \n👉 englishstuff.online{instance.get_detail_url()} \n \n #english #learnenglish #{instance.name.replace(" ", "")}'
-        post_text_in_telegram(text)
-        post_text_in_linkedin(text)
-        post_text_in_twitter(text)
-
-        instance.promote = False
-        instance.save()
-
-    except Exception as e:
-        pass
+# Quiz, Lection and Question tasks
 
 
-# Lection tasks
-
-def get_salutation_text():
-    salutation_options = ["Hey there!", "Hey, how is it going?", "Hi!", "Hey!", "Hey, what's up?"]
-    return random.choice(salutation_options)
+def get_quiz_promotion_text(instance):
+    """
+    It generates text from a quiz instance
+    """
+    text = f'Check out this quiz: {instance.name} \n \n'
+    text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
+    text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
+    return text
 
 
 def get_question_text(instance):
+    """
+    It generates text from a question instance
+    """
     text = ""
-    text += "Here a small question for you. \n\n"
+    if instance.type == 1 or instance.type == 5:
+        text += "Here a small question for you. \n\n"
     if instance.type == 1:
         text += f"What do you think that comes in the gap? 🤔\n\n"
         text += f"📚 {instance.text_one} ____ {instance.text_two}"
@@ -168,32 +192,56 @@ def get_question_text(instance):
 
     return text
 
-# Lection tasks
+
+def get_question_promotion_text(instance):
+    """
+    It generates text from a question instance
+    """
+    salutation_text = get_salutation_text()
+    cool_emoji = get_cool_random_emoji()
+    question_text = get_question_text(question)
+
+    # Producing text
+    text = f"{salutation_text} {cool_emoji} \n\n"
+    text += f'{question_text} \n\n'
+    text += f'Check out the right answer here:\n'
+    text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
+    text += f'#english #learnenglish #{instance.lection.quiz.replace(" ", "")}'
+
+    return text
+
+
+
+@shared_task(bind=True)
+def promote_quiz_instance(self, **kwargs):
+    try:
+        instance = Quiz.objects.get(pk=kwargs["pk"])
+        text = get_quiz_promotion_text(instance)
+        post_text_in_telegram(text)
+        post_text_in_linkedin(text)
+        post_text_in_twitter(text)
+
+    except Exception as e:
+        pass
+
+
 @shared_task(bind=True)
 def promote_lection_instance(self, **kwargs):
     try:
         instance = Lection.objects.get(pk=kwargs["pk"])
-        question_text = get_question_text(instance.get_first_question())
 
-        # will be promoted just if there a question
-        if question_text:
-            salutation_text = get_salutation_text()
-            text = f"{salutation_text} \n\n"
-            text += f'{question_text} \n\n'
-            text += f'Check out the right answer here:\n'
-            text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
-            text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
+        # Actually we promote the first question object (instance.get_first_question) of the lection instance
+        text = get_question_promotion_text(instance.get_first_question())
 
-            post_text_in_telegram(text)
-            post_text_in_linkedin(text)
-            post_text_in_twitter(text)
+        # promoting
+        post_text_in_telegram(text)
+        post_text_in_linkedin(text)
+        post_text_in_twitter(text)
 
-            instance.promote = False
-            instance.save()
     except Exception as e:
         raise e
 
-# Question tasks
+
 @shared_task(bind=True)
 def share_random_question_instance(self, **kwargs):
     try:
@@ -202,20 +250,13 @@ def share_random_question_instance(self, **kwargs):
         question = random.choice(list(questions))
 
         if question:
-            salutation_text = get_salutation_text()
-            question_text = get_question_text(question)
-
-            # Producing text
-            text = f"{salutation_text} \n\n"
-            text += f'{question_text} \n\n'
-            text += f'Check out the right answer here:\n'
-            text += f'👉 englishstuff.online{instance.get_absolute_url()} \n \n'
-            text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
-
             # Sharing
             post_text_in_telegram(text)
             post_text_in_linkedin(text)
             post_text_in_twitter(text)
+
+            # Sleep 1 min after sharing 
+            sleep(60)
 
             # Setting field shared_in_social_media to True -> so the question cannot be reshared
             question.shared_in_social_media=True

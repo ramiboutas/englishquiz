@@ -180,7 +180,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Berlin' 
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -228,8 +228,19 @@ TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
 # celery
+from celery.schedules import crontab
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
 CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_BEAT_SCHEDULE = {
+      'share_random_question': {
+        'task': 'sharing.tasks.share_random_question_instance',
+        'schedule': crontab(hour=12, minute=00),
+        'options': {
+            'expires': 15.0,
+        },
+    },
+}
 
 
 # Static
