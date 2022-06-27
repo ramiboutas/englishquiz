@@ -176,8 +176,6 @@ def get_question_text(instance):
     It generates text from a question instance
     """
     text = ""
-    if instance.type == 1 or instance.type == 5:
-        text += "Here a small question for you. \n\n"
     if instance.type == 1:
         text += f"What do you think that comes in the gap? 🤔\n\n"
         text += f"📚 {instance.text_one} ____ {instance.text_two}"
@@ -193,7 +191,7 @@ def get_question_text(instance):
     return text
 
 
-def get_question_promotion_text(instance):
+def get_question_promotion_text(instance, make_short=False):
     """
     It generates text from a question instance
     """
@@ -202,7 +200,10 @@ def get_question_promotion_text(instance):
     question_text = get_question_text(question)
 
     # Producing text
-    text = f"{salutation_text} {cool_emoji} \n\n"
+    text = ""
+    if not make_short:
+        text += f"{salutation_text} {cool_emoji} \n\n"
+        text += "Here a small question for you. \n\n"
     text += f'{question_text} \n\n'
     text += f'Check out the right answer here:\n'
     text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
@@ -219,7 +220,7 @@ def promote_quiz_instance(self, **kwargs):
         text = get_quiz_promotion_text(instance)
         post_text_in_telegram(text)
         post_text_in_linkedin(text)
-        post_text_in_twitter(text)
+        post_text_in_twitter(text, make_short=True)
 
     except Exception as e:
         pass
@@ -255,7 +256,7 @@ def share_random_question_instance(self, **kwargs):
             post_text_in_linkedin(text)
             post_text_in_twitter(text)
 
-            # Sleep 1 min after sharing 
+            # Sleep 1 min after sharing
             sleep(60)
 
             # Setting field shared_in_social_media to True -> so the question cannot be reshared
