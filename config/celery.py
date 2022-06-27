@@ -9,6 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 app = Celery('config')
 app.config_from_object(settings, namespace='CELERY')
+app.conf.timezone = settings.TIME_ZONE
 app.autodiscover_tasks()
 
 
