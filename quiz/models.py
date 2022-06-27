@@ -92,6 +92,7 @@ class Question(models.Model):
     text_three = models.CharField(max_length=200, null=True, blank=True)
     type = models.PositiveSmallIntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
     explanation = models.CharField(max_length=250, blank=True, null=True)
+    shared_in_social_media = models.BooleanField(default=False, editable=False)
 
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
