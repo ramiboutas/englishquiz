@@ -197,7 +197,7 @@ def get_question_promotion_text(instance, make_short=False):
     """
     salutation_text = get_salutation_text()
     cool_emoji = get_cool_random_emoji()
-    question_text = get_question_text(question)
+    question_text = get_question_text(instance)
 
     # Producing text
     text = ""
@@ -249,6 +249,8 @@ def share_random_question_instance(self, **kwargs):
         # Getting random question
         questions = Question.objects.filter(shared_in_social_media=False)
         question = random.choice(list(questions))
+
+        text = get_question_promotion_text(question)
 
         if question:
             # Sharing
