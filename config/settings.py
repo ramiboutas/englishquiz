@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 
     # own apps
     'quiz',
-    'sharing',
+    'socialmedia',
 
     # thid-party apps
     'django_htmx',
@@ -201,7 +201,7 @@ SITE_TITLE = 'English Stuff Online'
 META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
 META_DESCRIPTION = 'English Stuff Online. Learn and practice english with quizzes for free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
 
-# social media sharing
+# social media socialmedia
 # Telegram
 TELEGRAM_ACCOUNT = {
     'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
@@ -234,8 +234,15 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 CELERY_BEAT_SCHEDULE = {
       'share_random_question': {
-        'task': 'sharing.tasks.share_random_question_instance',
+        'task': 'socialmedia.tasks.share_random_question_instance',
         'schedule': crontab(hour=12, minute=00),
+        'options': {
+            'expires': 15.0,
+        },
+    },
+      'share_regular_social_post': {
+        'task': 'socialmedia.tasks.share_regular_social_post',
+        'schedule': 6*3600.0,
         'options': {
             'expires': 15.0,
         },

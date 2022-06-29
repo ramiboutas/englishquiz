@@ -10,6 +10,7 @@ from celery import shared_task
 
 from quiz.models import Quiz, Lection, Question
 from utils.management import send_mail_to_admin
+from .models import ScheduledSocialPost, RegularSocialPost
 
 # If a post intent fails > notify the admin
 # NEED TO SET UP EMAIL BACKEND FIRST
@@ -108,8 +109,8 @@ def get_post_promotion_text(instance):
     It generates text from a instance post
     """
     hashtags_from_instance_tags = get_hashtag_str_from_post_instance_tags(instance)
-    text = f'✍️ New post: {instance.title} \n\n'
-    text += f'{instance.full_url} \n \n'
+    text = f'✍️ New post: {instance.title}\n\n'
+    text += f'{instance.full_url}\n\n'
     text += f'{hashtags_from_instance_tags}'
     return text
 
@@ -157,10 +158,7 @@ def promote_post_instance_in_twitter(self, instance):
         pass
 
 
-
-# Quiz, Lection and Question tasks
-
-
+# Quiz, Lection and Question util functions
 def get_quiz_promotion_text(instance):
     """
     It generates text from a quiz instance
@@ -212,7 +210,7 @@ def get_question_promotion_text(instance, make_short=False):
     return text
 
 
-
+# Quiz, Lection and Question tasks
 @shared_task(bind=True)
 def promote_quiz_instance(self, **kwargs):
     try:
@@ -220,7 +218,7 @@ def promote_quiz_instance(self, **kwargs):
         text = get_quiz_promotion_text(instance)
         post_text_in_telegram(text)
         post_text_in_linkedin(text)
-        post_text_in_twitter(text, make_short=True)
+        post_text_in_twitter(text)
 
     except Exception as e:
         pass
@@ -253,7 +251,7 @@ def share_random_question_instance(self, **kwargs):
         text = get_question_promotion_text(question)
 
         if question:
-            # Sharing
+            # sharing
             post_text_in_telegram(text)
             post_text_in_linkedin(text)
             post_text_in_twitter(text)
@@ -264,5 +262,47 @@ def share_random_question_instance(self, **kwargs):
             # Setting field shared_in_social_media to True -> so the question cannot be reshared
             question.shared_in_social_media=True
             question.save()
+        else:
+            # Set all question instances to shared_in_social_media=False
+            questions.update(shared_in_social_media=False)
+
+    except Exception as e:
+        raise e
+
+
+# Social posts
+
+@shared_task(bind=True)
+def promote_scheduled_social_post_instance(self, **kwargs):
+    try:
+        instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
+        post_text_in_telegram(instance.text)
+        post_text_in_linkedin(instance.text)
+        post_text_in_twitter(instance.text)
+
+    except Exception as e:
+        raise e
+
+
+@shared_task(bind=True)
+def share_regular_social_post(self, **kwargs):
+    try:
+        # Getting random social post
+        social_posts = RegularSocialPost.objects.filter(promoted=False)
+        social_post = random.choice(list(social_posts))
+
+        if social_post:
+            # sharing
+            post_text_in_telegram(social_post.text)
+            post_text_in_linkedin(social_post.text)
+            post_text_in_twitter(social_post.text)
+
+            # Sleep 1 min after sharing
+            sleep(60)
+
+            # Setting field promoted to True -> so the social post cannot be reshared
+            social_post.promoted=True
+            social_post.save()
+
     except Exception as e:
         raise e

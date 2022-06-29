@@ -1,0 +1,35 @@
+from django.db import models
+
+# Create your models here.
+
+class AbstractSocialPost(models.Model):
+    """
+    Common information about a Social Post (Abstract Model)
+    Social Post = Post in Linkedin, Message in Telegram, Tweet in Twitter
+    """
+
+    text = models.TextField(max_length=280)
+    promote = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
+
+
+class ScheduledSocialPost(AbstractSocialPost):
+    """
+    Social Post what will be promoted in social media on a specific data and time.
+    """
+    promote_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.text[:50]
+
+
+class RegularSocialPost(AbstractSocialPost):
+    """
+    Social Post what will be promoted in social media on a dairly basis.
+    """
+    promoted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text[:50]
