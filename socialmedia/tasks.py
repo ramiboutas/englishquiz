@@ -165,7 +165,7 @@ def get_quiz_promotion_text(instance):
     """
     text = f'Check out this quiz: {instance.name} \n \n'
     text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
-    text += f'#english #learnenglish #{instance.name.replace(" ", "")}'
+    text += f'{common_hashtags} #{instance.name.replace(" ", "")}'
     return text
 
 
@@ -205,7 +205,7 @@ def get_question_promotion_text(instance, make_short=False):
     text += f'{question_text} \n\n'
     text += f'Check out the right answer here:\n'
     text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
-    text += f'#english #learnenglish #{instance.lection.quiz.replace(" ", "")}'
+    text += f'{common_hashtags} #{instance.lection.quiz.name.replace(" ", "")}'
 
     return text
 
