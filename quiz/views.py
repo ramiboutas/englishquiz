@@ -9,14 +9,14 @@ from django_htmx.http import trigger_client_event
 from .models import Quiz, Lection, Question, Answer
 
 
-@cache_page(3600 * 24 * 7)
+@cache_page(3600 * 24 * 1)
 def home(request):
     quiz_list = Quiz.objects.all()
     context ={'quiz_list': quiz_list}
     return render(request, 'home.html', context)
 
 # @never_cache
-@cache_page(3600 * 24 * 7)
+@cache_page(3600 * 24 * 1)
 def search_quizzes(request):
     search_term = request.GET.get('q')
     level_one = request.GET.get('level_one')
