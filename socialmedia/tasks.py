@@ -10,7 +10,7 @@ from celery import shared_task
 
 from quiz.models import Quiz, Lection, Question
 from utils.management import send_mail_to_admin
-from .models import ScheduledSocialPost, RegularSocialPost
+from .models import ScheduledSocialPost, RegularSocialPost, LargeSocialPost, ScheduledLargeSocialPost
 
 # If a post intent fails > notify the admin
 # NEED TO SET UP EMAIL BACKEND FIRST
@@ -235,7 +235,8 @@ def promote_lection_instance(self, **kwargs):
         # promoting
         post_text_in_telegram(text)
         post_text_in_linkedin(text)
-        post_text_in_twitter(text)
+        if text.__len__() < 280:
+            post_text_in_twitter(text)
 
     except Exception as e:
         raise e
@@ -254,10 +255,9 @@ def share_random_question_instance(self, **kwargs):
             # sharing
             post_text_in_telegram(text)
             post_text_in_linkedin(text)
-            post_text_in_twitter(text)
 
-            # Sleep 1 min after sharing
-            sleep(60)
+            if text.__len__() < 280:
+                post_text_in_twitter(text)
 
             # Setting field shared_in_social_media to True -> so the question cannot be reshared
             question.shared_in_social_media=True
@@ -274,6 +274,9 @@ def share_random_question_instance(self, **kwargs):
 
 @shared_task(bind=True)
 def promote_scheduled_social_post_instance(self, **kwargs):
+    """
+    Social post - triggered by post_save signal
+    """
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
         post_text_in_telegram(instance.text)
@@ -285,7 +288,24 @@ def promote_scheduled_social_post_instance(self, **kwargs):
 
 
 @shared_task(bind=True)
+def promote_scheduled_large_social_post_instance(self, **kwargs):
+    """
+    Large social post - triggered by post_save signal
+    """
+    try:
+        instance = ScheduledLargeSocialPost.objects.get(pk=kwargs["pk"])
+        post_text_in_telegram(instance.text)
+        post_text_in_linkedin(instance.text)
+
+    except Exception as e:
+        raise e
+
+
+@shared_task(bind=True)
 def share_regular_social_post(self, **kwargs):
+    """
+    Regular social post - triggered by celery beat (periodic task)
+    """
     try:
         # Getting random social post
         social_posts = RegularSocialPost.objects.filter(promoted=False)
@@ -297,8 +317,28 @@ def share_regular_social_post(self, **kwargs):
             post_text_in_linkedin(social_post.text)
             post_text_in_twitter(social_post.text)
 
-            # Sleep 1 min after sharing
-            sleep(60)
+            # Setting field promoted to True -> so the social post cannot be reshared
+            social_post.promoted=True
+            social_post.save()
+
+    except Exception as e:
+        raise e
+
+
+@shared_task(bind=True)
+def share_large_social_post(self, **kwargs):
+    """
+    Large social post - triggered by celery beat (periodic task)
+    """
+    try:
+        # Getting random social post
+        social_posts = LargeSocialPost.objects.filter(promoted=False)
+        social_post = random.choice(list(social_posts))
+
+        if social_post:
+            # sharing
+            post_text_in_telegram(social_post.text)
+            post_text_in_linkedin(social_post.text)
 
             # Setting field promoted to True -> so the social post cannot be reshared
             social_post.promoted=True

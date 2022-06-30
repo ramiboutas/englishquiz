@@ -5,7 +5,7 @@ from wagtail.signals import page_published
 from puput.models import EntryPage
 
 from . import tasks as socialmedia_tasks
-from .models import ScheduledSocialPost, RegularSocialPost
+from .models import ScheduledSocialPost, ScheduledLargeSocialPost
 
 
 @receiver(page_published, sender=EntryPage)
@@ -29,6 +29,7 @@ def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
 
 
 @receiver(post_save, sender=ScheduledSocialPost)
+@receiver(post_save, sender=ScheduledLargeSocialPost)
 def schedule_social_post_for_promoting(sender, instance, **kwargs):
     """
     Schedules a social post (Social Post = Post in Linkedin, Message in Telegram, Tweet in Twitter)
