@@ -23,7 +23,7 @@ class ScheduledSocialPost(AbstractSocialPost):
     promote_date = models.DateTimeField()
 
     def __str__(self):
-        return self.text[:100]
+        return self.text
 
 
 class RegularSocialPost(AbstractSocialPost):
@@ -33,7 +33,7 @@ class RegularSocialPost(AbstractSocialPost):
     promoted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text[:100]
+        return self.text
 
 
 class AbstractLargeSocialPost(models.Model):
@@ -56,7 +56,7 @@ class ScheduledLargeSocialPost(AbstractLargeSocialPost):
     promote_date = models.DateTimeField()
 
     def __str__(self):
-        return self.text[:100]
+        return self.text
 
 
 class LargeSocialPost(AbstractLargeSocialPost):
@@ -66,4 +66,4 @@ class LargeSocialPost(AbstractLargeSocialPost):
     promoted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text[:100]
+        return self.text
