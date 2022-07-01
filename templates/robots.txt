@@ -2,6 +2,7 @@ User-Agent: *
 Disallow: /private/
 Disallow: /junk/
 Disallow: /admin/
+Disallow: /blog_admin/
 
 Sitemap: https://www.englishstuff.online/sitemap.xml
 Sitemap: https://www.englishstuff.online/questions/sitemap.xml
