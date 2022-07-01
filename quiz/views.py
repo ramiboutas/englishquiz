@@ -1,8 +1,7 @@
 import random
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.cache import cache_page, never_cache
-
+from django.views.decorators.cache import cache_page
 
 from django_htmx.http import trigger_client_event
 
@@ -15,7 +14,7 @@ def home(request):
     context ={'quiz_list': quiz_list}
     return render(request, 'home.html', context)
 
-# @never_cache
+
 @cache_page(3600 * 24 * 1)
 def search_quizzes(request):
     search_term = request.GET.get('q')
@@ -49,8 +48,8 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     context ={'question': question, 'progress_percentage': progress_percentage}
     return render(request, 'question_detail.html', context)
 
+
 @csrf_exempt
-# @never_cache
 @cache_page(3600 * 24 * 7)
 def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
     question = get_object_or_404(Question, id=id_question)

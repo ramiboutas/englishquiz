@@ -11,7 +11,9 @@ info_dict = {
     'queryset': Question.objects.all(),
 }
 
-
+sitemap_dict = {
+    'sitemaps': {'question': GenericSitemap(info_dict, priority=0.8)}
+}
 
 
 urlpatterns = [
@@ -24,10 +26,7 @@ urlpatterns = [
     path('hx/quiz/<slug:slug_quiz>/<int:level_quiz>/<slug:slug_lection>/<int:id_question>/check-answer/',views.check_answer, name='check_answer'),
     path('hx/quiz/<slug:slug_quiz>/<int:level_quiz>/<slug:slug_lection>/<int:id_question>/update-progress-bar/',views.update_progress_bar, name='update_progress_bar'),
 
-
     # sitemaps
-    path('questions/sitemap.xml', sitemap, # new
-        {'sitemaps': {'question': GenericSitemap(info_dict, priority=0.8)}},
-        name='django.contrib.sitemaps.views.sitemap'),
+    path('questions/sitemap.xml', sitemap, sitemap_dict, name='django.contrib.sitemaps.views.sitemap'),
 
 ]
