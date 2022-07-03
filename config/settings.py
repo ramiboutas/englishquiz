@@ -233,13 +233,13 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
 CELERY_RESULT_BACKEND = 'django-db'
 
 CELERY_BEAT_SCHEDULE = {
-      'share_random_question': {
-        'task': 'socialmedia.tasks.share_random_question_instance',
-        'schedule': crontab(hour=14, minute=00),
-        'options': {
-            'expires': 0,
-        },
-    },
+    #   'share_random_question': {
+    #     'task': 'socialmedia.tasks.share_random_question_instance',
+    #     'schedule': crontab(hour=14, minute=00),
+    #     'options': {
+    #         'expires': 0,
+    #     },
+    # },
       'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
         'schedule': 12*3600.0,
