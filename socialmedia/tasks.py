@@ -313,9 +313,11 @@ def promote_scheduled_social_post_instance(self, **kwargs):
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
         post_text_in_telegram(instance.text)
-        post_text_in_linkedin_profile(instance.text)
-        post_text_in_linkedin_company(instance.text)
+        # post_text_in_linkedin_profile(instance.text)
+        response = post_text_in_linkedin_company(instance.text)
         post_text_in_twitter(instance.text)
+
+        return response
 
     except Exception as e:
         raise e
@@ -348,7 +350,7 @@ def share_regular_social_post(self, **kwargs):
         if social_post:
             # sharing
             post_text_in_telegram(social_post.text)
-            post_text_in_linkedin_profile(social_post.text)
+            # post_text_in_linkedin_profile(social_post.text)
             post_text_in_twitter(social_post.text)
 
             # Setting field promoted to True -> so the social post cannot be reshared
