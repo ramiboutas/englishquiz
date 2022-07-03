@@ -11,7 +11,8 @@ class AbstractSocialPost(models.Model):
 
     text = models.TextField(max_length=2000)
     promote = models.BooleanField(default=True)
-
+    created = models.DateTimeField(auto_now_add = True, blank=True, null=True, editable = False)
+    updated = models.DateTimeField(auto_now = True, blank=True, null=True, editable = False)
     class Meta:
         abstract = True
 
@@ -30,7 +31,7 @@ class RegularSocialPost(AbstractSocialPost):
     """
     Social Post what will be promoted in social media on a dairly basis.
     """
-    promoted = models.BooleanField(default=False)
+    promoted = models.BooleanField(default=False, editable = False)
 
     def __str__(self):
         return self.text
