@@ -1,10 +1,7 @@
 from django.contrib import admin
 
-from .models import ScheduledSocialPost, RegularSocialPost, ScheduledLargeSocialPost, LargeSocialPost
+from .models import ScheduledSocialPost, RegularSocialPost
 
 
 admin.site.register(ScheduledSocialPost)
 admin.site.register(RegularSocialPost)
-
-admin.site.register(ScheduledLargeSocialPost)
-admin.site.register(LargeSocialPost)

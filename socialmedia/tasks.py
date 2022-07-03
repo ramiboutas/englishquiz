@@ -10,7 +10,7 @@ from celery import shared_task
 
 from quiz.models import Quiz, Lection, Question
 from utils.management import send_mail_to_admin
-from .models import ScheduledSocialPost, RegularSocialPost, LargeSocialPost, ScheduledLargeSocialPost
+from .models import ScheduledSocialPost, RegularSocialPost
 
 # If a post intent fails > notify the admin
 # NEED TO SET UP EMAIL BACKEND FIRST
@@ -313,25 +313,11 @@ def promote_scheduled_social_post_instance(self, **kwargs):
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
         post_text_in_telegram(instance.text)
-        # post_text_in_linkedin_profile(instance.text)
-        response = post_text_in_linkedin_company(instance.text)
-        post_text_in_twitter(instance.text)
-
-        return response
-
-    except Exception as e:
-        raise e
-
-
-@shared_task(bind=True)
-def promote_scheduled_large_social_post_instance(self, **kwargs):
-    """
-    Large social post - triggered by post_save signal
-    """
-    try:
-        instance = ScheduledLargeSocialPost.objects.get(pk=kwargs["pk"])
-        post_text_in_telegram(instance.text)
         post_text_in_linkedin_profile(instance.text)
+        # post_text_in_linkedin_company(instance.text)
+
+        if instance.text.__len__() < 280:
+            post_text_in_twitter(instance.text)
 
     except Exception as e:
         raise e
@@ -350,31 +336,12 @@ def share_regular_social_post(self, **kwargs):
         if social_post:
             # sharing
             post_text_in_telegram(social_post.text)
-            # post_text_in_linkedin_profile(social_post.text)
-            post_text_in_twitter(social_post.text)
-
-            # Setting field promoted to True -> so the social post cannot be reshared
-            social_post.promoted=True
-            social_post.save()
-
-    except Exception as e:
-        raise e
-
-
-@shared_task(bind=True)
-def share_large_social_post(self, **kwargs):
-    """
-    Large social post - triggered by celery beat (periodic task)
-    """
-    try:
-        # Getting random social post
-        social_posts = LargeSocialPost.objects.filter(promoted=False)
-        social_post = random.choice(list(social_posts))
-
-        if social_post:
-            # sharing
-            post_text_in_telegram(social_post.text)
             post_text_in_linkedin_profile(social_post.text)
+            # post_text_in_linkedin_company(instance.text)
+
+            if instance.text.__len__() < 280:
+                post_text_in_twitter(instance.text)
+
 
             # Setting field promoted to True -> so the social post cannot be reshared
             social_post.promoted=True

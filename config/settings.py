@@ -242,18 +242,18 @@ CELERY_BEAT_SCHEDULE = {
     # },
       'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
-        'schedule': 12*3600.0,
+        'schedule': crontab(hour=11, minute=00),
         'options': {
             'expires': 0,
         },
     },
-      'share_large_social_post': {
-        'task': 'socialmedia.tasks.share_large_social_post',
-        'schedule': 48*3600.0,
-        'options': {
-            'expires': 0,
-        },
-    },
+    #   'share_large_social_post': {
+    #     'task': 'socialmedia.tasks.share_large_social_post',
+    #     'schedule': 48*3600.0,
+    #     'options': {
+    #         'expires': 0,
+    #     },
+    # },
 }
 
 
