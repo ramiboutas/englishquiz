@@ -12,7 +12,7 @@ from .models import Quiz, Lection, Question, Answer
 def home(request):
     quiz_list = Quiz.objects.all()
     context ={'quiz_list': quiz_list}
-    return render(request, 'home.html', context)
+    return render(request, 'quiz/home.html', context)
 
 
 @cache_page(3600 * 24 * 1)
@@ -32,7 +32,7 @@ def quiz_detail(request, slug, level):
     quiz.add_view()
     lections = quiz.lection_set.all()
     context ={'quiz':quiz, 'lections': lections}
-    return render(request, 'quiz_detail.html', context)
+    return render(request, 'quiz/quiz_detail.html', context)
 
 
 def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
@@ -45,7 +45,7 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     number_of_questions = questions.__len__()
     progress_percentage = int(index*100/number_of_questions)
     context ={'question': question, 'progress_percentage': progress_percentage}
-    return render(request, 'question_detail.html', context)
+    return render(request, 'quiz/question_detail.html', context)
 
 
 @csrf_exempt

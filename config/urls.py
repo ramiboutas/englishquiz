@@ -30,11 +30,11 @@ info_dict = {
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('quiz.urls')),
+    path('', include('puput.urls')),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),),
     path('sitemap.xml', sitemap, # new
         {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}},
         name='django.contrib.sitemaps.views.sitemap'),
-    path('', include('puput.urls')),
 ]
 
 
