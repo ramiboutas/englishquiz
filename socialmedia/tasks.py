@@ -107,38 +107,29 @@ def post_text_in_linkedin_company(text):
     organization_id = '86603021'
     access_token = settings.LINKEDIN_ACCESS_TOKEN
 
-    url = "https://api.linkedin.com/v2/shares"
+    url = "https://api.linkedin.com/v2/ugcPosts"
 
-    headers = {
-        'Authorization' : f'Bearer {access_token}',
-        'Content-Type' : 'application/json'
-    }
+    headers = {'Content-Type': 'application/json',
+               'X-Restli-Protocol-Version': '2.0.0',
+               'Authorization': 'Bearer ' + access_token}
 
-
-    payload = {
-        "content": {
-            "contentEntities": [
-                {
-                    "entityLocation": "https://www.redhat.com/en/topics/api/what-is-a-rest-api",
-                    "thumbnails": [
-                        {
-                            "resolvedUrl": "https://images.pexels.com/photos/2115217/pexels-photo-2115217.jpeg"
-                        }
-                    ]
-                }
-            ],
-            "title": "What is a REST API?"
+    post_data = {
+        "author": "urn:li:organization:"+organization_id,
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "text": text
+                },
+                "shareMediaCategory": "NONE"
+            }
         },
-        'distribution': {
-            'linkedInDistributionTarget': {}
-        },
-        'owner': f'urn:li:organization:{organization_id}',
-        'text': {
-            'text': text
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
         }
     }
 
-    response = requests.post(url=url, headers=headers, json = payload)
+    response = requests.post(url, headers=headers, json=post_data)
 
     return response
 
