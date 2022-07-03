@@ -1,9 +1,11 @@
 {% extends "base.html" %}
-
+{% load cache %}
 
 {% block title %}  {{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
 
 {% block content %}
+
+{% cache 604800 question_detail question.pk %}
 
 <!-- when the answer is checked, we update the progress bar -->
 <div hx-get="{{ question.update_progress_bar_url }}" hx-target="#progress-bar" hx-swap="innerHTML"
@@ -81,4 +83,7 @@ hx-trigger="answerCheckedEvent from:body"></div>
   </div>
 
 </form>
+
+
+{% endcache %}
 {% endblock %}

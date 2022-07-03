@@ -70,7 +70,7 @@ def post_text_in_telegram(text):
         parse_mode=telegram.ParseMode.HTML, disable_web_page_preview=False)
 
 
-def post_text_in_linkedin(text):
+def post_text_in_linkedin_profile(text):
     # scope: w_member_social,r_liteprofile
     profile_id = settings.LINKEDIN_PROFILE_ID
     access_token = settings.LINKEDIN_ACCESS_TOKEN
@@ -100,6 +100,48 @@ def post_text_in_linkedin(text):
     response = requests.post(url, headers=headers, json=post_data)
 
     return response
+
+
+def post_text_in_linkedin_company(text):
+    # scope: w_member_social,r_liteprofile
+    organization_id = '86603021'
+    access_token = settings.LINKEDIN_ACCESS_TOKEN
+
+    url = "https://api.linkedin.com/v2/shares"
+
+    headers = {
+        'Authorization' : f'Bearer {access_token}',
+        'Content-Type' : 'application/json'
+    }
+
+
+    payload = {
+        "content": {
+            "contentEntities": [
+                {
+                    "entityLocation": "https://www.redhat.com/en/topics/api/what-is-a-rest-api",
+                    "thumbnails": [
+                        {
+                            "resolvedUrl": "https://images.pexels.com/photos/2115217/pexels-photo-2115217.jpeg"
+                        }
+                    ]
+                }
+            ],
+            "title": "What is a REST API?"
+        },
+        'distribution': {
+            'linkedInDistributionTarget': {}
+        },
+        'owner': f'urn:li:organization:{organization_id}',
+        'text': {
+            'text': text
+        }
+    }
+
+    response = requests.post(url=url, headers=headers, json = payload)
+
+    return response
+
 
 
 # Blog post tasks
@@ -136,7 +178,7 @@ def promote_post_instance_in_linkedin(self, instance):
     """
     try:
         text = get_post_promotion_text(instance)
-        response = post_text_in_linkedin(text)
+        response = post_text_in_linkedin_profile(text)
 
         if not response.status_code == 201:
             pass
@@ -217,7 +259,7 @@ def promote_quiz_instance(self, **kwargs):
         instance = Quiz.objects.get(pk=kwargs["pk"])
         text = get_quiz_promotion_text(instance)
         post_text_in_telegram(text)
-        post_text_in_linkedin(text)
+        post_text_in_linkedin_profile(text)
         post_text_in_twitter(text)
 
     except Exception as e:
@@ -234,7 +276,7 @@ def promote_lection_instance(self, **kwargs):
 
         # promoting
         post_text_in_telegram(text)
-        post_text_in_linkedin(text)
+        post_text_in_linkedin_profile(text)
         if text.__len__() < 280:
             post_text_in_twitter(text)
 
@@ -254,7 +296,7 @@ def share_random_question_instance(self, **kwargs):
         if question:
             # sharing
             post_text_in_telegram(text)
-            post_text_in_linkedin(text)
+            post_text_in_linkedin_profile(text)
 
             if text.__len__() < 280:
                 post_text_in_twitter(text)
@@ -280,7 +322,8 @@ def promote_scheduled_social_post_instance(self, **kwargs):
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
         post_text_in_telegram(instance.text)
-        post_text_in_linkedin(instance.text)
+        post_text_in_linkedin_profile(instance.text)
+        post_text_in_linkedin_company(instance.text)
         post_text_in_twitter(instance.text)
 
     except Exception as e:
@@ -295,7 +338,7 @@ def promote_scheduled_large_social_post_instance(self, **kwargs):
     try:
         instance = ScheduledLargeSocialPost.objects.get(pk=kwargs["pk"])
         post_text_in_telegram(instance.text)
-        post_text_in_linkedin(instance.text)
+        post_text_in_linkedin_profile(instance.text)
 
     except Exception as e:
         raise e
@@ -314,7 +357,7 @@ def share_regular_social_post(self, **kwargs):
         if social_post:
             # sharing
             post_text_in_telegram(social_post.text)
-            post_text_in_linkedin(social_post.text)
+            post_text_in_linkedin_profile(social_post.text)
             post_text_in_twitter(social_post.text)
 
             # Setting field promoted to True -> so the social post cannot be reshared
@@ -338,7 +381,7 @@ def share_large_social_post(self, **kwargs):
         if social_post:
             # sharing
             post_text_in_telegram(social_post.text)
-            post_text_in_linkedin(social_post.text)
+            post_text_in_linkedin_profile(social_post.text)
 
             # Setting field promoted to True -> so the social post cannot be reshared
             social_post.promoted=True

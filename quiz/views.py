@@ -26,7 +26,7 @@ def search_quizzes(request):
     return render(request, 'partials/quiz_list.html', context)
 
 
-@cache_page(3600 * 24 * 7)
+
 def quiz_detail(request, slug, level):
     quiz = get_object_or_404(Quiz, slug=slug, level=level)
     quiz.add_view()
@@ -35,7 +35,6 @@ def quiz_detail(request, slug, level):
     return render(request, 'quiz_detail.html', context)
 
 
-@cache_page(3600 * 24 * 7)
 def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
