@@ -23,7 +23,7 @@ def search_quizzes(request):
     level_three = request.GET.get('level_three')
     quiz_list = Quiz.objects.filter(name__icontains=search_term, level__in=[level_one, level_two, level_three])
     context = {'quiz_list': quiz_list}
-    return render(request, 'partials/quiz_list.html', context)
+    return render(request, 'quiz/partials/quiz_list.html', context)
 
 
 
@@ -88,12 +88,12 @@ def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
     if question_answered_correcty == True:
         correct_messages = ["Great!", "Correct!", "Well done!", "Terrific!", "Fantastic!", "Excelent!", "Super!", "Marvellous!", "Outstanding!",  ":)"]
         context['correct_message'] = random.choice(correct_messages)
-        response = render(request, 'partials/question_correct.html', context)
+        response = render(request, 'quiz/partials/question_correct.html', context)
 
     else:
         incorrect_messages = ["Next time you'll get it!", "There's a more accurate answer!", "Oops!", "Wrong :(", "Not quite correct!", ":("]
         context['incorrect_message'] = random.choice(incorrect_messages)
-        response = render(request, 'partials/question_incorrect.html',  context)
+        response = render(request, 'quiz/partials/question_incorrect.html',  context)
 
     trigger_client_event(response, "answerCheckedEvent", { },) # this is the trigger event
     return response
@@ -109,4 +109,4 @@ def update_progress_bar(request, slug_quiz, level_quiz, slug_lection, id_questio
     number_of_questions = questions.__len__()
     progress_percentage = int(index*100/number_of_questions)
     context ={'progress_percentage': progress_percentage}
-    return render(request, 'partials/progress_bar.html', context)
+    return render(request, 'quiz/partials/progress_bar.html', context)

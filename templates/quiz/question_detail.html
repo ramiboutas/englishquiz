@@ -19,7 +19,7 @@ hx-trigger="answerCheckedEvent from:body"></div>
         <a class="btn btn-secondary border-0 me-md-2"
           href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
       {% endif %}
-      <div id="progress-bar" class="col-8">{% include "partials/progress_bar.html" %}</div>
+      <div id="progress-bar" class="col-8">{% include "quiz/partials/progress_bar.html" %}</div>
       <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-x-lg"></i></a>
     </div>
   </div>
