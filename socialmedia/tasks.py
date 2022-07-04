@@ -275,32 +275,32 @@ def promote_lection_instance(self, **kwargs):
         raise e
 
 
-@shared_task(bind=True)
-def share_random_question_instance(self, **kwargs):
-    try:
-        # Getting random question
-        questions = Question.objects.filter(shared_in_social_media=False)
-        question = random.choice(list(questions))
-
-        text = get_question_promotion_text(question)
-
-        if question:
-            # sharing
-            post_text_in_telegram(text)
-            post_text_in_linkedin_profile(text)
-
-            if text.__len__() < 280:
-                post_text_in_twitter(text)
-
-            # Setting field shared_in_social_media to True -> so the question cannot be reshared
-            question.shared_in_social_media=True
-            question.save()
-        else:
-            # Set all question instances to shared_in_social_media=False
-            questions.update(shared_in_social_media=False)
-
-    except Exception as e:
-        raise e
+# @shared_task(bind=True)
+# def share_random_question_instance(self, **kwargs):
+#     try:
+#         # Getting random question
+#         questions = Question.objects.filter(shared_in_social_media=False)
+#         question = random.choice(list(questions))
+#
+#         text = get_question_promotion_text(question)
+#
+#         if question:
+#             # sharing
+#             post_text_in_telegram(text)
+#             post_text_in_linkedin_profile(text)
+#
+#             if text.__len__() < 280:
+#                 post_text_in_twitter(text)
+#
+#             # Setting field shared_in_social_media to True -> so the question cannot be reshared
+#             question.shared_in_social_media=True
+#             question.save()
+#         else:
+#             # Set all question instances to shared_in_social_media=False
+#             questions.update(shared_in_social_media=False)
+#
+#     except Exception as e:
+#         raise e
 
 
 # Social posts
