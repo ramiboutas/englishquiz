@@ -10,7 +10,7 @@ def schedule_promoting_quiz(sender, instance, **kwargs):
     """
     Schedules a quiz that is set for promoting in social media
     """
-    if instance.promote:
+    if instance.promote and not instance.promoted:
         socialmedia_tasks.promote_quiz_instance.apply_async(eta=instance.promote_date,
                                                             kwargs={"pk":instance.pk})
 
@@ -21,6 +21,6 @@ def schedule_promoting_lection(sender, instance, **kwargs):
     """
     Schedules a lection that is set for promoting in social media
     """
-    if instance.promote:
+    if instance.promote and not instance.promoted:
         socialmedia_tasks.promote_lection_instance.apply_async(eta=instance.promote_date,
                                                                 kwargs={"pk":instance.pk})

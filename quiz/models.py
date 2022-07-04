@@ -29,6 +29,7 @@ class Quiz(models.Model):
     views =  models.PositiveIntegerField(default=0)
     promote = models.BooleanField(default=False, null=True, blank=True)
     promote_date = models.DateTimeField(null=True, blank=True)
+    promoted = models.BooleanField(default=False, null=True, blank=True)
 
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
@@ -60,6 +61,7 @@ class Lection(models.Model):
     views =  models.PositiveIntegerField(default=0)
     promote = models.BooleanField(default=False, null=True, blank=True)
     promote_date = models.DateTimeField(null=True, blank=True)
+    promoted = models.BooleanField(default=False, null=True, blank=True)
 
     # def get_number_of_questions(self):
     #     return self.question_set.all().count()
