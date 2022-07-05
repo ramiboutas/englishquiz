@@ -7,6 +7,7 @@ import tweepy
 from django.conf import settings
 
 from celery import shared_task
+from celery.utils.log import get_task_logger
 
 from quiz.models import Quiz, Lection, Question
 from utils.management import send_mail_to_admin
@@ -21,6 +22,10 @@ from .models import ScheduledSocialPost, RegularSocialPost
 # General variables and functions
 
 common_hashtags = "#english #learnenglish #improveyourenglish #englishquiz #englishquizzes"
+
+
+logger = get_task_logger(__name__)
+
 
 def escape_html_for_telegram(text):
     text.replace("<", "&lt;")
@@ -103,9 +108,50 @@ def post_text_in_linkedin_profile(text):
 
 
 def post_text_in_linkedin_company(text):
-    # scope: w_member_social,r_liteprofile
-    organization_id = '86603021'
-    access_token = settings.LINKEDIN_ACCESS_TOKEN
+    # NOT WORKING. I SEND A TICKET TO LINKEDIN
+    organization_id = settings.LINKEDIN_ORGANIZATION_ID
+    access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
+
+    url = "https://api.linkedin.com/rest/posts"
+
+    headers = {'Content-Type': 'application/json',
+               'X-Restli-Protocol-Version': '2.0.0',
+               'LinkedIn-Version': '202206',
+               'Authorization': 'Bearer ' + access_token}
+
+    post_data = {
+      "author": "urn:li:organization:"+organization_id,
+      "commentary": text,
+      "visibility": "PUBLIC",
+      "distribution": {
+        "feedDistribution": "NONE",
+        "targetEntities": [],
+        "thirdPartyDistributionChannels": []
+      },
+      "lifecycleState": "PUBLISHED",
+      "isReshareDisabledByAuthor": False,
+    }
+
+    response = requests.post(url, headers=headers, json=post_data)
+
+    logger.info("\n ------------------ response.text \n")
+    logger.info(response.text)
+
+    logger.info("\n ------------------ response.content \n")
+    logger.info(response.content)
+
+    logger.info("\n ------------------ response.json \n")
+    logger.info(response.json)
+
+    logger.info("\n ------------------ response.json \n")
+    logger.info(response.json)
+
+
+    return response
+
+def post_text_in_linkedin_company_ugcPosts(text):
+    organization_id = settings.LINKEDIN_ORGANIZATION_ID
+    access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
 
     url = "https://api.linkedin.com/v2/ugcPosts"
 
@@ -117,13 +163,15 @@ def post_text_in_linkedin_company(text):
         "author": "urn:li:organization:"+organization_id,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
-            "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": text
-                },
-                "shareMediaCategory": "NONE"
-            }
-        },
+          "com.linkedin.ugc.ShareContent": {
+           "shareMediaCategory": "NONE",
+           "shareCommentary":{
+            "text": text
+           },
+           "media": [],
+           "shareCategorization": {}
+          }
+         },
         "visibility": {
             "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
         }
@@ -132,7 +180,6 @@ def post_text_in_linkedin_company(text):
     response = requests.post(url, headers=headers, json=post_data)
 
     return response
-
 
 
 # Blog post tasks
@@ -208,12 +255,12 @@ def get_question_text(instance):
     """
     text = ""
     if instance.type == 1:
-        text += f"What do you think that comes in the gap? 🤔\n\n"
+        text += f"What do you think that comes in the gap of the next sentence? 🤔\n\n"
         text += f"📚 {instance.text_one} ____ {instance.text_two}"
         if instance.text_three:
             text += f" ____ {instance.text_three}\n"
     if instance.type == 5:
-        text += f"What do you think is the right answer? 🤔\n\n"
+        text += f"Which option fits better in the gap of the next sentence? 🤔\n\n"
         text += f"📚 {instance.text_one}\n\n"
         text += f"💡 Options:\n"
         for answer in instance.answer_set.all():
@@ -233,7 +280,7 @@ def get_question_promotion_text(instance, make_short=False):
     # Producing text
     text = ""
     if not make_short:
-        text += f"{salutation_text} {cool_emoji} \n\n"
+        # text += f"{salutation_text} {cool_emoji} \n\n"
         text += "Here a small question for you. \n\n"
     text += f'{question_text} \n\n'
     text += f'Check out the right answer here:\n'
@@ -243,50 +290,13 @@ def get_question_promotion_text(instance, make_short=False):
     return text
 
 
-# Quiz, Lection and Question tasks
-@shared_task(bind=True)
-def promote_quiz_instance(self, **kwargs):
-    try:
-        instance = Quiz.objects.get(pk=kwargs["pk"])
-        text = get_quiz_promotion_text(instance)
-        post_text_in_telegram(text)
-        post_text_in_linkedin_profile(text)
-        post_text_in_twitter(text)
-
-        instance.promoted = True
-        instance.save()
-
-    except Exception as e:
-        pass
-
-
-# @shared_task(bind=True)
-# def promote_lection_instance(self, **kwargs):
-#     try:
-#         instance = Lection.objects.get(pk=kwargs["pk"])
-#
-#         # Actually we promote the first question object (instance.get_first_question) of the lection instance
-#         text = get_question_promotion_text(instance.get_first_question())
-#
-#         # promoting
-#         post_text_in_telegram(text)
-#         post_text_in_linkedin_profile(text)
-#         if text.__len__() < 280:
-#             post_text_in_twitter(text)
-#
-#
-#         instance.promoted = True
-#         instance.save()
-#
-#     except Exception as e:
-#         raise e
-
+#  Question tasks
 
 @shared_task(bind=True)
 def share_random_question_instance(self, **kwargs):
     try:
         # Getting random question
-        questions = Question.objects.filter(shared_in_social_media=False)
+        questions = Question.objects.filter(promoted=False)
         question = random.choice(list(questions))
 
         text = get_question_promotion_text(question)
@@ -294,17 +304,18 @@ def share_random_question_instance(self, **kwargs):
         if question:
             # sharing
             post_text_in_telegram(text)
-            post_text_in_linkedin_profile(text)
+            post_text_in_linkedin_company_ugcPosts(text)
 
             if text.__len__() < 280:
                 post_text_in_twitter(text)
 
-            # Setting field shared_in_social_media to True -> so the question cannot be reshared
-            question.shared_in_social_media=True
+            # Setting field promoted to True -> so the question cannot be reshared
+            question.promoted=True
             question.save()
         else:
-            # Set all question instances to shared_in_social_media=False
-            questions.update(shared_in_social_media=False)
+            # Set all question instances to promoted=False
+            if questions is not None:
+                questions.update(promoted=False)
 
     except Exception as e:
         raise e
@@ -320,8 +331,7 @@ def promote_scheduled_social_post_instance(self, **kwargs):
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
         post_text_in_telegram(instance.text)
-        post_text_in_linkedin_profile(instance.text)
-        # post_text_in_linkedin_company(instance.text)
+        post_text_in_linkedin_company_ugcPosts(instance.text)
 
         if instance.text.__len__() < 280:
             post_text_in_twitter(instance.text)
@@ -343,16 +353,17 @@ def share_regular_social_post(self, **kwargs):
         if social_post:
             # sharing
             post_text_in_telegram(social_post.text)
-            post_text_in_linkedin_profile(social_post.text)
-            # post_text_in_linkedin_company(instance.text)
-
+            post_text_in_linkedin_company_ugcPosts(instance.text)
             if instance.text.__len__() < 280:
                 post_text_in_twitter(instance.text)
-
-
             # Setting field promoted to True -> so the social post cannot be reshared
             social_post.promoted=True
             social_post.save()
+
+        else:
+            if social_posts is not None:
+                social_posts.update(promoted=False)
+
 
     except Exception as e:
         raise e

@@ -20,14 +20,14 @@ class AnswerInline(admin.StackedInline):
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
-    list_filter = ['name', 'promote', 'promoted']
+    list_filter = ['name']
     inlines = [LectionInline,]
 
 
 class LectionAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
-    list_filter = ['name', 'quiz__name', 'promote', 'promoted']
+    list_filter = ['name', 'quiz__name']
     prepopulated_fields = {"slug": ("name",)}
     inlines = [QuestionInline,]
 

@@ -27,9 +27,7 @@ class Quiz(models.Model):
     image_url = models.URLField(max_length=200, blank=True, null=True)
     image_credits_url = models.URLField(max_length=200, null=True)
     views =  models.PositiveIntegerField(default=0)
-    promote = models.BooleanField(default=False, null=True, blank=True)
-    promote_date = models.DateTimeField(null=True, blank=True)
-    promoted = models.BooleanField(default=False, null=True, blank=True)
+
 
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
@@ -59,9 +57,7 @@ class Lection(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True)
     views =  models.PositiveIntegerField(default=0)
-    promote = models.BooleanField(default=False, null=True, blank=True)
-    promote_date = models.DateTimeField(null=True, blank=True)
-    promoted = models.BooleanField(default=False, null=True, blank=True)
+
 
     # def get_number_of_questions(self):
     #     return self.question_set.all().count()
@@ -94,7 +90,7 @@ class Question(models.Model):
     text_three = models.CharField(max_length=200, null=True, blank=True)
     type = models.PositiveSmallIntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
     explanation = models.CharField(max_length=250, blank=True, null=True)
-    shared_in_social_media = models.BooleanField(default=False, editable=False)
+    promoted = models.BooleanField(default=False, editable=False)
 
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
