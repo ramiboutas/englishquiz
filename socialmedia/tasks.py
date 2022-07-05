@@ -260,26 +260,26 @@ def promote_quiz_instance(self, **kwargs):
         pass
 
 
-@shared_task(bind=True)
-def promote_lection_instance(self, **kwargs):
-    try:
-        instance = Lection.objects.get(pk=kwargs["pk"])
-
-        # Actually we promote the first question object (instance.get_first_question) of the lection instance
-        text = get_question_promotion_text(instance.get_first_question())
-
-        # promoting
-        post_text_in_telegram(text)
-        post_text_in_linkedin_profile(text)
-        if text.__len__() < 280:
-            post_text_in_twitter(text)
-
-
-        instance.promoted = True
-        instance.save()
-
-    except Exception as e:
-        raise e
+# @shared_task(bind=True)
+# def promote_lection_instance(self, **kwargs):
+#     try:
+#         instance = Lection.objects.get(pk=kwargs["pk"])
+#
+#         # Actually we promote the first question object (instance.get_first_question) of the lection instance
+#         text = get_question_promotion_text(instance.get_first_question())
+#
+#         # promoting
+#         post_text_in_telegram(text)
+#         post_text_in_linkedin_profile(text)
+#         if text.__len__() < 280:
+#             post_text_in_twitter(text)
+#
+#
+#         instance.promoted = True
+#         instance.save()
+#
+#     except Exception as e:
+#         raise e
 
 
 @shared_task(bind=True)
