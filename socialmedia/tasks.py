@@ -187,23 +187,23 @@ def post_text_in_linkedin_company_ugcPosts(text):
 
 def get_blog_post_promotion_text(instance):
     """
-    It generates text from a instance post
+    It generates text from a blog post instance
     """
+
     hashtags_from_instance_tags = get_hashtag_str_from_post_instance_tags(instance)
+    
     text = f'✍️ New post: {instance.title}\n\n'
     text += f'{instance.full_url}\n\n'
     text += f'{hashtags_from_instance_tags}'
+
     return text
+
 
 @shared_task(bind=True)
 def promote_blog_post_instance(self, **kwargs):
-    # TO DO
-    # Convert this functions:
-    #   - promote_post_instance_in_telegram
-    #   - promote_post_instance_in_twitter
-    #   - promote_post_instance_in_linkedin
-    #   - promote_post_instance_in_xxxxxxxx
-    # into one >  promote_blog_post_instance
+    """
+    It promotes in social media a blog post instance
+    """
     
     try: 
         instance = EntryPage.objects.get(pk=kwargs["pk"])
