@@ -9,6 +9,7 @@ from django.conf import settings
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
+from puput.models import EntryPage
 from quiz.models import Quiz, Lection, Question
 from utils.management import send_mail_to_admin
 from .models import ScheduledSocialPost, RegularSocialPost
@@ -195,7 +196,7 @@ def get_blog_post_promotion_text(instance):
     return text
 
 
-def promote_blog_post_instance(self, instance):
+def promote_blog_post_instance(self, **kwargs):
     # TO DO
     # Convert this functions:
     #   - promote_post_instance_in_telegram
@@ -205,6 +206,7 @@ def promote_blog_post_instance(self, instance):
     # into one >  promote_blog_post_instance
     
     try: 
+        instance = EntryPage.objects.get(pk=kwargs["pk"])
         text = get_blog_post_promotion_text(instance)
 
         if instance.promote_in_linkedin:    
@@ -221,49 +223,6 @@ def promote_blog_post_instance(self, instance):
     
     except Exception as e:
         raise e
-
-
-@shared_task(bind=True)
-def promote_post_instance_in_telegram(self, instance):
-    """
-    Promote post instance in Telegram
-    """
-    try:
-        text = get_blog_post_promotion_text(instance)
-        parsed_text = escape_html_for_telegram(text)
-        post_text_in_telegram(parsed_text)
-
-    except Exception as e:
-        pass
-
-
-@shared_task(bind=True)
-def promote_post_instance_in_linkedin(self, instance):
-    """
-    Promote post instance in Linkedin
-    """
-    try:
-        text = get_blog_post_promotion_text(instance)
-        response = post_text_in_linkedin_profile(text)
-
-        if not response.status_code == 201:
-            pass
-
-    except Exception as e:
-        pass
-
-
-@shared_task(bind=True)
-def promote_post_instance_in_twitter(self, instance):
-    """
-    Promote post instance in Twitter
-    """
-    try:
-        text = get_blog_post_promotion_text(instance)
-        post_text_in_twitter(text)
-
-    except Exception as e:
-        pass
 
 
 # Quiz, Lection and Question util functions

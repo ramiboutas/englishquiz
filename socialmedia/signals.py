@@ -12,23 +12,9 @@ from .models import ScheduledSocialPost
 @receiver(page_published, sender=EntryPage)
 def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
     """
-    Calls to task functions for promoting in social media a blog entry instance
+    Calls to task function for promoting in social media a blog entry instance
     """
-     
-    promote_in_telegram = True
-    promote_in_linkedin = True
-    promote_in_twitter = True
-
-    # REFACTOR THIS FUNCTIONS INTO ONE -> promote_blog_post_instance(instance)
-
-    if promote_in_telegram:
-        socialmedia_tasks.promote_post_instance_in_telegram.apply_async(instance, countdown=5)
-
-    if promote_in_linkedin:
-        socialmedia_tasks.promote_post_instance_in_linkedin.apply_async(instance, countdown=5)
-
-    if promote_in_twitter:
-        socialmedia_tasks.promote_post_instance_in_twitter.apply_async(instance, countdown=5)
+    socialmedia_tasks.promote_blog_post_instance.apply_async(countdown=10, kwargs={"pk":instance.pk})
 
 
 
