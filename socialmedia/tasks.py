@@ -350,11 +350,11 @@ def share_regular_social_post(self, **kwargs):
         social_posts = RegularSocialPost.objects.filter(promoted=False)
         instance = random.choice(list(social_posts))
 
-        if social_post:
+        if instance:
             # sharing
             post_text_in_telegram(instance.text)
             post_text_in_linkedin_company_ugcPosts(instance.text)
-            
+
             if instance.text.__len__() < 280:
                 post_text_in_twitter(instance.text)
             # Setting field promoted to True -> so the social post cannot be reshared
@@ -364,7 +364,6 @@ def share_regular_social_post(self, **kwargs):
         else:
             if social_posts is not None:
                 social_posts.update(promoted=False)
-
 
     except Exception as e:
         raise e

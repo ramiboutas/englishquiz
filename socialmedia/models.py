@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 
 # Create your models here.
@@ -35,3 +36,11 @@ class RegularSocialPost(AbstractSocialPost):
 
     def __str__(self):
         return self.text
+
+
+class LinkedinPost(models.Model):
+    linkedin_id = models.CharField(max_length=20)
+    likes = models.IntegerField(null=True, blank=True)
+    
+    # add more fields and methods
+
