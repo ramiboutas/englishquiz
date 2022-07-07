@@ -127,6 +127,8 @@ class EntryPage(Entry, Page):
         index.FilterField('page_ptr_id')
     ]
 
+    
+
     # Panels
     content_panels = getattr(Entry, 'content_panels', [])
 

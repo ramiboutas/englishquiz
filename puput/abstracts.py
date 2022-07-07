@@ -125,5 +125,24 @@ class EntryAbstract(models.Model):
             heading=_("Metadata")),
     ]
 
+    promote_in_linkedin     = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
+    promote_in_twitter      = models.BooleanField(verbose_name="Promote in Twitter", default=True)
+    promote_in_telegram     = models.BooleanField(verbose_name="Promote in Telegram", default=True)
+    promote_in_facebook     = models.BooleanField(verbose_name="Promote in Facebook", default=True)
+    promote_in_instagram    = models.BooleanField(verbose_name="Promote in Instagram", default=True)
+
+    promote_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('promote_in_linkedin'), 
+                FieldPanel('promote_in_twitter'), 
+                FieldPanel('promote_in_telegram'), 
+                FieldPanel('promote_in_facebook'), 
+                FieldPanel('promote_in_instagram'), 
+            ], 
+            heading=_("Social media")
+        )
+    ]
+
     class Meta:
         abstract = True
