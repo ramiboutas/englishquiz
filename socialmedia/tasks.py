@@ -21,7 +21,7 @@ from .models import ScheduledSocialPost, RegularSocialPost
 
 # General variables and functions
 
-common_hashtags = "#english #learnenglish #improveyourenglish #englishquiz #englishquizzes"
+common_hashtags = "#english #learnenglish #englishquiz #englishquizzes"
 
 
 logger = get_task_logger(__name__)

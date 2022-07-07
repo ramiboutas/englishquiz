@@ -242,21 +242,14 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULE = {
       'share_random_question': {
         'task': 'socialmedia.tasks.share_random_question_instance',
-        'schedule': crontab(hour=14, minute=00),
+        'schedule': crontab(hour=12, minute=00),
         'options': {
             'expires': 0,
         },
     },
       'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
-        'schedule': crontab(hour=11, minute=00),
-        'options': {
-            'expires': 0,
-        },
-    },
-      'share_large_social_post': {
-        'task': 'socialmedia.tasks.share_large_social_post',
-        'schedule': 48*3600.0,
+        'schedule': crontab(hour=8, minute=00), # when more instances available: add crontab(hour='8,13', minute=00)
         'options': {
             'expires': 0,
         },
