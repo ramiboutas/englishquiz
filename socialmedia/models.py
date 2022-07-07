@@ -3,6 +3,14 @@ from django.db import models
 
 # Create your models here.
 
+SOCIAL_PROMOTED_POST_TYPES = (
+    (1, "Blog post promotion"),
+    (2, "Regular social post promotion"),
+    (3, "Scheduled social post promotion"),
+    (4, "Scheduled social post promotion")
+)
+
+
 class AbstractSocialPost(models.Model):
     """
     Common information about a Social Post (Abstract Model)
@@ -14,6 +22,13 @@ class AbstractSocialPost(models.Model):
     promote = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add = True, blank=True, null=True, editable = False)
     updated = models.DateTimeField(auto_now = True, blank=True, null=True, editable = False)
+    
+    promote_in_linkedin = models.BooleanField(default=True)
+    promote_in_twitter = models.BooleanField(default=True)
+    promote_in_telegram = models.BooleanField(default=True)
+    promote_in_facebook = models.BooleanField(default=False)
+    promote_in_instagram = models.BooleanField(default=False)
+
     class Meta:
         abstract = True
 
@@ -38,7 +53,11 @@ class RegularSocialPost(AbstractSocialPost):
         return self.text
 
 
+
+
 class LinkedinPost(models.Model):
+
+    post_type = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
     linkedin_id = models.CharField(max_length=20)
     likes = models.IntegerField(null=True, blank=True)
     

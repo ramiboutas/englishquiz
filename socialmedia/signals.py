@@ -14,9 +14,12 @@ def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
     """
     Calls to task functions for promoting in social media a blog entry instance
     """
+     
     promote_in_telegram = True
     promote_in_linkedin = True
     promote_in_twitter = True
+
+    # REFACTOR THIS FUNCTIONS INTO ONE -> promote_blog_post_instance(instance)
 
     if promote_in_telegram:
         socialmedia_tasks.promote_post_instance_in_telegram(instance)
