@@ -195,6 +195,9 @@ def get_post_promotion_text(instance):
     return text
 
 
+def promote_blog_post_instance(self, instance):
+    pass
+
 @shared_task(bind=True)
 def promote_post_instance_in_telegram(self, instance):
     """
