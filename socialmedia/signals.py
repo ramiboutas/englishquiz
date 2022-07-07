@@ -22,13 +22,13 @@ def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
     # REFACTOR THIS FUNCTIONS INTO ONE -> promote_blog_post_instance(instance)
 
     if promote_in_telegram:
-        socialmedia_tasks.promote_post_instance_in_telegram(instance)
+        socialmedia_tasks.promote_post_instance_in_telegram.apply_async(instance, countdown=5)
 
     if promote_in_linkedin:
-        socialmedia_tasks.promote_post_instance_in_linkedin(instance)
+        socialmedia_tasks.promote_post_instance_in_linkedin.apply_async(instance, countdown=5)
 
     if promote_in_twitter:
-        socialmedia_tasks.promote_post_instance_in_twitter(instance)
+        socialmedia_tasks.promote_post_instance_in_twitter.apply_async(instance, countdown=5)
 
 
 
@@ -39,5 +39,4 @@ def schedule_social_post_for_promoting(sender, instance, **kwargs):
     """
 
     if instance.promote:
-        socialmedia_tasks.promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date,
-                                                                            kwargs={"pk":instance.pk})
+        socialmedia_tasks.promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date, countdown=10, kwargs={"pk":instance.pk})
