@@ -195,7 +195,7 @@ def get_blog_post_promotion_text(instance):
     text += f'{hashtags_from_instance_tags}'
     return text
 
-
+@shared_task(bind=True)
 def promote_blog_post_instance(self, **kwargs):
     # TO DO
     # Convert this functions:
