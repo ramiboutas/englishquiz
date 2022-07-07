@@ -348,17 +348,18 @@ def share_regular_social_post(self, **kwargs):
     try:
         # Getting random social post
         social_posts = RegularSocialPost.objects.filter(promoted=False)
-        social_post = random.choice(list(social_posts))
+        instance = random.choice(list(social_posts))
 
         if social_post:
             # sharing
-            post_text_in_telegram(social_post.text)
+            post_text_in_telegram(instance.text)
             post_text_in_linkedin_company_ugcPosts(instance.text)
+            
             if instance.text.__len__() < 280:
                 post_text_in_twitter(instance.text)
             # Setting field promoted to True -> so the social post cannot be reshared
-            social_post.promoted=True
-            social_post.save()
+            instance.promoted=True
+            instance.save()
 
         else:
             if social_posts is not None:
