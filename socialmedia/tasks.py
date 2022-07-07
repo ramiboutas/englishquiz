@@ -184,7 +184,7 @@ def post_text_in_linkedin_company_ugcPosts(text):
 
 # Blog post tasks
 
-def get_post_promotion_text(instance):
+def get_blog_post_promotion_text(instance):
     """
     It generates text from a instance post
     """
@@ -196,7 +196,27 @@ def get_post_promotion_text(instance):
 
 
 def promote_blog_post_instance(self, instance):
-    pass
+    # TO DO
+    # Convert this functions:
+    #   - promote_post_instance_in_telegram
+    #   - promote_post_instance_in_twitter
+    #   - promote_post_instance_in_linkedin
+    #   - promote_post_instance_in_xxxxxxxx
+    # into one >  promote_blog_post_instance
+
+    text = get_blog_post_promotion_text(instance)
+
+    if instance.promote_in_linkedin:    
+        linkedin_response = post_text_in_linkedin_profile(text)
+        # save LinkedPost instance 
+
+    if instance.promote_in_telegram:
+        parsed_text = escape_html_for_telegram(text)
+        post_text_in_telegram(parsed_text)
+
+    if instance.promote_in_twitter:    
+        twitter_response = post_text_in_twitter(text)
+        # save the tweet? how?
 
 @shared_task(bind=True)
 def promote_post_instance_in_telegram(self, instance):
@@ -204,7 +224,7 @@ def promote_post_instance_in_telegram(self, instance):
     Promote post instance in Telegram
     """
     try:
-        text = get_post_promotion_text(instance)
+        text = get_blog_post_promotion_text(instance)
         parsed_text = escape_html_for_telegram(text)
         post_text_in_telegram(parsed_text)
 
@@ -218,7 +238,7 @@ def promote_post_instance_in_linkedin(self, instance):
     Promote post instance in Linkedin
     """
     try:
-        text = get_post_promotion_text(instance)
+        text = get_blog_post_promotion_text(instance)
         response = post_text_in_linkedin_profile(text)
 
         if not response.status_code == 201:
@@ -234,7 +254,7 @@ def promote_post_instance_in_twitter(self, instance):
     Promote post instance in Twitter
     """
     try:
-        text = get_post_promotion_text(instance)
+        text = get_blog_post_promotion_text(instance)
         post_text_in_twitter(text)
 
     except Exception as e:
