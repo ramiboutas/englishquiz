@@ -203,20 +203,25 @@ def promote_blog_post_instance(self, instance):
     #   - promote_post_instance_in_linkedin
     #   - promote_post_instance_in_xxxxxxxx
     # into one >  promote_blog_post_instance
+    
+    try: 
+        text = get_blog_post_promotion_text(instance)
 
-    text = get_blog_post_promotion_text(instance)
+        if instance.promote_in_linkedin:    
+            linkedin_response = post_text_in_linkedin_profile(text)
+            # save LinkedPost instance 
 
-    if instance.promote_in_linkedin:    
-        linkedin_response = post_text_in_linkedin_profile(text)
-        # save LinkedPost instance 
+        if instance.promote_in_telegram:
+            parsed_text = escape_html_for_telegram(text)
+            post_text_in_telegram(parsed_text)
 
-    if instance.promote_in_telegram:
-        parsed_text = escape_html_for_telegram(text)
-        post_text_in_telegram(parsed_text)
+        if instance.promote_in_twitter:    
+            twitter_response = post_text_in_twitter(text)
+            # save the tweet? how?
+    
+    except Exception as e:
+        raise e
 
-    if instance.promote_in_twitter:    
-        twitter_response = post_text_in_twitter(text)
-        # save the tweet? how?
 
 @shared_task(bind=True)
 def promote_post_instance_in_telegram(self, instance):
