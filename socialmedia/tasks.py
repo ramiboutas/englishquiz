@@ -210,7 +210,7 @@ def promote_blog_post_instance(self, **kwargs):
         text = get_blog_post_promotion_text(instance)
 
         if instance.promote_in_linkedin:    
-            linkedin_response = post_text_in_linkedin_profile(text)
+            linkedin_response = post_text_in_linkedin_company_ugcPosts(text)
             # save LinkedPost instance 
 
         if instance.promote_in_telegram:
