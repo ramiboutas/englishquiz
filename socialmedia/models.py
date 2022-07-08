@@ -56,9 +56,36 @@ class RegularSocialPost(AbstractSocialPost):
 
 
 class LinkedinPost(models.Model):
+    # DELETE 
     post_type       = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
-    linkedin_id     = models.CharField(max_length=20)
+    linkedin_id     = models.CharField(max_length=20, null=True, blank=True)
     likes           = models.IntegerField(null=True, blank=True)
     
     # add more fields and methods
 
+
+class SocialMediaPostedItem(models.Model):
+    # ADD THIS 
+    post_type       = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
+    
+    # Linedin
+    linkedin_id     = models.CharField(max_length=20, null=True, blank=True)
+    linkedin_likes  = models.IntegerField(null=True, blank=True)
+    
+    # Instagram
+    instagram_id    = models.CharField(max_length=20, null=True, blank=True)
+    linkedin_likes  = models.IntegerField(null=True, blank=True)
+
+    # Telegram
+    telegram_id    = models.CharField(max_length=20, null=True, blank=True)
+    telegram_likes  = models.IntegerField(null=True, blank=True)
+
+    # Twitter
+    twitter_id    = models.CharField(max_length=20, null=True, blank=True)
+    twitter_likes  = models.IntegerField(null=True, blank=True)
+
+    # Facebook
+    facebook_id    = models.CharField(max_length=20, null=True, blank=True)    
+    facebook_likes  = models.IntegerField(null=True, blank=True)
+    
+    # add more fields and methods
