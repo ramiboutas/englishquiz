@@ -1,13 +1,7 @@
 import random
 
 
-common_hashtags = "#english #learnenglish #englishquiz #englishquizzes"
-
-def escape_html_for_telegram(text):
-    text.replace("<", "&lt;")
-    text.replace(">", "&gt;")
-    text.replace("&", "&amp;")
-    return text
+common_hashtags = "#englishtips #learnenglish #englishquizzes"
 
 
 def get_hashtag_str_from_post_instance_tags(instance):
@@ -51,7 +45,7 @@ def get_quiz_promotion_text(instance):
     """
     text = f'Check out this quiz: {instance.name} \n \n'
     text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
-    text += f'{common_hashtags} #{instance.name.replace(" ", "")}'
+    text += f'{common_hashtags} #{instance.name.replace(" ", "").lower()}'
     return text
 
 
@@ -59,7 +53,7 @@ def get_quiz_promotion_text(instance):
 
 def get_question_text(instance):
     """
-    It generates text from a question instance
+    It generates text from a Question instance
     """
     text = ""
     if instance.type == 1:
