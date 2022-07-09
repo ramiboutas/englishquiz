@@ -11,6 +11,9 @@ SOCIAL_PROMOTED_POST_TYPES = (
 )
 
 
+TWIITER_USERNAME = 'EnglishstuffOn'
+
+
 class AbstractSocialPost(models.Model):
     """
     Common information about a Social Post (Abstract Model)
@@ -56,12 +59,33 @@ class RegularSocialPost(AbstractSocialPost):
 
 
 class LinkedinPost(models.Model):
-    # DELETE 
     post_type       = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
     linkedin_id     = models.CharField(max_length=20, null=True, blank=True)
     likes           = models.IntegerField(null=True, blank=True)
     
     # add more fields and methods
+
+
+class Tweet(models.Model):
+    created_at      = models.DateTimeField()
+    favorite_count  = models.IntegerField()
+    twitter_id      = models.IntegerField()
+    id_str          = models.CharField(max_length=30)
+    retweet_count   = models.IntegerField()
+    text            = models.TextField(max_length=280)
+    
+    twitter_url     = models.URLField(null=True)
+    
+    def __str__(self) -> str:
+        return self.text
+    
+    def save(self, *args, **kwargs):
+        self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
+        super(Tweet, self).save(*args, **kwargs)
+
+
+
+
 
 
 class SocialMediaPostedItem(models.Model):
@@ -81,7 +105,7 @@ class SocialMediaPostedItem(models.Model):
     telegram_likes  = models.IntegerField(null=True, blank=True)
 
     # Twitter
-    twitter_id    = models.CharField(max_length=20, null=True, blank=True)
+    tweet    = models.CharField(max_length=20, null=True, blank=True)
     twitter_likes  = models.IntegerField(null=True, blank=True)
 
     # Facebook
