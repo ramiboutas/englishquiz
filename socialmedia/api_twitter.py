@@ -66,10 +66,7 @@ class TweetAPI(AbtractTwiterAPI):
         It gets new info and updates the status of a tweet object
         """
         response = self.api.get_status(id=tweet_obj.twitter_id)
-        tweet_obj.created_at      = response.created_at
         tweet_obj.favorite_count  = response.favorite_count
-        tweet_obj.twitter_id      = response.id
-        tweet_obj.id_str          = response.id_str
         tweet_obj.retweet_count   = response.retweet_count
         tweet_obj.text            = response.text
         tweet_obj.save()
