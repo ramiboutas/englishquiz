@@ -7,12 +7,12 @@ from .models import ScheduledSocialPost, RegularSocialPost, Tweet, TelegramMessa
 class ScheduledSocialPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
     readonly_fields = ['created', 'updated']
-    list_filter = ['promote', 'created', 'updated']
+    list_filter = ['created', 'updated']
 
 class RegularSocialPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
     readonly_fields = ['created', 'updated', 'promoted']
-    list_filter = ['promote', 'created', 'updated', 'promoted']
+    list_filter = ['created', 'updated', 'promoted']
 
 
 class TweetAdmin(admin.ModelAdmin):

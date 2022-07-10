@@ -46,7 +46,7 @@ def promote_blog_post_instance(self, **kwargs):
             # save LinkedPost instance 
 
         if instance.promote_in_telegram:
-            post_text_in_telegram(text)
+            TelegramAPI().send_message(text)
 
         if instance.promote_in_twitter:    
             TweetAPI().create(text)
@@ -70,7 +70,8 @@ def share_random_question_instance(self, **kwargs):
 
         if question:
             # sharing
-            post_text_in_telegram(text)
+            TelegramAPI().send_message(text)
+
             post_text_in_linkedin_company_ugcPosts(text)
 
             if text.__len__() < 280:
@@ -125,7 +126,7 @@ def share_regular_social_post(self, **kwargs):
             # sharing
 
             if instance.promote_in_telegram:
-                TweetAPI().create(instance.text)
+                TelegramAPI().send_message(instance.text)
                 
             if instance.promote_in_linkedin:
                 post_text_in_linkedin_company_ugcPosts(instance.text)
