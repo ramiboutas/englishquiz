@@ -24,7 +24,7 @@ class TweetAdmin(admin.ModelAdmin):
 
 class TelegramMessageAdmin(admin.ModelAdmin):
     search_fields = ['text']
-    readonly_fields = ['message_id', 'chat_id', 'link', 'date', 'api_deleted']
+    readonly_fields = ['text', 'message_id', 'chat_id', 'link', 'date', 'api_deleted']
     list_filter = ['date']
     # list_display = ['text', 'twitter_id', 'retweet_count', 'favorite_count',]
 
