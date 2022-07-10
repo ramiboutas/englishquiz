@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}  Telegram Channel | English Stuff Online  {% endblock %}
+
+
+{% block content %}
+
+
+  <h1 class="text-success text-center py-5">Last posts - Linkedin</h1>
+
+  <div class="container py-5">
+    <div class="row justify-content-md-center" >
+        {% for linkedin_post in linkedin_posts %}
+            <div class="my-3">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:{{linkedin_post.linkedin_id}}" 
+                allowfullscreen="" title="Embedded post" width="504" height="606" frameborder="0"></iframe>
+            </div>
+
+
+
+            :::::::::::::::::.TO BE DELETED:::::::::::::::::.
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:6951475035685466112"
+            allowfullscreen="" title="Embedded post" width="504" height="606" frameborder="0"></iframe>
+            :::::::::::::::::.TO BE DELETED:::::::::::::::::.
+            
+        {% endfor %}
+    </div>
+  </div>
+
+  {% include "partials/social_sharing_widgets.html" %}
+  {% include "partials/footer.html" %}
+
+{% endblock %}
