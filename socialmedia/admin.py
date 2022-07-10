@@ -17,14 +17,14 @@ class RegularSocialPostAdmin(admin.ModelAdmin):
 
 class TweetAdmin(admin.ModelAdmin):
     search_fields = ['text']
-    readonly_fields = ['created_at', 'favorite_count', 'twitter_id', 'id_str', 'retweet_count', 'twitter_url']
+    readonly_fields = ['text', 'created_at', 'favorite_count', 'twitter_id', 'id_str', 'retweet_count', 'twitter_url', 'api_deleted']
     list_filter = ['created_at']
     list_display = ['text', 'twitter_id', 'retweet_count', 'favorite_count',]
 
 
 class TelegramMessageAdmin(admin.ModelAdmin):
     search_fields = ['text']
-    readonly_fields = ['message_id', 'chat_id', 'link', 'date']
+    readonly_fields = ['message_id', 'chat_id', 'link', 'date', 'api_deleted']
     list_filter = ['date']
     # list_display = ['text', 'twitter_id', 'retweet_count', 'favorite_count',]
 

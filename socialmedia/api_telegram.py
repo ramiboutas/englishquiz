@@ -25,6 +25,9 @@ class TelegramAPI:
             text        = response.text,
             date        = response.date,
         )
+
+    def delete_message(self, telegram_obj):
+        self.bot.delete_message(telegram_obj.chat_id, telegram_obj.message_id)
     
 
 

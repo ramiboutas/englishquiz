@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
-from .models import LinkedinPost, TelegramMessage
+from .models import TelegramMessage, LinkedinPost
 
 @cache_page(3600 * 24 * 1)
 def telegram_view(request):

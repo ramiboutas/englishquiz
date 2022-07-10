@@ -1,6 +1,7 @@
 from pyexpat import model
 from django.db import models
 
+
 # Create your models here.
 
 SOCIAL_PROMOTED_POST_TYPES = (
@@ -72,8 +73,13 @@ class TelegramMessage(models.Model):
     text        = models.TextField(max_length=4000)
     date        = models.DateTimeField()
 
+    api_delete  = models.BooleanField(verbose_name="Delete from Telegram", default=False, help_text="It gets deleted from Telegram after clicking on Save")
+    api_deleted = models.BooleanField(verbose_name="Already deleted from Telegram", default=False)
+
     def __str__(self) -> str:
         return self.text[:100]
+
+
 
 class Tweet(models.Model):
     created_at      = models.DateTimeField()
@@ -84,6 +90,9 @@ class Tweet(models.Model):
     text            = models.TextField(max_length=280)
 
     twitter_url     = models.URLField(null=True)
+
+    api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
+    api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
     
     def __str__(self) -> str:
         return self.text[:100]
