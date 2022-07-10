@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ScheduledSocialPost, RegularSocialPost, Tweet
+from .models import ScheduledSocialPost, RegularSocialPost, Tweet, TelegramMessage
 
 
 
@@ -22,8 +22,19 @@ class TweetAdmin(admin.ModelAdmin):
     list_display = ['text', 'twitter_id', 'retweet_count', 'favorite_count',]
 
 
+class TelegramMessageAdmin(admin.ModelAdmin):
+    search_fields = ['text']
+    readonly_fields = ['message_id', 'chat_id', 'link', 'date']
+    list_filter = ['date']
+    # list_display = ['text', 'twitter_id', 'retweet_count', 'favorite_count',]
+
+
+
 admin.site.register(ScheduledSocialPost, ScheduledSocialPostAdmin)
 admin.site.register(RegularSocialPost, RegularSocialPostAdmin)
 
+
 admin.site.register(Tweet, TweetAdmin)
+admin.site.register(TelegramMessage, TelegramMessageAdmin)
+
 

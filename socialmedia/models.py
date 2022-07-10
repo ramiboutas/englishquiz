@@ -65,6 +65,15 @@ class LinkedinPost(models.Model):
     
     # add more fields and methods
 
+class TelegramMessage(models.Model):
+    chat_id     = models.IntegerField()
+    message_id  = models.IntegerField()
+    link        = models.CharField(max_length=50)
+    text        = models.TextField(max_length=4000)
+    date        = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return self.text[:100]
 
 class Tweet(models.Model):
     created_at      = models.DateTimeField()
@@ -73,11 +82,11 @@ class Tweet(models.Model):
     id_str          = models.CharField(max_length=30)
     retweet_count   = models.IntegerField()
     text            = models.TextField(max_length=280)
-    
+
     twitter_url     = models.URLField(null=True)
     
     def __str__(self) -> str:
-        return self.text
+        return self.text[:100]
     
     def save(self, *args, **kwargs):
         self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
@@ -89,7 +98,7 @@ class Tweet(models.Model):
 
 
 class SocialMediaPostedItem(models.Model):
-    # ADD THIS 
+    # COMBINE ALL 
     post_type       = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
     
     # Linedin
