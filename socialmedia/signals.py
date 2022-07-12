@@ -28,7 +28,7 @@ def schedule_social_post_for_promoting(sender, instance, **kwargs):
     """
 
     if instance.promote:
-        socialmedia_tasks.promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date, countdown=10, kwargs={"pk":instance.pk})
+        socialmedia_tasks.promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date, kwargs={"pk":instance.pk})
 
 
 @receiver(pre_save, sender=TelegramMessage)
@@ -47,9 +47,9 @@ def delete_telegram_message(sender, instance, **kwargs):
 
 
 @receiver(pre_save, sender=Tweet)
-def delete_telegram_message(sender, instance, **kwargs):
+def delete_tweet(sender, instance, **kwargs):
     """
-    It deletes a message from Twitter
+    It deletes a tweet
     """
 
     if instance.api_delete and not instance.api_deleted:
