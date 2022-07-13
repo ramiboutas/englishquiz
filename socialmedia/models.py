@@ -24,6 +24,7 @@ class AbstractSocialPost(models.Model):
     
     text                    = models.TextField(max_length=2000)
     image_text              = models.TextField(max_length=200, null=True, blank=True) # if instance is null -> it cannot be promoted in instagram 
+    promote                 = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
     promote_in_linkedin     = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
     promote_in_twitter      = models.BooleanField(verbose_name="Promote in Twitter", default=True)
     promote_in_telegram     = models.BooleanField(verbose_name="Promote in Telegram", default=True)
