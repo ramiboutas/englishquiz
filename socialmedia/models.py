@@ -66,9 +66,9 @@ class LinkedinPost(models.Model):
     # add more fields and methods
 
 class TelegramMessage(models.Model):
-    chat_id     = models.IntegerField()
-    message_id  = models.IntegerField()
-    link        = models.CharField(max_length=50)
+    chat_id     = models.BigIntegerField()
+    message_id  = models.BigIntegerField()
+    link        = models.CharField(max_length=100)
     text        = models.TextField(max_length=4000)
     date        = models.DateTimeField()
 
