@@ -18,13 +18,19 @@ class TelegramAPI:
                                 parse_mode=telegram.ParseMode.HTML,
                                 disable_web_page_preview=False
                             )
-        return TelegramMessage.objects.create(
-            chat_id     = response.chat_id,
-            message_id  = response.message_id,
-            link        = response.link,
-            text        = response.text,
-            date        = response.date,
-        )
+        
+        try: 
+            return TelegramMessage.objects.create(
+                chat_id     = response.chat_id,
+                message_id  = response.message_id,
+                link        = response.link,
+                text        = response.text,
+                date        = response.date,
+            )
+        except:
+            # THIS FAILS ON PRODUCTION -> psycopg2.errors.NumericValueOutOfRange: integer out of range
+            # FIX ISSUE AND REMOVE THE DUMMY try/except
+            pass
 
     def delete_message(self, telegram_obj):
         self.bot.delete_message(telegram_obj.chat_id, telegram_obj.message_id)
