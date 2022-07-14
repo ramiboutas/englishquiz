@@ -96,7 +96,7 @@ class Tweet(models.Model):
     api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
 
     class Meta:
-        db_table = 'socialmedia_tweets'
+        db_table = 'socialmedia_tweet'
     
     def __str__(self) -> str:
         return self.text[:100]
