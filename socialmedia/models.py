@@ -83,11 +83,11 @@ class TelegramMessage(models.Model):
 
 class Tweet(models.Model):
     created_at      = models.DateTimeField()
-    favorite_count  = models.IntegerField()
-    twitter_id      = models.IntegerField()
+    favorite_count  = models.PositiveIntegerField()
+    twitter_id      = models.PositiveIntegerField()
     id_str          = models.CharField(max_length=30)
-    retweet_count   = models.IntegerField()
-    text            = models.TextField(max_length=280)
+    retweet_count   = models.PositiveIntegerField()
+    text            = models.TextField(max_length=300)
 
     twitter_url     = models.URLField(null=True)
 

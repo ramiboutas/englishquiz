@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import ScheduledSocialPost, RegularSocialPost, Tweet, TelegramMessage
+from .models import (ScheduledSocialPost, 
+                    RegularSocialPost, 
+                    TelegramMessage,
+                    Tweet
+                    )
 
 
 
