@@ -80,25 +80,25 @@ class TelegramMessage(models.Model):
         return self.text[:100]
 
 
-# class Tweet(models.Model):   
-#     created_at      = models.DateTimeField()
-#     favorite_count  = models.PositiveIntegerField()
-#     twitter_id      = models.PositiveIntegerField()
-#     id_str          = models.CharField(max_length=30)
-#     retweet_count   = models.PositiveIntegerField()
-#     text            = models.TextField(max_length=300)
-#     twitter_url     = models.URLField(null=True)
+class Tweet(models.Model):   
+    created_at      = models.DateTimeField()
+    favorite_count  = models.PositiveIntegerField()
+    twitter_id      = models.PositiveIntegerField()
+    id_str          = models.CharField(max_length=30)
+    retweet_count   = models.PositiveIntegerField()
+    text            = models.TextField(max_length=300)
+    twitter_url     = models.URLField(null=True)
 
-#     api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
-#     api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
+    api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
+    api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
 
     
-#     def __str__(self) -> str:
-#         return self.text[:100]
+    def __str__(self) -> str:
+        return self.text[:100]
     
-#     def save(self, *args, **kwargs):
-#         self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
-#         super(Tweet, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
+        super(Tweet, self).save(*args, **kwargs)
 
 
 
