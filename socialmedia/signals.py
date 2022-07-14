@@ -9,7 +9,7 @@ from puput.models import EntryPage
 from .api_twitter import TweetAPI
 from .api_telegram import TelegramAPI
 from . import tasks as socialmedia_tasks
-from .models import ScheduledSocialPost, TelegramMessage, Tweet
+from .models import ScheduledSocialPost, TelegramMessage #, Tweet
 
 
 @receiver(page_published, sender=EntryPage)
@@ -46,15 +46,15 @@ def delete_telegram_message(sender, instance, **kwargs):
 
 
 
-@receiver(pre_save, sender=Tweet)
-def delete_tweet(sender, instance, **kwargs):
-    """
-    It deletes a tweet
-    """
+# @receiver(pre_save, sender=Tweet)
+# def delete_tweet(sender, instance, **kwargs):
+#     """
+#     It deletes a tweet
+#     """
 
-    if instance.api_delete and not instance.api_deleted:
-        try:
-            TweetAPI().delete(instance)
-            instance.api_deleted = True
-        except Exception as e:
-            raise e
+#     if instance.api_delete and not instance.api_deleted:
+#         try:
+#             TweetAPI().delete(instance)
+#             instance.api_deleted = True
+#         except Exception as e:
+#             raise e
