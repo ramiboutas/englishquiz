@@ -2,7 +2,7 @@ import tweepy
 
 from django.conf import settings
 
-from .models import Tweet
+from .models import TwitterPost
 
 class AbtractTwiterAPI:
     def __init__(self) -> None:
@@ -24,7 +24,7 @@ class TweetAPI(AbtractTwiterAPI):
         It creates a tweet and saves it in our database
         """
         response = self.api.update_status(status=text)
-        return Tweet.objects.create(
+        return TwitterPost.objects.create(
             created_at      = response.created_at,
             favorite_count  = response.favorite_count,
             twitter_id      = response.id,

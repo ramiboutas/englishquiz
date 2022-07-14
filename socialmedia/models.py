@@ -81,7 +81,8 @@ class TelegramMessage(models.Model):
 
 
 
-class Tweet(models.Model):
+class TwitterPost(models.Model):
+    # RENAME THE MODEL
     
     created_at      = models.DateTimeField()
     favorite_count  = models.PositiveIntegerField()
@@ -95,15 +96,13 @@ class Tweet(models.Model):
     api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
     api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
 
-    class Meta:
-        db_table = 'socialmedia_tweets'
     
     def __str__(self) -> str:
         return self.text[:100]
     
     def save(self, *args, **kwargs):
         self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
-        super(Tweet, self).save(*args, **kwargs)
+        super(TwitterPost, self).save(*args, **kwargs)
 
 
 

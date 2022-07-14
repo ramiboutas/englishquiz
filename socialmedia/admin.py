@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (ScheduledSocialPost, 
                     RegularSocialPost, 
                     TelegramMessage,
-                    Tweet
+                    TwitterPost
                     )
 
 
@@ -38,7 +38,7 @@ admin.site.register(ScheduledSocialPost, ScheduledSocialPostAdmin)
 admin.site.register(RegularSocialPost, RegularSocialPostAdmin)
 
 
-admin.site.register(Tweet, TweetAdmin)
+admin.site.register(TwitterPost, TweetAdmin)
 admin.site.register(TelegramMessage, TelegramMessageAdmin)
 
 
