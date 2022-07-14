@@ -81,16 +81,13 @@ class TelegramMessage(models.Model):
 
 
 
-class TwitterPost(models.Model):
-    # RENAME THE MODEL
-    
+class Tweet(models.Model):   
     created_at      = models.DateTimeField()
     favorite_count  = models.PositiveIntegerField()
     twitter_id      = models.PositiveIntegerField()
     id_str          = models.CharField(max_length=30)
     retweet_count   = models.PositiveIntegerField()
     text            = models.TextField(max_length=300)
-
     twitter_url     = models.URLField(null=True)
 
     api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
@@ -102,7 +99,7 @@ class TwitterPost(models.Model):
     
     def save(self, *args, **kwargs):
         self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
-        super(TwitterPost, self).save(*args, **kwargs)
+        super(Tweet, self).save(*args, **kwargs)
 
 
 
