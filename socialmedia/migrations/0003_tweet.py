@@ -6,7 +6,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('socialmedia', '0002_delete_tweet'),
     ]
 
     operations = [
