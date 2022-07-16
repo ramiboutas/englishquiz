@@ -1,10 +1,14 @@
 import requests
+import json
 
 from django.conf import settings
 
-
+from .models import LinkedinPost
 
 class AbractLinkedinCompanyPageAPI:
+    """
+    Common shared data  & methods
+    """
     def __init__(self) -> None:
         access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
         self.headers = {'Content-Type': 'application/json',
@@ -13,7 +17,7 @@ class AbractLinkedinCompanyPageAPI:
         
 
 
-class LinkedinCompanyPagePostAPI(AbractLinkedinCompanyPageAPI):
+class LinkedinCompanyPageAPI(AbractLinkedinCompanyPageAPI):
     def __init__(self) -> None:
         organization_id = settings.LINKEDIN_ORGANIZATION_ID
         self.post_data = {
@@ -39,7 +43,17 @@ class LinkedinCompanyPagePostAPI(AbractLinkedinCompanyPageAPI):
         self.post_data["specificContent"]["com.linkedin.ugc.ShareContent"]["shareCommentary"]["text"] = text
         
         response = requests.post(url, headers=self.headers, json=self.post_data)
-        return response
+    
+
+        return LinkedinPost.objects.create(
+            urn_li_share  = json.loads(response.text)["id"],
+            text            = text,
+        )
+
+
+
+
+
 
 
 
@@ -76,18 +90,3 @@ def post_text_in_linkedin_company_ugcPosts(text):
     return response
 
 
-
-{'author': 'urn:li:organization:86603021',
-'lifecycleState': 'PUBLISHED',
-'specificContent': {
-    'com.linkedin.ugc.ShareContent': {
-        'shareMediaCategory': 'NONE',
-        'shareCommentary': {
-            'text': 'Here comes some text... Lets see if it works'
-            },
-'media': [],
-'shareCategorization': {}}},
-'visibility':{
-    'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC'
-    }
-}

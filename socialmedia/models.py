@@ -1,19 +1,11 @@
-from pyexpat import model
 from django.db import models
-
-
-# Create your models here.
-
-SOCIAL_PROMOTED_POST_TYPES = (
-    (1, "Blog post promotion"),
-    (2, "Regular social post promotion"),
-    (3, "Scheduled social post promotion"),
-    (4, "Scheduled social post promotion")
-)
 
 
 TWIITER_USERNAME = 'EnglishstuffOn'
 
+####################################
+### Sending to social media APIs ###
+####################################
 
 class AbstractSocialPost(models.Model):
     """
@@ -59,13 +51,31 @@ class RegularSocialPost(AbstractSocialPost):
 
 
 
-class LinkedinPost(models.Model):
-    post_type       = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
-    linkedin_id     = models.CharField(max_length=20, null=True, blank=True)
-    likes           = models.IntegerField(null=True, blank=True)
-    
-    # add more fields and methods
+        return LinkedinPost.objects.create(
+            urn_li_share  = json.loads(response.text)["id"],
+            text            = text,
+            response_text = response.text
+        )
 
+
+#########################################
+### Retrieving from social media APIs ###
+#########################################
+
+
+class LinkedinPost(models.Model):
+    urn_li_share    = models.CharField(max_length=50)
+    text = models.TextField(max_length=1000)
+
+    # Insights
+    click_count = models.PositiveIntegerField(null=True)
+    comment_count  = models.PositiveIntegerField(null=True)
+    engagement  = models.FloatField(null=True)
+    impression_count  = models.PositiveIntegerField(null=True)
+    like_count  = models.PositiveIntegerField(null=True)
+    share_count  = models.PositiveIntegerField(null=True)
+
+    
 class TelegramMessage(models.Model):
     chat_id     = models.BigIntegerField()
     message_id  = models.BigIntegerField()
@@ -73,23 +83,31 @@ class TelegramMessage(models.Model):
     text        = models.TextField(max_length=4000)
     date        = models.DateTimeField()
 
+    # Instance actions
     api_delete  = models.BooleanField(verbose_name="Delete from Telegram", default=False, help_text="It gets deleted from Telegram after clicking on Save")
+    
+    # Instance status
     api_deleted = models.BooleanField(verbose_name="Already deleted from Telegram", default=False)
 
     def __str__(self) -> str:
         return self.text[:100]
 
 
-class Tweet(models.Model):   
-    created_at      = models.DateTimeField()
-    favorite_count  = models.PositiveIntegerField()
+class Tweet(models.Model):
     twitter_id      = models.PositiveIntegerField()
     id_str          = models.CharField(max_length=30)
-    retweet_count   = models.PositiveIntegerField()
     text            = models.TextField(max_length=300)
     twitter_url     = models.URLField(null=True)
+    created_at      = models.DateTimeField()
 
+    # Instance statics
+    retweet_count   = models.PositiveIntegerField()
+    favorite_count  = models.PositiveIntegerField()
+
+    # Instance actions
     api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
+
+    # Instance status
     api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
 
     
@@ -106,8 +124,6 @@ class Tweet(models.Model):
 
 
 class SocialMediaPostedItem(models.Model):
-    # COMBINE ALL 
-    post_type       = models.SmallIntegerField(null=True, blank=True, choices=SOCIAL_PROMOTED_POST_TYPES)
     
     # Linedin
     linkedin_id     = models.CharField(max_length=20, null=True, blank=True)

@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import (ScheduledSocialPost, 
+from .models import (LinkedinPost, ScheduledSocialPost, 
                     RegularSocialPost, 
                     TelegramMessage,
-                    Tweet
+                    Tweet,
+                    LinkedinPost
                     )
 
 
@@ -41,4 +42,5 @@ admin.site.register(RegularSocialPost, RegularSocialPostAdmin)
 admin.site.register(Tweet, TweetAdmin)
 admin.site.register(TelegramMessage, TelegramMessageAdmin)
 
+admin.site.register(LinkedinPost)
 
