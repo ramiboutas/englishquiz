@@ -1,5 +1,6 @@
 import requests
 import json
+import urllib.parse
 
 from django.conf import settings
 
@@ -14,6 +15,13 @@ class AbractLinkedinCompanyPageAPI:
         self.headers = {'Content-Type': 'application/json',
                         'X-Restli-Protocol-Version': '2.0.0',
                         'Authorization': 'Bearer ' + access_token}
+    
+    def update_access_token(self):
+        # figure out how to make modifications in .env file
+        # https://stackoverflow.com/questions/43933897/set-environment-variables-by-file-using-python
+        # https://stackoverflow.com/questions/63837315/change-environment-variables-saved-in-env-file-with-python-and-dotenv
+        pass
+
         
 
 
@@ -41,14 +49,12 @@ class LinkedinCompanyPageAPI(AbractLinkedinCompanyPageAPI):
     def create_ugcPost(self, text):
         url = "https://api.linkedin.com/v2/ugcPosts"
         self.post_data["specificContent"]["com.linkedin.ugc.ShareContent"]["shareCommentary"]["text"] = text
-        
         response = requests.post(url, headers=self.headers, json=self.post_data)
-    
+        return LinkedinPost.objects.create(urn_li_share  = json.loads(response.text)["id"], text= text)
 
-        return LinkedinPost.objects.create(
-            urn_li_share  = json.loads(response.text)["id"],
-            text            = text,
-        )
+    def delete_ugcPost(self, linkedinpost_obj):
+        url = f'https://api.linkedin.com/v2/ugcPosts/{urllib.parse.quote(linkedinpost_obj.urn_li_share)}'
+        requests.delete(url, headers=self.headers)
 
 
 

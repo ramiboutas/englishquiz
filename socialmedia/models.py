@@ -15,8 +15,7 @@ class AbstractSocialPost(models.Model):
     """
     
     text                    = models.TextField(max_length=2000)
-    image_text              = models.TextField(max_length=200, null=True, blank=True) # if instance is null -> it cannot be promoted in instagram 
-    promote                 = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
+    image                   = models.ImageField(upload_to='socialposts/', null=True, blank=True)
     promote_in_linkedin     = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
     promote_in_twitter      = models.BooleanField(verbose_name="Promote in Twitter", default=True)
     promote_in_telegram     = models.BooleanField(verbose_name="Promote in Telegram", default=True)
@@ -64,29 +63,30 @@ class RegularSocialPost(AbstractSocialPost):
 
 
 class LinkedinPost(models.Model):
-    urn_li_share    = models.CharField(max_length=50)
-    text = models.TextField(max_length=1000)
-
+    urn_li_share        = models.CharField(max_length=50)
+    text                = models.TextField(max_length=1000)
+    date             = models.DateTimeField(auto_now_add = True, blank=True, null=True, editable = False)
     # Insights
-    click_count = models.PositiveIntegerField(null=True)
-    comment_count  = models.PositiveIntegerField(null=True)
-    engagement  = models.FloatField(null=True)
-    impression_count  = models.PositiveIntegerField(null=True)
-    like_count  = models.PositiveIntegerField(null=True)
-    share_count  = models.PositiveIntegerField(null=True)
+    click_count         = models.PositiveIntegerField(null=True)
+    comment_count       = models.PositiveIntegerField(null=True)
+    engagement          = models.FloatField(null=True)
+    impression_count    = models.PositiveIntegerField(null=True)
+    like_count          = models.PositiveIntegerField(null=True)
+    share_count         = models.PositiveIntegerField(null=True)
+    api_delete  = models.BooleanField(verbose_name="Delete from Linkedin", default=False, help_text="It gets deleted after clicking on Save")
+    api_deleted = models.BooleanField(verbose_name="Already deleted from Linkedin", default=False)
 
-    
+    def __str__(self) -> str:
+        return self.text[:100]
+
+
 class TelegramMessage(models.Model):
     chat_id     = models.BigIntegerField()
     message_id  = models.BigIntegerField()
     link        = models.CharField(max_length=100)
     text        = models.TextField(max_length=4000)
     date        = models.DateTimeField()
-
-    # Instance actions
-    api_delete  = models.BooleanField(verbose_name="Delete from Telegram", default=False, help_text="It gets deleted from Telegram after clicking on Save")
-    
-    # Instance status
+    api_delete  = models.BooleanField(verbose_name="Delete from Telegram", default=False, help_text="It gets deleted after clicking on Save")    
     api_deleted = models.BooleanField(verbose_name="Already deleted from Telegram", default=False)
 
     def __str__(self) -> str:
@@ -99,18 +99,11 @@ class Tweet(models.Model):
     text            = models.TextField(max_length=300)
     twitter_url     = models.URLField(null=True)
     created_at      = models.DateTimeField()
-
-    # Instance statics
     retweet_count   = models.PositiveIntegerField()
     favorite_count  = models.PositiveIntegerField()
-
-    # Instance actions
-    api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted from Twitter after clicking on Save")
-
-    # Instance status
+    api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted after clicking on Save")
     api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
 
-    
     def __str__(self) -> str:
         return self.text[:100]
     

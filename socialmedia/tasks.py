@@ -15,7 +15,7 @@ from .text import get_question_promotion_text, get_blog_post_promotion_text
 from .api_twitter import TweetAPI
 from .api_telegram import TelegramAPI
 
-from .api_linkedin import post_text_in_linkedin_company_ugcPosts
+from .api_linkedin import LinkedinCompanyPageAPI, post_text_in_linkedin_company_ugcPosts
 
 
 
@@ -41,9 +41,8 @@ def promote_blog_post_instance(self, **kwargs):
         instance = EntryPage.objects.get(pk=kwargs["pk"])
         text = get_blog_post_promotion_text(instance)
 
-        if instance.promote_in_linkedin:    
-            linkedin_response = post_text_in_linkedin_company_ugcPosts(text)
-            # save LinkedPost instance 
+        if instance.promote_in_linkedin:
+            LinkedinCompanyPageAPI().create_ugcPost(text)
 
         if instance.promote_in_telegram:
             TelegramAPI().send_message(text)
@@ -69,16 +68,18 @@ def share_random_question_instance(self, **kwargs):
         text = get_question_promotion_text(question)
 
         if question:
-            # sharing
+            # Telegram
             TelegramAPI().send_message(text)
-
-            post_text_in_linkedin_company_ugcPosts(text)
-
+            
+            # Linkedin
+            LinkedinCompanyPageAPI().create_ugcPost(text)
+            
+            # Twitter
             if text.__len__() < 280:
                 TweetAPI().create(text)
 
             # Setting field promoted to True -> so the question cannot be reshared
-            question.promoted=True
+            question.promoted = True
             question.save()
         else:
             # Set all question instances to promoted=False
@@ -103,7 +104,7 @@ def promote_scheduled_social_post_instance(self, **kwargs):
             TelegramAPI().send_message(instance.text)
         
         if instance.promote_in_linkedin:
-            post_text_in_linkedin_company_ugcPosts(instance.text)
+            LinkedinCompanyPageAPI().create_ugcPost(instance.text)
 
         if instance.text.__len__() < 280 and instance.promote_in_twitter:
             TweetAPI().create(instance.text)
@@ -129,9 +130,9 @@ def share_regular_social_post(self, **kwargs):
                 TelegramAPI().send_message(instance.text)
                 
             if instance.promote_in_linkedin:
-                post_text_in_linkedin_company_ugcPosts(instance.text)
+                LinkedinCompanyPageAPI().create_ugcPost(instance.text)
 
-            if instance.text.__len__() < 280 and instance.promote_in_twitter:
+            if instance.promote_in_twitter and instance.text.__len__() < 280:
                 TweetAPI().create(instance.text)
 
             # Setting field promoted to True -> so the social post cannot be reshared

@@ -34,6 +34,11 @@ class TelegramMessageAdmin(admin.ModelAdmin):
     # list_display = ['text', 'twitter_id', 'retweet_count', 'favorite_count',]
 
 
+class LinkedinPostAdmin(admin.ModelAdmin):
+    search_fields = ['text']
+    readonly_fields = ['urn_li_share', 'text', 'click_count', 'comment_count', 'engagement', 'impression_count', 'like_count', 'share_count', 'api_deleted']
+    list_filter = ['date']
+
 
 admin.site.register(ScheduledSocialPost, ScheduledSocialPostAdmin)
 admin.site.register(RegularSocialPost, RegularSocialPostAdmin)
@@ -42,5 +47,5 @@ admin.site.register(RegularSocialPost, RegularSocialPostAdmin)
 admin.site.register(Tweet, TweetAdmin)
 admin.site.register(TelegramMessage, TelegramMessageAdmin)
 
-admin.site.register(LinkedinPost)
+admin.site.register(LinkedinPost, LinkedinPostAdmin)
 
