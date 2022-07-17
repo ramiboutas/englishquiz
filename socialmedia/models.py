@@ -65,7 +65,7 @@ class RegularSocialPost(AbstractSocialPost):
 class LinkedinPost(models.Model):
     urn_li_share        = models.CharField(max_length=50)
     text                = models.TextField(max_length=1000)
-    date             = models.DateTimeField(auto_now_add = True, blank=True, null=True, editable = False)
+    date                = models.DateTimeField(auto_now_add = True, blank=True, null=True)
     # Insights
     click_count         = models.PositiveIntegerField(null=True)
     comment_count       = models.PositiveIntegerField(null=True)
@@ -101,8 +101,8 @@ class Tweet(models.Model):
     created_at      = models.DateTimeField()
     retweet_count   = models.PositiveIntegerField()
     favorite_count  = models.PositiveIntegerField()
-    api_delete  = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted after clicking on Save")
-    api_deleted = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
+    api_delete      = models.BooleanField(verbose_name="Delete from Twitter", default=False, help_text="It gets deleted after clicking on Save")
+    api_deleted     = models.BooleanField(verbose_name="Already deleted from Twitter", default=False)
 
     def __str__(self) -> str:
         return self.text[:100]
@@ -110,6 +110,18 @@ class Tweet(models.Model):
     def save(self, *args, **kwargs):
         self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
         super(Tweet, self).save(*args, **kwargs)
+
+
+class FacebookPost(models.Model):
+    facebook_id     = models.CharField(max_length=30)
+    text            = models.TextField(max_length=1000)
+    date            = models.DateTimeField(auto_now_add = True, blank=True, null=True)
+
+    api_delete      = models.BooleanField(verbose_name="Delete from Facebook", default=False, help_text="It gets deleted after clicking on Save")
+    api_deleted     = models.BooleanField(verbose_name="Already deleted from Facebook", default=False)
+
+    def __str__(self) -> str:
+        return self.text[:100]
 
 
 

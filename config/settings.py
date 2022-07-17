@@ -234,6 +234,15 @@ TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
 TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
+# Facebook
+FACEBOOK_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID")
+FACEBOOK_PAGE_ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN")
+
+FACEBOOK_APP_ID = os.environ.get("FACEBOOK_APP_ID")
+FACEBOOK_APP_SECRET_KEY = os.environ.get("FACEBOOK_APP_SECRET_KEY")
+
+
+
 # celery
 from celery.schedules import crontab
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'

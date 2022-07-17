@@ -4,7 +4,8 @@ from .models import (LinkedinPost, ScheduledSocialPost,
                     RegularSocialPost, 
                     TelegramMessage,
                     Tweet,
-                    LinkedinPost
+                    LinkedinPost,
+                    FacebookPost,
                     )
 
 
@@ -40,12 +41,18 @@ class LinkedinPostAdmin(admin.ModelAdmin):
     list_filter = ['date']
 
 
+class FacebookPostAdmin(admin.ModelAdmin):
+    search_fields = ['text']
+    readonly_fields = ['facebook_id', 'text', 'date', 'api_deleted']
+    list_filter = ['date']
+
 admin.site.register(ScheduledSocialPost, ScheduledSocialPostAdmin)
 admin.site.register(RegularSocialPost, RegularSocialPostAdmin)
 
 
 admin.site.register(Tweet, TweetAdmin)
 admin.site.register(TelegramMessage, TelegramMessageAdmin)
-
 admin.site.register(LinkedinPost, LinkedinPostAdmin)
+admin.site.register(FacebookPost, FacebookPostAdmin)
+
 

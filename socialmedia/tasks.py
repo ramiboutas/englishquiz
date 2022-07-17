@@ -12,11 +12,11 @@ from .models import ScheduledSocialPost, RegularSocialPost
 from quiz.models import Quiz, Lection, Question
 
 from .text import get_question_promotion_text, get_blog_post_promotion_text
+
 from .api_twitter import TweetAPI
 from .api_telegram import TelegramAPI
-
-from .api_linkedin import LinkedinCompanyPageAPI, post_text_in_linkedin_company_ugcPosts
-
+from .api_linkedin import LinkedinCompanyPageAPI
+from .api_facebook import FacebookPageAPI
 
 
 # If a post intent fails > notify the admin
@@ -77,6 +77,12 @@ def share_random_question_instance(self, **kwargs):
             # Twitter
             if text.__len__() < 280:
                 TweetAPI().create(text)
+            
+            # Facebook
+            FacebookPageAPI().create_post(text)
+
+            # Instagram
+            # TO DO
 
             # Setting field promoted to True -> so the question cannot be reshared
             question.promoted = True
@@ -108,6 +114,12 @@ def promote_scheduled_social_post_instance(self, **kwargs):
 
         if instance.text.__len__() < 280 and instance.promote_in_twitter:
             TweetAPI().create(instance.text)
+        
+        if instance.promote_in_facebook:
+            FacebookPageAPI().create_post(instance.text)
+        
+        # Instagram
+            # TO DO
 
     except Exception as e:
         raise e
@@ -134,6 +146,12 @@ def share_regular_social_post(self, **kwargs):
 
             if instance.promote_in_twitter and instance.text.__len__() < 280:
                 TweetAPI().create(instance.text)
+            
+            if instance.promote_in_facebook:
+                FacebookPageAPI().create_post(instance.text)
+            
+            # Instagram
+            # TO DO
 
             # Setting field promoted to True -> so the social post cannot be reshared
             instance.promoted=True

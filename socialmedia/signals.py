@@ -6,12 +6,13 @@ from django.db.models.signals import post_save, pre_save
 
 from wagtail.signals import page_published
 from puput.models import EntryPage
+from socialmedia.api_facebook import FacebookPageAPI
 from socialmedia.api_linkedin import LinkedinCompanyPageAPI
 
 from .api_twitter import TweetAPI
 from .api_telegram import TelegramAPI
 from .tasks import promote_blog_post_instance, promote_scheduled_social_post_instance
-from .models import LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
+from .models import FacebookPost, LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
 
 
 @receiver(page_published, sender=EntryPage)
@@ -68,6 +69,20 @@ def delete_linkedin_company_ugc_post(sender, instance, **kwargs):
     if instance.api_delete and not instance.api_deleted:
         try:
             LinkedinCompanyPageAPI().delete_ugcPost(instance)
+            instance.api_deleted = True
+        except Exception as e:
+            raise e
+
+
+@receiver(pre_save, sender=FacebookPost)
+def delete_facebook_post(sender, instance, **kwargs):
+    """
+    It deletes a post from the Facebook company page
+    """
+
+    if instance.api_delete and not instance.api_deleted:
+        try:
+            FacebookPageAPI().delete_post(instance)
             instance.api_deleted = True
         except Exception as e:
             raise e
