@@ -113,7 +113,7 @@ class Tweet(models.Model):
 
 
 class FacebookPost(models.Model):
-    facebook_id     = models.CharField(max_length=30)
+    facebook_id     = models.CharField(max_length=50)
     text            = models.TextField(max_length=1000)
     date            = models.DateTimeField(auto_now_add = True, blank=True, null=True)
 
