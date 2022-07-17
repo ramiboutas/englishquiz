@@ -258,7 +258,7 @@ CELERY_BEAT_SCHEDULE = {
     },
       'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
-        'schedule': crontab(hour=8, minute=00), # when more instances available: add crontab(hour='8,13', minute=00)
+        'schedule': crontab(hour=9, minute=30), # when more instances available: add crontab(hour='8,13', minute=00)
         'options': {
             'expires': 0,
         },
