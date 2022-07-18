@@ -94,7 +94,7 @@ class TelegramMessage(models.Model):
 
 
 class Tweet(models.Model):
-    twitter_id      = models.PositiveIntegerField()
+    twitter_id      = models.PositiveBigIntegerField()
     id_str          = models.CharField(max_length=30)
     text            = models.TextField(max_length=300)
     twitter_url     = models.URLField(null=True)
