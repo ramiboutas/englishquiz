@@ -44,7 +44,7 @@ def get_quiz_promotion_text(instance):
     It generates text from a quiz instance
     """
     text = f'Check out this quiz: {instance.name} \n \n'
-    text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
+    text += f'👉 https://wwww.englishstuff.online{instance.get_detail_url()} \n \n'
     text += f'{common_hashtags} #{instance.name.replace(" ", "").lower()}'
     return text
 

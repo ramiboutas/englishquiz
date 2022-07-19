@@ -124,6 +124,16 @@ class FacebookPost(models.Model):
         return self.text[:100]
 
 
+class InstagramPost(models.Model):
+    instagram_id    = models.CharField(max_length=50)
+    text            = models.TextField(max_length=1000)
+    date            = models.DateTimeField(auto_now_add = True, blank=True, null=True)
+
+    api_delete      = models.BooleanField(verbose_name="Delete from Instagram", default=False, help_text="It gets deleted after clicking on Save")
+    api_deleted     = models.BooleanField(verbose_name="Already deleted from Instagram", default=False)
+
+    def __str__(self) -> str:
+        return self.text[:100]
 
 
 
