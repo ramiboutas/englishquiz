@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # own apps
     'quiz',
     'socialmedia',
+    'blog',
 
     # thid-party apps
     'django_htmx',
@@ -45,8 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_celery_beat',
     'django_celery_results',
-
-    # for the blog
+        
+    # for the blogs (puput or the blog app)
     'wagtail.core',
     'wagtail.admin',
     'wagtail.documents',
