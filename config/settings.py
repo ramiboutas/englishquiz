@@ -197,16 +197,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
 
 # seo
+
 SITE_TITLE = 'English Stuff Online'
 META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
 META_DESCRIPTION = 'English Stuff Online. Learn and practice english with quizzes for free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
 
-# social media socialmedia
+# socialmedia app 
 # Telegram
-TELEGRAM_ACCOUNT = {
-    'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
-    'CHANNEL_NAME': '@english_stuff_online',
-}
+
+TELEGRAM_BOT_API_KEY = os.environ.get("TELEGRAM_BOT_API_KEY")
+TELEGRAM_CHANNEL_NAME = '@english_stuff_online'
 
 
 # Linkedin
@@ -219,7 +219,6 @@ LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
 LINKEDIN_ORGANIZATION_ID = os.environ.get("LINKEDIN_ORGANIZATION_ID")
 LINKEDIN_ORGANIZATION_ACCESS_TOKEN = os.environ.get("LINKEDIN_ORGANIZATION_ACCESS_TOKEN")
 LINKEDIN_ORGANIZATION_REFRESH_TOKEN = os.environ.get("LINKEDIN_ORGANIZATION_REFRESH_TOKEN")
-
 
 
 # Twitter
@@ -270,9 +269,7 @@ CELERY_BEAT_SCHEDULE = {
 
 
 # Static
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static_dev'),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_dev'),]
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -336,7 +333,7 @@ CORS_ALLOW_HEADERS = "access-control-allow-origin"
 
 if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_HSTS_SECONDS = 3600 #31536000 # usual: 31536000 (1 year)
+    SECURE_HSTS_SECONDS = 31536000 #31536000 # usual: 31536000 (1 year)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = False
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True

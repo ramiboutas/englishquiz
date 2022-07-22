@@ -7,10 +7,8 @@ from .models import TelegramMessage
 
 class TelegramAPI:
     def __init__(self) -> None:
-        telegram_account = settings.TELEGRAM_ACCOUNT
-        api_key = telegram_account["BOT_API_KEY"]
-        self.channel = telegram_account["CHANNEL_NAME"]
-        self.bot = telegram.Bot(token=api_key)
+        self.channel = settings.TELEGRAM_CHANNEL_NAME
+        self.bot = telegram.Bot(token=settings.TELEGRAM_BOT_API_KEY)
     
     def send_message(self, text):
         response = self.bot.send_message(chat_id=self.channel,
