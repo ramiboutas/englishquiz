@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     # own apps
     'quiz',
     'socialmedia',
-    'blog',
 
     # thid-party apps
     'django_htmx',
