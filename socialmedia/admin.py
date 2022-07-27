@@ -19,6 +19,7 @@ class RegularSocialPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
     readonly_fields = ['created', 'updated', 'promoted']
     list_filter = ['created', 'updated', 'promoted']
+    list_display = ['text', 'created', 'promoted']
 
 
 class TweetAdmin(admin.ModelAdmin):
