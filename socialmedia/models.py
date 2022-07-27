@@ -48,15 +48,6 @@ class RegularSocialPost(AbstractSocialPost):
         return self.text
 
 
-
-
-        return LinkedinPost.objects.create(
-            urn_li_share  = json.loads(response.text)["id"],
-            text            = text,
-            response_text = response.text
-        )
-
-
 #########################################
 ### Retrieving from social media APIs ###
 #########################################
