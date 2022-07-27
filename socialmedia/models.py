@@ -1,7 +1,6 @@
 from django.db import models
+from django.conf import settings
 
-
-TWIITER_USERNAME = 'EnglishstuffOn'
 
 ####################################
 ### Sending to social media APIs ###
@@ -99,7 +98,8 @@ class Tweet(models.Model):
         return self.text[:100]
     
     def save(self, *args, **kwargs):
-        self.twitter_url = f"https://twitter.com/{TWIITER_USERNAME}/status/{self.id_str}"
+        username = settings.TWITTER_USERNAME
+        self.twitter_url = f"https://twitter.com/{username}/status/{self.id_str}"
         super(Tweet, self).save(*args, **kwargs)
 
 
