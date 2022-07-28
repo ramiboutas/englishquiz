@@ -86,7 +86,7 @@ def get_question_promotion_text(instance, make_short=False):
         text += "Here a small question for you. \n\n"
     text += f'{question_text} \n\n'
     text += f'Check out the right answer here:\n'
-    text += f'👉 englishstuff.online{instance.get_detail_url()} \n \n'
+    text += f'👉 https://wwww.englishstuff.online{instance.get_detail_url()} \n \n'
     text += f'{common_hashtags} #{instance.lection.quiz.name.replace(" ", "")}'
 
     return text
