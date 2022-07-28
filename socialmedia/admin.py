@@ -1,12 +1,8 @@
 from django.contrib import admin
 
-from .models import (LinkedinPost, ScheduledSocialPost, 
-                    RegularSocialPost, 
-                    TelegramMessage,
-                    Tweet,
-                    LinkedinPost,
-                    FacebookPost,
-                    )
+from .models import (LinkedinPost, ScheduledSocialPost, RegularSocialPost, 
+                    TelegramMessage, Tweet,LinkedinPost,
+                    FacebookPost, InstagramPost)
 
 @admin.register(ScheduledSocialPost)
 class ScheduledSocialPostAdmin(admin.ModelAdmin):
@@ -62,4 +58,12 @@ class FacebookPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
     readonly_fields = ['facebook_id', 'text', 'date', 'api_deleted']
     list_filter = ['date']
+    list_display = ['text', 'facebook_id', 'api_deleted']
 
+
+@admin.register(InstagramPost)
+class InstagramPostAdmin(admin.ModelAdmin):
+    search_fields = ['text']
+    readonly_fields = ['instagram_id', 'text', 'date', 'api_deleted']
+    list_filter = ['date']
+    list_display = ['text', 'instagram_id', 'api_deleted']
