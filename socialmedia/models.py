@@ -25,8 +25,6 @@ class AbstractSocialPost(models.Model):
     created_by              = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL)
 
     
-    
-
     class Meta:
         abstract = True
 
