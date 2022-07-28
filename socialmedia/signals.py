@@ -6,13 +6,16 @@ from django.db.models.signals import post_save, pre_save
 
 from wagtail.signals import page_published
 from puput.models import EntryPage
-from socialmedia.api_facebook import FacebookPageAPI
-from socialmedia.api_linkedin import LinkedinCompanyPageAPI
+
 
 from .api_twitter import TweetAPI
 from .api_telegram import TelegramAPI
+from .api_linkedin import LinkedinCompanyPageAPI
+from .api_facebook import FacebookPageAPI
+from .api_instagram import InstagramAPI 
+
 from .tasks import promote_blog_post_instance, promote_scheduled_social_post_instance
-from .models import FacebookPost, LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
+from .models import FacebookPost, InstagramPost, LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
 
 
 @receiver(page_published, sender=EntryPage)
@@ -83,6 +86,20 @@ def delete_facebook_post(sender, instance, **kwargs):
     if instance.api_delete and not instance.api_deleted:
         try:
             FacebookPageAPI().delete_post(instance)
+            instance.api_deleted = True
+        except Exception as e:
+            raise e
+
+
+@receiver(pre_save, sender=InstagramPost)
+def delete_instagram_post(sender, instance, **kwargs):
+    """
+    It deletes a post from the Instagram business account
+    """
+
+    if instance.api_delete and not instance.api_deleted:
+        try:
+            InstagramAPI().delete_post(instance)
             instance.api_deleted = True
         except Exception as e:
             raise e
