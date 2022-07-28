@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from django.contrib.auth import get_user_model
 
 ####################################
 ### Sending to social media APIs ###
@@ -22,6 +22,10 @@ class AbstractSocialPost(models.Model):
     promote_in_instagram    = models.BooleanField(verbose_name="Promote in Instagram", default=False)
     created                 = models.DateTimeField(auto_now_add = True, blank=True, null=True, editable = False)
     updated                 = models.DateTimeField(auto_now = True, blank=True, null=True, editable = False)
+    created_by              = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL)
+
+    
+    
 
     class Meta:
         abstract = True

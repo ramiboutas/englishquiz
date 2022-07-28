@@ -9,17 +9,30 @@ from .models import (LinkedinPost, ScheduledSocialPost,
                     )
 
 
-
 class ScheduledSocialPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
-    readonly_fields = ['created', 'updated']
-    list_filter = ['created', 'updated']
+    readonly_fields = ['created', 'updated', 'created_by']
+    list_filter = ['created', 'updated', 'promote_date', 'created_by']
+    list_display = ['text', 'created', 'promote_date', 'created_by']
+    # exclude = ['created_by',]
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+
 
 class RegularSocialPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
-    readonly_fields = ['created', 'updated', 'promoted']
-    list_filter = ['created', 'updated', 'promoted']
-    list_display = ['text', 'created', 'promoted']
+    readonly_fields = ['created', 'updated', 'promoted', 'created_by']
+    list_filter = ['created', 'updated', 'promoted', 'created_by']
+    list_display = ['text', 'created', 'promoted', 'created_by']
+    # exclude = ['created_by',]
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 class TweetAdmin(admin.ModelAdmin):
