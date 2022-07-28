@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
+
 ####################################
 ### Sending to social media APIs ###
 ####################################
@@ -58,7 +59,6 @@ class LinkedinPost(models.Model):
     urn_li_share        = models.CharField(max_length=50)
     text                = models.TextField(max_length=1000)
     date                = models.DateTimeField(auto_now_add = True, blank=True, null=True)
-    # Insights
     click_count         = models.PositiveIntegerField(null=True)
     comment_count       = models.PositiveIntegerField(null=True)
     engagement          = models.FloatField(null=True)
@@ -100,8 +100,7 @@ class Tweet(models.Model):
         return self.text[:100]
     
     def save(self, *args, **kwargs):
-        username = settings.TWITTER_USERNAME
-        self.twitter_url = f"https://twitter.com/{username}/status/{self.id_str}"
+        self.twitter_url = f"https://twitter.com/{settings.TWITTER_USERNAME}/status/{self.id_str}"
         super(Tweet, self).save(*args, **kwargs)
 
 
@@ -109,7 +108,6 @@ class FacebookPost(models.Model):
     facebook_id     = models.CharField(max_length=50)
     text            = models.TextField(max_length=1000)
     date            = models.DateTimeField(auto_now_add = True, blank=True, null=True)
-
     api_delete      = models.BooleanField(verbose_name="Delete from Facebook", default=False, help_text="It gets deleted after clicking on Save")
     api_deleted     = models.BooleanField(verbose_name="Already deleted from Facebook", default=False)
 
@@ -121,14 +119,11 @@ class InstagramPost(models.Model):
     instagram_id    = models.CharField(max_length=50)
     text            = models.TextField(max_length=1000)
     date            = models.DateTimeField(auto_now_add = True, blank=True, null=True)
-
     api_delete      = models.BooleanField(verbose_name="Delete from Instagram", default=False, help_text="It gets deleted after clicking on Save")
     api_deleted     = models.BooleanField(verbose_name="Already deleted from Instagram", default=False)
 
     def __str__(self) -> str:
         return self.text[:100]
-
-
 
 
 class SocialMediaPostedItem(models.Model):
