@@ -36,8 +36,10 @@ INSTALLED_APPS = [
     # own apps
     'quiz',
     'socialmedia',
+    'blog',
 
     # thid-party apps
+    'markdownx',
     'django_htmx',
     'analytical',
     'django_minify_html',

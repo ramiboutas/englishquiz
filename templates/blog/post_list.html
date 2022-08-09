@@ -1,0 +1,10 @@
+
+{% load markdown_extras %}
+
+{% for post in object_list %}
+    <div>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.body | markdown | safe }}</p>
+    </div>
+
+{% endfor %}
