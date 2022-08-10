@@ -5,7 +5,7 @@ from celery import shared_task
 # from celery.utils.log import get_task_logger
 # logger = get_task_logger(__name__)
 
-from puput.models import EntryPage
+
 
 from utils.management import send_mail_to_admin
 from .models import ScheduledSocialPost, RegularSocialPost
@@ -31,28 +31,28 @@ from .api_facebook import FacebookPageAPI
 
 
 # Blog post tasks
-@shared_task(bind=True)
-def promote_blog_post_instance(self, **kwargs):
-    """
-    It promotes in social media a blog post instance
-    """
+# @shared_task(bind=True)
+# def promote_blog_post_instance(self, **kwargs):
+#     """
+#     It promotes in social media a blog post instance
+#     """
     
-    try: 
-        instance = EntryPage.objects.get(pk=kwargs["pk"])
-        text = get_blog_post_promotion_text(instance)
+#     try: 
+#         instance = EntryPage.objects.get(pk=kwargs["pk"])
+#         text = get_blog_post_promotion_text(instance)
 
-        if instance.promote_in_linkedin:
-            LinkedinCompanyPageAPI().create_ugcPost(text)
+#         if instance.promote_in_linkedin:
+#             LinkedinCompanyPageAPI().create_ugcPost(text)
 
-        if instance.promote_in_telegram:
-            TelegramAPI().send_message(text)
+#         if instance.promote_in_telegram:
+#             TelegramAPI().send_message(text)
 
-        if instance.promote_in_twitter:    
-            TweetAPI().create(text)
+#         if instance.promote_in_twitter:    
+#             TweetAPI().create(text)
             
     
-    except Exception as e:
-        raise e
+#     except Exception as e:
+#         raise e
 
 
 

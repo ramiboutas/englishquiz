@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'taggit',
     'modelcluster',
     'django_social_share',
-    'puput',
+
 ]
 
 # for the blog

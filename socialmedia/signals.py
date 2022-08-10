@@ -5,7 +5,6 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
 
 from wagtail.signals import page_published
-from puput.models import EntryPage
 
 
 from .api_twitter import TweetAPI
@@ -14,16 +13,16 @@ from .api_linkedin import LinkedinCompanyPageAPI
 from .api_facebook import FacebookPageAPI
 from .api_instagram import InstagramAPI 
 
-from .tasks import promote_blog_post_instance, promote_scheduled_social_post_instance
+from .tasks import promote_scheduled_social_post_instance
 from .models import FacebookPost, InstagramPost, LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
 
 
-@receiver(page_published, sender=EntryPage)
-def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
-    """
-    Calls to task function for promoting in social media a blog entry instance
-    """
-    promote_blog_post_instance.apply_async(countdown=10, kwargs={"pk":instance.pk})
+# @receiver(page_published, sender=EntryPage)
+# def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
+#     """
+#     Calls to task function for promoting in social media a blog entry instance
+#     """
+#     promote_blog_post_instance.apply_async(countdown=10, kwargs={"pk":instance.pk})
 
 
 

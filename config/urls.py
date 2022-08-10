@@ -36,8 +36,7 @@ urlpatterns = [
         name='django.contrib.sitemaps.views.sitemap'),
     
     path('', include('quiz.urls')),
-    path('', include('puput.urls')),
-    path('blog2/', include('blog.urls')),
+    path('blog/', include('blog.urls')),
     path('markdownx/', include('markdownx.urls')),
 
 ]

@@ -1,8 +1,23 @@
 
 
 
+{% extends "base.html" %}
+{% load cache %}
+
+{% block title %}  Learn English Online  {% endblock %}
+
+
+{% block content %}
 
 
 
-<h1>{{ post.title }}</h1>
-<p>{{ post.content }}</p>
+{% for obj in objects %}
+
+
+    
+
+
+{% endfor %}
+
+
+{% endblock %}
