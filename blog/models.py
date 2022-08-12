@@ -9,20 +9,23 @@ from taggit.managers import TaggableManager
 
 class BlogPost(models.Model):
     DIFFICULTY_LEVEL = [
-        (1, "BEGINNER"),
-        (2, "INTERMEDIATE"),
-        (3, "ADVANCED"),
+        ("elementary", "Elementary"),
+        ("intermediate", "Intermediate"),
+        ("advanced", "Advamced"),
+        ("general", "General"),
     ]
 
+    
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True)
-    level = models.PositiveSmallIntegerField(choices=DIFFICULTY_LEVEL, default=1)
+    level = models.CharField(choices=DIFFICULTY_LEVEL, default="general", max_length=30)
     tags = TaggableManager()
     public = models.BooleanField(default=False)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blog_posts")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blog_posts")
     slug = AutoSlugField(populate_from='title')
-    
     content = MarkdownxField()
+    
+    views = models.PositiveIntegerField(default=0)
     
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -34,7 +37,16 @@ class BlogPost(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("post", kwargs={"slug": self.slug})
-
-
-
+        return reverse("blog_postdetail", kwargs={"slug": self.slug, "level": self.level})
+    
+    @classmethod
+    def get_last_posts(cls, post_count=10):
+        return cls.objects.filter(public=True).order_by('-created')[:post_count]
+    
+    @classmethod
+    def get_popular_posts(cls, post_count=5):
+        return cls.objects.filter(public=True).order_by('-views')[:post_count]
+    
+    def add_view(self):
+        self.views += 1
+        self.save()

@@ -6,7 +6,7 @@ from .models import BlogPost
 
 @admin.register(BlogPost)
 class BlogPostAdmin(MarkdownxModelAdmin):
-    readonly_fields = ['created', 'updated', 'author']
+    readonly_fields = ['created', 'updated', 'created_by']
     prepopulated_fields = {'slug': ('title',), }
     def save_model(self, request, obj, form, change):
             if not obj.pk:

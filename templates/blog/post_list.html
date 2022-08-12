@@ -1,10 +1,44 @@
+{% extends "base.html" %}
+{% load cache %}
 
-{% load markdown_extras %}
 
-{% for post in object_list %}
-    <div>
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.body | markdown | safe }}</p>
+{% block title %} Blog {% endblock  %}
+
+{% block content %}
+
+    <h1 class="text-success text-center py-5">Blog</h1>
+
+
+
+    <div class="container py-5">
+        <div class="row justify-content-md-center">
+            
+            <h2 class="text-success py-3">Popular posts</h2>
+            
+                {% for post in popular_posts %}
+                    <div class="col-md-5 m-5">
+                        <h3>  <a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>  <span class="badge bg-success float-end">{{ post.views }}</span> </h3>
+                        <p>{{ post.description }}</p>
+                        
+                    </div>
+                {% endfor %}
+            
+
+
+            
+            <h2 class="text-success py-3">Last posts</h2>
+                {% for post in last_posts %}
+                    <div class="col-md-6 my-3">
+                        <h3 class="text-secondary">{{ post.title }}</h3>
+                        <p>{{ post.description }}</p>
+                    </div>
+                {% endfor %}
+        </div>
     </div>
 
-{% endfor %}
+
+    {% include "partials/social_sharing_widgets.html" %}
+    {% include "partials/footer.html" %}
+
+
+{% endblock  %}

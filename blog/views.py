@@ -8,13 +8,16 @@ from .models import BlogPost
 
 
 def post_list_view(request):
-    objects = BlogPost.objects.filter(public=True)
-    context = {'objects': objects}
-    return render(request, 'blog/post_detail.html', context)
+    # object_list = BlogPost.objects.filter(public=True)
+    last_posts = BlogPost.get_last_posts()
+    popular_posts = BlogPost.get_popular_posts()
+    context = {'last_posts': last_posts, 'popular_posts': popular_posts}
+    return render(request, 'blog/post_list.html', context)
 
 
 def post_detail_view(request, slug, level):
     object = get_object_or_404(BlogPost, slug=slug, level=level)
+    object.add_view()
     context = {'object': object}
     return render(request, 'blog/post_detail.html', context)
 
