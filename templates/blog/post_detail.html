@@ -1,13 +1,33 @@
 {% extends "base.html" %}
 {% load cache %}
+{% load markdown_extras %}
 
-{% block title %}  Learn English Online  {% endblock %}
+{% cache 86400 post_detail post.pk %}
 
-
-{% block content %}
-
-
-Detail post page
+    {% block title %} | {{ post.title }}  {% endblock %}
 
 
-{% endblock %}
+    {% block content %}
+        
+        <div class="container my-5">
+            <h1 class="text-success text-center my-5">{{ post.title }} </h1>
+            <small class="text-muted">{{ post.created  }}</small>
+        </div>
+        
+        <div class="container my-5 text-dark">
+            <div class="row justify-content-md-center">
+                {{ post.content | markdown | safe }}
+            </div>
+        </div>
+
+        <a class="btn btn-outline-success border-0 my-5" href="{% url 'blog_allposts' %}"><i class="bi bi-arrow-left"></i> More posts  </a>
+
+        {% include "partials/footer.html" %}
+
+    
+    {% endblock  %}
+
+
+
+
+{% endcache %}

@@ -14,6 +14,3 @@ class BlogPostAdmin(MarkdownxModelAdmin):
             super().save_model(request, obj, form, change)
 
 
-
-
-#admin.site.register(Post, MarkdownxModelAdmin)

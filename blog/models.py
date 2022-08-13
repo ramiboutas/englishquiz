@@ -44,8 +44,12 @@ class BlogPost(models.Model):
         return cls.objects.filter(public=True).order_by('-created')[:post_count]
     
     @classmethod
-    def get_popular_posts(cls, post_count=5):
+    def get_popular_posts(cls, post_count=4):
         return cls.objects.filter(public=True).order_by('-views')[:post_count]
+
+    @classmethod
+    def get_all_posts(cls):
+        return cls.objects.all().order_by('-created')
     
     def add_view(self):
         self.views += 1
