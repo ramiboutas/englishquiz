@@ -17,9 +17,9 @@
             
                 {% for post in popular_posts %}
                     <div class="col-md-5 m-5">
-                        <h3>  <a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>  <span class="badge bg-success float-end">{{ post.views }}</span> </h3>
+                        <h3><span class="badge bg-success">{{ post.views }}</span> <a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>  </h3>
                         <p>{{ post.description }}</p>
-                        
+                        <small class="text-muted">{{ post.created  }}</small>
                     </div>
                 {% endfor %}
             

@@ -47,30 +47,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_celery_beat',
     'django_celery_results',
-        
-    # for the blogs (puput or the blog app)
-    'wagtail.core',
-    'wagtail.admin',
-    'wagtail.documents',
-    'wagtail.snippets',
-    'wagtail.users',
-    'wagtail.images',
-    'wagtail.embeds',
-    'wagtail.search',
-    'wagtail.sites',
-    'wagtail.contrib.redirects',
-    'wagtail.contrib.forms',
-    'wagtail.contrib.sitemaps',
-    'wagtail.contrib.routable_page',
     'taggit',
-    'modelcluster',
     'django_social_share',
 
 ]
 
-# for the blog
-
-WAGTAIL_SITE_NAME = 'Blog | English Stuff Online'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -87,14 +68,12 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'django_minify_html.middleware.MinifyHtmlMiddleware',
 ]
 
