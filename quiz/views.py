@@ -8,7 +8,7 @@ from django.conf import settings
 
 from django_htmx.http import trigger_client_event
 
-from .models import Quiz, Lection, Question, Answer
+from .models import DeeplLanguage, Quiz, Lection, Question, Answer, TranslatedQuestion
 
 
 @cache_page(3600 * 24 * 1)
@@ -51,13 +51,36 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     return render(request, 'quiz/question_detail.html', context)
 
 
-@cache_page(3600 * 24 * 30) 
-def translate_question_text(request, id_question, target_lang):
+@cache_page(3600 * 24 * 30)
+def get_question_translation_modal(request, id_question):
     question = get_object_or_404(Question, id=id_question)
-    translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
-    result = translator.translate_text(question.full_text, target_lang=target_lang)
-    print(result.text)  # "Bonjour, le monde !"
+    context ={'question': question}
+    return render(request, 'quiz/partials/question_translation_modal.html', context)
 
+
+@cache_page(3600 * 24 * 30)
+def translate_question_text(request, id_question, id_language):
+    language = get_object_or_404(DeeplLanguage, id=id_language)
+    question = get_object_or_404(Question, id=id_question)
+
+    try:
+        translated_question = TranslatedQuestion.objects.get(language=language, question=question)
+    
+    except TranslatedQuestion.DoesNotExist:
+        translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
+        
+        result = translator.translate_text(
+            question.full_text,
+            target_lang=language.code
+            )
+        translated_question = TranslatedQuestion.objects.create(
+            language=language,
+            question=question,
+            original_text = question.full_text,
+            translated_text = result.text
+        )
+    context = {'translated_text': translated_question.translated_text}
+    return render(request, 'quiz/partials/translated_question_text.html', context)
 
 
 @csrf_exempt

@@ -23,7 +23,8 @@
             href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
         {% endif %}
         <div id="progress-bar" class="col-8">{% include "quiz/partials/progress_bar.html" %}</div>
-        <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-x-lg"></i></a>
+        <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"
+        data-bs-toggle="tooltip" data-bs-placement="center" title="Close"><i class="bi bi-x-lg"></i></a>
       </div>
     </div>
   </div>
@@ -75,10 +76,18 @@
       {% endif %}
 
       <div class="fixed-bottom container" hx-boost="true">
-        <div class="row">
-          <div class="col-md-8 offset-md-2 mb-2">
+        <div class="row mb-2">
+          <div class="col-2 offset-1">   
+            <button class="btn btn-lg btn-secondary w-100 h-100"
+              hx-get="{{ question.quiz_get_translation_modal_url }}" hx-target="#modals-here"
+              data-bs-toggle="tooltip" data-bs-placement="center" title="Translate the question">
+              <i class="bi bi-translate"></i>
+            </button>
+          </div>
+          <div class="col-8">            
             <button id="" class="btn btn-lg btn-secondary w-100 h-100"
-              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML">Check
+              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
+              data-bs-toggle="tooltip" data-bs-placement="center" title="Check my answer">Check
             </button>
           </div>
         </div>

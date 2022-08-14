@@ -120,6 +120,10 @@ class Question(models.Model):
     def update_progress_bar_url(self):
         return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
                                                 'slug_lection': self.lection.slug, 'id_question': self.id})
+    
+    def quiz_get_translation_modal_url(self):
+        return reverse('quiz_get_translation_modal', kwargs={'id_question': self.id})
+    
 
     def is_first(self):
         return self.__class__.objects.filter(lection=self.lection).first() == self
@@ -152,6 +156,17 @@ class Answer(models.Model):
 class DeeplLanguage(models.Model):
     code = models.CharField(max_length=5)
     name = models.CharField(max_length=50)
+    formality = models.BooleanField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
+    
+
+class TranslatedQuestion(models.Model):
+    language = models.ForeignKey(DeeplLanguage, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    original_text = models.CharField(max_length=650)
+    translated_text = models.CharField(max_length=650)
+
+    def __str__(self) -> str:
+        return self.original_text

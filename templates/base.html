@@ -41,14 +41,13 @@
   </head>
   <body class="container" style="background-color: Beige;" >
     {% analytical_body_top %}
-
+    <!-- modals -->
+    <div id="modals-here"></div>
 
     {% block content %}{% endblock %}
 
-
     <!-- htmx -->
     <script src="{% static 'js/htmx.min.js' %}"></script>
-
 
     {% analytical_body_bottom %}
   </body>

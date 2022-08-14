@@ -1,0 +1,24 @@
+
+<!-- Modal -->
+<div id="translation-modal-content">
+  <div id="translation-modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
+    <div id="translation-modal" class="modal fade show" style="display:block;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Tranlation</h5>
+            <button type="button" class="btn-close"
+              hx-get="#"
+              hx-target="#translation-modal-content" hx-swap="outerHTML">
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <h3> {{ question.full_text }} </h3>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
