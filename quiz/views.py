@@ -1,7 +1,10 @@
 import random
+import deepl
+
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_page
+from django.conf import settings
 
 from django_htmx.http import trigger_client_event
 
@@ -46,6 +49,15 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     progress_percentage = int(index*100/number_of_questions)
     context ={'question': question, 'progress_percentage': progress_percentage}
     return render(request, 'quiz/question_detail.html', context)
+
+
+@cache_page(3600 * 24 * 30) 
+def translate_question_text(request, id_question, target_lang):
+    question = get_object_or_404(Question, id=id_question)
+    translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
+    result = translator.translate_text(question.full_text, target_lang=target_lang)
+    print(result.text)  # "Bonjour, le monde !"
+
 
 
 @csrf_exempt

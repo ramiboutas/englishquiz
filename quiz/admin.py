@@ -1,6 +1,6 @@
 # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/
 from django.contrib import admin
-from .models import Quiz, Lection, Question, Answer
+from .models import Quiz, Lection, Question, Answer, DeeplLanguage
 
 class LectionInline(admin.StackedInline):
     model = Lection
@@ -37,6 +37,8 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['lection']
     inlines = [AnswerInline,]
 
+
+admin.site.register(DeeplLanguage)
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(Lection, LectionAdmin)
 admin.site.register(Question, QuestionAdmin)

@@ -83,6 +83,8 @@ class Lection(models.Model):
         ordering = ('name', )
 
 
+    
+
 class Question(models.Model):
     lection = models.ForeignKey(Lection, on_delete=models.CASCADE)
     text_one = models.CharField(max_length=200, null=True, blank=True)
@@ -91,6 +93,18 @@ class Question(models.Model):
     type = models.PositiveSmallIntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
     explanation = models.CharField(max_length=250, blank=True, null=True)
     promoted = models.BooleanField(default=False, editable=False)
+
+    @property
+    def full_text(self):
+        text = ""
+        if self.type == 1:
+            text += f"{self.text_one} ____ {self.text_two}"
+            if self.text_three:
+                text += f" ____ {self.text_three}"
+        if self.type == 5:
+            text += f"{self.text_one}"
+
+        return text
 
     def get_detail_url(self):
         return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
@@ -132,4 +146,12 @@ class Answer(models.Model):
     correct = models.BooleanField(default=False)
 
     def __str__(self):
+        return self.name
+
+
+class DeeplLanguage(models.Model):
+    code = models.CharField(max_length=5)
+    name = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
         return self.name

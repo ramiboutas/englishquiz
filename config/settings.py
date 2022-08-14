@@ -261,6 +261,11 @@ STATICFILES_FINDERS = [
 ]
 
 
+# DeepL API
+
+DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
+
+
 # Storage
 USE_SPACES = os.environ.get('USE_SPACES') == '1'
 
