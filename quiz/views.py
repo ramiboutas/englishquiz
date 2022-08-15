@@ -77,7 +77,8 @@ def translate_question_text(request, id_question, id_language):
         
         result = translator.translate_text(
             question.full_text,
-            target_lang=language.code
+            target_lang=language.code,
+            formality="less"
             )
         translated_question = TranslatedQuestion.objects.create(
             language=language,
