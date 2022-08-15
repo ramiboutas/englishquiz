@@ -162,8 +162,6 @@ class DeeplLanguage(models.Model):
     name = models.CharField(max_length=50)
     formality = models.BooleanField(null=True, blank=True)
 
-    def get_question_translation_url(self, question_url):
-        pass
 
     def __str__(self) -> str:
         return self.name

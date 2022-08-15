@@ -16,7 +16,7 @@ class AnswerInline(admin.StackedInline):
     model = Answer
     extra = 3
 
-
+admin.site.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
@@ -24,6 +24,7 @@ class QuizAdmin(admin.ModelAdmin):
     inlines = [LectionInline,]
 
 
+admin.site.register(Lection)
 class LectionAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
@@ -32,6 +33,7 @@ class LectionAdmin(admin.ModelAdmin):
     inlines = [QuestionInline,]
 
 
+admin.site.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['text_one']
     list_filter = ['lection']
@@ -39,7 +41,14 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DeeplLanguage)
+class DeeplLanguageAdmin(admin.ModelAdmin):
+    list_filter = ['formality']
+    list_display = ['name', 'code', 'formality']
+
+
 admin.site.register(TranslatedQuestion)
-admin.site.register(Quiz, QuizAdmin)
-admin.site.register(Lection, LectionAdmin)
-admin.site.register(Question, QuestionAdmin)
+class TranslatedQuestionAdmin(admin.ModelAdmin):
+    list_filter = ['language']
+    list_display = ['name', 'code', 'formality']
+    readonly_fields = ['language', 'question', 'original_text']
+    

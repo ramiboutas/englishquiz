@@ -11,7 +11,7 @@ class BlogPost(models.Model):
     DIFFICULTY_LEVEL = [
         ("elementary", "Elementary"),
         ("intermediate", "Intermediate"),
-        ("advanced", "Advamced"),
+        ("advanced", "Advanced"),
         ("general", "General"),
     ]
 
