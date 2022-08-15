@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load cache %}
-{% load question_related_tags %}
 
+{% cache 604800 question_detail question.pk %}
+
+  {% load question_related_tags %}
 
 
   {% block title %}  {{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
@@ -129,3 +131,4 @@
   {% endblock %}
 
 
+{% endcache %}
