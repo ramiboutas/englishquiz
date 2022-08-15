@@ -118,10 +118,11 @@
               hx-target="#translated-text-here" hx-swap="outerHTML"
               class="btn btn-outline-primary m-1" role="button">{{ language_object.name }}</a>
             {% endfor %}
-        </div>
+          </div>
         
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-between">
+          <small class="text-muted"><a target="_blank" href="https://www.deepl.com/?ref=www.englishstuff.online"> DeepL API</a> is used for these translations</small>  
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
