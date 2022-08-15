@@ -173,5 +173,8 @@ class TranslatedQuestion(models.Model):
     original_text = models.CharField(max_length=650)
     translated_text = models.CharField(max_length=650)
 
+    created = models.DateField(auto_now_add=True, null=True)
+    updated = models.DateField(auto_now=True, null=True)
+
     def __str__(self) -> str:
         return self.original_text

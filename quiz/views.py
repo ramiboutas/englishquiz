@@ -77,18 +77,14 @@ def translate_question_text(request, id_question, id_language):
         translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
         
         if language.supports_formality:
-            result = translator.translate_text(question.full_text, 
-                target_lang=language.code, formality="less")
+            result = translator.translate_text(question.full_text, target_lang=language.code, formality="less")
         
         else:
             result = translator.translate_text(question.full_text, target_lang=language.code)
         
-        translated_question = TranslatedQuestion.objects.create(
-            language=language,
-            question=question,
-            original_text = question.full_text,
-            translated_text = result.text
-        )
+        translated_question = TranslatedQuestion.objects.create(language=language, question=question,
+                            original_text = question.full_text, translated_text = result.text)
+
     context = {'translated_text': translated_question.translated_text}
     return render(request, 'quiz/partials/question_translated_text.html', context)
 

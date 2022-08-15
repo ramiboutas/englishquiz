@@ -50,5 +50,5 @@ admin.site.register(TranslatedQuestion)
 class TranslatedQuestionAdmin(admin.ModelAdmin):
     list_filter = ['language']
     list_display = ['name', 'code', 'formality']
-    readonly_fields = ['language', 'question', 'original_text']
+    readonly_fields = ['language', 'question', 'original_text', 'created', 'updated']
     
