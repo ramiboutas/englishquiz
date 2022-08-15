@@ -114,7 +114,7 @@
             {% for language_object in language_objects %}
             <a hx-get="{% get_question_translation_url id_language=language_object.id id_question=question.id %}"
               hx-target="#translated-text-here" hx-swap="outerHTML"
-              class="btn btn-outline-primary" role="button">{{ language_object.name }}</a>
+              class="btn btn-outline-primary m-2" role="button">{{ language_object.name }}</a>
             {% endfor %}
         </div>
         
