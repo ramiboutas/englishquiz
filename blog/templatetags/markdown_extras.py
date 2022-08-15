@@ -12,8 +12,12 @@ extension_configs = {
 @register.filter()
 @stringfilter
 def markdown(value):
+    # More extensions:
+    # https://python-markdown.github.io/extensions/
     return md.markdown(
         value,
-        extensions=["markdown.extensions.codehilite", "markdown.extensions.fenced_code"],
+        extensions=["markdown.extensions.codehilite",
+                    "markdown.extensions.fenced_code",
+                    "markdown.extensions.footnotes"],
         extension_configs=extension_configs,
     )
