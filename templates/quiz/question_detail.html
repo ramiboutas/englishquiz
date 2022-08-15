@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load cache %}
+{% load question_related_tags %}
 
 
-{% cache 604800 question_detail question.pk %}
 
   {% block title %}  {{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
 
@@ -75,18 +75,18 @@
         </div>
       {% endif %}
 
-      <div class="fixed-bottom container" hx-boost="true">
+      <div class="fixed-bottom container">
         <div class="row mb-2">
-          <div class="col-2 offset-1">   
-            <button class="btn btn-lg btn-secondary w-100 h-100"
-              hx-get="{{ question.quiz_get_translation_modal_url }}" hx-target="#modals-here"
-              data-bs-toggle="tooltip" data-bs-placement="center" title="Translate the question">
+          
+          <div class="col-2 offset-1">
+            <button type="button" class="btn btn-lg btn-primary w-100 h-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
               <i class="bi bi-translate"></i>
             </button>
           </div>
           <div class="col-8">            
             <button id="" class="btn btn-lg btn-secondary w-100 h-100"
-              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
+              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" 
+              hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
               data-bs-toggle="tooltip" data-bs-placement="center" title="Check my answer">Check
             </button>
           </div>
@@ -96,8 +96,36 @@
 
   </form>
 
+  <!-- Translation Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Translation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
 
+          <h4 class="text-muted mt-2">{{ question.full_text }}</h4>
 
+          <h4 id="translated-text-here" class="text-warning mt-5">👇‍ Select language</h4>
+
+          <div class="mt-5"> 
+            {% for language_object in language_objects %}
+            <a hx-get="{% get_question_translation_url id_language=language_object.id id_question=question.id %}"
+              hx-target="#translated-text-here" hx-swap="outerHTML"
+              class="btn btn-outline-primary" role="button">{{ language_object.name }}</a>
+            {% endfor %}
+        </div>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   {% endblock %}
 
-{% endcache %}
+

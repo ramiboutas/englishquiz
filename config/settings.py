@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'markdownx',
     'django_htmx',
     'analytical',
-    'django_minify_html',
-    'compressor',
+    # 'django_minify_html',
+    # 'compressor',
     'corsheaders',
     'django_celery_beat',
     'django_celery_results',
@@ -74,7 +74,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
-    'django_minify_html.middleware.MinifyHtmlMiddleware',
+    # 'django_minify_html.middleware.MinifyHtmlMiddleware',
 ]
 
 
@@ -252,17 +252,10 @@ CELERY_BEAT_SCHEDULE = {
 
 
 # Static
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_dev'),]
 
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
-]
-
-
 # DeepL API
-
 DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
 
 
@@ -297,25 +290,20 @@ if USE_SPACES:
     MEDIA_URL = '{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_MEDIA_LOCATION)
     MEDIA_ROOT = f'{AWS_MEDIA_LOCATION}/'
 
-    # compressor
-    COMPRESS_ROOT = STATIC_ROOT
-    COMPRESS_URL = STATIC_URL
-    COMPRESS_STORAGE = STATICFILES_STORAGE
-
 
 
 else:
-    STATIC_URL = '/static/'
+    STATIC_URL = 'static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_URL = '/media/'
+    MEDIA_URL = 'media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = "access-control-allow-origin"
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_HEADERS = "access-control-allow-origin"
 
 
 

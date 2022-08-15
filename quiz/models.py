@@ -121,9 +121,13 @@ class Question(models.Model):
         return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
                                                 'slug_lection': self.lection.slug, 'id_question': self.id})
     
-    def quiz_get_translation_modal_url(self):
+    def get_translation_modal_url(self):
+        # not used, used Bootstrap Bundle JS instead
         return reverse('quiz_get_translation_modal', kwargs={'id_question': self.id})
     
+    def remove_translation_modal_url(self):
+        # not used, used Bootstrap Bundle JS instead
+        return reverse('quiz_remove_translation_modal', kwargs={'id_question': self.id})
 
     def is_first(self):
         return self.__class__.objects.filter(lection=self.lection).first() == self
@@ -157,6 +161,9 @@ class DeeplLanguage(models.Model):
     code = models.CharField(max_length=5)
     name = models.CharField(max_length=50)
     formality = models.BooleanField(null=True, blank=True)
+
+    def get_question_translation_url(self, question_url):
+        pass
 
     def __str__(self) -> str:
         return self.name

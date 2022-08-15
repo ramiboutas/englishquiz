@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_page
 from django.conf import settings
+from django.http import HttpResponse
 
 from django_htmx.http import trigger_client_event
 
@@ -47,8 +48,13 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     index = questions.index(question)
     number_of_questions = questions.__len__()
     progress_percentage = int(index*100/number_of_questions)
-    context ={'question': question, 'progress_percentage': progress_percentage}
+    language_objects = DeeplLanguage.objects.all()
+    context ={'question': question, 'progress_percentage': progress_percentage, 'language_objects': language_objects}
     return render(request, 'quiz/question_detail.html', context)
+
+
+def remove_question_translation_modal(request, id_question):
+    return HttpResponse(status=200)
 
 
 @cache_page(3600 * 24 * 30)
@@ -80,7 +86,7 @@ def translate_question_text(request, id_question, id_language):
             translated_text = result.text
         )
     context = {'translated_text': translated_question.translated_text}
-    return render(request, 'quiz/partials/translated_question_text.html', context)
+    return render(request, 'quiz/partials/question_translated_text.html', context)
 
 
 @csrf_exempt
