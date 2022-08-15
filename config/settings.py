@@ -17,7 +17,7 @@ PRODUCTION = str(os.environ.get('PRODUCTION')) == '1'
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost',]
 
-ALLOWED_HOSTS = ['englishstuff.online', 'www.englishstuff.online', '207.154.205.99', 'localhost', 'www.localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['englishstuff.online', 'www.englishstuff.online', '207.154.205.99', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'django.contrib.sites',
     'django.contrib.sitemaps',
 
     # own apps
@@ -44,7 +43,7 @@ INSTALLED_APPS = [
     'analytical',
     # 'django_minify_html',
     # 'compressor',
-    'corsheaders',
+    # 'corsheaders',
     'django_celery_beat',
     'django_celery_results',
     'taggit',
@@ -63,7 +62,6 @@ import django
 from django.utils.encoding import force_str
 django.utils.encoding.force_text = force_str
 
-SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -251,9 +249,6 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 
-# Static
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_dev'),]
 
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
@@ -261,6 +256,9 @@ DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
 
 # Storage
 USE_SPACES = os.environ.get('USE_SPACES') == '1'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static_dev'),
+]
 
 if USE_SPACES:
 
@@ -293,9 +291,9 @@ if USE_SPACES:
 
 
 else:
-    STATIC_URL = 'static/'
+    STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_URL = 'media/'
+    MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 

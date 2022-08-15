@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
@@ -44,14 +45,7 @@ urlpatterns = [
 
 if settings.DEBUG:
 
-    import os
-    from django.conf.urls.static import static
-    from django.views.generic.base import RedirectView
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-    # urlpatterns += staticfiles_urlpatterns() # tell gunicorn where static files are in dev mode
-    # urlpatterns += static(settings.MEDIA_URL + 'images/', document_root=os.path.join(settings.MEDIA_ROOT, 'images'))
-    urlpatterns +=  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns     +=  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns     += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

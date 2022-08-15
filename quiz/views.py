@@ -73,12 +73,16 @@ def translate_question_text(request, id_question, id_language):
         translated_question = TranslatedQuestion.objects.get(language=language, question=question)
     
     except TranslatedQuestion.DoesNotExist:
+        # https://github.com/DeepLcom/deepl-python
         translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
-
-        result = translator.translate_text(
-            question.full_text,
-            target_lang=language.code
-            )
+        
+        if language.supports_formality:
+            result = translator.translate_text(question.full_text, 
+                target_lang=language.code, formality="less")
+        
+        else:
+            result = translator.translate_text(question.full_text, target_lang=language.code)
+        
         translated_question = TranslatedQuestion.objects.create(
             language=language,
             question=question,

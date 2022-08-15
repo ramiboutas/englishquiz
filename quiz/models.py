@@ -158,9 +158,9 @@ class Answer(models.Model):
 
 
 class DeeplLanguage(models.Model):
-    code = models.CharField(max_length=5)
     name = models.CharField(max_length=50)
-    formality = models.BooleanField(null=True, blank=True)
+    code = models.CharField(max_length=5)
+    supports_formality = models.BooleanField(default=False)
 
 
     def __str__(self) -> str:
