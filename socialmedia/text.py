@@ -92,3 +92,17 @@ def get_question_promotion_text(instance, make_short=False):
     return text
 
 
+# BlogPost
+
+def get_blog_post_promotion_text(instance):
+    """
+    It generates text for promoting a blog post
+    """
+    text = ""
+    text += f'✍ Blog post: {instance.title}\n \n'
+    text += f'{instance.description}\n \n'
+    text += f'More under: https://www.englishstuff.online{instance.get_detail_url()} \n \n'
+    text += f'{common_hashtags}'
+
+    return text
+

@@ -16,7 +16,7 @@ class AnswerInline(admin.StackedInline):
     model = Answer
     extra = 3
 
-admin.site.register(Quiz)
+
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
@@ -24,7 +24,6 @@ class QuizAdmin(admin.ModelAdmin):
     inlines = [LectionInline,]
 
 
-admin.site.register(Lection)
 class LectionAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
@@ -33,22 +32,27 @@ class LectionAdmin(admin.ModelAdmin):
     inlines = [QuestionInline,]
 
 
-admin.site.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['text_one']
     list_filter = ['lection']
+    readonly_fields = ['promoted', ]
     inlines = [AnswerInline,]
 
 
-admin.site.register(DeeplLanguage)
 class DeeplLanguageAdmin(admin.ModelAdmin):
-    list_filter = ['formality']
-    list_display = ['name', 'code', 'formality']
+    list_filter = ['supports_formality']
+    list_display = ['name', 'code', 'supports_formality']
 
 
-admin.site.register(TranslatedQuestion)
 class TranslatedQuestionAdmin(admin.ModelAdmin):
     list_filter = ['language']
-    list_display = ['name', 'code', 'formality']
+    list_display = ['original_text', 'language', 'created']
     readonly_fields = ['language', 'question', 'original_text', 'created', 'updated']
-    
+
+
+
+admin.site.register(Quiz, QuizAdmin)
+admin.site.register(Lection, LectionAdmin)
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(DeeplLanguage, DeeplLanguageAdmin)
+admin.site.register(TranslatedQuestion, TranslatedQuestionAdmin)

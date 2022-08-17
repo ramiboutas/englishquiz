@@ -26,6 +26,8 @@ class BlogPost(models.Model):
     content = MarkdownxField()
     
     views = models.PositiveIntegerField(default=0)
+    promoted = models.BooleanField(default=False)
+    
     
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
@@ -39,6 +41,9 @@ class BlogPost(models.Model):
     def get_absolute_url(self):
         return reverse("blog_postdetail", kwargs={"slug": self.slug, "level": self.level})
     
+    def get_detail_url(self):
+        return self.get_absolute_url()
+
     @classmethod
     def get_last_posts(cls, post_count=10):
         return cls.objects.filter(public=True).order_by('-created')[:post_count]

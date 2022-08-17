@@ -16,14 +16,6 @@ from .tasks import promote_scheduled_social_post_instance
 from .models import FacebookPost, InstagramPost, LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
 
 
-# @receiver(page_published, sender=EntryPage)
-# def schedule_blog_entry_for_promoting(sender, instance, *args, **kwargs):
-#     """
-#     Calls to task function for promoting in social media a blog entry instance
-#     """
-#     promote_blog_post_instance.apply_async(countdown=10, kwargs={"pk":instance.pk})
-
-
 
 @receiver(post_save, sender=ScheduledSocialPost)
 def schedule_social_post_for_promoting(sender, instance, **kwargs):

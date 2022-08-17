@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
+from blog.models import BlogPost
 
 ####################################
 ### Sending to social media APIs ###
@@ -48,6 +49,7 @@ class RegularSocialPost(AbstractSocialPost):
 
     def __str__(self):
         return self.text
+
 
 
 #########################################
@@ -124,6 +126,9 @@ class InstagramPost(models.Model):
 
     def __str__(self) -> str:
         return self.text[:100]
+
+
+
 
 
 class SocialMediaPostedItem(models.Model):
