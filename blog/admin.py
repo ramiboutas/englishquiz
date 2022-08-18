@@ -6,7 +6,7 @@ from .models import BlogPost
 
 class BlogPostAdmin(MarkdownxModelAdmin):
     search_fields = ['title', 'content']
-    readonly_fields = ['created', 'updated', 'created_by', 'views', 'promoted']
+    readonly_fields = ['created', 'updated', 'created_by', 'views', 'promoted', 'pdf_created']
     prepopulated_fields = {'slug': ('title',), }
 
     list_filter = ['level', 'public', 'created_by', 'created']

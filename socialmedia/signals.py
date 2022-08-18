@@ -1,10 +1,5 @@
-from email.mime import image
-from shutil import ExecError
-from time import sleep
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
-
-
 
 from .api_twitter import TweetAPI
 from .api_telegram import TelegramAPI

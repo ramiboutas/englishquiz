@@ -12,6 +12,9 @@
         <div class="container my-5">
             <h1 class="text-success text-center my-5">{{ post.title }} </h1>
             <small class="text-muted">{{ post.created  }}</small>
+            {% if post.pdf_created %}
+            <a class="btn btn-danger border-0 my-5" href="{{ post.pdf.url }}"><i class="bi bi-arrow-left"></i>Download as PDF</a>
+            {% endif %}
         </div>
         
         <div class="container my-5 text-dark">
@@ -19,6 +22,7 @@
                 {{ post.content | markdown | safe }}
             </div>
         </div>
+
 
         <a class="btn btn-outline-success border-0 my-5" href="{% url 'blog_allposts' %}"><i class="bi bi-arrow-left"></i> More posts  </a>
 

@@ -17,17 +17,18 @@ class BlogPost(models.Model):
 
     
     title = models.CharField(max_length=250)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null=True)
     level = models.CharField(choices=DIFFICULTY_LEVEL, default="general", max_length=30)
     tags = TaggableManager()
     public = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blog_posts")
     slug = AutoSlugField(populate_from='title')
     content = MarkdownxField()
-    
+
+    pdf = models.FileField(upload_to='blog-posts/%Y/%m/%d', blank=True, null=True)
+    pdf_created = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
     promoted = models.BooleanField(default=False)
-    
     
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
@@ -43,6 +44,9 @@ class BlogPost(models.Model):
     
     def get_detail_url(self):
         return self.get_absolute_url()
+
+    def get_pdf_url(self):
+        return reverse("blog_postpdf", kwargs={"slug": self.slug, "level": self.level})
 
     @classmethod
     def get_last_posts(cls, post_count=10):

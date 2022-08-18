@@ -1,3 +1,7 @@
+
+
+from django.http import FileResponse, HttpResponse
+
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView
 from django.shortcuts import render, get_object_or_404
@@ -30,3 +34,12 @@ def post_detail_view(request, slug, level):
     context = {'post': post}
     return render(request, 'blog/post_detail.html', context)
 
+
+def pdf_post_view(request, slug, level):
+    post = get_object_or_404(BlogPost, slug=slug, level=level)
+    from .tasks import html_to_pdf
+    # getting the template
+    pdf = html_to_pdf('blog/post_pdf.html', context_dict= {'post': post})
+        
+        # rendering the template
+    return pdf
