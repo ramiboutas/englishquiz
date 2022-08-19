@@ -17,7 +17,7 @@ sitemap_dict = {
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('quizzes/', views.quiz_list, name='quiz_list'),
     path('quiz/<slug:slug>/<int:level>/', views.quiz_detail, name='quiz_detail'),
     path('quiz/<slug:slug_quiz>/<int:level_quiz>/<slug:slug_lection>/<int:id_question>/',views.question_detail, name='question_detail'),
 

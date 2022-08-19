@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
 
     # own apps
+    'pages',
     'quiz',
     'socialmedia',
     'blog',
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'markdownx',
     'django_htmx',
     'analytical',
+    'captcha',
+    'crispy_forms',
     # 'django_minify_html',
     # 'compressor',
     # 'corsheaders',

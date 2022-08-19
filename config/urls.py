@@ -37,9 +37,12 @@ urlpatterns = [
         {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}},
         name='django.contrib.sitemaps.views.sitemap'),
     
-    path('', include('quiz.urls')),
+
     path('blog/', include('blog.urls')),
+    path('captcha/', include('captcha.urls')),
     path('markdownx/', include('markdownx.urls')),
+    path('', include('quiz.urls')),
+    path('', include('pages.urls')),
 
 ]
 

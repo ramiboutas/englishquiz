@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+
+from .models import Contact, FlexPage
+
+
+admin.site.register(FlexPage)
+admin.site.register(Contact)

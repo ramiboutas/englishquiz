@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load cache %}
+{% load markdown_extras %}
+{% load crispy_forms_tags %}
+
+{% cache 86400 page_detail page.pk %}
+
+    {% block title %} | Contact {% endblock %}
+
+
+    {% block content %}
+        
+        <div class="container my-5">
+            <h1 class="text-success text-center my-5">Contact</h1>
+        </div>
+        
+        <div class="container my-5 text-dark">
+            <div class="row justify-content-md-center">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ crispy form }}
+                <button type="submit">Send</button>
+                </form>
+                
+            </div>
+        </div>
+
+        {% include "partials/footer.html" %}
+
+    
+    {% endblock  %}
+
+
+{% endcache %}

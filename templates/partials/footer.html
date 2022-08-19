@@ -27,3 +27,67 @@
   </div>
 
 </footer>
+
+
+
+
+<div class="container">
+  <footer class="py-5">
+    <div class="row">
+      <div class="col-6 col-md-2 mb-3">
+        <h5>About us</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="{% url 'pages_home' %}" class="nav-link p-0 text-muted">Home</a></li>
+          <li class="nav-item mb-2"><a href="{% url 'blog_postlist' %}" class="nav-link p-0 text-muted">Blog</a></li>
+          <li class="nav-item mb-2"><a href="{% url 'pages_contact' %}" class="nav-link p-0 text-muted">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-2 mb-3">
+        <h5>Learn with</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="{% url 'quiz_list' %}" class="nav-link p-0 text-muted">Quizzes</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Books</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Online courses</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-2 mb-3">
+        <h5>Legal</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="{% url 'pages_flexpage' slug='privacy' %}" class="nav-link p-0 text-muted">Privacy policy</a></li>
+          <li class="nav-item mb-2"><a href="{% url 'pages_flexpage' slug='terms' %}" class="nav-link p-0 text-muted">Terms of service</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-5 offset-md-1 mb-3">
+        <form>
+          <h5>Subscribe to our newsletter</h5>
+          <p>Monthly digest of what's new and exciting from us.</p>
+          <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+            <label for="newsletter1" class="visually-hidden">Email address</label>
+            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+            <button class="btn btn-primary" type="button">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+      <p>© {{ copyright_year }}  Material by <a target="_blank" href="https://www.toweracademy.es">Phil</a>. Website by
+        <a target="_blank" href="https://github.com/ramiboutas/">Rami</a>
+      </p>
+      <ul class="list-unstyled d-flex">
+        <li class="ms-3">
+          <a  class="me-1" href="{% url 'socialmedia_telegram' %}"><i class="bi bi-telegram"></i></a>
+        </li>
+        <li class="ms-3">
+          <a target="_blank" class="me-1"href="https://www.linkedin.com/company/english-stuff-online"><i class="bi bi-linkedin"></i></a>
+        </li>
+        <li class="ms-3">
+          <a target="_blank" class="me-1" href="https://twitter.com/EnglishStuffOn"><i class="bi bi-twitter"></i></a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+</div>
