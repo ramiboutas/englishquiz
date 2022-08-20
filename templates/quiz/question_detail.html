@@ -6,7 +6,7 @@
   {% load question_related_tags %}
 
 
-  {% block title %}  {{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
+  {% block head_title %}{{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
 
   {% block content %}
 

@@ -5,15 +5,14 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    
     {% analytical_head_top %}
     {% google_analytics_gtag %}
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title> {% block head_title %}{% endblock %} </title>
 
-    <title> {{ site_title }} | {% block title %}{% endblock %}</title>
     <meta name="description" content="{{ meta_description }}">
 
     <meta name="keywords" content="{{ meta_keywords }}">
@@ -38,10 +37,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
 
+    {% block head_extra %}
+    {% endblock %}
     {% analytical_head_bottom %}
   </head>
   <body class="container" style="background-color: Beige;" >
     {% analytical_body_top %}
+    {% include 'partials/messages.html' %}
 
     {% block content %}{% endblock %}
 
@@ -51,7 +53,8 @@
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     
-
+    {% block footer_extra %}
+    {% endblock %}
     {% analytical_body_bottom %}
   </body>
 </html>

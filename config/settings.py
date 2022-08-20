@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+    # 'django.contrib.sites',
 
     # own apps
     'pages',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'analytical',
     'captcha',
     'crispy_forms',
+    'crispy_bootstrap5',
     # 'django_minify_html',
     # 'compressor',
     # 'corsheaders',
@@ -51,6 +53,11 @@ INSTALLED_APPS = [
     'django_celery_results',
     'taggit',
     'django_social_share',
+    # django-newsletter:
+    # 'easy_thumbnails',
+    # 'tinymce',
+    # 'newsletter',
+    'newsfeed',
 
 ]
 
@@ -64,6 +71,13 @@ MEDIA_URL = '/media/'
 import django
 from django.utils.encoding import force_str
 django.utils.encoding.force_text = force_str
+
+# newsletter app
+# https://forum.djangoproject.com/t/importerror-cannot-import-name-ugettext-lazy-from-django-utils-translation/10943
+
+# from django.utils.translation import gettext_lazy, gettext
+# django.utils.translation.ugettext_lazy = gettext_lazy
+# django.utils.translation.ugettext = gettext
 
 
 MIDDLEWARE = [
@@ -235,19 +249,21 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
 CELERY_RESULT_BACKEND = 'django-db'
 
 CELERY_BEAT_SCHEDULE = {
-      'share_random_question': {
+    'share_random_question': {
         'task': 'socialmedia.tasks.share_random_question_instance',
         'schedule': crontab(hour=12, minute=00),
-        'options': {
-            'expires': 0,
-        },
+        'options': {'expires': 0,},
     },
-      'share_regular_social_post': {
+    'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
         'schedule': crontab(hour=9, minute=30), # when more instances available: add crontab(hour='8,13', minute=00)
-        'options': {
-            'expires': 0,
-        },
+        'options': {'expires': 0,},
+        
+    },
+
+    'send_email_newsletter': {
+        'task': 'send_email_newsletter_task',
+        'schedule': crontab(minute=0, hour='*'),
     },
 }
 
@@ -255,6 +271,36 @@ CELERY_BEAT_SCHEDULE = {
 
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
+
+
+# crispy forms
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# newsfeed settings
+# https://github.com/saadmk11/django-newsfeed
+# https://github.com/saadmk11/test-django-newsfeed
+NEWSFEED_EMAIL_BATCH_WAIT = 5
+NEWSFEED_EMAIL_BATCH_SIZE = 15
+NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+NEWSFEED_SITE_BASE_URL = 'https://englishstuff.online' if PRODUCTION else 'http://localhost:8000'
+NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS=1
+
+
+# Settings for smtp
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+
+if PRODUCTION:
+    EMAIL_USE_TLS = True
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+else:
+    EMAIL_USE_TLS = False
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Storage

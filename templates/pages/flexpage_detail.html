@@ -2,9 +2,9 @@
 {% load cache %}
 {% load markdown_extras %}
 
-{% cache 86400 page_detail page.pk %}
+{% cache 604800 flexpage page.pk %}
 
-    {% block title %} | {{ page.title }}  {% endblock %}
+    {% block head_title %}{{ page.title }} | English Stuff Online{% endblock %}
 
 
     {% block content %}

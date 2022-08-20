@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Issue #{{ issue.issue_number }}</title>
+</head>
+    <body>
+        <h1>Issue #{{ issue.issue_number }}</h1>
+        <h3>{{ issue.title }}</h3>
+        <p>{{ issue.short_description }}</p>
+        <p>publish date: {{ issue.publish_date|date:"D d M Y" }}</p>
+
+        {% include 'newsfeed/issue_posts.html' with posts=post_list %}
+
+        <a href="{{ site_url }}{{ unsubscribe_url }}" target="_blank">Unsubscribe</a>
+    </body>
+</html>

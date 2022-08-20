@@ -3,23 +3,23 @@
 {% load markdown_extras %}
 {% load crispy_forms_tags %}
 
-{% cache 86400 page_detail page.pk %}
+{% cache 604800 contact_page %}
 
-    {% block title %} | Contact {% endblock %}
-
+    {% block head_title %}Contact | English Stuff Online{% endblock %}
 
     {% block content %}
         
         <div class="container my-5">
-            <h1 class="text-success text-center my-5">Contact</h1>
+            <h1 class="text-success text-center my-5">Contact us</h1>
+            <p class="text-success text-center my-5">Let's us know what can we do for you! 🙂</p>
         </div>
         
         <div class="container my-5 text-dark">
             <div class="row justify-content-md-center">
-                <form method="POST">
+                <form class="col-md-6" method="POST">
                     {% csrf_token %}
-                    {{ crispy form }}
-                <button type="submit">Send</button>
+                    {{ form|crispy }}
+                <button class="btn btn-outline-success mt-4 w-100" type="submit">Send</button>
                 </form>
                 
             </div>

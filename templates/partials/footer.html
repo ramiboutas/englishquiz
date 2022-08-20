@@ -1,35 +1,3 @@
-<hr class="mt-5">
-<footer class="container text-center text-secondary mt-3">
-  <div class="text-center p-3">
-
-    <div class="my-5 fs-4">
-      <a class="me-3" href="/">Home</a>
-
-      <a target="_blank" class="me-3"
-        href="{% url 'socialmedia_telegram' %}"><i class="bi bi-telegram"></i></a>
-
-      <a target="_blank" class="me-3"
-        href="https://www.linkedin.com/company/english-stuff-online"><i class="bi bi-linkedin"></i></a>
-
-      <a target="_blank" class="me-3"
-        href="https://twitter.com/EnglishStuffOn"><i class="bi bi-twitter"></i></a>
-
-      <a class="me-3" href="/blog">Blog</a>
-    </div>
-
-
-
-    <!-- Copyright -->
-    <small class="mb-5">
-      © {{ copyright_year }}  |  Material by <a target="_blank" href="https://www.toweracademy.es">Phil</a>  |  Website by
-        <a target="_blank" href="https://github.com/ramiboutas/">Rami</a>
-    </small>
-  </div>
-
-</footer>
-
-
-
 
 <div class="container">
   <footer class="py-5">
@@ -61,14 +29,16 @@
       </div>
 
       <div class="col-md-5 offset-md-1 mb-3">
-        <form>
+        <form method="post" class="subscriptionForm" action="{% url 'newsfeed:newsletter_subscribe' %}">
+          {% csrf_token %}
           <h5>Subscribe to our newsletter</h5>
-          <p>Monthly digest of what's new and exciting from us.</p>
+          <p>Subscribe to our Newsletter to receive interesting English tips</p>
           <div class="d-flex flex-column flex-sm-row w-100 gap-2">
             <label for="newsletter1" class="visually-hidden">Email address</label>
-            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-            <button class="btn btn-primary" type="button">Subscribe</button>
+            <input type="email" name="email_address" class="emailinput form-control" required id="id_email_address" placeholder="Email address">
+            <button class="btn btn-primary" type="submit">Subscribe</button>
           </div>
+          <div class="subscriptionMessage"></div>
         </form>
       </div>
     </div>
@@ -86,6 +56,9 @@
         </li>
         <li class="ms-3">
           <a target="_blank" class="me-1" href="https://twitter.com/EnglishStuffOn"><i class="bi bi-twitter"></i></a>
+        </li>
+        <li class="ms-3">
+          <a target="_blank" class="me-1" href="https://www.facebook.com/englishstuffonline/"><i class="bi bi-facebook"></i></a>
         </li>
       </ul>
     </div>

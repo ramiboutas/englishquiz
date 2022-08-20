@@ -16,7 +16,7 @@ from .models import DeeplLanguage, Quiz, Lection, Question, Answer, TranslatedQu
 def quiz_list(request):
     quiz_list = Quiz.objects.all()
     context ={'quiz_list': quiz_list}
-    return render(request, 'quiz/home.html', context)
+    return render(request, 'quiz/quiz_list.html', context)
 
 
 @cache_page(3600 * 24 * 1)

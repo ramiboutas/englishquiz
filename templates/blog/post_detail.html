@@ -4,7 +4,7 @@
 
 {% cache 86400 post_detail post.pk %}
 
-    {% block title %} | {{ post.title }}  {% endblock %}
+    {% block head_title %} | {{ post.title }}  {% endblock %}
 
 
     {% block content %}

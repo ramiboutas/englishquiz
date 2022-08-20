@@ -13,3 +13,5 @@ def send_contact_response_email(sender, instance, **kwargs):
     
     if instance.response:
         pass
+
+

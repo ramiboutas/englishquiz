@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+<form method="post" class="subscriptionForm col-md-6" action="{% if form_type == 'subscribe' %}{% url 'newsfeed:newsletter_subscribe' %}{% else %}{% url 'newsfeed:newsletter_unsubscribe' %}{% endif %}">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button class="btn btn-success mt-3 w-100" type="submit">{% if form_type == 'subscribe' %}Subscribe{% else %}Unsubscribe{% endif %}</button>
+    <div class="subscriptionMessage"></div>
+</form>

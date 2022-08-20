@@ -31,17 +31,21 @@ info_dict = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('social-media/', include('socialmedia.urls')),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),),
-    path('sitemap.xml', sitemap, # new
-        {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}},
-        name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap, {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}}, name='django.contrib.sitemaps.views.sitemap'),
     
 
-    path('blog/', include('blog.urls')),
+
+    # third-party apps
     path('captcha/', include('captcha.urls')),
     path('markdownx/', include('markdownx.urls')),
-    path('', include('quiz.urls')),
+    # path('newsletter/', include('newsletter.urls')),
+    path('newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
+
+    # own apps
+    path('social-media/', include('socialmedia.urls')),
+    path('blog/', include('blog.urls')),
+    path('quiz/', include('quiz.urls')),
     path('', include('pages.urls')),
 
 ]
