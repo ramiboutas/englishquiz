@@ -1,27 +1,28 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+from pages.tasks import send_email_to_contacted_person, subscribe_contacted_person_to_newsletter
+
 from .models import Contact
 from django.conf import settings
 
 
-from django.core.mail import send_mail
 
 
 
 @receiver(post_save, sender=Contact)
-def send_contact_response_email(sender, instance, **kwargs):
+def manage_contact_instance(sender, instance, **kwargs):
     """
-    TO DO /// It sends an email to the  person who contacted
+    It sends an email to the  person who contacted us
+    
     """
     
-    if instance.response:
-        send_mail(
-            'English Stuff Online | Contact request',
-            instance.response,
-            settings.EMAIL_HOST_USER,
-            [instance.email],
-            fail_silently=False,
-        )
+    instance.refresh_from_db()
+
+    if instance.response and not instance.responded:
+        send_email_to_contacted_person.apply_async(countdown=5, kwargs={"pk":instance.pk})
+        
+    if instance.subscribe and not instance.subscribed:
+        subscribe_contacted_person_to_newsletter.apply_async(countdown=2, kwargs={"pk":instance.pk})
 
 

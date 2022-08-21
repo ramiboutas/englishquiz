@@ -7,12 +7,17 @@ from slugger import AutoSlugField
 
 
 class Contact(models.Model):
-    name        = models.CharField(max_length=50)
-    email       = models.EmailField()
-    message     = models.TextField(max_length=250)
-    response    = models.TextField(max_length=250, null=True, blank=True)
-    created     = models.DateField(auto_now_add=True)
+    name            = models.CharField(max_length=50)
+    email           = models.EmailField()
+    message         = models.TextField(max_length=250)
+    response        = models.TextField(max_length=250, null=True, blank=True)
+    responded       = models.BooleanField(default=False)
+    responded_on    = models.DateField(null=True, blank=True)
+    
+    subscribe       = models.BooleanField(verbose_name="Subscribe to our Newsletter", default=False)
+    subscribed      = models.BooleanField(default=False)
 
+    created         = models.DateField(auto_now_add=True)
     def __str__(self) -> str:
         return self.name
 

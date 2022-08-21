@@ -1,12 +1,12 @@
+from django.conf import settings
+from django.utils import timezone
 
-# newsfeed 
-# https://github.com/saadmk11/test-django-newsfeed
-
-from newsfeed.models import Newsletter
 from celery import shared_task
+
+from pages.models import Contact
+from newsfeed.models import Newsletter, Subscriber
 from newsfeed.utils.send_newsletters import send_email_newsletter
-
-
+from django.core.mail import send_mail
 
 @shared_task(bind=True)
 def send_email_newsletter_task(newsletters_ids=None, respect_schedule=True):
@@ -20,3 +20,32 @@ def send_email_newsletter_task(newsletters_ids=None, respect_schedule=True):
         newsletters=newsletters,
         respect_schedule=respect_schedule
     )
+
+
+@shared_task(bind=True)
+def send_email_to_contacted_person(self, **kwargs):
+    instance = Contact.objects.get(pk=kwargs["pk"])
+    send_mail(
+            f'Contact #{instance.pk} | English Stuff Online',
+            instance.response,
+            settings.EMAIL_HOST_USER,
+            [instance.email],
+            fail_silently=False,
+        )
+    instance.responded = True
+    instance.responded_on=timezone.now()
+    instance.save()
+
+
+@shared_task(bind=True)
+def subscribe_contacted_person_to_newsletter(self, **kwargs):
+    instance = Contact.objects.get(pk=kwargs["pk"]) 
+    subscriber, created = Subscriber.objects.get_or_create(email_address=instance.email)
+    if created or not subscriber.subscribed:
+        subscriber.send_verification_email(created)
+    instance.subscribed = True
+    instance.save()
+
+
+
+

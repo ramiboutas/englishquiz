@@ -9,4 +9,4 @@ class ContactForm(ModelForm):
     captcha = CaptchaField()
     class Meta:
         model = Contact
-        fields = ['name', 'email', 'message']
+        fields = ['name', 'email', 'message', 'subscribe']
