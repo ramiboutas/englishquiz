@@ -2,6 +2,10 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 from .models import Contact
+from django.conf import settings
+
+
+from django.core.mail import send_mail
 
 
 
@@ -12,6 +16,12 @@ def send_contact_response_email(sender, instance, **kwargs):
     """
     
     if instance.response:
-        pass
+        send_mail(
+            'English Stuff Online | Contact request',
+            instance.response,
+            settings.EMAIL_HOST_USER,
+            [instance.email],
+            fail_silently=False,
+        )
 
 

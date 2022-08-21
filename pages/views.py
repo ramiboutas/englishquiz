@@ -1,13 +1,14 @@
-import imp
 from django.shortcuts import render
 from pages.models import FlexPage
 from pages.forms import ContactForm
+from django.shortcuts import get_object_or_404
 
 from quiz.models import Quiz
 
 
 def flexpage_detail_view(request, slug):
-    context ={'page': FlexPage.objects.get(slug=slug)}
+    object = get_object_or_404(FlexPage, slug=slug)
+    context ={'page': object}
     return render(request, 'pages/flexpage_detail.html', context)
 
 
