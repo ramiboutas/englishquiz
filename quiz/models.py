@@ -36,7 +36,7 @@ class Quiz(models.Model):
         return self.get_detail_url()
 
     def get_list_url(self):
-        return reverse('home')
+        return reverse('quiz_list')
 
     def add_view(self):
         self.views += 1
