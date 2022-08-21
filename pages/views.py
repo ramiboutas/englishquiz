@@ -24,7 +24,7 @@ def contact_view(request):
 
         if form.is_valid():
             form.save()
-
+            return render(request, 'pages/contact_thanks.html')
     else:
         form = ContactForm()
 
