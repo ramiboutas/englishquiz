@@ -14,9 +14,16 @@ class FlexPageAdmin(admin.ModelAdmin):
 
 
 class ContactAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['name', 'email', 'message']
+    readonly_fields = ['name', 'email', 'message', 'responded', 'responded_on', 'responded_by', 'subscribe', 'subscribed', 'created_on']
+    list_filter = ['subscribe', 'created_on', 'responded', 'responded_by']
+    list_display = ['name', 'email', 'message', 'responded']
 
 
+    def save_model(self, request, obj, form, change):
+        if obj.pk:
+            obj.responded_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 class NewsletterAdmin(NewsletterAdmin):

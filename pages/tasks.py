@@ -47,5 +47,7 @@ def subscribe_contacted_person_to_newsletter(self, **kwargs):
     instance.save()
 
 
-
-
+@shared_task(bind=True)
+def delete_responded_contact_instances(self, **kwargs):
+    one_week_ago = timezone.now()-timezone.timedelta(days=7)
+    Contact.objects.filter(responded_on__lt=one_week_ago).delete()

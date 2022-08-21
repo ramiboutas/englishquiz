@@ -26,3 +26,5 @@ def manage_contact_instance(sender, instance, **kwargs):
         subscribe_contacted_person_to_newsletter.apply_async(countdown=2, kwargs={"pk":instance.pk})
 
 
+
+

@@ -1,6 +1,7 @@
 from email import message
 from django.conf import settings
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from markdownx.models import MarkdownxField
 from slugger import AutoSlugField
@@ -13,11 +14,12 @@ class Contact(models.Model):
     response        = models.TextField(max_length=250, null=True, blank=True)
     responded       = models.BooleanField(default=False)
     responded_on    = models.DateField(null=True, blank=True)
+    responded_by    = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL)
     
     subscribe       = models.BooleanField(verbose_name="Subscribe to our Newsletter", default=False)
     subscribed      = models.BooleanField(default=False)
 
-    created         = models.DateField(auto_now_add=True)
+    created_on      = models.DateField(auto_now_add=True)
     def __str__(self) -> str:
         return self.name
 

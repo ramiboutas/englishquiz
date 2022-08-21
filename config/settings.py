@@ -251,12 +251,12 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULE = {
     'share_random_question': {
         'task': 'socialmedia.tasks.share_random_question_instance',
-        'schedule': crontab(hour=12, minute=00),
+        'schedule': crontab(hour='10, 15', minute=00),
         'options': {'expires': 0,},
     },
     'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
-        'schedule': crontab(hour=9, minute=30), # when more instances available: add crontab(hour='8,13', minute=00)
+        'schedule': crontab(hour=12, minute=30), # when more instances available: add crontab(hour='8,13', minute=00)
         'options': {'expires': 0,},
         
     },
@@ -265,6 +265,13 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'send_email_newsletter_task',
         'schedule': crontab(minute=0, hour='*'),
     },
+
+    'delete_responded_contact_instances': {
+        'task': 'delete_responded_contact_instances',
+        'schedule': crontab(hour=3, minute=00),
+    },
+
+    
 }
 
 
