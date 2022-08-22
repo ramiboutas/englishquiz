@@ -18,6 +18,9 @@
     <div class="container my-5">
 
         <h1 class="text-success text-center my-5">{{ post.title }} </h1>
+        <p>Check the post online: <a href="https://www.englishstuff.online{{ post.get_absolute_url }}">
+            www.englishstuff.online{{ post.get_absolute_url }}</a>
+        </p>
         <small class="text-muted">{{ post.created  }}</small>
     </div>
     
