@@ -18,7 +18,7 @@ def create_blog_post_pdf(self, **kwargs):
     template = get_template('blog/post_pdf.html')
     html  = template.render({'post': instance})
     result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result)
     if not pdf.err:
         instance.pdf = ContentFile(result.getvalue(), f'{("BlogPost_")}_{instance.slug}.pdf')
         instance.pdf_created = True
