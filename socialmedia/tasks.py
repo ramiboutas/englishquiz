@@ -3,8 +3,7 @@ import random
 
 from celery import shared_task
 
-
-from utils.management import send_mail_to_admin
+from utils.mail import mail_admins_with_an_exception
 from .models import ScheduledSocialPost, RegularSocialPost
 from quiz.models import Quiz, Lection, Question
 from blog.models import BlogPost
@@ -17,17 +16,8 @@ from .api_linkedin import LinkedinCompanyPageAPI
 from .api_facebook import FacebookPageAPI
 
 
-# If a post intent fails > notify the admin
-# NEED TO SET UP EMAIL BACKEND FIRST
-# extra_subject = 'Linkedin promotion FAILED'
-# body_text = f'Response is not 201: {instance.full_url} \n {response}'
-# send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
-# from django.core.mail import mail_admins
-#  mail_admins(subject, message, fail_silently=False, connection=None, html_message=None)[source]¶
-
 
 #  Question promotion
-
 @shared_task(bind=True)
 def share_random_question_instance(self, **kwargs):
     try:
@@ -66,6 +56,7 @@ def share_random_question_instance(self, **kwargs):
             
 
     except Exception as e:
+        mail_admins_with_an_exception(e)
         raise e
 
 
@@ -96,6 +87,7 @@ def promote_scheduled_social_post_instance(self, **kwargs):
             # TO DO
 
     except Exception as e:
+        mail_admins_with_an_exception(e)
         raise e
 
 
@@ -140,6 +132,7 @@ def share_regular_social_post(self, **kwargs):
             RegularSocialPost.objects.all().update(promoted=False)
 
     except Exception as e:
+        mail_admins_with_an_exception(e)
         raise e
 
 
@@ -185,4 +178,5 @@ def share_regular_blog_post(self, **kwargs):
             
 
     except Exception as e:
+        mail_admins_with_an_exception(e)
         raise e

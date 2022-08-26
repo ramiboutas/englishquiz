@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+
+import readtime
 from markdownx.models import MarkdownxField
 from slugger import AutoSlugField
-
-
 from taggit.managers import TaggableManager
+
+from utils.keywords import get_keywords_from_text
 
 class BlogPost(models.Model):
     DIFFICULTY_LEVEL = [
@@ -16,8 +18,8 @@ class BlogPost(models.Model):
     ]
 
     
-    title = models.CharField(max_length=250)
-    description = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=70)
+    description = models.TextField(blank=False, null=True)
     level = models.CharField(choices=DIFFICULTY_LEVEL, default="general", max_length=30)
     tags = TaggableManager()
     public = models.BooleanField(default=False)
@@ -36,9 +38,13 @@ class BlogPost(models.Model):
     class Meta:
         ordering = ("-created",)
 
+    @property
+    def reading_time(self):
+        return readtime.of_markdown(self.content).minutes
+    
     def __str__(self):
         return self.title
-
+    
     def get_absolute_url(self):
         return reverse("blog_postdetail", kwargs={"slug": self.slug, "level": self.level})
     
@@ -63,3 +69,12 @@ class BlogPost(models.Model):
     def add_view(self):
         self.views += 1
         self.save()
+
+    def get_meta_description(self):
+        return self.description[0:160]
+
+    def get_meta_keywords(self):
+        return get_keywords_from_text(self.content)
+
+    def get_meta_title(self):
+        return self.title
