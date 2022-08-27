@@ -101,9 +101,13 @@ class Question(models.Model):
             text += f"{self.text_one} ____ {self.text_two}"
             if self.text_three:
                 text += f" ____ {self.text_three}"
+        
         if self.type == 5:
             text += f"{self.text_one}"
-
+            if self.text_two:
+                text += f"\n {self.text_two}"
+            if self.text_three:
+                text += f"\n {self.text_three}"
         return text
 
     def get_detail_url(self):

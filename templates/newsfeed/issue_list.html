@@ -1,29 +1,58 @@
 {% extends 'base.html' %}
+{% load cache %}
 
-{% block head_title %}Issue Archive{% endblock %}
+{% cache 604800 issue_list %}
 
-{% block content %}
-    <div>
-        {% for issue in object_list %}
-            <h2><a href="{{ issue.get_absolute_url }}">{{ issue.title }}</a></h2>
-            <p>{{ issue.short_description }}</p>
-            release date: <b>{{ issue.publish_date|date:"D d M Y" }}</b>
-        {% endfor %}
-    </div>
+    {% block head_title %}Issue Archive{% endblock %}
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
+    {% block content %}
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ paginator.num_pages }}.
-            </span>
+        <h1 class="text-success text-center py-5">Issue Archive</h1>
 
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
-{% endblock %}
+        <div class="container py-5">
+            <div class="row justify-content-md-center">
+                
+                {% for issue in object_list %}
+                    <div class="col-md-6 my-5">
+                        <h3><a href="{{ issue.get_absolute_url }}">{{ issue.title }}</a></h3>
+                        <p>{{ issue.short_description }}</p>
+                        <small class="text-muted">{{ issue.publish_date|date:"D d M Y" }}</small>
+                    </div>
+                {% endfor %}
+
+
+                {% if page_obj.paginator.num_pages > 1 %}
+                    <nav aria-label="Page navigation" >
+                        <ul class="pagination justify-content-center">
+                                                
+                            <li {% if page_obj.has_previous %}class="page-item"{% else %}class="page-item disabled"{% endif %}>
+                                <a class="page-link" {% if page_obj.has_previous %}href="?page={{page_obj.previous_page_number}}"{% endif %}><span>&laquo;</span></a>
+                            </li>
+                            
+                            {% for page_num in page_obj.paginator.page_range %}
+                                <li {% if page_num == page_obj.number %} class="page-item active" {% else %} class="page-item" {% endif %}>
+                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                                </li>
+                            {% endfor %}
+                            
+                                <li {% if page_obj.has_next %}class="page-item"{% else %}class="page-item disabled"{% endif %}>
+                                    <a class="page-link" {% if page_obj.has_next %}href="?page={{page_obj.next_page_number}}"{% endif %}><span>&raquo;</span></a>
+                                </li>
+                            
+                        </ul>
+                    </nav>
+                {% endif %}
+            
+                
+            </div>
+        </div>
+
+        
+
+        {% include "partials/footer.html" %}
+
+
+    {% endblock  %}
+
+
+{% endcache %}
