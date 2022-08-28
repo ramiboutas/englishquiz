@@ -18,7 +18,7 @@ def schedule_social_post_for_promoting(sender, instance, **kwargs):
     """
     promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date, kwargs={"pk":instance.pk})
 
-
+@receiver(post_save, sender=ScheduledSocialPost)
 @receiver(post_save, sender=RegularSocialPost)
 def trigger_image_creation_task(sender, instance, **kwargs):
     """
@@ -27,7 +27,7 @@ def trigger_image_creation_task(sender, instance, **kwargs):
     instance.refresh_from_db()
     
     if instance.image_text and not instance.image:
-        create_image_from_regular_social_post_instance.apply_async(countdown=2, kwargs={"pk":instance.pk})
+        create_image_from_regular_social_post_instance.apply_async(countdown=1, kwargs={"pk":instance.pk})
 
 
 

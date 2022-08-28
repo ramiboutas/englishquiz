@@ -71,8 +71,7 @@ def create_image_from_regular_social_post_instance(self, **kwargs):
     
     # imgObject.save('socialmedia/images/output/new_image.jpeg')
     imgObject.save(blob, 'JPEG') 
-    instance.image.save(f'{("Image_")}_{instance.pk}.jpg', File(blob), save=True)
-
+    instance.image.save(f'{instance.pk}'.zfill(5)+'.jpg', File(blob), save=True)
 
 
 
