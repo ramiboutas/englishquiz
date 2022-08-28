@@ -4,6 +4,19 @@ from django.contrib.auth import get_user_model
 
 from blog.models import BlogPost
 
+
+
+
+class BackgroundImage(models.Model):
+    name = models.CharField(max_length=20, null=True)
+    image = models.ImageField(upload_to='socialposts/backgrounds/', null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+        
+
+
+
 ####################################
 ### Sending to social media APIs ###
 ####################################
@@ -16,7 +29,10 @@ class AbstractSocialPost(models.Model):
     """
     
     text                    = models.TextField(max_length=2000)
-    image                   = models.ImageField(upload_to='socialposts/', null=True, blank=True)
+    image_text              = models.TextField(max_length=100, null=True, blank=True)
+    image                   = models.ImageField(upload_to='socialposts/images/', null=True, blank=True)
+    background_image_obj    = models.ForeignKey(BackgroundImage, null=True, blank=True, on_delete=models.SET_NULL)
+    share_image             = models.BooleanField(verbose_name="Share image", default=False)
     promote_in_linkedin     = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
     promote_in_twitter      = models.BooleanField(verbose_name="Promote in Twitter", default=True)
     promote_in_telegram     = models.BooleanField(verbose_name="Promote in Telegram", default=True)

@@ -1,11 +1,10 @@
 from os import access
 import requests
 import json
-import urllib.parse
 
 from django.conf import settings
 
-from .models import FacebookPost
+from socialmedia.models import FacebookPost
 
 class AbractFacekookPageAPI:
     """

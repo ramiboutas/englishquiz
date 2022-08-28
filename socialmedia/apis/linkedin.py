@@ -4,7 +4,7 @@ import urllib.parse
 
 from django.conf import settings
 
-from .models import LinkedinPost
+from socialmedia.models import LinkedinPost
 
 class AbractLinkedinCompanyPageAPI:
     """

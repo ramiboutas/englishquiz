@@ -1,15 +1,14 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
 
-from .api_twitter import TweetAPI
-from .api_telegram import TelegramAPI
-from .api_linkedin import LinkedinCompanyPageAPI
-from .api_facebook import FacebookPageAPI
-from .api_instagram import InstagramAPI 
+from socialmedia.apis.twitter import TweetAPI
+from socialmedia.apis.telegram import TelegramAPI
+from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
+from socialmedia.apis.facebook import FacebookPageAPI
+from socialmedia.apis.instagram import InstagramAPI
 
-from .tasks import promote_scheduled_social_post_instance
-from .models import FacebookPost, InstagramPost, LinkedinPost, ScheduledSocialPost, TelegramMessage, Tweet
-
+from socialmedia.tasks import promote_scheduled_social_post_instance, create_image_from_regular_social_post_instance
+from socialmedia.models import FacebookPost, InstagramPost, LinkedinPost, RegularSocialPost, ScheduledSocialPost, TelegramMessage, Tweet
 
 
 @receiver(post_save, sender=ScheduledSocialPost)
@@ -18,6 +17,18 @@ def schedule_social_post_for_promoting(sender, instance, **kwargs):
     Schedules a social post (Social Post = Post in Linkedin, Message in Telegram, Tweet in Twitter)
     """
     promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date, kwargs={"pk":instance.pk})
+
+
+@receiver(post_save, sender=RegularSocialPost)
+def trigger_image_creation_task(sender, instance, **kwargs):
+    """
+    Triggers the creation of images
+    """
+    instance.refresh_from_db()
+    
+    if instance.image_text and not instance.image:
+        create_image_from_regular_social_post_instance.apply_async(countdown=2, kwargs={"pk":instance.pk})
+
 
 
 @receiver(pre_save, sender=TelegramMessage)

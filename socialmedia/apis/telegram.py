@@ -2,7 +2,7 @@ import telegram
 
 from django.conf import settings
 
-from .models import TelegramMessage
+from socialmedia.models import TelegramMessage
 
 
 class TelegramAPI:

@@ -1,19 +1,78 @@
 import random
+from io import BytesIO
 
+from django.core.files.base import ContentFile
+from django.core.files import File
 
+from PIL import Image, ImageDraw, ImageFont
 from celery import shared_task
 
 from utils.mail import mail_admins_with_an_exception
-from .models import ScheduledSocialPost, RegularSocialPost
 from quiz.models import Quiz, Lection, Question
 from blog.models import BlogPost
 
-from .text import get_question_promotion_text, get_blog_post_promotion_text
+from socialmedia.text import get_question_promotion_text, get_blog_post_promotion_text
+from socialmedia.models import ScheduledSocialPost, RegularSocialPost
+from socialmedia.apis.twitter import TweetAPI
+from socialmedia.apis.telegram import TelegramAPI
+from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
+from socialmedia.apis.facebook import FacebookPageAPI
 
-from .api_twitter import TweetAPI
-from .api_telegram import TelegramAPI
-from .api_linkedin import LinkedinCompanyPageAPI
-from .api_facebook import FacebookPageAPI
+
+# Image creation
+
+def get_wrapped_text(text: str, font: ImageFont.ImageFont, line_length: int):
+        lines = ['']
+        for word in text.split(' '):
+            line = f'{lines[-1]} {word}'.strip()
+            if font.getlength(line) <= line_length:
+                lines[-1] = line
+            else:
+                lines.append(word)
+        return '\n'.join(lines)
+
+
+@shared_task(bind=True)
+def create_image_from_regular_social_post_instance(self, **kwargs):
+    instance = RegularSocialPost.objects.get(pk=kwargs["pk"])
+    text = instance.image_text
+    font_size = 70
+    text_color = (0,90,0)
+
+    font_object = ImageFont.truetype("socialmedia/images/fonts/Georgia.ttf", font_size)
+    blob = BytesIO()
+    if instance.background_image_obj:
+        imgObject=Image.open(instance.background_image_obj.image.file)
+    else:
+        imgObject=Image.open('socialmedia/images/default.jpg')
+    width, height = imgObject.size
+    height_offset = height*0.35
+    width_offset = width*0.15
+
+    for line_text in text.split("\n"):
+        wrapped_line_text = get_wrapped_text(line_text, font_object, line_length=width-2*width_offset)
+        number_of_produced_lines = len(wrapped_line_text.split("\n"))
+        add_break_line = 0
+
+        # add additional line if the line text is empty
+        if line_text=="":
+            add_break_line = font_size
+
+        # draw on image
+        drawing_object = ImageDraw.Draw(imgObject)
+        drawing_object.multiline_text((width_offset, height_offset), wrapped_line_text, font=font_object, fill=text_color)
+        # height_offset += font_object.getsize(wrapped_line_text)[1]*number_of_produced_lines + add_break_line
+        height_offset += font_size*number_of_produced_lines + add_break_line
+
+    if height_offset > height:
+        # For large text, maybe implement...
+        print("height_offset > height")
+        print("Maybe inform programmer and do not create image")
+    
+    # imgObject.save('socialmedia/images/output/new_image.jpeg')
+    imgObject.save(blob, 'JPEG') 
+    instance.image.save(f'{("Image_")}_{instance.pk}.jpg', File(blob), save=True)
+
 
 
 

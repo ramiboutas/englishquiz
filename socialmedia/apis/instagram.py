@@ -1,10 +1,9 @@
 import requests
 import json
-import urllib.parse
 
 from django.conf import settings
 
-from .models import InstagramPost
+from socialmedia.models import InstagramPost
 
 class AbractInstagramAPI:
     """

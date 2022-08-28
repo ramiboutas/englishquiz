@@ -1,8 +1,15 @@
 from django.contrib import admin
 
-from .models import (LinkedinPost, ScheduledSocialPost, RegularSocialPost, 
+from .models import (BackgroundImage, LinkedinPost, ScheduledSocialPost, RegularSocialPost, 
                     TelegramMessage, Tweet,LinkedinPost,
                     FacebookPost, InstagramPost)
+
+
+
+@admin.register(BackgroundImage)
+class BackgroundImageAdmin(admin.ModelAdmin):
+    list_display = ['name', 'image']
+
 
 @admin.register(ScheduledSocialPost)
 class ScheduledSocialPostAdmin(admin.ModelAdmin):
@@ -17,6 +24,7 @@ class ScheduledSocialPostAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
+
 @admin.register(RegularSocialPost)
 class RegularSocialPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
@@ -28,6 +36,7 @@ class RegularSocialPostAdmin(admin.ModelAdmin):
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
 
 @admin.register(Tweet)
 class TweetAdmin(admin.ModelAdmin):

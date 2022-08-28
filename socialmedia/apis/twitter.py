@@ -2,7 +2,7 @@ import tweepy
 
 from django.conf import settings
 
-from .models import Tweet
+from socialmedia.models import Tweet
 
 class AbtractTwiterAPI:
     def __init__(self) -> None:
