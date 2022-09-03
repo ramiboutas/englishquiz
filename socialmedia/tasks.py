@@ -98,7 +98,7 @@ def share_random_question_instance(self, **kwargs):
                 TweetAPI().create(text)
             
             # Facebook
-            FacebookPageAPI().create_post(text)
+            # FacebookPageAPI().create_post(text)
             # Instagram
             # TO DO
 
@@ -138,8 +138,8 @@ def promote_scheduled_social_post_instance(self, **kwargs):
         if instance.text.__len__() < 280 and instance.promote_in_twitter:
             TweetAPI().create(instance.text)
         
-        if instance.promote_in_facebook:
-            FacebookPageAPI().create_post(instance.text)
+        # if instance.promote_in_facebook:
+        #     FacebookPageAPI().create_post(instance.text)
         
         # Instagram
             # TO DO
@@ -173,8 +173,8 @@ def share_regular_social_post(self, **kwargs):
             if instance.promote_in_twitter and instance.text.__len__() < 280:
                 TweetAPI().create(instance.text)
             
-            if instance.promote_in_facebook:
-                FacebookPageAPI().create_post(instance.text)
+            # if instance.promote_in_facebook:
+            #     FacebookPageAPI().create_post(instance.text)
             
             # Instagram
             # TO DO
@@ -220,7 +220,7 @@ def share_regular_blog_post(self, **kwargs):
                 TweetAPI().create(text)
             
             # Facebook
-            FacebookPageAPI().create_post(text)
+            # FacebookPageAPI().create_post(text)
             # Instagram
             # TO DO
 

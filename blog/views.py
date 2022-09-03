@@ -11,7 +11,6 @@ from .models import BlogPost
 
 
 
-
 def post_list_view(request):
     last_posts = BlogPost.get_last_posts()
     popular_posts = BlogPost.get_popular_posts()
