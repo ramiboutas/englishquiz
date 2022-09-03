@@ -41,7 +41,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class DeeplLanguageAdmin(admin.ModelAdmin):
     list_filter = ['supports_formality']
-    list_display = ['name', 'code', 'supports_formality']
+    readonly_fields = ['views', ]
+    list_display = ['name', 'code', 'supports_formality', 'views']
 
 
 class TranslatedQuestionAdmin(admin.ModelAdmin):

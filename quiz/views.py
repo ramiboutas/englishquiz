@@ -64,10 +64,12 @@ def get_question_translation_modal(request, id_question):
     return render(request, 'quiz/partials/question_translation_modal.html', context)
 
 
-@cache_page(3600 * 24 * 30)
+
 def translate_question_text(request, id_question, id_language):
     language = get_object_or_404(DeeplLanguage, id=id_language)
     question = get_object_or_404(Question, id=id_question)
+
+    language.add_view()
 
     try:
         translated_question = TranslatedQuestion.objects.get(language=language, question=question)

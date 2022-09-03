@@ -165,10 +165,17 @@ class DeeplLanguage(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=5)
     supports_formality = models.BooleanField(default=False)
+    views =  models.PositiveIntegerField(default=0)
 
+    class Meta:
+        ordering = ['-views']
 
     def __str__(self) -> str:
         return self.name
+    
+    def add_view(self):
+        self.views += 1
+        self.save()
     
 
 class TranslatedQuestion(models.Model):
