@@ -206,8 +206,8 @@ TELEGRAM_CHANNEL_NAME = '@english_stuff_online'
 
 
 # Linkedin
-LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") # not needed at the moment
-LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET") # not needed at the moment
+LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") 
+LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET") 
 LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
 LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
 
@@ -271,10 +271,15 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=3, minute=00),
     },
 
+    'update_linkedin_company_page_access_token': {
+        'task': 'update_linkedin_company_page_access_token',
+        'schedule': crontab(0, 0, day_of_month='1', month_of_year='1,3,5,7,9,11'),
+    },
+
     
 }
 
-
+# 
 
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')

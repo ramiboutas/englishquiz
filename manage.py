@@ -2,10 +2,12 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import dotenv
+# import dotenv # django-dotenv
+from dotenv import load_dotenv # python-dotenv
 
 def main():
-    dotenv.read_dotenv()
+    # dotenv.read_dotenv() # django-dotenv
+    load_dotenv()
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
     try:

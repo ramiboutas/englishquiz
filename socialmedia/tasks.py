@@ -74,6 +74,17 @@ def create_image_from_regular_social_post_instance(self, **kwargs):
     instance.image.save(f'{instance.pk}'.zfill(5)+'.jpg', File(blob), save=True)
 
 
+# Linkedin update access token
+
+# LinkedinCompanyPageAPI().update_access_token
+@shared_task(bind=True)
+def update_linkedin_company_page_access_token(self, **kwargs):
+    try:
+        LinkedinCompanyPageAPI().update_access_token()
+    except Exception as e:
+        mail_admins_with_an_exception(e)
+        raise e
+
 
 #  Question promotion
 @shared_task(bind=True)
