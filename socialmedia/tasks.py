@@ -1,4 +1,5 @@
 import random
+import time
 from io import BytesIO
 
 from django.core.files.base import ContentFile
@@ -145,7 +146,7 @@ def promote_scheduled_social_post_instance(self, **kwargs):
     """
     Social post - triggered by post_save signal
     """
-
+    time.sleep(10) # for safety: in case we want to first create an image from the post instance
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
         
@@ -175,6 +176,7 @@ def share_regular_social_post(self, **kwargs):
     """
     Regular social post - triggered by celery beat (periodic task)
     """
+    time.sleep(10) # for safety: in case we want to first create an image from the post instance
     try:
         # Getting random social post
         social_posts = RegularSocialPost.objects.filter(promoted=False)

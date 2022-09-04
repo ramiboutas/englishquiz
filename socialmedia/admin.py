@@ -57,7 +57,7 @@ class TelegramMessageAdmin(admin.ModelAdmin):
 @admin.register(LinkedinPost)
 class LinkedinPostAdmin(admin.ModelAdmin):
     search_fields = ['text']
-    readonly_fields = ['urn_li_share', 'text', 'click_count', 'comment_count', 'engagement', 'impression_count', 'like_count', 'share_count', 'api_deleted']
+    readonly_fields = ['urn_li_share',  'text', 'media_asset', 'click_count', 'comment_count', 'engagement', 'impression_count', 'like_count', 'share_count', 'api_deleted']
     list_filter = ['date', 'api_deleted']
     list_display = ['text', 'urn_li_share', 'api_deleted']
 

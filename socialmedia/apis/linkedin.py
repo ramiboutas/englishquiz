@@ -102,10 +102,6 @@ class LinkedinCompanyPageAPI(AbractLinkedinCompanyPageAPI):
     def share_post_with_image(self, social_post_instance):
         upload_url, media_asset = self.register_upload()
         put_headers = {'Authorization': 'Bearer '+settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN,}
-
-        # social_post_instance.image.file.path ??
-        # with open('/home/rami/dev/github/englishquiz/media/socialposts/images/Image__3.jpg', 'rb') as f:
-        #     put_data = f.read()
         
         put_data = social_post_instance.image.read()
         

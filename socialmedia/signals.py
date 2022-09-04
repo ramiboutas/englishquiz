@@ -1,4 +1,4 @@
-import time
+
 
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
@@ -18,7 +18,7 @@ def schedule_social_post_for_promoting(sender, instance, **kwargs):
     """
     Schedules a social post (Social Post = Post in Linkedin, Message in Telegram, Tweet in Twitter)
     """
-    time.sleep(10) # for safety: in case we want to first create an image
+    
     promote_scheduled_social_post_instance.apply_async(eta=instance.promote_date, kwargs={"pk":instance.pk})
 
 
