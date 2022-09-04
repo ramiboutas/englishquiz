@@ -32,9 +32,7 @@ def get_wrapped_text(text: str, font: ImageFont.ImageFont, line_length: int):
         return '\n'.join(lines)
 
 
-@shared_task(bind=True)
-def create_image_from_regular_social_post_instance(self, **kwargs):
-    instance = RegularSocialPost.objects.get(pk=kwargs["pk"])
+def create_image_from_instance(instance):
     text = instance.image_text
     font_size = 70
     text_color = (0,90,0)
@@ -74,9 +72,20 @@ def create_image_from_regular_social_post_instance(self, **kwargs):
     instance.image.save(f'{instance.pk}'.zfill(5)+'.jpg', File(blob), save=True)
 
 
-# Linkedin update access token
+@shared_task(bind=True)
+def create_image_from_scheduled_social_post_instance(self, **kwargs):
+    instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
+    create_image_from_instance(instance)
 
-# LinkedinCompanyPageAPI().update_access_token
+
+@shared_task(bind=True)
+def create_image_from_regular_social_post_instance(self, **kwargs):
+    instance = RegularSocialPost.objects.get(pk=kwargs["pk"])
+    create_image_from_instance(instance)
+
+
+
+# Linkedin update access token
 @shared_task(bind=True)
 def update_linkedin_company_page_access_token(self, **kwargs):
     try:
