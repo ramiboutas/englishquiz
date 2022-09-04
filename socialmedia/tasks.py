@@ -144,7 +144,8 @@ def promote_scheduled_social_post_instance(self, **kwargs):
             TelegramAPI().send_message(instance.text)
         
         if instance.promote_in_linkedin:
-            LinkedinCompanyPageAPI().create_ugcPost(instance.text)
+            # LinkedinCompanyPageAPI().create_ugcPost(instance.text)
+            LinkedinCompanyPageAPI().share_post_with_image(instance)
 
         if instance.text.__len__() < 280 and instance.promote_in_twitter:
             TweetAPI().create(instance.text)

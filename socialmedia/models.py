@@ -75,6 +75,7 @@ class RegularSocialPost(AbstractSocialPost):
 
 class LinkedinPost(models.Model):
     urn_li_share        = models.CharField(max_length=50)
+    media_asset         = models.CharField(max_length=100, blank=True, null=True)
     text                = models.TextField(max_length=1000)
     date                = models.DateTimeField(auto_now_add = True, blank=True, null=True)
     click_count         = models.PositiveIntegerField(null=True)
