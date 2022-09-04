@@ -107,7 +107,7 @@ class LinkedinCompanyPageAPI(AbractLinkedinCompanyPageAPI):
         # with open('/home/rami/dev/github/englishquiz/media/socialposts/images/Image__3.jpg', 'rb') as f:
         #     put_data = f.read()
         
-        put_data = social_post_instance.image.open('r').read()
+        put_data = social_post_instance.image.read()
         
         requests.put(upload_url, headers=put_headers, data=put_data)
         time.sleep(5)
