@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'blog',
 
     # thid-party apps
-    'markdownx',
+    'markdownx', # cloned
     'django_htmx',
     'analytical',
     'captcha',
@@ -71,6 +71,13 @@ MEDIA_URL = '/media/'
 import django
 from django.utils.encoding import force_str
 django.utils.encoding.force_text = force_str
+
+# ImportError: cannot import name 'url' from 'django.conf.urls'
+#  markdownx.urls
+# from django.urls import re_path
+# django.conf.urls.url = django.urls.re_path
+
+
 
 # newsletter app
 # https://forum.djangoproject.com/t/importerror-cannot-import-name-ugettext-lazy-from-django-utils-translation/10943

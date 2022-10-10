@@ -1,4 +1,4 @@
-django>=4.1
+django
 django-htmx
 django-analytical
 django-simple-captcha
@@ -9,3 +9,13 @@ django-celery-results
 django-taggit
 django-social-share
 django-newsfeed
+
+
+django-slugger
+django-storages
+python-dotenv
+readtime
+yake
+tweepy
+python-telegram-bot
+xhtml2pdf

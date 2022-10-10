@@ -1,4 +1,4 @@
-import telegram
+import telegram as telegram_bot
 
 from django.conf import settings
 
@@ -8,7 +8,7 @@ from socialmedia.models import TelegramMessage
 class TelegramAPI:
     def __init__(self) -> None:
         self.channel = settings.TELEGRAM_CHANNEL_NAME
-        self.bot = telegram.Bot(token=settings.TELEGRAM_BOT_API_KEY)
+        self.bot = telegram_bot.Bot(token=settings.TELEGRAM_BOT_API_KEY)
     
     def send_message(self, text):
         response = self.bot.send_message(chat_id=self.channel,
