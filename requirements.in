@@ -1,0 +1,11 @@
+django>=4.1
+django-htmx
+django-analytical
+django-simple-captcha
+django-crispy-forms
+crispy-bootstrap5
+django-celery-beat
+django-celery-results
+django-taggit
+django-social-share
+django-newsfeed
