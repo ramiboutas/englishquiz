@@ -10,16 +10,19 @@ from django.conf import settings
 from socialmedia.models import LinkedinPost
 
 
-class AbractLinkedinCompanyPageAPI:
+class AbstractLinkedinCompanyPageAPI:
     """
     Common shared data  & methods
     """
 
     def __init__(self) -> None:
         access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
-        self.headers = {'Content-Type': 'application/json',
-                        'X-Restli-Protocol-Version': '2.0.0',
-                        'Authorization': 'Bearer ' + access_token}
+        
+        self.headers = {
+            'Content-Type': 'application/json',
+            'X-Restli-Protocol-Version': '2.0.0',
+            'Authorization': 'Bearer ' + access_token
+            }
 
     def update_access_token(self):
         # https://docs.microsoft.com/en-us/linkedin/shared/authentication/programmatic-refresh-tokens?view=li-lms-2022-06
@@ -51,7 +54,7 @@ class AbractLinkedinCompanyPageAPI:
         )
 
 
-class LinkedinCompanyPageAPI(AbractLinkedinCompanyPageAPI):
+class LinkedinCompanyPageAPI(AbstractLinkedinCompanyPageAPI):
     def __init__(self) -> None:
         organization_id = settings.LINKEDIN_ORGANIZATION_ID
         self.post_data = {

@@ -6,7 +6,7 @@ from django.conf import settings
 from socialmedia.models import FacebookPost
 
 
-class AbractFacekookPageAPI:
+class AbstractFacebookPageAPI:
     """
     Common shared data  & methods
     """
@@ -32,7 +32,7 @@ class AbractFacekookPageAPI:
         return new_access_token
 
 
-class FacebookPageAPI(AbractFacekookPageAPI):
+class FacebookPageAPI(AbstractFacebookPageAPI):
     def __init__(self) -> None:
         # do more here stuff if needed
         super().__init__()
