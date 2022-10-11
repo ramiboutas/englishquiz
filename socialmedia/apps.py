@@ -6,5 +6,4 @@ class socialmediaConfig(AppConfig):
     name = 'socialmedia'
 
     def ready(self):
-        # Implicitly connect a signal handlers decorated with @receiver.
-        from . import signals
+        from . import signals  # noqa

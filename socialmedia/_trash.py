@@ -6,7 +6,6 @@ import tweepy
 from django.conf import settings
 
 
-
 def post_text_in_linkedin_profile(text):
     # THIS FUNCTION WORKS, BUT I AM POSTING ON THE COMPANYS PAGE
     # scope: w_member_social,r_liteprofile
@@ -20,7 +19,7 @@ def post_text_in_linkedin_profile(text):
                'Authorization': 'Bearer ' + access_token}
 
     post_data = {
-        "author": "urn:li:person:"+profile_id,
+        "author": "urn:li:person:" + profile_id,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
@@ -53,24 +52,21 @@ def post_text_in_linkedin_company(text):
                'Authorization': 'Bearer ' + access_token}
 
     post_data = {
-      "author": "urn:li:organization:"+organization_id,
-      "commentary": text,
-      "visibility": "PUBLIC",
-      "distribution": {
-        "feedDistribution": "NONE",
-        "targetEntities": [],
-        "thirdPartyDistributionChannels": []
-      },
-      "lifecycleState": "PUBLISHED",
-      "isReshareDisabledByAuthor": False,
+        "author": "urn:li:organization:" + organization_id,
+        "commentary": text,
+        "visibility": "PUBLIC",
+        "distribution": {
+            "feedDistribution": "NONE",
+            "targetEntities": [],
+            "thirdPartyDistributionChannels": []
+        },
+        "lifecycleState": "PUBLISHED",
+        "isReshareDisabledByAuthor": False,
     }
 
     response = requests.post(url, headers=headers, json=post_data)
 
     return response
-
-
-
 
 
 def post_text_in_twitter(text):
@@ -89,9 +85,6 @@ def post_text_in_twitter(text):
     api.update_status(status=text)
 
 
-
-
-
 def post_text_in_linkedin_company_ugcPosts(text):
     organization_id = settings.LINKEDIN_ORGANIZATION_ID
     access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
@@ -103,18 +96,18 @@ def post_text_in_linkedin_company_ugcPosts(text):
                'Authorization': 'Bearer ' + access_token}
 
     post_data = {
-        "author": "urn:li:organization:"+organization_id,
+        "author": "urn:li:organization:" + organization_id,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
-          "com.linkedin.ugc.ShareContent": {
-           "shareMediaCategory": "NONE",
-           "shareCommentary":{
-            "text": text
-           },
-           "media": [],
-           "shareCategorization": {}
-          }
-         },
+            "com.linkedin.ugc.ShareContent": {
+                "shareMediaCategory": "NONE",
+                "shareCommentary": {
+                    "text": text
+                },
+                "media": [],
+                "shareCategorization": {}
+            }
+        },
         "visibility": {
             "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
         }

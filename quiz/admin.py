@@ -9,13 +9,14 @@ class LectionInline(admin.StackedInline):
     model = Lection
     extra = 5
 
+
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ['views']
     list_filter = ['name']
     prepopulated_fields = {"slug": ("name",)}
-    inlines = [LectionInline,]
+    inlines = [LectionInline, ]
 
 
 class AnswerInline(NestedStackedInline):

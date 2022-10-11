@@ -8,14 +8,13 @@ from quiz.models import Quiz
 
 def flexpage_detail_view(request, slug):
     object = get_object_or_404(FlexPage, slug=slug)
-    context ={'page': object}
+    context = {'page': object}
     return render(request, 'pages/flexpage_detail.html', context)
-
 
 
 def home_view(request):
     quiz_list = Quiz.objects.all()
-    context ={'quiz_list': quiz_list}
+    context = {'quiz_list': quiz_list}
     return render(request, 'pages/home.html', context)
 
 
@@ -29,5 +28,5 @@ def contact_view(request):
     else:
         form = ContactForm()
 
-    context ={'form': form}
+    context = {'form': form}
     return render(request, 'pages/contact.html', context)

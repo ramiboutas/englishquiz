@@ -3,6 +3,7 @@ from django.views.decorators.cache import cache_page
 
 from .models import TelegramMessage, LinkedinPost
 
+
 @cache_page(3600 * 24 * 1)
 def telegram_view(request):
     telegram_messages = TelegramMessage.objects.all().order_by('-id')[:10]

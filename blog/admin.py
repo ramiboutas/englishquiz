@@ -3,7 +3,6 @@ from markdownx.admin import MarkdownxModelAdmin
 from .models import BlogPost
 
 
-
 class BlogPostAdmin(MarkdownxModelAdmin):
     search_fields = ['title', 'content']
     readonly_fields = ['created', 'updated', 'created_by', 'views', 'promoted', 'pdf_created', 'reading_time']
@@ -16,7 +15,6 @@ class BlogPostAdmin(MarkdownxModelAdmin):
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
 
 
 admin.site.register(BlogPost, BlogPostAdmin)

@@ -7,6 +7,7 @@ from captcha.fields import CaptchaField
 class ContactForm(ModelForm):
     # add https://django-simple-captcha.readthedocs.io/en/latest/usage.html
     captcha = CaptchaField()
+
     class Meta:
         model = Contact
         fields = ['name', 'email', 'message', 'subscribe']

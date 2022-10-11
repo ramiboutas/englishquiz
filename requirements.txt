@@ -17,6 +17,8 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
+autopep8==1.7.0
+    # via -r requirements.in
 backports-zoneinfo==0.2.1
     # via
     #   django
@@ -67,6 +69,8 @@ colorama==0.4.5
     #   click
     #   qrcode
     #   tqdm
+coverage==6.5.0
+    # via -r requirements.in
 crispy-bootstrap5==0.6
     # via -r requirements.in
 cryptography==38.0.1
@@ -121,6 +125,8 @@ django-taggit==2.1.0
     # via -r requirements.in
 django-timezone-field==5.0
     # via django-celery-beat
+flake8==5.0.4
+    # via -r requirements.in
 future==0.18.2
     # via arabic-reshaper
 html5lib==1.1
@@ -145,6 +151,8 @@ markdown==3.4.1
     # via -r requirements.in
 markdown2==2.4.5
     # via readtime
+mccabe==0.7.0
+    # via flake8
 networkx==2.8.7
     # via yake
 numpy==1.23.3
@@ -162,8 +170,14 @@ pillow==9.1.1
     #   xhtml2pdf
 prompt-toolkit==3.0.29
     # via click-repl
+pycodestyle==2.9.1
+    # via
+    #   autopep8
+    #   flake8
 pycparser==2.21
     # via cffi
+pyflakes==2.5.0
+    # via flake8
 pyhanko==0.14.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.19.5
@@ -239,6 +253,8 @@ tinycss2==1.1.1
     # via
     #   cssselect2
     #   svglib
+toml==0.10.2
+    # via autopep8
 tornado==6.1
     # via python-telegram-bot
 tqdm==4.64.1

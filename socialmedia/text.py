@@ -7,7 +7,7 @@ common_hashtags = "#englishtips #learnenglish #englishquizzes"
 def get_hashtag_str_from_post_instance_tags(instance):
     hashtag_str = ''
     for tag in instance.tags.all():
-        hashtag_str += '#'+tag.name + ' '
+        hashtag_str += '#' + tag.name + ' '
     return hashtag_str
 
 
@@ -22,22 +22,21 @@ def get_salutation_text():
 
 
 # Blog Post
-
 def get_blog_post_promotion_text(instance):
     """
-    It generates text from a blog post instance
+    It generates text for promoting a blog post
     """
-
     hashtags_from_instance_tags = get_hashtag_str_from_post_instance_tags(instance)
-    
-    text = f'✍️ New post: {instance.title}\n\n'
-    text += f'{instance.full_url}\n\n'
+    text = ""
+    text += f'✍ Blog post: {instance.title}\n \n'
+    text += f'{instance.description}\n \n'
+    text += f'More under: https://www.englishstuff.online{instance.get_detail_url()} \n \n'
     text += f'{hashtags_from_instance_tags}'
 
     return text
 
 
-# Quiz 
+# Quiz
 
 def get_quiz_promotion_text(instance):
     """
@@ -57,14 +56,14 @@ def get_question_text(instance):
     """
     text = ""
     if instance.type == 1:
-        text += f"What do you think that comes in the gap of the next sentence? 🤔\n\n"
+        text += "What do you think that comes in the gap of the next sentence? 🤔\n\n"
         text += f"📚 {instance.text_one} ____ {instance.text_two}"
         if instance.text_three:
             text += f" ____ {instance.text_three}\n"
     if instance.type == 5:
-        text += f"Which option fits better in the gap of the next sentence? 🤔\n\n"
+        text += "Which option fits better in the gap of the next sentence? 🤔\n\n"
         text += f"📚 {instance.text_one}\n\n"
-        text += f"💡 Options:\n"
+        text += "💡 Options:\n"
         for answer in instance.answer_set.all():
             text += f" 🔹 {answer.name}\n"
 
@@ -75,34 +74,17 @@ def get_question_promotion_text(instance, make_short=False):
     """
     It generates text from a question instance
     """
-    salutation_text = get_salutation_text()
+
     cool_emoji = get_cool_random_emoji()
     question_text = get_question_text(instance)
 
     # Producing text
     text = ""
     if not make_short:
-        # text += f"{salutation_text} {cool_emoji} \n\n"
-        text += "Here a small question for you. \n\n"
+        text += f"Here a small question for you {cool_emoji} \n\n"
     text += f'{question_text} \n\n'
-    text += f'Check out the right answer here:\n'
+    text += 'Check out the right answer here:\n'
     text += f'👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n'
     text += f'{common_hashtags} #{instance.lection.quiz.name.replace(" ", "")}'
 
     return text
-
-
-# BlogPost
-
-def get_blog_post_promotion_text(instance):
-    """
-    It generates text for promoting a blog post
-    """
-    text = ""
-    text += f'✍ Blog post: {instance.title}\n \n'
-    text += f'{instance.description}\n \n'
-    text += f'More under: https://www.englishstuff.online{instance.get_detail_url()} \n \n'
-    text += f'{common_hashtags}'
-
-    return text
-

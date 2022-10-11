@@ -1,14 +1,7 @@
-
-
-from django.http import FileResponse, HttpResponse
-
-from django.urls import reverse
-from django.views.generic import CreateView, DetailView, ListView
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
 from .models import BlogPost
-
 
 
 def post_list_view(request):
@@ -20,7 +13,7 @@ def post_list_view(request):
 
 def all_posts_view(request):
     all_posts = BlogPost.get_all_posts()
-    paginator = Paginator(all_posts, 10) 
+    paginator = Paginator(all_posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'page_obj': page_obj}
@@ -38,7 +31,7 @@ def pdf_post_view(request, slug, level):
     post = get_object_or_404(BlogPost, slug=slug, level=level)
     from .tasks import html_to_pdf
     # getting the template
-    pdf = html_to_pdf('blog/post_pdf.html', context_dict= {'post': post})
-        
-        # rendering the template
+    pdf = html_to_pdf('blog/post_pdf.html', context_dict={'post': post})
+
+    # rendering the template
     return pdf

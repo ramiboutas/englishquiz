@@ -23,3 +23,6 @@ python-telegram-bot
 xhtml2pdf
 markdown
 deepl
+flake8
+coverage
+autopep8

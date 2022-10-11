@@ -22,7 +22,6 @@ from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
 
 
-
 from quiz.models import Quiz
 
 info_dict = {
@@ -30,29 +29,74 @@ info_dict = {
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),),
-    path('sitemap.xml', sitemap, {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9)}}, name='django.contrib.sitemaps.views.sitemap'),
-    
+    path(
+        'admin/',
+        admin.site.urls
+        ),
 
+    path(
+        "robots.txt",
+        TemplateView.as_view(
+            template_name="robots.txt",
+            content_type="text/plain"),
+        ),
+
+    path(
+        'sitemap.xml',
+        sitemap,
+        {'sitemaps': {'quiz': GenericSitemap(info_dict, priority=0.9,)}},
+        name='django.contrib.sitemaps.views.sitemap',
+        ),
 
     # third-party apps
-    path('captcha/', include('captcha.urls')),
-    path('markdownx/', include('markdownx.urls')),
-    # path('newsletter/', include('newsletter.urls')),
-    path('newsfeed/', include('newsfeed.urls', namespace='newsfeed')),
+    path(
+        'captcha/',
+        include('captcha.urls')
+        ),
+
+    path(
+        'markdownx/',
+        include('markdownx.urls')
+        ),
+
+    path(
+        'newsfeed/',
+        include(
+            'newsfeed.urls',
+            namespace='newsfeed'
+            )
+        ),
 
     # own apps
-    path('social-media/', include('socialmedia.urls')),
-    path('blog/', include('blog.urls')),
-    path('quiz/', include('quiz.urls')),
-    path('', include('pages.urls')),
+    path(
+        'social-media/',
+        include('socialmedia.urls')
+        ),
+
+    path(
+        'blog/',
+        include('blog.urls')
+        ),
+
+    path(
+        'quiz/',
+        include('quiz.urls')
+        ),
+
+    path(
+        '',
+        include('pages.urls')
+        ),
 
 ]
 
 if settings.DEBUG:
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT
+        )
 
-    urlpatterns     +=  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns     += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+        )

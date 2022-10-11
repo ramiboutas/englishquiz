@@ -15,7 +15,7 @@ from .models import DeeplLanguage, Quiz, Lection, Question, Answer, TranslatedQu
 @cache_page(3600 * 24 * 1)
 def quiz_list(request):
     quiz_list = Quiz.objects.all()
-    context ={'quiz_list': quiz_list}
+    context = {'quiz_list': quiz_list}
     return render(request, 'quiz/quiz_list.html', context)
 
 
@@ -30,12 +30,11 @@ def search_quizzes(request):
     return render(request, 'quiz/partials/quiz_list.html', context)
 
 
-
 def quiz_detail(request, slug, level):
     quiz = get_object_or_404(Quiz, slug=slug, level=level)
     quiz.add_view()
     lections = quiz.lection_set.all()
-    context ={'quiz':quiz, 'lections': lections}
+    context = {'quiz': quiz, 'lections': lections}
     return render(request, 'quiz/quiz_detail.html', context)
 
 
@@ -47,9 +46,9 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     questions = list(Question.objects.filter(lection=lection))
     index = questions.index(question)
     number_of_questions = questions.__len__()
-    progress_percentage = int(index*100/number_of_questions)
+    progress_percentage = int(index * 100 / number_of_questions)
     language_objects = DeeplLanguage.objects.all()
-    context ={'question': question, 'progress_percentage': progress_percentage, 'language_objects': language_objects}
+    context = {'question': question, 'progress_percentage': progress_percentage, 'language_objects': language_objects}
     return render(request, 'quiz/question_detail.html', context)
 
 
@@ -60,9 +59,8 @@ def remove_question_translation_modal(request, id_question):
 @cache_page(3600 * 24 * 30)
 def get_question_translation_modal(request, id_question):
     question = get_object_or_404(Question, id=id_question)
-    context ={'question': question}
+    context = {'question': question}
     return render(request, 'quiz/partials/question_translation_modal.html', context)
-
 
 
 def translate_question_text(request, id_question, id_language):
@@ -73,19 +71,23 @@ def translate_question_text(request, id_question, id_language):
 
     try:
         translated_question = TranslatedQuestion.objects.get(language=language, question=question)
-    
+
     except TranslatedQuestion.DoesNotExist:
         # https://github.com/DeepLcom/deepl-python
         translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
-        
+
         if language.supports_formality:
             result = translator.translate_text(question.full_text, target_lang=language.code, formality="less")
-        
+
         else:
             result = translator.translate_text(question.full_text, target_lang=language.code)
-        
-        translated_question = TranslatedQuestion.objects.create(language=language, question=question,
-                            original_text = question.full_text, translated_text = result.text)
+
+        translated_question = TranslatedQuestion.objects.create(
+            language=language,
+            question=question,
+            original_text=question.full_text,
+            translated_text=result.text,
+            )
 
     context = {'translated_text': translated_question.translated_text}
     return render(request, 'quiz/partials/question_translated_text.html', context)
@@ -96,24 +98,24 @@ def translate_question_text(request, id_question, id_language):
 def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
     question = get_object_or_404(Question, id=id_question)
 
-    if question.type == 1: # one text input
+    if question.type == 1:  # one text input
         answer_input_one = request.POST.get('answer_input_one')
         answers = question.answer_set.all()
-        answer_one_is_correct = answers[0].name.strip().lower()==answer_input_one.strip().lower()
-        question_answered_correcty = answer_one_is_correct
+        answer_one_is_correct = answers[0].name.strip().lower() == answer_input_one.strip().lower()
+        question_answered_correctly = answer_one_is_correct
         context = {
             'question': question,
             'answer_one_is_correct': answer_one_is_correct,
             'correct_answer_one': answers[0].name.strip(),
         }
 
-    elif question.type == 2: # two text input
+    elif question.type == 2:  # two text input
         answer_input_one = request.POST.get('answer_input_one')
         answer_input_two = request.POST.get('answer_input_two')
         answers = question.answer_set.all()
-        answer_one_is_correct = answers[0].name.strip().lower()==answer_input_one.strip().lower()
-        answer_two_is_correct = answers[1].name.strip().lower()==answer_input_two.strip().lower()
-        question_answered_correcty = answer_one_is_correct and answer_two_is_correct
+        answer_one_is_correct = answers[0].name.strip().lower() == answer_input_one.strip().lower()
+        answer_two_is_correct = answers[1].name.strip().lower() == answer_input_two.strip().lower()
+        question_answered_correctly = answer_one_is_correct and answer_two_is_correct
         context = {
             'question': question,
             'answer_one_is_correct': answer_one_is_correct,
@@ -122,23 +124,41 @@ def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
             'correct_answer_two': answers[1].name.strip(),
         }
 
-    elif question.type == 5: # one choice selection
+    elif question.type == 5:  # one choice selection
         selected_answer_id = request.POST.get('selected_answer_id')
         selected_answer = get_object_or_404(Answer, id=selected_answer_id)
-        question_answered_correcty = selected_answer.correct
+        question_answered_correctly = selected_answer.correct
         context = {'question': question, 'selected_answer': selected_answer}
 
-    if question_answered_correcty == True:
-        correct_messages = ["Great!", "Correct!", "Well done!", "Terrific!", "Fantastic!", "Excelent!", "Super!", "Marvellous!", "Outstanding!",  ":)"]
+    if question_answered_correctly is True:
+        correct_messages = [
+            "Great!",
+            "Correct!",
+            "Well done!",
+            "Terrific!",
+            "Fantastic!",
+            "Excellent!",
+            "Super!",
+            "Marvelous!",
+            "Outstanding!",
+            ":)",
+            ]
         context['correct_message'] = random.choice(correct_messages)
         response = render(request, 'quiz/partials/question_correct.html', context)
 
     else:
-        incorrect_messages = ["Next time you'll get it!", "There's a more accurate answer!", "Oops!", "Wrong :(", "Not quite correct!", ":("]
+        incorrect_messages = [
+            "Next time you'll get it!",
+            "There's a more accurate answer!",
+            "Oops!",
+            "Wrong :(",
+            "Not quite correct!",
+            ":(",
+            ]
         context['incorrect_message'] = random.choice(incorrect_messages)
-        response = render(request, 'quiz/partials/question_incorrect.html',  context)
+        response = render(request, 'quiz/partials/question_incorrect.html', context)
 
-    trigger_client_event(response, "answerCheckedEvent", { },) # this is the trigger event
+    trigger_client_event(response, "answerCheckedEvent", {},)  # this is the trigger event
     return response
 
 
@@ -150,6 +170,6 @@ def update_progress_bar(request, slug_quiz, level_quiz, slug_lection, id_questio
     questions = list(Question.objects.filter(lection=lection))
     index = questions.index(question) + 1
     number_of_questions = questions.__len__()
-    progress_percentage = int(index*100/number_of_questions)
-    context ={'progress_percentage': progress_percentage}
+    progress_percentage = int(index * 100 / number_of_questions)
+    context = {'progress_percentage': progress_percentage}
     return render(request, 'quiz/partials/progress_bar.html', context)

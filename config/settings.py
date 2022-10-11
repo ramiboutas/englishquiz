@@ -1,6 +1,16 @@
 import os
+import django
 from pathlib import Path
+from django.utils.encoding import force_str
+from celery.schedules import crontab
 
+# https://stackoverflow.com/questions/70382084/import-error-force-text-from-django-utils-encoding
+django.utils.encoding.force_text = force_str
+
+# ImportError: cannot import name 'url' from 'django.conf.urls'
+#  markdownx.urls
+# from django.urls import re_path
+# django.conf.urls.url = django.urls.re_path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = str(os.environ.get('DEBUG')) == '1'
 PRODUCTION = str(os.environ.get('PRODUCTION')) == '1'
 
-INTERNAL_IPS = ['127.0.0.1', 'localhost',]
+INTERNAL_IPS = ['127.0.0.1', 'localhost', ]
 
 ALLOWED_HOSTS = ['englishstuff.online', 'www.englishstuff.online', '207.154.205.99', 'localhost', '127.0.0.1']
 
@@ -40,7 +50,7 @@ INSTALLED_APPS = [
     'blog',
 
     # thid-party apps
-    'markdownx', # cloned
+    'markdownx',  # cloned
     'django_htmx',
     'analytical',
     'captcha',
@@ -67,19 +77,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-
-# https://stackoverflow.com/questions/70382084/import-error-force-text-from-django-utils-encoding
-import django
-from django.utils.encoding import force_str
-django.utils.encoding.force_text = force_str
-
-# ImportError: cannot import name 'url' from 'django.conf.urls'
-#  markdownx.urls
-# from django.urls import re_path
-# django.conf.urls.url = django.urls.re_path
-
-
-
 # newsletter app
 # https://forum.djangoproject.com/t/importerror-cannot-import-name-ugettext-lazy-from-django-utils-translation/10943
 
@@ -104,11 +101,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'config.urls'
 
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,7 +138,7 @@ if USE_SQLITE3_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',}}
+            'NAME': BASE_DIR / 'db.sqlite3', }}
 else:
     DATABASES = {
         'default': {
@@ -153,11 +149,10 @@ else:
             'HOST': POSTGRES_HOST,
             'PORT': POSTGRES_PORT,
             'TEST': {
-             'NAME': 'test_db',
-             },
+                'NAME': 'test_db',
+            },
         }
     }
-
 
 
 # Password validation
@@ -191,7 +186,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -203,10 +197,15 @@ GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
 # seo
 
 SITE_TITLE = 'English Stuff Online'
-META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, prepositions, collocations, stuff, exam, cambridge, trinity'
-META_DESCRIPTION = 'English Stuff Online. Learn and practice english with quizzes for free | Phrasal verbs, prepositions, collocations, common mistakes, ... '
 
-# socialmedia app 
+META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, \
+    prepositions, collocations, stuff, exam, cambridge, trinity'
+
+META_DESCRIPTION = 'English Stuff Online. \
+    Learn and practice english with quizzes for free | \
+        Phrasal verbs, prepositions, collocations, common mistakes, ... '
+
+# socialmedia app
 # Telegram
 
 TELEGRAM_BOT_API_KEY = os.environ.get("TELEGRAM_BOT_API_KEY")
@@ -214,8 +213,8 @@ TELEGRAM_CHANNEL_NAME = '@english_stuff_online'
 
 
 # Linkedin
-LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") 
-LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET") 
+LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID")
+LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET")
 LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
 LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
 
@@ -248,11 +247,10 @@ FACEBOOK_APP_SECRET_KEY = os.environ.get("FACEBOOK_APP_SECRET_KEY")
 
 # Instagram
 INSTAGRAM_PAGE_ID = os.environ.get("INSTAGRAM_PAGE_ID")
-INSTAGRAM_ACCESS_TOKEN =os.environ.get("INSTAGRAM_ACCESS_TOKEN")
+INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
 
 # celery
-from celery.schedules import crontab
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
 CELERY_RESULT_BACKEND = 'django-db'
 
@@ -260,13 +258,13 @@ CELERY_BEAT_SCHEDULE = {
     'share_random_question': {
         'task': 'socialmedia.tasks.share_random_question_instance',
         'schedule': crontab(hour='10, 15', minute=00),
-        'options': {'expires': 0,},
+        'options': {'expires': 0, },
     },
     'share_regular_social_post': {
         'task': 'socialmedia.tasks.share_regular_social_post',
-        'schedule': crontab(hour=12, minute=30), # when more instances available: add crontab(hour='8,13', minute=00)
-        'options': {'expires': 0,},
-        
+        'schedule': crontab(hour=12, minute=30),  # when more instances available: add crontab(hour='8,13', minute=00)
+        'options': {'expires': 0, },
+
     },
 
     'send_email_newsletter': {
@@ -284,10 +282,10 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(0, 0, day_of_month='1', month_of_year='1,3,5,7,9,11'),
     },
 
-    
+
 }
 
-# 
+#
 
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
@@ -306,7 +304,7 @@ NEWSFEED_EMAIL_BATCH_WAIT = 5
 NEWSFEED_EMAIL_BATCH_SIZE = 15
 NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 NEWSFEED_SITE_BASE_URL = 'https://englishstuff.online' if PRODUCTION else 'http://localhost:8000'
-NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS=1
+NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
 
 # Settings for smtp
@@ -358,13 +356,11 @@ if USE_SPACES:
     MEDIA_ROOT = f'{AWS_MEDIA_LOCATION}/'
 
 
-
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
@@ -373,10 +369,9 @@ else:
 # CORS_ALLOW_HEADERS = "access-control-allow-origin"
 
 
-
 if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_HSTS_SECONDS = 31536000 #31536000 # usual: 31536000 (1 year)
+    SECURE_HSTS_SECONDS = 31536000  # 31536000 # usual: 31536000 (1 year)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = False
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True

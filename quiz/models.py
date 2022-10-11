@@ -1,4 +1,3 @@
-import random
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
@@ -26,8 +25,7 @@ class Quiz(models.Model):
     slug = models.SlugField(blank=True, unique=True)
     image_url = models.URLField(max_length=200, blank=True, null=True)
     image_credits_url = models.URLField(max_length=200, null=True)
-    views =  models.PositiveIntegerField(default=0)
-
+    views = models.PositiveIntegerField(default=0)
 
     def get_detail_url(self):
         return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
@@ -52,12 +50,12 @@ class Quiz(models.Model):
     class Meta:
         ordering = ('-views', )
 
+
 class Lection(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True)
-    views =  models.PositiveIntegerField(default=0)
-
+    views = models.PositiveIntegerField(default=0)
 
     # def get_number_of_questions(self):
     #     return self.question_set.all().count()
@@ -83,8 +81,6 @@ class Lection(models.Model):
         ordering = ('name', )
 
 
-    
-
 class Question(models.Model):
     lection = models.ForeignKey(Lection, on_delete=models.CASCADE)
     text_one = models.CharField(max_length=200, null=True, blank=True)
@@ -101,7 +97,7 @@ class Question(models.Model):
             text += f"{self.text_one} ____ {self.text_two}"
             if self.text_three:
                 text += f" ____ {self.text_three}"
-        
+
         if self.type == 5:
             text += f"{self.text_one}"
             if self.text_two:
@@ -111,24 +107,41 @@ class Question(models.Model):
         return text
 
     def get_detail_url(self):
-        return reverse('question_detail', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
-                                            'slug_lection': self.lection.slug,'id_question': self.id})
+        return reverse(
+            'question_detail',
+            kwargs={
+                'slug_quiz': self.lection.quiz.slug,
+                'level_quiz': self.lection.quiz.level,
+                'slug_lection': self.lection.slug,
+                'id_question': self.id
+                })
 
     def get_absolute_url(self):
         return self.get_detail_url()
 
     def check_answer_url(self):
-        return reverse('check_answer', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
-                                        'slug_lection': self.lection.slug, 'id_question': self.id})
+        return reverse(
+            'check_answer',
+            kwargs={
+                'slug_quiz': self.lection.quiz.slug,
+                'level_quiz': self.lection.quiz.level,
+                'slug_lection': self.lection.slug,
+                'id_question': self.id
+                })
 
     def update_progress_bar_url(self):
-        return reverse('update_progress_bar', kwargs={'slug_quiz': self.lection.quiz.slug, 'level_quiz': self.lection.quiz.level,
-                                                'slug_lection': self.lection.slug, 'id_question': self.id})
-    
+        return reverse(
+            'update_progress_bar',
+            kwargs={
+                'slug_quiz': self.lection.quiz.slug,
+                'level_quiz': self.lection.quiz.level,
+                'slug_lection': self.lection.slug, 'id_question': self.id
+                })
+
     def get_translation_modal_url(self):
         # not used, used Bootstrap Bundle JS instead
         return reverse('quiz_get_translation_modal', kwargs={'id_question': self.id})
-    
+
     def remove_translation_modal_url(self):
         # not used, used Bootstrap Bundle JS instead
         return reverse('quiz_remove_translation_modal', kwargs={'id_question': self.id})
@@ -165,18 +178,18 @@ class DeeplLanguage(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=5)
     supports_formality = models.BooleanField(default=False)
-    views =  models.PositiveIntegerField(default=0)
+    views = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['-views']
 
     def __str__(self) -> str:
         return self.name
-    
+
     def add_view(self):
         self.views += 1
         self.save()
-    
+
 
 class TranslatedQuestion(models.Model):
     language = models.ForeignKey(DeeplLanguage, on_delete=models.CASCADE)

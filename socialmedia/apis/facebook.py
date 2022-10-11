@@ -1,4 +1,3 @@
-from os import access
 import requests
 import json
 
@@ -6,14 +5,16 @@ from django.conf import settings
 
 from socialmedia.models import FacebookPost
 
+
 class AbractFacekookPageAPI:
     """
     Common shared data  & methods
     """
+
     def __init__(self) -> None:
         self.page_id = settings.FACEBOOK_PAGE_ID
         self.params = {'access_token': settings.FACEBOOK_PAGE_ACCESS_TOKEN}
-    
+
     def get_access_token(self):
         """
         It is not tested
@@ -25,7 +26,7 @@ class AbractFacekookPageAPI:
             'fb_exchange_token': settings.FACEBOOK_PAGE_ACCESS_TOKEN,
         }
         response = requests.get('https://graph.facebook.com/oauth/access_token', params=params)
-        # return response 
+        # return response
         text_dict = json.loads(response.text)
         new_access_token = text_dict["access_token"]
         return new_access_token
@@ -42,7 +43,6 @@ class FacebookPageAPI(AbractFacekookPageAPI):
         self.params["message"] = text
         response = requests.post(f"https://graph.facebook.com/{self.page_id}/feed", params=self.params)
         return FacebookPost.objects.create(facebook_id=json.loads(response.text)["id"], text=text)
-
 
     def delete_post(self, obj):
         # curl -i -X DELETE "https://graph.facebook.com/{page-post-id}?access_token={page-access-token}"

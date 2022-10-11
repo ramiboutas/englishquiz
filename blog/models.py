@@ -9,6 +9,7 @@ from taggit.managers import TaggableManager
 
 from utils.keywords import get_keywords_from_text
 
+
 class BlogPost(models.Model):
     DIFFICULTY_LEVEL = [
         ("elementary", "Elementary"),
@@ -17,7 +18,6 @@ class BlogPost(models.Model):
         ("general", "General"),
     ]
 
-    
     title = models.CharField(max_length=70)
     description = models.TextField(blank=False, null=True)
     level = models.CharField(choices=DIFFICULTY_LEVEL, default="general", max_length=30)
@@ -31,7 +31,7 @@ class BlogPost(models.Model):
     pdf_created = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
     promoted = models.BooleanField(default=False)
-    
+
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 
@@ -41,13 +41,13 @@ class BlogPost(models.Model):
     @property
     def reading_time(self):
         return readtime.of_markdown(self.content).minutes
-    
+
     def __str__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse("blog_postdetail", kwargs={"slug": self.slug, "level": self.level})
-    
+
     def get_detail_url(self):
         return self.get_absolute_url()
 
@@ -57,7 +57,7 @@ class BlogPost(models.Model):
     @classmethod
     def get_last_posts(cls, post_count=10):
         return cls.objects.filter(public=True).order_by('-created')[:post_count]
-    
+
     @classmethod
     def get_popular_posts(cls, post_count=4):
         return cls.objects.filter(public=True).order_by('-views')[:post_count]
@@ -65,7 +65,7 @@ class BlogPost(models.Model):
     @classmethod
     def get_all_posts(cls):
         return cls.objects.all().order_by('-created')
-    
+
     def add_view(self):
         self.views += 1
         self.save()
