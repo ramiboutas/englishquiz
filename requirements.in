@@ -9,6 +9,7 @@ django-celery-results
 django-taggit
 django-social-share
 django-newsfeed
+django-nested-inline
 
 
 django-slugger

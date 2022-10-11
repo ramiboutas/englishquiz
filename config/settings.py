@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     # 'tinymce',
     # 'newsletter',
     'newsfeed',
+    'nested_inline',
 
 ]
 

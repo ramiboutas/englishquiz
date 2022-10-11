@@ -103,6 +103,8 @@ django-crispy-forms==1.14.0
     #   crispy-bootstrap5
 django-htmx==1.9.0
     # via -r requirements.in
+django-nested-inline==0.4.5
+    # via -r requirements.in
 django-newsfeed==0.8.8
     # via -r requirements.in
 django-ranged-response==0.2.0
