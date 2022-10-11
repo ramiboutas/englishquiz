@@ -13,9 +13,12 @@ django-newsfeed
 
 django-slugger
 django-storages
+boto3
 python-dotenv
 readtime
 yake
 tweepy
 python-telegram-bot
 xhtml2pdf
+markdown
+deepl
