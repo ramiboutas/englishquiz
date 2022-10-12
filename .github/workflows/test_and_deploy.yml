@@ -36,11 +36,11 @@ jobs:
         python -m pip install -r requirements.txt
     - name: Management commands
       run: |
-        export DATABASE_URL='postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}'
+        export DATABASE_URL='postgres://${{ secrets.TESTING_POSTGRES_USER }}:${{ secrets.TESTING_POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.TESTING_POSTGRES_DB }}'
         python manage.py migrate
     - name: Run tests
       run: |
-        export DATABASE_URL='postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}'
+        export DATABASE_URL='postgres://${{ secrets.TESTING_POSTGRES_USER }}:${{ secrets.TESTING_POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.TESTING_POSTGRES_DB }}'
         python manage.py test
   deploy:
     needs: build-test
