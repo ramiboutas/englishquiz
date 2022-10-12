@@ -20,18 +20,28 @@ class BlogPost(models.Model):
 
     title = models.CharField(max_length=70)
     description = models.TextField(blank=False, null=True)
-    level = models.CharField(choices=DIFFICULTY_LEVEL, default="general", max_length=30)
+    level = models.CharField(
+        choices=DIFFICULTY_LEVEL,
+        default="general",
+        max_length=30,
+        )
     tags = TaggableManager()
     public = models.BooleanField(default=False)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blog_posts")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="blog_posts",
+        on_delete=models.CASCADE,
+        )
     slug = AutoSlugField(populate_from='title')
     content = MarkdownxField()
-
-    pdf = models.FileField(upload_to='blog-posts/%Y/%m/%d', blank=True, null=True)
+    pdf = models.FileField(
+        upload_to='blog-posts/%Y/%m/%d',
+        blank=True,
+        null=True,
+        )
     pdf_created = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
     promoted = models.BooleanField(default=False)
-
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 

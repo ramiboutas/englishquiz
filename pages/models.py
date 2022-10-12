@@ -30,25 +30,17 @@ class FlexPage(models.Model):
     """
 
     title = models.CharField(max_length=250)
-
     description = models.TextField(blank=True, null=True)
-
     public = models.BooleanField(default=False)
-
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="flexpages",
         )
-
     slug = AutoSlugField(populate_from='title')
-
     content = MarkdownxField()
-
     views = models.PositiveIntegerField(default=0)
-
     created = models.DateField(auto_now_add=True)
-
     updated = models.DateField(auto_now=True)
 
     class Meta:

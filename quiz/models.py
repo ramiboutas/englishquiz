@@ -57,9 +57,6 @@ class Lection(models.Model):
     slug = models.SlugField(blank=True)
     views = models.PositiveIntegerField(default=0)
 
-    # def get_number_of_questions(self):
-    #     return self.question_set.all().count()
-
     def get_first_question(self):
         return self.question_set.all().first()
 
@@ -138,12 +135,10 @@ class Question(models.Model):
                 'slug_lection': self.lection.slug, 'id_question': self.id
                 })
 
-    def get_translation_modal_url(self):
-        # not used, used Bootstrap Bundle JS instead
+    def get_translation_modal_url(self):  # not used, used Bootstrap Bundle JS instead
         return reverse('quiz_get_translation_modal', kwargs={'id_question': self.id})
 
-    def remove_translation_modal_url(self):
-        # not used, used Bootstrap Bundle JS instead
+    def remove_translation_modal_url(self):  # not used, used Bootstrap Bundle JS instead
         return reverse('quiz_remove_translation_modal', kwargs={'id_question': self.id})
 
     def is_first(self):
