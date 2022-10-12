@@ -79,8 +79,8 @@ class LinkedinCompanyPageAPI(AbstractLinkedinCompanyPageAPI):
         response = requests.post(url, headers=self.headers, json=self.post_data)
         return LinkedinPost.objects.create(urn_li_share=json.loads(response.text)["id"], text=text)
 
-    def delete_ugcPost(self, linkedinpost_obj):
-        url = f'https://api.linkedin.com/v2/ugcPosts/{urllib.parse.quote(linkedinpost_obj.urn_li_share)}'
+    def delete_ugcPost(self, linkedin_post_obj):
+        url = f'https://api.linkedin.com/v2/ugcPosts/{urllib.parse.quote(linkedin_post_obj.urn_li_share)}'
         requests.delete(url, headers=self.headers)
 
     def register_upload(self):
