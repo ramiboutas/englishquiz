@@ -111,7 +111,7 @@ class ScheduledSocialPost(AbstractSocialPost):
 
 class RegularSocialPost(AbstractSocialPost):
     """
-    Social Post what will be promoted in social media on a dairly basis.
+    Social Post what will be promoted in social media on a daily basis.
     """
     promoted = models.BooleanField(default=False, editable=False)
 
