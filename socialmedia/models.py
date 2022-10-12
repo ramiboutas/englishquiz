@@ -4,8 +4,19 @@ from django.contrib.auth import get_user_model
 
 
 class BackgroundImage(models.Model):
-    name = models.CharField(max_length=20, null=True)
-    image = models.ImageField(upload_to='socialposts/backgrounds/', null=True, blank=True)
+    """"
+    Definition of a Background Image object - used to create images with text
+    """
+    name = models.CharField(
+        max_length=20,
+        null=True,
+        )
+
+    image = models.ImageField(
+        upload_to='socialposts/backgrounds/',
+        null=True,
+        blank=True,
+        )
 
     def __str__(self) -> str:
         return self.name
@@ -19,18 +30,70 @@ class AbstractSocialPost(models.Model):
     """
 
     text = models.TextField(max_length=2000)
-    image_text = models.TextField(max_length=100, null=True, blank=True)
-    image = models.ImageField(upload_to='socialposts/images/', null=True, blank=True)
-    background_image_obj = models.ForeignKey(BackgroundImage, null=True, blank=True, on_delete=models.SET_NULL)
-    share_image = models.BooleanField(verbose_name="Share image", default=False)
-    promote_in_linkedin = models.BooleanField(verbose_name="Promote in Linkedin", default=True)
-    promote_in_twitter = models.BooleanField(verbose_name="Promote in Twitter", default=True)
-    promote_in_telegram = models.BooleanField(verbose_name="Promote in Telegram", default=True)
-    promote_in_facebook = models.BooleanField(verbose_name="Promote in Facebook", default=True)
-    promote_in_instagram = models.BooleanField(verbose_name="Promote in Instagram", default=False)
+
+    image_text = models.TextField(
+        max_length=100,
+        null=True,
+        blank=True,
+        )
+
+    image = models.ImageField(
+        upload_to='socialposts/images/',
+        null=True,
+        blank=True,
+        )
+
+    background_image_obj = models.ForeignKey(
+        BackgroundImage,
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        )
+
+    share_image = models.BooleanField(
+        verbose_name="Share image",
+        default=False,
+        )
+
+    promote_in_linkedin = models.BooleanField(
+        verbose_name="Promote in Linkedin",
+        default=True,
+        )
+
+    promote_in_twitter = models.BooleanField(
+        verbose_name="Promote in Twitter",
+        default=True,
+        )
+
+    promote_in_telegram = models.BooleanField(
+        verbose_name="Promote in Telegram",
+        default=True,
+        )
+
+    promote_in_facebook = models.BooleanField(
+        verbose_name="Promote in Facebook",
+        default=True,
+        )
+
+    promote_in_instagram = models.BooleanField(
+        verbose_name="Promote in Instagram",
+        default=False,
+        )
+
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True, editable=False)
-    updated = models.DateTimeField(auto_now=True, blank=True, null=True, editable=False)
-    created_by = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL)
+
+    updated = models.DateTimeField(
+        auto_now=True,
+        blank=True,
+        null=True,
+        editable=False,
+        )
+
+    created_by = models.ForeignKey(
+        get_user_model(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        )
 
     class Meta:
         abstract = True
@@ -57,21 +120,44 @@ class RegularSocialPost(AbstractSocialPost):
 
 
 class LinkedinPost(models.Model):
+    """"
+    Definition of a Linkedin Post object
+    """
+
     urn_li_share = models.CharField(max_length=50)
-    media_asset = models.CharField(max_length=100, blank=True, null=True)
+
+    media_asset = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        )
+
     text = models.TextField(max_length=1000)
-    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    date = models.DateTimeField(
+        auto_now_add=True,
+        blank=True,
+        null=True,
+        )
+
     click_count = models.PositiveIntegerField(null=True)
+
     comment_count = models.PositiveIntegerField(null=True)
+
     engagement = models.FloatField(null=True)
+
     impression_count = models.PositiveIntegerField(null=True)
+
     like_count = models.PositiveIntegerField(null=True)
+
     share_count = models.PositiveIntegerField(null=True)
+
     api_delete = models.BooleanField(
         verbose_name="Delete from Linkedin",
         default=False,
         help_text="It gets deleted from Linkedin after clicking on Save"
         )
+
     api_deleted = models.BooleanField(
         verbose_name="Already deleted from Linkedin",
         default=False
@@ -82,16 +168,26 @@ class LinkedinPost(models.Model):
 
 
 class TelegramMessage(models.Model):
+    """"
+    Definition of a Telegram Message object
+    """
+
     chat_id = models.BigIntegerField()
+
     message_id = models.BigIntegerField()
+
     link = models.CharField(max_length=100)
+
     text = models.TextField(max_length=4000)
+
     date = models.DateTimeField()
+
     api_delete = models.BooleanField(
-        erbose_name="Delete from Telegram",
+        verbose_name="Delete from Telegram",
         default=False,
         help_text="It gets deleted from Telegram after clicking on Save"
         )
+
     api_deleted = models.BooleanField(
         verbose_name="Already deleted from Telegram",
         default=False
@@ -102,17 +198,29 @@ class TelegramMessage(models.Model):
 
 
 class Tweet(models.Model):
+    """"
+    Definition of a Tweet Post object
+    """
+
     twitter_id = models.PositiveBigIntegerField()
+
     id_str = models.CharField(max_length=30)
+
     text = models.TextField(max_length=300)
+
     twitter_url = models.URLField(null=True)
+
     created_at = models.DateTimeField()
+
     retweet_count = models.PositiveIntegerField()
+
     favorite_count = models.PositiveIntegerField()
+
     api_delete = models.BooleanField(
         verbose_name="Delete from Twitter",
         default=False,
         help_text="It gets deleted from Twitter after clicking on Save")
+
     api_deleted = models.BooleanField(
         verbose_name="Already deleted from Twitter",
         default=False
@@ -127,14 +235,26 @@ class Tweet(models.Model):
 
 
 class FacebookPost(models.Model):
+    """"
+    Definition of a Facebook Post object
+    """
+
     facebook_id = models.CharField(max_length=50)
+
     text = models.TextField(max_length=1000)
-    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    date = models.DateTimeField(
+        auto_now_add=True,
+        blank=True,
+        null=True
+        )
+
     api_delete = models.BooleanField(
         verbose_name="Delete from Facebook",
         default=False,
         help_text="It gets deleted from Facebook after clicking on Save"
         )
+
     api_deleted = models.BooleanField(
         verbose_name="Already deleted from Facebook",
         default=False
@@ -145,43 +265,30 @@ class FacebookPost(models.Model):
 
 
 class InstagramPost(models.Model):
+    """"
+    Definition of an Instagram Post object
+    """
+
     instagram_id = models.CharField(max_length=50)
+
     text = models.TextField(max_length=1000)
-    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    date = models.DateTimeField(
+        auto_now_add=True,
+        blank=True,
+        null=True,
+        )
+
     api_delete = models.BooleanField(
         verbose_name="Delete from Instagram",
         default=False,
-        help_text="It gets deleted from Instagram after clicking on Save"
+        help_text="It gets deleted from Instagram after clicking on Save",
         )
+
     api_deleted = models.BooleanField(
         verbose_name="Already deleted from Instagram",
-        default=False
+        default=False,
         )
 
     def __str__(self) -> str:
         return self.text[:100]
-
-
-class SocialMediaPostedItem(models.Model):
-
-    # Linedin
-    linkedin_id = models.CharField(max_length=20, null=True, blank=True)
-    linkedin_likes = models.IntegerField(null=True, blank=True)
-
-    # Instagram
-    instagram_id = models.CharField(max_length=20, null=True, blank=True)
-    linkedin_likes = models.IntegerField(null=True, blank=True)
-
-    # Telegram
-    telegram_id = models.CharField(max_length=20, null=True, blank=True)
-    telegram_likes = models.IntegerField(null=True, blank=True)
-
-    # Twitter
-    tweet = models.CharField(max_length=20, null=True, blank=True)
-    twitter_likes = models.IntegerField(null=True, blank=True)
-
-    # Facebook
-    facebook_id = models.CharField(max_length=20, null=True, blank=True)
-    facebook_likes = models.IntegerField(null=True, blank=True)
-
-    # add more fields and methods

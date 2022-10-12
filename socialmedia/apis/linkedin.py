@@ -17,7 +17,7 @@ class AbstractLinkedinCompanyPageAPI:
 
     def __init__(self) -> None:
         access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
-        
+
         self.headers = {
             'Content-Type': 'application/json',
             'X-Restli-Protocol-Version': '2.0.0',
