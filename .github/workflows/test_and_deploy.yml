@@ -1,0 +1,58 @@
+name: Test and Deploy
+
+on: [push]
+
+jobs:
+  build-test:
+    name: build and test django app
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ${{ secrets.TESTING_POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.TESTING_POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.TESTING_POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a health check
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+    - uses: actions/cache@v2
+      name: Configure pip caching
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -r requirements.txt
+    - name: Management commands
+      run: |
+        export DATABASE_URL='postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}'
+        python manage.py migrate
+    - name: Run tests
+      run: |
+        export DATABASE_URL='postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}'
+        python manage.py test
+  deploy:
+    needs: build-test
+    name: Deploy to server
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.MY_SERVER_HOST }}
+          username: ${{ secrets.MY_SERVER_USERNAME }}
+          key: ${{ secrets.MY_SERVER_KEY }}
+          port: ${{ secrets.MY_SERVER_PORT }}
+          script: |
+            /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
