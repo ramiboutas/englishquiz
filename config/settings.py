@@ -155,6 +155,8 @@ else:
     }
 
 
+# 'postgres://${{ secrets.TESTING_POSTGRES_USER }}:${{ secrets.TESTING_POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.TESTING_POSTGRES_DB }}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
