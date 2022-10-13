@@ -18,5 +18,8 @@
         "taggit",
         "testview",
         "yake"
-    ]
+    ],
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Users/rboutass/Documents/GitHub/englishquiz/.github/workflows/test_and_deploy.yml"
+    }
 }

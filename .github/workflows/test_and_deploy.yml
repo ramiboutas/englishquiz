@@ -46,8 +46,8 @@ jobs:
         POSTGRES_PORT: 5432
         DEBUG: "0"
         PRODUCTION: "1"
-        run: |
-          python manage.py test
+      run: |
+        python manage.py test
   deploy:
     needs: build-test
     name: Deploy to server
