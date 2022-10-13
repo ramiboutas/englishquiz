@@ -193,61 +193,54 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # analytics
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-5ZBMDVB7S4'
 
 # seo
 
 SITE_TITLE = 'English Stuff Online'
-
 META_KEYWORDS = 'learn, English, learning, practice, quiz, advanced, \
     prepositions, collocations, stuff, exam, cambridge, trinity'
-
 META_DESCRIPTION = 'English Stuff Online. \
     Learn and practice english with quizzes for free | \
-        Phrasal verbs, prepositions, collocations, common mistakes, ... '
+    Phrasal verbs, prepositions, collocations, common mistakes, ... '
 
-# socialmedia app
-# Telegram
 
+# Telegram - socialmedia app
 TELEGRAM_BOT_API_KEY = os.environ.get("TELEGRAM_BOT_API_KEY")
 TELEGRAM_CHANNEL_NAME = '@english_stuff_online'
 
 
-# Linkedin
+# Linkedin - socialmedia app
 LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID")
 LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET")
 LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
 LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
-
-
 LINKEDIN_ORGANIZATION_ID = os.environ.get("LINKEDIN_ORGANIZATION_ID")
 LINKEDIN_ORGANIZATION_ACCESS_TOKEN = os.environ.get("LINKEDIN_ORGANIZATION_ACCESS_TOKEN")
 LINKEDIN_ORGANIZATION_REFRESH_TOKEN = os.environ.get("LINKEDIN_ORGANIZATION_REFRESH_TOKEN")
 
 
-# Twitter
+# Twitter - socialmedia app
 TWITTER_USERNAME = 'EnglishstuffOn'
-
 TWITTER_CLIENT_ID = os.environ.get("TWITTER_CLIENT_ID")
 TWITTER_CLIENT_SECRET = os.environ.get("TWITTER_CLIENT_SECRET")
-
 TWITTER_API_KEY = os.environ.get("TWITTER_API_KEY")
 TWITTER_API_KEY_SECRET = os.environ.get("TWITTER_API_KEY_SECRET")
-
 TWITTER_ACCESS_TOKEN = os.environ.get("TWITTER_ACCESS_TOKEN")
 TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
-
 TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
-# Facebook
+
+# Facebook - socialmedia app
 FACEBOOK_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID")
 FACEBOOK_PAGE_ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN")
-
 FACEBOOK_APP_ID = os.environ.get("FACEBOOK_APP_ID")
 FACEBOOK_APP_SECRET_KEY = os.environ.get("FACEBOOK_APP_SECRET_KEY")
 
-# Instagram
+
+# Instagram - socialmedia app
 INSTAGRAM_PAGE_ID = os.environ.get("INSTAGRAM_PAGE_ID")
 INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
@@ -255,7 +248,6 @@ INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 # celery
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/4'
 CELERY_RESULT_BACKEND = 'django-db'
-
 CELERY_BEAT_SCHEDULE = {
     'share_random_question': {
         'task': 'socialmedia.tasks.share_random_question_instance',
@@ -283,25 +275,19 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'update_linkedin_company_page_access_token',
         'schedule': crontab(0, 0, day_of_month='1', month_of_year='1,3,5,7,9,11'),
     },
-
-
 }
 
-#
 
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get('DEEPL_AUTH_KEY')
 
 
 # crispy forms
-
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# newsfeed settings
-# https://github.com/saadmk11/django-newsfeed
-# https://github.com/saadmk11/test-django-newsfeed
+
+# newsfeed settings https://github.com/saadmk11/django-newsfeed
 NEWSFEED_EMAIL_BATCH_WAIT = 5
 NEWSFEED_EMAIL_BATCH_SIZE = 15
 NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
@@ -314,8 +300,11 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
+if len(EMAIL_PORT) > 0:
+    EMAIL_PORT = int(EMAIL_PORT)
 
-if PRODUCTION:
+
+if PRODUCTION and not DEBUG:
     EMAIL_USE_TLS = True
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 else:
@@ -330,7 +319,12 @@ STATICFILES_DIRS = [
 ]
 
 if USE_SPACES:
-
+    # Stuff that could be useful (comments):
+    # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
+    # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
+    # MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_MEDIA_LOCATION}/'
+    # STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_STATIC_LOCATION}/'
+    
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
@@ -338,8 +332,7 @@ if USE_SPACES:
     AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
     AWS_S3_CUSTOM_DOMAIN = 'spaces.ramiboutas.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', 'ACL': 'public-read'}
-    # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
-
+    
     AWS_DEFAULT_ACL = 'public-read'
     AWS_S3_SIGNATURE_VERSION = "s3v4"
 
@@ -347,16 +340,13 @@ if USE_SPACES:
     STATICFILES_STORAGE = 'config.storage_backends.StaticRootStorage'
 
     AWS_STATIC_LOCATION = 'englishstuff-static'
-    # STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_STATIC_LOCATION}/'
     STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
     STATIC_ROOT = f'{AWS_STATIC_LOCATION}/'
 
     AWS_MEDIA_LOCATION = 'englishstuff-media'
-    # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
-    # MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_MEDIA_LOCATION}/'
+
     MEDIA_URL = '{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_MEDIA_LOCATION)
     MEDIA_ROOT = f'{AWS_MEDIA_LOCATION}/'
-
 
 else:
     STATIC_URL = '/static/'
@@ -369,7 +359,6 @@ else:
 # CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_HEADERS = "access-control-allow-origin"
-
 
 if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -385,6 +374,6 @@ if PRODUCTION:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379',
+            'LOCATION': 'redis://127.0.0.1:6379/4',
         }
     }

@@ -10,9 +10,9 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_USER: ${{ secrets.TESTING_POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.TESTING_POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.TESTING_POSTGRES_DB }}
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testing_db
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a health check
@@ -34,14 +34,20 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install -r requirements.txt
-    - name: Management commands
-      run: |
-        export DATABASE_URL='postgres://${{ secrets.TESTING_POSTGRES_USER }}:${{ secrets.TESTING_POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.TESTING_POSTGRES_DB }}'
-        python manage.py migrate
-    - name: Run tests
-      run: |
-        export DATABASE_URL='postgres://${{ secrets.TESTING_POSTGRES_USER }}:${{ secrets.TESTING_POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.TESTING_POSTGRES_DB }}'
-        python manage.py test
+    - name: Run Tests
+        env:
+          USE_SQLITE3_DB: "0"
+          USE_SPACES: "0"
+          DJANGO_SECRET_KEY: CI_CD_TEST_KEY
+          POSTGRES_DB: testing_db
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          DEBUG: "0"
+          PRODUCTION: "1"
+        run: |
+          python manage.py test
   deploy:
     needs: build-test
     name: Deploy to server
