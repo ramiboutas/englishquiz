@@ -300,7 +300,7 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
-if len(EMAIL_PORT) > 0:
+if EMAIL_PORT is not None:
     EMAIL_PORT = int(EMAIL_PORT)
 
 
