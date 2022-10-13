@@ -3,7 +3,7 @@ name: Test and Deploy
 on: [push]
 
 jobs:
-  build-test:
+  build:
     name: build and test django app
     runs-on: ubuntu-latest
     services:
@@ -48,17 +48,12 @@ jobs:
         PRODUCTION: "1"
       run: |
         python manage.py test
-  deploy:
-    needs: build-test
-    name: Deploy to server
-    runs-on: ubuntu-latest
-    steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.MY_SERVER_HOST }}
-          username: ${{ secrets.MY_SERVER_USERNAME }}
-          key: ${{ secrets.MY_SERVER_KEY }}
-          port: ${{ secrets.MY_SERVER_PORT }}
-          script: |
-            /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
+    - name: Deploy to server, executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.MY_SERVER_HOST }}
+        username: ${{ secrets.MY_SERVER_USERNAME }}
+        key: ${{ secrets.MY_SERVER_KEY }}
+        port: ${{ secrets.MY_SERVER_PORT }}
+        script: |
+          /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
