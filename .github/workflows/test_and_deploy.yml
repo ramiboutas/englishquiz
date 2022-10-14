@@ -58,8 +58,6 @@ jobs:
         # fingerprint: ${{ secrets.MY_SERVER_FINGERPRINT }}
         # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
         script: |
-          cd /home/rami/englishquiz
-          git pull
-          source venv/bin/activate
+          /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
 
 
