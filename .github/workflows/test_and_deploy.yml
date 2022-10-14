@@ -59,6 +59,6 @@ jobs:
         # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
         script: |
           cd /home/rami/englishquiz
-          ls
+          git pull
 
 
