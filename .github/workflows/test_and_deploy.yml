@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    name: build and test django app
+    name: build, test and deploy django app
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -64,5 +64,3 @@ jobs:
           source venv/bin/activate
           python -m pip install -r requirements.txt
           python manage.py migrate
-
-

@@ -11,12 +11,14 @@
         "newsfeed",
         "postdetail",
         "postpdf",
+        "rami",
         "readtime",
         "Restli",
         "socialmedia",
         "socialposts",
         "taggit",
         "testview",
+        "venv",
         "yake"
     ],
     "yaml.schemas": {
