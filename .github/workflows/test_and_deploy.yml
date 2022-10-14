@@ -56,5 +56,5 @@ jobs:
         key: ${{ secrets.MY_SERVER_KEY }}
         port: ${{ secrets.MY_SERVER_PORT }}
         # fingerprint: ${{ secrets.MY_SERVER_FINGERPRINT }}
-        script: |
-          /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
+        script: whoami
+        # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
