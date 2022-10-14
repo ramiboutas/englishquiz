@@ -60,5 +60,6 @@ jobs:
         script: |
           cd /home/rami/englishquiz
           git pull
+          source venv/bin/activate
 
 
