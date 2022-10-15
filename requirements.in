@@ -10,6 +10,8 @@ django-taggit
 django-social-share
 django-newsfeed
 django-nested-inline
+django-cors-headers
+django-minify-html
 
 
 django-slugger

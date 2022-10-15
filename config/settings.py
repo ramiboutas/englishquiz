@@ -56,9 +56,8 @@ INSTALLED_APPS = [
     'captcha',
     'crispy_forms',
     'crispy_bootstrap5',
-    # 'django_minify_html',
+    'django_minify_html',
     # 'compressor',
-    # 'corsheaders',
     'django_celery_beat',
     'django_celery_results',
     'taggit',
@@ -69,6 +68,7 @@ INSTALLED_APPS = [
     # 'newsletter',
     'newsfeed',
     'nested_inline',
+    'corsheaders',
 
 ]
 
@@ -86,6 +86,7 @@ MEDIA_URL = '/media/'
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -94,7 +95,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
-    # 'django_minify_html.middleware.MinifyHtmlMiddleware',
+    'django_minify_html.middleware.MinifyHtmlMiddleware',
 ]
 
 
@@ -359,6 +360,10 @@ else:
 # CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_HEADERS = "access-control-allow-origin"
+
+CORS_ALLOWED_ORIGINS = [
+    "https://spaces.ramiboutas.com",
+]
 
 if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
