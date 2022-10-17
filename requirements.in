@@ -30,3 +30,5 @@ coverage
 autopep8
 psycopg2-binary
 gunicorn
+redis
+hiredis
