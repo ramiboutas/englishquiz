@@ -19,6 +19,13 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 autopep8==1.7.0
     # via -r requirements.in
+backports-zoneinfo==0.2.1
+    # via
+    #   django
+    #   django-celery-beat
+    #   django-timezone-field
+    #   pytz-deprecation-shim
+    #   tzlocal
 beautifulsoup4==4.11.1
     # via readtime
 billiard==3.6.4.0
@@ -123,10 +130,14 @@ flake8==5.0.4
     # via -r requirements.in
 future==0.18.2
     # via arabic-reshaper
+gunicorn==20.1.0
+    # via -r requirements.in
 html5lib==1.1
     # via xhtml2pdf
 idna==3.4
     # via requests
+importlib-metadata==5.0.0
+    # via markdown
 jellyfish==0.9.0
     # via yake
 jmespath==1.0.1
@@ -289,6 +300,8 @@ xhtml2pdf==0.2.8
     # via -r requirements.in
 yake==0.4.8
     # via -r requirements.in
+zipp==3.9.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

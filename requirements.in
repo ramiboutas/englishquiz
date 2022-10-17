@@ -29,3 +29,4 @@ flake8
 coverage
 autopep8
 psycopg2-binary
+gunicorn
