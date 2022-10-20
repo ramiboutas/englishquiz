@@ -79,15 +79,15 @@
 
       <div class="fixed-bottom container">
         <div class="row mb-2">
-          
+
           <div class="col-2 offset-1">
             <button type="button" class="btn btn-lg btn-primary w-100 h-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
               <i class="bi bi-translate"></i>
             </button>
           </div>
-          <div class="col-8">            
+          <div class="col-8">
             <button id="" class="btn btn-lg btn-secondary w-100 h-100"
-              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers" 
+              hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers"
               hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
               data-bs-toggle="tooltip" data-bs-placement="center" title="Check my answer">Check
             </button>
@@ -112,23 +112,23 @@
 
           <h4 id="translated-text-here" class="text-warning mt-5">👇‍ Select language</h4>
 
-          <div class="mt-5"> 
+          <div class="mt-5">
             {% for language_object in language_objects %}
             <a hx-get="{% get_question_translation_url id_language=language_object.id id_question=question.id %}"
               hx-target="#translated-text-here" hx-swap="outerHTML"
               class="btn btn-outline-primary m-1" role="button">{{ language_object.name }}</a>
             {% endfor %}
           </div>
-        
+
         </div>
         <div class="modal-footer justify-content-between">
-          <small class="text-muted"><a target="_blank" href="https://www.deepl.com/?ref=www.englishstuff.online"> DeepL API</a> is used for these translations</small>  
+          <small class="text-muted"><a target="_blank" href="https://www.deepl.com/?ref=www.englishstuff.online"> DeepL API</a> is used for these translations</small>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
-  
+
   {% endblock %}
 
 

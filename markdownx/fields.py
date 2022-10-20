@@ -10,10 +10,10 @@ class MarkdownxFormField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
         """
-        Arguments are similar to Django's default ``CharField``. 
-        
-        See Django's `documentations on CharField`_ for additional information. 
-        
+        Arguments are similar to Django's default ``CharField``.
+
+        See Django's `documentations on CharField`_ for additional information.
+
         .. _docs on Charfield: https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.CharField
         """
         super(MarkdownxFormField, self).__init__(*args, **kwargs)

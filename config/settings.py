@@ -325,7 +325,7 @@ if USE_SPACES:
     # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
     # MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_MEDIA_LOCATION}/'
     # STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_STATIC_LOCATION}/'
-    
+
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
@@ -333,7 +333,7 @@ if USE_SPACES:
     AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
     AWS_S3_CUSTOM_DOMAIN = 'spaces.ramiboutas.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', 'ACL': 'public-read'}
-    
+
     AWS_DEFAULT_ACL = 'public-read'
     AWS_S3_SIGNATURE_VERSION = "s3v4"
 

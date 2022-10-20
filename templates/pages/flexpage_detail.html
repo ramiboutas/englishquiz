@@ -8,11 +8,11 @@
 
 
     {% block content %}
-        
+
         <div class="container my-5">
             <h1 class="text-success text-center my-5">{{ page.title }} </h1>
         </div>
-        
+
         <div class="container my-5 text-dark">
             <div class="row justify-content-md-center">
                 {{ page.content | markdown | safe }}
@@ -21,7 +21,7 @@
 
         {% include "partials/footer.html" %}
 
-    
+
     {% endblock  %}
 
 
