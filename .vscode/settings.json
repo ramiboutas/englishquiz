@@ -1,25 +1,36 @@
 {
     "cSpell.words": [
         "appleboy",
+        "corsheaders",
         "Deepl",
         "digitalmedia",
         "dotenv",
+        "englishquiz",
+        "englishstuff",
         "feedshare",
         "flexpages",
+        "htmx",
         "isready",
         "markdownx",
         "newsfeed",
         "postdetail",
         "postpdf",
         "rami",
+        "ramiboutas",
         "readtime",
         "Restli",
+        "setuptools",
         "socialmedia",
         "socialposts",
         "taggit",
         "testview",
         "venv",
-        "yake"
+        "yake",
+        "thid",
+        "tinymce",
+        "venv",
+        "yake",
+        "ZBMDVB"
     ],
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Users/rboutass/Documents/GitHub/englishquiz/.github/workflows/test_and_deploy.yml"

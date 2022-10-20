@@ -17,6 +17,8 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
+async-timeout==4.0.2
+    # via redis
 autopep8==1.7.0
     # via -r requirements.in
 backports-zoneinfo==0.2.1
@@ -64,11 +66,6 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.2.0
     # via celery
-colorama==0.4.5
-    # via
-    #   click
-    #   qrcode
-    #   tqdm
 coverage==6.5.0
     # via -r requirements.in
 crispy-bootstrap5==0.6
@@ -83,12 +80,16 @@ cssselect2==0.7.0
     # via svglib
 deepl==1.11.0
     # via -r requirements.in
+deprecated==1.2.13
+    # via redis
 django==4.0.8
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
     #   django-celery-beat
+    #   django-cors-headers
     #   django-htmx
+    #   django-minify-html
     #   django-newsfeed
     #   django-ranged-response
     #   django-simple-captcha
@@ -99,13 +100,17 @@ django-analytical==3.1.0
     # via -r requirements.in
 django-celery-beat==2.3.0
     # via -r requirements.in
-django-celery-results==2.3.1
+django-celery-results==2.4.0
+    # via -r requirements.in
+django-cors-headers==3.13.0
     # via -r requirements.in
 django-crispy-forms==1.14.0
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
 django-htmx==1.9.0
+    # via -r requirements.in
+django-minify-html==1.3.0
     # via -r requirements.in
 django-nested-inline==0.4.5
     # via -r requirements.in
@@ -129,6 +134,10 @@ flake8==5.0.4
     # via -r requirements.in
 future==0.18.2
     # via arabic-reshaper
+gunicorn==20.1.0
+    # via -r requirements.in
+hiredis==2.0.0
+    # via -r requirements.in
 html5lib==1.1
     # via xhtml2pdf
 idna==3.4
@@ -153,6 +162,8 @@ markdown2==2.4.5
     # via readtime
 mccabe==0.7.0
     # via flake8
+minify-html==0.10.2
+    # via django-minify-html
 networkx==2.8.7
     # via yake
 numpy==1.23.3
@@ -163,6 +174,8 @@ oauthlib==3.2.1
     #   tweepy
 oscrypto==1.3.0
     # via pyhanko-certvalidator
+packaging==21.3
+    # via redis
 pillow==9.1.1
     # via
     #   django-simple-captcha
@@ -186,6 +199,8 @@ pyhanko-certvalidator==0.19.5
     # via
     #   pyhanko
     #   xhtml2pdf
+pyparsing==3.0.9
+    # via packaging
 pypdf3==1.0.6
     # via xhtml2pdf
 pyquery==1.4.3
@@ -216,6 +231,8 @@ pyyaml==6.0
 qrcode==7.3.1
     # via pyhanko
 readtime==2.0.0
+    # via -r requirements.in
+redis==4.3.4
     # via -r requirements.in
 regex==2022.9.13
     # via segtok
@@ -265,10 +282,8 @@ tweepy==4.10.1
     # via -r requirements.in
 tzdata==2022.1
     # via
-    #   django
     #   django-celery-beat
     #   pytz-deprecation-shim
-    #   tzlocal
 tzlocal==4.2
     # via
     #   apscheduler
@@ -293,6 +308,8 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
+wrapt==1.14.1
+    # via deprecated
 xhtml2pdf==0.2.8
     # via -r requirements.in
 yake==0.4.8
