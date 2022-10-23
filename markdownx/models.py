@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from .fields import MarkdownxFormField
@@ -50,6 +52,6 @@ class MarkdownxField(models.TextField):
         :return: TextField with a custom ``form_class``.
         :rtype: django.db.models.TextField
         """
-        defaults = {'form_class': MarkdownxFormField}
+        defaults = {"form_class": MarkdownxFormField}
         defaults.update(kwargs)
-        return super(MarkdownxField, self).formfield(**defaults)
+        return super().formfield(**defaults)

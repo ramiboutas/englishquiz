@@ -6,19 +6,19 @@
 
 {% block content %}
 
-<h1 class="text-success text-center py-5">Error 500: Something went wrong.</h1>
+    <h1 class="text-success text-center py-5">Error 500: Something went wrong.</h1>
 
 
-<div class="container py-5">
-  <div class="row justify-content-md-center">
-    <div class="col-sm-12 col-md-10 col-lg-8 text-center">
-      <a class="btn btn-success"  href="{% url 'home' %}">Go home</a>
+    <div class="container py-5">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-12 col-md-10 col-lg-8 text-center">
+                <a class="btn btn-success"  href="{% url 'home' %}">Go home</a>
 
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
-{% include "partials/footer.html" %}
+    {% include "partials/footer.html" %}
 
 {% endblock %}

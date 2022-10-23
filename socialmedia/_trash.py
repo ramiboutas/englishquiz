@@ -1,8 +1,8 @@
 # Here I place everything that it does not work or it is not used at the moment
+from __future__ import annotations
+
 import requests
 import tweepy
-
-
 from django.conf import settings
 
 
@@ -14,24 +14,22 @@ def post_text_in_linkedin_profile(text):
 
     url = "https://api.linkedin.com/v2/ugcPosts"
 
-    headers = {'Content-Type': 'application/json',
-               'X-Restli-Protocol-Version': '2.0.0',
-               'Authorization': 'Bearer ' + access_token}
+    headers = {
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
+        "Authorization": "Bearer " + access_token,
+    }
 
     post_data = {
         "author": "urn:li:person:" + profile_id,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": text
-                },
-                "shareMediaCategory": "NONE"
+                "shareCommentary": {"text": text},
+                "shareMediaCategory": "NONE",
             }
         },
-        "visibility": {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-        }
+        "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"},
     }
 
     response = requests.post(url, headers=headers, json=post_data)
@@ -46,10 +44,12 @@ def post_text_in_linkedin_company(text):
 
     url = "https://api.linkedin.com/rest/posts"
 
-    headers = {'Content-Type': 'application/json',
-               'X-Restli-Protocol-Version': '2.0.0',
-               'LinkedIn-Version': '202206',
-               'Authorization': 'Bearer ' + access_token}
+    headers = {
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
+        "LinkedIn-Version": "202206",
+        "Authorization": "Bearer " + access_token,
+    }
 
     post_data = {
         "author": "urn:li:organization:" + organization_id,
@@ -58,7 +58,7 @@ def post_text_in_linkedin_company(text):
         "distribution": {
             "feedDistribution": "NONE",
             "targetEntities": [],
-            "thirdPartyDistributionChannels": []
+            "thirdPartyDistributionChannels": [],
         },
         "lifecycleState": "PUBLISHED",
         "isReshareDisabledByAuthor": False,
@@ -91,9 +91,11 @@ def post_text_in_linkedin_company_ugcPosts(text):
 
     url = "https://api.linkedin.com/v2/ugcPosts"
 
-    headers = {'Content-Type': 'application/json',
-               'X-Restli-Protocol-Version': '2.0.0',
-               'Authorization': 'Bearer ' + access_token}
+    headers = {
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
+        "Authorization": "Bearer " + access_token,
+    }
 
     post_data = {
         "author": "urn:li:organization:" + organization_id,
@@ -101,16 +103,12 @@ def post_text_in_linkedin_company_ugcPosts(text):
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
                 "shareMediaCategory": "NONE",
-                "shareCommentary": {
-                    "text": text
-                },
+                "shareCommentary": {"text": text},
                 "media": [],
-                "shareCategorization": {}
+                "shareCategorization": {},
             }
         },
-        "visibility": {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-        }
+        "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"},
     }
 
     response = requests.post(url, headers=headers, json=post_data)

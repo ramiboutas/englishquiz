@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from django.http import HttpResponse, JsonResponse
 from django.utils.module_loading import import_string
-from django.views.generic.edit import View, BaseFormView
+from django.views.generic.edit import BaseFormView, View
 
 from .forms import ImageForm
 from .settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
@@ -23,7 +25,7 @@ class MarkdownifyView(View):
         :rtype: django.http.HttpResponse
         """
         markdownify = import_string(MARKDOWNX_MARKDOWNIFY_FUNCTION)
-        return HttpResponse(markdownify(request.POST['content']))
+        return HttpResponse(markdownify(request.POST["content"]))
 
 
 class ImageUploadView(BaseFormView):
@@ -33,7 +35,7 @@ class ImageUploadView(BaseFormView):
 
     # template_name = "dummy.html"
     form_class = ImageForm
-    success_url = '/'
+    success_url = "/"
 
     def form_invalid(self, form):
         """
@@ -48,7 +50,7 @@ class ImageUploadView(BaseFormView):
         if self.request.is_ajax():
             return JsonResponse(form.errors, status=400)
 
-        response = super(ImageUploadView, self).form_invalid(form)
+        response = super().form_invalid(form)
         return response
 
     def form_valid(self, form):
@@ -71,11 +73,11 @@ class ImageUploadView(BaseFormView):
                  response for HTTP requests.
         :rtype: django.http.JsonResponse, django.http.HttpResponse
         """
-        response = super(ImageUploadView, self).form_valid(form)
+        response = super().form_valid(form)
 
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if self.request.headers.get("x-requested-with") == "XMLHttpRequest":
             image_path = form.save(commit=True)
-            image_code = '![]({})'.format(image_path)
-            return JsonResponse({'image_code': image_code})
+            image_code = "![]({})".format(image_path)
+            return JsonResponse({"image_code": image_code})
 
         return response

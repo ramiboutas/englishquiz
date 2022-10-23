@@ -1,25 +1,24 @@
-from django import VERSION as DJANGO_VERSION
+from __future__ import annotations
+
 from django import forms
-from django.template.loader import get_template
-from django.contrib.admin import widgets
 from django.conf import settings
+from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 
 from .settings import (
     MARKDOWNX_EDITOR_RESIZABLE,
-    MARKDOWNX_URLS_PATH,
+    MARKDOWNX_SERVER_CALL_LATENCY,
     MARKDOWNX_UPLOAD_URLS_PATH,
-    MARKDOWNX_SERVER_CALL_LATENCY
+    MARKDOWNX_URLS_PATH,
 )
 
-
 try:
-    DEBUG = getattr(settings, 'DEBUG', False)
+    DEBUG = getattr(settings, "DEBUG", False)
 except ImproperlyConfigured:
     # Documentations work around.
     DEBUG = False
 
-minified = '.min' if not DEBUG else str()
+minified = ".min" if not DEBUG else ""
 
 
 class MarkdownxWidget(forms.Textarea):
@@ -28,7 +27,7 @@ class MarkdownxWidget(forms.Textarea):
     Django "TextArea" widget.
     """
 
-    template_name = 'markdownx/widget.html'
+    template_name = "markdownx/widget.html"
 
     def get_context(self, name, value, attrs=None):
         """
@@ -39,7 +38,7 @@ class MarkdownxWidget(forms.Textarea):
         except AttributeError:
             attrs = self.add_markdownx_attrs(attrs)
 
-        return super(MarkdownxWidget, self).get_context(name, value, attrs)
+        return super().get_context(name, value, attrs)
 
     def render(self, name, value, attrs=None, renderer=None):
         """
@@ -48,7 +47,7 @@ class MarkdownxWidget(forms.Textarea):
         attrs.update(self.attrs)
         attrs.update(self.add_markdownx_attrs(attrs))
 
-        return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
+        return super().render(name, value, attrs, renderer)
 
     @staticmethod
     def add_markdownx_attrs(attrs):
@@ -60,26 +59,26 @@ class MarkdownxWidget(forms.Textarea):
         :return: Dictionary of attributes, including the default attributes.
         :rtype: dict
         """
-        if 'class' in attrs.keys():
-            if 'markdownx-editor' not in attrs['class']:
-                attrs['class'] += ' markdownx-editor'
+        if "class" in attrs.keys():
+            if "markdownx-editor" not in attrs["class"]:
+                attrs["class"] += " markdownx-editor"
         else:
-            attrs.update({
-                'class': 'markdownx-editor'
-            })
+            attrs.update({"class": "markdownx-editor"})
 
-        attrs.update({
-            'data-markdownx-editor-resizable': MARKDOWNX_EDITOR_RESIZABLE,
-            'data-markdownx-urls-path': MARKDOWNX_URLS_PATH,
-            'data-markdownx-upload-urls-path': MARKDOWNX_UPLOAD_URLS_PATH,
-            'data-markdownx-latency': MARKDOWNX_SERVER_CALL_LATENCY
-        })
+        attrs.update(
+            {
+                "data-markdownx-editor-resizable": MARKDOWNX_EDITOR_RESIZABLE,
+                "data-markdownx-urls-path": MARKDOWNX_URLS_PATH,
+                "data-markdownx-upload-urls-path": MARKDOWNX_UPLOAD_URLS_PATH,
+                "data-markdownx-latency": MARKDOWNX_SERVER_CALL_LATENCY,
+            }
+        )
 
         return attrs
 
     class Media:
         js = [
-            'markdownx/js/markdownx{}.js'.format(minified),
+            "markdownx/js/markdownx{}.js".format(minified),
         ]
 
 
@@ -88,11 +87,10 @@ class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
     MarkdownX TextArea widget for admin. Markdown enabled version of
     Django "TextArea" widget.
     """
+
     class Media:
-        css = {
-            'all': ['markdownx/admin/css/markdownx{}.css'.format(minified)]
-        }
+        css = {"all": ["markdownx/admin/css/markdownx{}.css".format(minified)]}
 
         js = [
-            'markdownx/js/markdownx{}.js'.format(minified),
+            "markdownx/js/markdownx{}.js".format(minified),
         ]

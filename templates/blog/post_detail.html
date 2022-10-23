@@ -25,13 +25,13 @@
 
             <div class="row">
                 <div class="col">
-                <small class="text-muted">{{ post.created  }}</small>
+                    <small class="text-muted">{{ post.created  }}</small>
                 </div>
                 <div class="col">
-                {% if post.pdf_created %}
-                <a class="btn btn-outline-danger float-end" target="_blank" href="{{ post.pdf.url }}">Download as PDF <i class="bi bi-download"></i></a>
+                    {% if post.pdf_created %}
+                        <a class="btn btn-outline-danger float-end" target="_blank" href="{{ post.pdf.url }}">Download as PDF <i class="bi bi-download"></i></a>
 
-                {% endif %}
+                    {% endif %}
                 </div>
             </div>
 

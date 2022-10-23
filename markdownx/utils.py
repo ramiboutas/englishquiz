@@ -1,10 +1,11 @@
-from markdown import markdown
+from __future__ import annotations
 
+from markdown import markdown
 from PIL import Image
 
 from .settings import (
+    MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS,
     MARKDOWNX_MARKDOWN_EXTENSIONS,
-    MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 )
 
 # TODO: try catch for file.open when image is corrupted
@@ -22,7 +23,7 @@ def markdownify(content):
     md = markdown(
         text=content,
         extensions=MARKDOWNX_MARKDOWN_EXTENSIONS,
-        extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
+        extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS,
     )
     return md
 
@@ -53,7 +54,7 @@ def _crop(im, target_x, target_y):
             halfdiff_x,
             halfdiff_y,
             min(source_x, int(target_x) + halfdiff_x),
-            min(source_y, int(target_y) + halfdiff_y)
+            min(source_y, int(target_y) + halfdiff_y),
         ]
 
         # Finally, crop the image!
@@ -74,10 +75,7 @@ def _scale(im, x, y):
     :return: Scaled image, re-sampled with anti-aliasing filter.
     :rtype: Image
     """
-    im = im.resize(
-        (int(x), int(y)),
-        resample=Image.ANTIALIAS
-    )
+    im = im.resize((int(x), int(y)), resample=Image.ANTIALIAS)
     return im
 
 
@@ -103,7 +101,7 @@ def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
     im = Image.open(image)
     im_format, im_info = im.format, im.info
     if quality:
-        im_info['quality'] = quality
+        im_info["quality"] = quality
 
     # Force PIL to load image data.
     im.load()
@@ -146,20 +144,16 @@ def xml_has_javascript(data):
     :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.
     :rtype: bool
     """
-    from re import search, IGNORECASE, MULTILINE
+    from re import IGNORECASE, MULTILINE, search
 
-    data = str(data, encoding='UTF-8')
+    data = str(data, encoding="UTF-8")
     # ------------------------------------------------
     # Handles JavaScript nodes and stringified nodes.
     # ------------------------------------------------
     # Filters against "script" / "if" / "for" within node attributes.
-    pattern = r'(<\s*\bscript\b.*>.*)|(.*\bif\b\s*\(.?={2,3}.*\))|(.*\bfor\b\s*\(.*\))'
+    pattern = r"(<\s*\bscript\b.*>.*)|(.*\bif\b\s*\(.?={2,3}.*\))|(.*\bfor\b\s*\(.*\))"
 
-    found = search(
-        pattern=pattern,
-        string=data,
-        flags=IGNORECASE | MULTILINE
-    )
+    found = search(pattern=pattern, string=data, flags=IGNORECASE | MULTILINE)
 
     if found is not None:
         return True

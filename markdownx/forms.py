@@ -1,22 +1,23 @@
-from os import path, SEEK_END, SEEK_SET
-from io import BytesIO
-from uuid import uuid4
+from __future__ import annotations
+
 from collections import namedtuple
+from io import BytesIO
+from os import SEEK_END, SEEK_SET, path
+from uuid import uuid4
 
 from django import forms
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from .utils import scale_and_crop, xml_has_javascript
 from .exceptions import MarkdownxImageUploadError
-
 from .settings import (
     MARKDOWNX_IMAGE_MAX_SIZE,
     MARKDOWNX_MEDIA_PATH,
+    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION,
     MARKDOWNX_UPLOAD_CONTENT_TYPES,
     MARKDOWNX_UPLOAD_MAX_SIZE,
-    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
 )
+from .utils import scale_and_crop, xml_has_javascript
 
 
 class ImageForm(forms.Form):
@@ -28,7 +29,7 @@ class ImageForm(forms.Form):
 
     # Separately defined as it needs to be
     # processed a text file rather than image.
-    _SVG_TYPE = 'image/svg+xml'
+    _SVG_TYPE = "image/svg+xml"
 
     def save(self, commit=True):
         """
@@ -47,10 +48,10 @@ class ImageForm(forms.Form):
                  else ``namedtuple(path, image)``.
         :rtype: bool, namedtuple
         """
-        image = self.files.get('image')
+        image = self.files.get("image")
         content_type = image.content_type
         file_name = image.name
-        image_extension = content_type.split('/')[-1].upper()
+        image_extension = content_type.split("/")[-1].upper()
         image_size = image.size
 
         if content_type.lower() != self._SVG_TYPE:
@@ -70,15 +71,17 @@ class ImageForm(forms.Form):
             name=file_name,
             content_type=content_type,
             size=image_size,
-            charset=None
+            charset=None,
         )
 
-        if (content_type.lower() == self._SVG_TYPE
-                and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
-                and xml_has_javascript(uploaded_image.read())):
+        if (
+            content_type.lower() == self._SVG_TYPE
+            and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
+            and xml_has_javascript(uploaded_image.read())
+        ):
 
             raise MarkdownxImageUploadError(
-                'Failed security monitoring: SVG file contains JavaScript.'
+                "Failed security monitoring: SVG file contains JavaScript."
             )
 
         return self._save(uploaded_image, file_name, commit)
@@ -108,7 +111,7 @@ class ImageForm(forms.Form):
             return default_storage.url(full_path)
 
         # If `commit is False`, return the path and in-memory image.
-        image_data = namedtuple('image_data', ['path', 'image'])
+        image_data = namedtuple("image_data", ["path", "image"])
         return image_data(path=full_path, image=image)
 
     @staticmethod
@@ -153,7 +156,7 @@ class ImageForm(forms.Form):
 
         file_name = "{unique_name}.{extension}".format(
             unique_name=uuid4(),
-            extension=path.splitext(file_name)[extension][extension_dot_index:]
+            extension=path.splitext(file_name)[extension][extension_dot_index:],
         )
         return file_name
 
@@ -163,7 +166,7 @@ class ImageForm(forms.Form):
 
         :return: Upload
         """
-        upload = self.cleaned_data.get('image')
+        upload = self.cleaned_data.get("image")
 
         # -----------------------------------------------
         # See comments in `self._error_templates` for
@@ -182,8 +185,7 @@ class ImageForm(forms.Form):
         elif file_size > MARKDOWNX_UPLOAD_MAX_SIZE:
 
             raise MarkdownxImageUploadError.invalid_size(
-                current=file_size,
-                expected=MARKDOWNX_UPLOAD_MAX_SIZE
+                current=file_size, expected=MARKDOWNX_UPLOAD_MAX_SIZE
             )
 
         return upload

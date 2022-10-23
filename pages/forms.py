@@ -1,6 +1,9 @@
-from django.forms import ModelForm
-from .models import Contact
+from __future__ import annotations
+
 from captcha.fields import CaptchaField
+from django.forms import ModelForm
+
+from .models import Contact
 
 
 # Create the form class.
@@ -10,4 +13,4 @@ class ContactForm(ModelForm):
 
     class Meta:
         model = Contact
-        fields = ['name', 'email', 'message', 'subscribe']
+        fields = ["name", "email", "message", "subscribe"]

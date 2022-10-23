@@ -1,33 +1,33 @@
+from __future__ import annotations
+
 import random
 import time
 from io import BytesIO
 
-from django.core.files import File
-
-from PIL import Image, ImageDraw, ImageFont
 from celery import shared_task
+from django.core.files import File
+from PIL import Image, ImageDraw, ImageFont
 
-from utils.mail import mail_admins_with_an_exception
-from quiz.models import Question
 from blog.models import BlogPost
-
-from socialmedia.text import get_question_promotion_text, get_blog_post_promotion_text
-from socialmedia.models import ScheduledSocialPost, RegularSocialPost
-from socialmedia.apis.twitter import TweetAPI
-from socialmedia.apis.telegram import TelegramAPI
+from quiz.models import Question
 from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
+from socialmedia.apis.telegram import TelegramAPI
+from socialmedia.apis.twitter import TweetAPI
+from socialmedia.models import RegularSocialPost, ScheduledSocialPost
+from socialmedia.text import get_blog_post_promotion_text, get_question_promotion_text
+from utils.mail import mail_admins_with_an_exception
 
 
 # Image creation
 def get_wrapped_text(text: str, font: ImageFont.ImageFont, line_length: int):
-    lines = ['']
-    for word in text.split(' '):
-        line = f'{lines[-1]} {word}'.strip()
+    lines = [""]
+    for word in text.split(" "):
+        line = f"{lines[-1]} {word}".strip()
         if font.getlength(line) <= line_length:
             lines[-1] = line
         else:
             lines.append(word)
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def create_image_from_instance(instance):
@@ -40,13 +40,15 @@ def create_image_from_instance(instance):
     if instance.background_image_obj:
         imgObject = Image.open(instance.background_image_obj.image.file)
     else:
-        imgObject = Image.open('socialmedia/images/default.jpg')
+        imgObject = Image.open("socialmedia/images/default.jpg")
     width, height = imgObject.size
     height_offset = height * 0.35
     width_offset = width * 0.15
 
     for line_text in text.split("\n"):
-        wrapped_line_text = get_wrapped_text(line_text, font_object, line_length=width - 2 * width_offset)
+        wrapped_line_text = get_wrapped_text(
+            line_text, font_object, line_length=width - 2 * width_offset
+        )
         number_of_produced_lines = len(wrapped_line_text.split("\n"))
         add_break_line = 0
 
@@ -57,11 +59,11 @@ def create_image_from_instance(instance):
         # draw on image
         drawing_object = ImageDraw.Draw(imgObject)
         drawing_object.multiline_text(
-                                    (width_offset, height_offset),
-                                    wrapped_line_text,
-                                    font=font_object,
-                                    fill=text_color
-                                    )
+            (width_offset, height_offset),
+            wrapped_line_text,
+            font=font_object,
+            fill=text_color,
+        )
         # height_offset += font_object.getsize(wrapped_line_text)[1]*number_of_produced_lines + add_break_line
         height_offset += font_size * number_of_produced_lines + add_break_line
 
@@ -71,8 +73,8 @@ def create_image_from_instance(instance):
         print("Maybe inform programmer and do not create image")
 
     # imgObject.save('socialmedia/images/output/new_image.jpeg')
-    imgObject.save(blob, 'JPEG')
-    instance.image.save(f'{instance.pk}'.zfill(5) + '.jpg', File(blob), save=True)
+    imgObject.save(blob, "JPEG")
+    instance.image.save(f"{instance.pk}".zfill(5) + ".jpg", File(blob), save=True)
 
 
 @shared_task(bind=True)
@@ -141,12 +143,15 @@ def share_random_question_instance(self, **kwargs):
 
 # Social posts
 
+
 @shared_task(bind=True)
 def promote_scheduled_social_post_instance(self, **kwargs):
     """
     Social post - triggered by post_save signal
     """
-    time.sleep(10)  # for safety: in case we want to first create an image from the post instance
+    time.sleep(
+        10
+    )  # for safety: in case we want to first create an image from the post instance
     try:
         instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
 
@@ -164,7 +169,7 @@ def promote_scheduled_social_post_instance(self, **kwargs):
         #     FacebookPageAPI().create_post(instance.text)
 
         # Instagram
-            # TO DO
+        # TO DO
 
     except Exception as e:
         mail_admins_with_an_exception(e)
@@ -176,7 +181,9 @@ def share_regular_social_post(self, **kwargs):
     """
     Regular social post - triggered by celery beat (periodic task)
     """
-    time.sleep(10)  # for safety: in case we want to first create an image from the post instance
+    time.sleep(
+        10
+    )  # for safety: in case we want to first create an image from the post instance
     try:
         # Getting random social post
         social_posts = RegularSocialPost.objects.filter(promoted=False)

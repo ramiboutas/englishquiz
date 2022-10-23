@@ -1,13 +1,14 @@
-import random
+from __future__ import annotations
 
+import random
 
 common_hashtags = "#englishtips #learnenglish #englishquizzes"
 
 
 def get_hashtag_str_from_post_instance_tags(instance):
-    hashtag_str = ''
+    hashtag_str = ""
     for tag in instance.tags.all():
-        hashtag_str += '#' + tag.name + ' '
+        hashtag_str += "#" + tag.name + " "
     return hashtag_str
 
 
@@ -17,7 +18,13 @@ def get_cool_random_emoji():
 
 
 def get_salutation_text():
-    salutation_options = ["Hey there!", "Hey, how is it going?", "Hi!", "Hey!", "Hey, what's up?"]
+    salutation_options = [
+        "Hey there!",
+        "Hey, how is it going?",
+        "Hi!",
+        "Hey!",
+        "Hey, what's up?",
+    ]
     return random.choice(salutation_options)
 
 
@@ -28,27 +35,31 @@ def get_blog_post_promotion_text(instance):
     """
     hashtags_from_instance_tags = get_hashtag_str_from_post_instance_tags(instance)
     text = ""
-    text += f'✍ Blog post: {instance.title}\n \n'
-    text += f'{instance.description}\n \n'
-    text += f'More under: https://www.englishstuff.online{instance.get_detail_url()} \n \n'
-    text += f'{hashtags_from_instance_tags}'
+    text += f"✍ Blog post: {instance.title}\n \n"
+    text += f"{instance.description}\n \n"
+    text += (
+        f"More under: https://www.englishstuff.online{instance.get_detail_url()} \n \n"
+    )
+    text += f"{hashtags_from_instance_tags}"
 
     return text
 
 
 # Quiz
 
+
 def get_quiz_promotion_text(instance):
     """
     It generates text from a quiz instance
     """
-    text = f'Check out this quiz: {instance.name} \n \n'
-    text += f'👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n'
+    text = f"Check out this quiz: {instance.name} \n \n"
+    text += f"👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n"
     text += f'{common_hashtags} #{instance.name.replace(" ", "").lower()}'
     return text
 
 
 # Question
+
 
 def get_question_text(instance):
     """
@@ -82,9 +93,9 @@ def get_question_promotion_text(instance, make_short=False):
     text = ""
     if not make_short:
         text += f"Here a small question for you {cool_emoji} \n\n"
-    text += f'{question_text} \n\n'
-    text += 'Check out the right answer here:\n'
-    text += f'👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n'
+    text += f"{question_text} \n\n"
+    text += "Check out the right answer here:\n"
+    text += f"👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n"
     text += f'{common_hashtags} #{instance.lection.quiz.name.replace(" ", "")}'
 
     return text

@@ -3,18 +3,13 @@
 
 See URLs in :doc:`../../example` to learn more.
 """
-try:
-    from django.conf.urls import url
-except ImportError:
-    from django.urls import re_path as url
+from __future__ import annotations
 
-from .views import (
-    ImageUploadView,
-    MarkdownifyView,
-)
+from django.urls import re_path
 
+from .views import ImageUploadView, MarkdownifyView
 
 urlpatterns = [
-    url('upload/', ImageUploadView.as_view(), name='markdownx_upload'),
-    url('markdownify/', MarkdownifyView.as_view(), name='markdownx_markdownify'),
+    re_path("upload/", ImageUploadView.as_view(), name="markdownx_upload"),
+    re_path("markdownify/", MarkdownifyView.as_view(), name="markdownx_markdownify"),
 ]

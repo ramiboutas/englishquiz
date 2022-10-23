@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django import forms
 
 from .widgets import MarkdownxWidget
@@ -16,12 +18,12 @@ class MarkdownxFormField(forms.CharField):
 
         .. _docs on Charfield: https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.CharField
         """
-        super(MarkdownxFormField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if issubclass(self.widget.__class__, forms.widgets.MultiWidget):
             is_markdownx_widget = any(
                 issubclass(item.__class__, MarkdownxWidget)
-                for item in getattr(self.widget, 'widgets', list())
+                for item in getattr(self.widget, "widgets", list())
             )
 
             if not is_markdownx_widget:

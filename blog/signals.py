@@ -1,5 +1,7 @@
-from django.dispatch import receiver
+from __future__ import annotations
+
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .models import BlogPost
 from .tasks import create_blog_post_pdf

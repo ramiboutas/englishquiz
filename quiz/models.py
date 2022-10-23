@@ -1,21 +1,23 @@
+from __future__ import annotations
+
 from django.db import models
-from django.utils.text import slugify
 from django.urls import reverse
+from django.utils.text import slugify
 
 QUIZ_LEVEL_CHOICES = (
-    (1, 'A1'),
-    (2, 'A2'),
-    (3, 'B1'),
-    (4, 'B2'),
-    (5, 'C1'),
-    (6, 'C2'),
+    (1, "A1"),
+    (2, "A2"),
+    (3, "B1"),
+    (4, "B2"),
+    (5, "C1"),
+    (6, "C2"),
 )
 
 QUESTION_TYPE_CHOICES = (
-    (1, '1: One text input'),
-    (2, '2: Two text input'),
-    (5, '5: One choice selection'),
-    (6, '6: Multiple choice selection'),
+    (1, "1: One text input"),
+    (2, "2: Two text input"),
+    (5, "5: One choice selection"),
+    (6, "6: Multiple choice selection"),
 )
 
 
@@ -28,27 +30,27 @@ class Quiz(models.Model):
     views = models.PositiveIntegerField(default=0)
 
     def get_detail_url(self):
-        return reverse('quiz_detail', kwargs={'slug': self.slug, 'level': self.level})
+        return reverse("quiz_detail", kwargs={"slug": self.slug, "level": self.level})
 
     def get_absolute_url(self):
         return self.get_detail_url()
 
     def get_list_url(self):
-        return reverse('quiz_list')
+        return reverse("quiz_list")
 
     def add_view(self):
         self.views += 1
         self.save()
 
     def __str__(self):
-        return f'{self.get_level_display()} - {self.name}'
+        return f"{self.get_level_display()} - {self.name}"
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Quiz, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ('-views', )
+        ordering = ("-views",)
 
 
 class Lection(models.Model):
@@ -68,14 +70,14 @@ class Lection(models.Model):
         self.save()
 
     def __str__(self):
-        return f'{self.name} ({self.quiz.name})'
+        return f"{self.name} ({self.quiz.name})"
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Lection, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ('name', )
+        ordering = ("name",)
 
 
 class Question(models.Model):
@@ -105,41 +107,47 @@ class Question(models.Model):
 
     def get_detail_url(self):
         return reverse(
-            'question_detail',
+            "question_detail",
             kwargs={
-                'slug_quiz': self.lection.quiz.slug,
-                'level_quiz': self.lection.quiz.level,
-                'slug_lection': self.lection.slug,
-                'id_question': self.id
-                })
+                "slug_quiz": self.lection.quiz.slug,
+                "level_quiz": self.lection.quiz.level,
+                "slug_lection": self.lection.slug,
+                "id_question": self.id,
+            },
+        )
 
     def get_absolute_url(self):
         return self.get_detail_url()
 
     def check_answer_url(self):
         return reverse(
-            'check_answer',
+            "check_answer",
             kwargs={
-                'slug_quiz': self.lection.quiz.slug,
-                'level_quiz': self.lection.quiz.level,
-                'slug_lection': self.lection.slug,
-                'id_question': self.id
-                })
+                "slug_quiz": self.lection.quiz.slug,
+                "level_quiz": self.lection.quiz.level,
+                "slug_lection": self.lection.slug,
+                "id_question": self.id,
+            },
+        )
 
     def update_progress_bar_url(self):
         return reverse(
-            'update_progress_bar',
+            "update_progress_bar",
             kwargs={
-                'slug_quiz': self.lection.quiz.slug,
-                'level_quiz': self.lection.quiz.level,
-                'slug_lection': self.lection.slug, 'id_question': self.id
-                })
+                "slug_quiz": self.lection.quiz.slug,
+                "level_quiz": self.lection.quiz.level,
+                "slug_lection": self.lection.slug,
+                "id_question": self.id,
+            },
+        )
 
     def get_translation_modal_url(self):  # not used, used Bootstrap Bundle JS instead
-        return reverse('quiz_get_translation_modal', kwargs={'id_question': self.id})
+        return reverse("quiz_get_translation_modal", kwargs={"id_question": self.id})
 
-    def remove_translation_modal_url(self):  # not used, used Bootstrap Bundle JS instead
-        return reverse('quiz_remove_translation_modal', kwargs={'id_question': self.id})
+    def remove_translation_modal_url(
+        self,
+    ):  # not used, used Bootstrap Bundle JS instead
+        return reverse("quiz_remove_translation_modal", kwargs={"id_question": self.id})
 
     def is_first(self):
         return self.__class__.objects.filter(lection=self.lection).first() == self
@@ -148,16 +156,24 @@ class Question(models.Model):
         return self.__class__.objects.filter(lection=self.lection).last() == self
 
     def previous_object(self):
-        return self.__class__.objects.filter(id__lt=self.id, lection=self.lection).order_by('id').last()
+        return (
+            self.__class__.objects.filter(id__lt=self.id, lection=self.lection)
+            .order_by("id")
+            .last()
+        )
 
     def next_object(self):
-        return self.__class__.objects.filter(id__gt=self.id, lection=self.lection).order_by('id').first()
+        return (
+            self.__class__.objects.filter(id__gt=self.id, lection=self.lection)
+            .order_by("id")
+            .first()
+        )
 
     def __str__(self):
-        return f'{self.lection.quiz.name} - {self.lection.name} - {self.text_one}'
+        return f"{self.lection.quiz.name} - {self.lection.name} - {self.text_one}"
 
     class Meta:
-        ordering = ('id', )
+        ordering = ("id",)
 
 
 class Answer(models.Model):
@@ -176,7 +192,7 @@ class DeeplLanguage(models.Model):
     views = models.PositiveIntegerField(default=0)
 
     class Meta:
-        ordering = ['-views']
+        ordering = ["-views"]
 
     def __str__(self) -> str:
         return self.name

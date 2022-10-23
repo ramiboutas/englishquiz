@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from django.conf import settings
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.urls import reverse
-from markdownx.models import MarkdownxField
 from slugger import AutoSlugField
+
+from markdownx.models import MarkdownxField
 
 
 class Contact(models.Model):
@@ -13,9 +16,13 @@ class Contact(models.Model):
     response = models.TextField(max_length=250, null=True, blank=True)
     responded = models.BooleanField(default=False)
     responded_on = models.DateField(null=True, blank=True)
-    responded_by = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL)
+    responded_by = models.ForeignKey(
+        get_user_model(), null=True, blank=True, on_delete=models.SET_NULL
+    )
 
-    subscribe = models.BooleanField(verbose_name="Subscribe to our Newsletter", default=False)
+    subscribe = models.BooleanField(
+        verbose_name="Subscribe to our Newsletter", default=False
+    )
     subscribed = models.BooleanField(default=False)
 
     created_on = models.DateField(auto_now_add=True)
@@ -36,8 +43,8 @@ class FlexPage(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="flexpages",
-        )
-    slug = AutoSlugField(populate_from='title')
+    )
+    slug = AutoSlugField(populate_from="title")
     content = MarkdownxField()
     views = models.PositiveIntegerField(default=0)
     created = models.DateField(auto_now_add=True)
@@ -55,7 +62,8 @@ class FlexPage(models.Model):
             kwargs={
                 "slug": self.slug,
                 "level": self.level,
-                })
+            },
+        )
 
     def get_detail_url(self):
         return self.get_absolute_url()

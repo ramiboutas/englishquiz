@@ -1,6 +1,8 @@
-import requests
+from __future__ import annotations
+
 import json
 
+import requests
 from django.conf import settings
 
 from socialmedia.models import InstagramPost
@@ -13,7 +15,7 @@ class AbractInstagramAPI:
 
     def __init__(self) -> None:
         self.ig_user_id = settings.INSTAGRAM_PAGE_ID
-        self.params = {'access_token': settings.INSTAGRAM_ACCESS_TOKEN}
+        self.params = {"access_token": settings.INSTAGRAM_ACCESS_TOKEN}
 
 
 class InstagramAPI(AbractInstagramAPI):
@@ -27,9 +29,14 @@ class InstagramAPI(AbractInstagramAPI):
         self.params["caption"] = "testing caption..."
         self.params["image_url"] = "https://bit.ly/3fTIdet"  # This is an image
 
-        response = requests.post(f"https://graph.facebook.com/v2.0/{self.ig_user_id}/media", params=self.params)
+        response = requests.post(
+            f"https://graph.facebook.com/v2.0/{self.ig_user_id}/media",
+            params=self.params,
+        )
         return response
-        return InstagramPost.objects.create(instagram_id=json.loads(response.text)["id"], text=text)
+        return InstagramPost.objects.create(
+            instagram_id=json.loads(response.text)["id"], text=text
+        )
 
     def delete_post(self, obj):
         pass

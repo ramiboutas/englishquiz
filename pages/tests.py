@@ -1,16 +1,17 @@
+from __future__ import annotations
+
 from django.test import TestCase
 
 from .models import Contact
 
 
 class ContactTest(TestCase):
-
     def setUp(self):
         self.contact_obj = Contact.objects.create(
             name="John",
             email="john@email.com",
             message="Hello, this is John",
-            )
+        )
 
     def test_str_of_contact_obj(self):
         self.assertEqual(str(self.contact_obj), "John")

@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from django.contrib import admin
 
-from .widgets import AdminMarkdownxWidget
 from .models import MarkdownxField
+from .widgets import AdminMarkdownxWidget
 
 
 class MarkdownxModelAdmin(admin.ModelAdmin):
@@ -11,6 +13,4 @@ class MarkdownxModelAdmin(admin.ModelAdmin):
     See **Django Admin** in :doc:`../../example` for additional information.
     """
 
-    formfield_overrides = {
-        MarkdownxField: {'widget': AdminMarkdownxWidget}
-    }
+    formfield_overrides = {MarkdownxField: {"widget": AdminMarkdownxWidget}}

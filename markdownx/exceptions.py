@@ -1,5 +1,7 @@
-from django.utils.translation import gettext_lazy as _
+from __future__ import annotations
+
 from django.forms import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class MarkdownxImageUploadError(ValidationError):
@@ -18,7 +20,7 @@ class MarkdownxImageUploadError(ValidationError):
 
         :rtype: MarkdownxImageUploadError
         """
-        return cls(_('No files have been uploaded.'))
+        return cls(_("No files have been uploaded."))
 
     @classmethod
     def unsupported_format(cls):
@@ -33,7 +35,7 @@ class MarkdownxImageUploadError(ValidationError):
 
         :rtype: MarkdownxImageUploadError
         """
-        return cls(_('File type is not supported.'))
+        return cls(_("File type is not supported."))
 
     @classmethod
     def invalid_size(cls, current, expected):
@@ -53,8 +55,6 @@ class MarkdownxImageUploadError(ValidationError):
         from django.template.defaultfilters import filesizeformat
 
         return cls(
-            _('Please keep file size under %(max)s. Current file size: %(current)s.') % {
-                'max': filesizeformat(expected),
-                'current': filesizeformat(current)
-            }
+            _("Please keep file size under %(max)s. Current file size: %(current)s.")
+            % {"max": filesizeformat(expected), "current": filesizeformat(current)}
         )

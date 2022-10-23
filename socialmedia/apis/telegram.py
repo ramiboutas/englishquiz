@@ -1,5 +1,6 @@
-import telegram as telegram_bot
+from __future__ import annotations
 
+import telegram as telegram_bot
 from django.conf import settings
 
 from socialmedia.models import TelegramMessage
@@ -15,7 +16,7 @@ class TelegramAPI:
             chat_id=self.channel,
             text=text,
             parse_mode=telegram_bot.ParseMode.HTML,
-            disable_web_page_preview=False
+            disable_web_page_preview=False,
         )
 
         return TelegramMessage.objects.create(
