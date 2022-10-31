@@ -30,11 +30,11 @@ repos:
         - flake8-tidy-imports
         - flake8-typing-imports
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.1.0
+    rev: v3.2.0
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.10.0"  # replace with latest tag on GitHub
+    rev: "1.11.0"  # replace with latest tag on GitHub
     hooks:
     -   id: django-upgrade
         args: [--target-version, "4.1"]   # Replace with Django version
