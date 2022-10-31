@@ -5,7 +5,6 @@ import os
 from celery import Celery
 from django.apps import apps
 from django.conf import settings
-
 from dotenv import load_dotenv  # python-dotenv
 
 load_dotenv(
