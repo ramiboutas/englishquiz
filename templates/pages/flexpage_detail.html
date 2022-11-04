@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load cache %}
+{% load markdown_extras %}
+
+{% cache 604800 flexpage page.pk %}
+
+    {% block head_title %}{{ page.title }} | English Stuff Online{% endblock %}
+
+
+    {% block content %}
+
+        <div class="container my-5">
+            <h1 class="text-success text-center my-5">{{ page.title }} </h1>
+        </div>
+
+        <div class="container my-5 text-dark">
+            <div class="row justify-content-md-center">
+                {{ page.content | markdown | safe }}
+            </div>
+        </div>
+
+        {% include "partials/footer.html" %}
+
+
+    {% endblock  %}
+
+
+{% endcache %}

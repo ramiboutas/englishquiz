@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block head_title %}Error 404{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-success text-center py-5">Error 404: Page not found.</h1>
+
+
+    <div class="container py-5">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-12 col-md-10 col-lg-8 text-center">
+                <a class="btn btn-success"  href="{% url 'home' %}">Go home</a>
+
+            </div>
+        </div>
+    </div>
+
+
+    {% include "partials/footer.html" %}
+
+{% endblock %}

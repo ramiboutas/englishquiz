@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load cache %}
+
+{% cache 604800 homepage %}
+
+    {% block head_title %}  Learn English Online  {% endblock %}
+
+
+    {% block content %}
+
+
+
+        <h1 class="text-success text-center py-5">Learn English Online!</h1>
+
+
+        <h2 class="text-center py-3">Learn and practice english with quizzes. Totally <strong class="text-success">free <i class="bi bi-emoji-sunglasses"></i> </strong> and without registration <i class="bi bi-check2-all text-success"></i> </h2>
+        <h3 class="text-center text-success display-5 py-3"> <i class="bi bi-pencil"></i> <i class="bi bi-chat-dots"></i> <i class="bi bi-display"></i> </h3>
+
+        <form class="" hx-get="{% url 'search_quizzes' %}" hx-trigger="change" hx-target="#quizzes" hx-indicator=".htmx-indicator">
+            <div class="container py-5">
+                <div class="row justify-content-md-center">
+                    <span class="htmx-indicator text-center text-success">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Searching...</span>
+                        </div>
+                    </span>
+                    <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="input-group rounded">
+                            <input type="search" name="q" class="form-control boder-success rounded" placeholder="Search your quiz, eg: prepositions, phrasal verbs, ..."
+                                hx-get="{% url 'search_quizzes' %}" hx-trigger="keyup changed delay:500ms">
+
+                            <span class="input-group-text border-0">
+                                <i class="bi bi-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center py-3">
+                    <div class="col-sm-12 col-md-10 col-lg-8 text-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="level_one" value="3" checked>
+                            <label class="form-check-label" for="inlineCheckbox1">Elementary</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="level_two" value="4" checked>
+                            <label class="form-check-label" for="inlineCheckbox2">Intermediate</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="level_three" value="5" checked>
+                            <label class="form-check-label" for="inlineCheckbox3">Advanced</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="container py-5">
+            <div class="row justify-content-md-center" id="quizzes">
+                {% include "quiz/partials/quiz_list.html" %}
+            </div>
+        </div>
+
+
+        {% include "partials/footer.html" %}
+
+    {% endblock %}
+
+{% endcache %}

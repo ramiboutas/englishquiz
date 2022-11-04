@@ -1,0 +1,74 @@
+{% load static %}
+{% load analytical %}
+{% load google_analytics_gtag %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        {% analytical_head_top %}
+        {% google_analytics_gtag %}
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> {% block head_title %}{% endblock %} </title>
+
+        <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+        <link rel="apple-touch-icon" href="{% static 'img/favicon.ico' %}">
+
+        <meta property="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'img/favicon.ico' %}">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        <meta name="twitter:url" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'img/favicon.ico' %}">
+        <meta name="twitter:card" content="summary">
+
+        {% block meta_tags %}
+            <meta name="description" content="{{ site_meta_description }}">
+            <meta name="keywords" content="{{ site_meta_keywords }}">
+            <meta property="og:title" content="{{ site_title }}">
+            <meta property="og:description" content="{{ site_meta_description }}">
+            <meta name="twitter:title" content="{{ site_title }}">
+            <meta name="twitter:description" content="{{ site_meta_description }}">
+        {% endblock  %}
+
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+            rel="stylesheet" crossorigin="anonymous">
+
+        <!-- Bootstrap icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+            rel="stylesheet" type="text/css">
+
+        {% block head_extra %}{% endblock %}
+
+        {% analytical_head_bottom %}
+    </head>
+
+    <body class="container" style="background-color: Beige;" >
+        {% analytical_body_top %}
+
+        {% include 'partials/messages.html' %}
+
+        {% block content %}{% endblock %}
+
+
+
+        <!-- htmx -->
+        <script src="https://unpkg.com/htmx.org@1.8.0"
+            integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc"
+            crossorigin="anonymous">
+        </script>
+
+        <!-- Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous">
+        </script>
+
+
+        {% block footer_extra %} {% endblock %}
+
+        {% analytical_body_bottom %}
+    </body>
+</html>

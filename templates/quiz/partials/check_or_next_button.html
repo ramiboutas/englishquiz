@@ -1,0 +1,13 @@
+<div class="fixed-bottom container" hx-boost="true">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mb-2">
+            {% if not question.is_last %}
+                <a  class="btn btn-lg btn-dark w-100 h-100 "
+                    href="{{ question.next_object.get_detail_url }}">Next <i class="bi bi-arrow-right"></i></a>
+            {% else %}
+                <a  class="btn btn-lg btn-success w-100 h-100 "
+                    href="{{ question.lection.quiz.get_detail_url }}"><i class="bi bi-check-lg"></i> Done</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

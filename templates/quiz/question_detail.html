@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load cache %}
+
+{% cache 604800 question_detail question.pk %}
+
+    {% load question_related_tags %}
+
+
+    {% block head_title %}{{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
+
+    {% block content %}
+
+
+
+        <!-- when the answer is checked, we update the progress bar -->
+        <div hx-get="{{ question.update_progress_bar_url }}" hx-target="#progress-bar" hx-swap="innerHTML"
+            hx-trigger="answerCheckedEvent from:body"></div>
+
+        <div class="container">
+            <h1 class="lead fs-6 text-center mt-2"> {{ question.lection.quiz.name }} - {{ question.lection.name }}</h1>
+            <div class="row justify-content-center" hx-boost="true">
+                <div class="d-grid gap-2 d-flex justify-content-center">
+                    {% if not question.is_first %}
+                        <a class="btn btn-secondary border-0 me-md-2"
+                            href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
+                    {% endif %}
+                    <div id="progress-bar" class="col-8">{% include "quiz/partials/progress_bar.html" %}</div>
+                    <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"
+                        data-bs-toggle="tooltip" data-bs-placement="center" title="Close"><i class="bi bi-x-lg"></i></a>
+                </div>
+            </div>
+        </div>
+
+
+        <form id="answers">
+
+            <div class="container mt-3">
+                <div class="col-md-8 offset-md-2">
+                    <div class="row">
+                        {% if question.type == 1 %}
+                            <p class="fs-2 text-center py-1">
+                                {% if question.text_one %} {{ question.text_one }} {% endif %}
+                                <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
+                                    onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
+                                {% if question.text_two %} {{ question.text_two }} {% endif %}
+                            </p>
+                        {% elif question.type == 2 %}
+                            <p class="fs-2 text-center py-1">
+                                {% if question.text_one %} {{ question.text_one }} {% endif %}
+                                <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
+                                    onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
+                                {% if question.text_two %} {{ question.text_two }} {% endif %}
+                                <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
+                                    onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_two" value="">
+                                {% if question.text_three %} {{ question.text_three }} {% endif %}
+                            </p>
+                        {% elif question.type == 5 %}
+                            <p class="fs-2 text-center py-1">{{ question.text_one }}</p>
+                            {% if question.text_two %}<p class="fs-2 text-center py-1">{{ question.text_two }}</p>{% endif %}
+                            {% if question.text_three %}<p class="fs-2 text-center py-1">{{ question.text_three }}</p>{% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-3">
+                {% if question.type == 5 %}
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            {% for answer in question.answer_set.all %}
+                                <p class="py-1">
+                                    <input type="radio" class="btn-check" name="selected_answer_id" value="{{answer.id}}" id="option-{{answer.id}}" autocomplete="off">
+                                    <label class="btn btn-lg btn-outline-dark border-0 w-100" for="option-{{answer.id}}">{{answer.name}}</label>
+                                </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="fixed-bottom container">
+                    <div class="row mb-2">
+
+                        <div class="col-2 offset-1">
+                            <button type="button" class="btn btn-lg btn-primary w-100 h-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <i class="bi bi-translate"></i>
+                            </button>
+                        </div>
+                        <div class="col-8">
+                            <button id="" class="btn btn-lg btn-secondary w-100 h-100"
+                                hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers"
+                                hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
+                                data-bs-toggle="tooltip" data-bs-placement="center" title="Check my answer">Check
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Translation Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Translation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <h4 class="text-muted mt-2">{{ question.full_text }}</h4>
+
+                        <h4 id="translated-text-here" class="text-warning mt-5">👇‍ Select language</h4>
+
+                        <div class="mt-5">
+                            {% for language_object in language_objects %}
+                                <a hx-get="{% get_question_translation_url id_language=language_object.id id_question=question.id %}"
+                                    hx-target="#translated-text-here" hx-swap="outerHTML"
+                                    class="btn btn-outline-primary m-1" role="button">{{ language_object.name }}</a>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <small class="text-muted"><a target="_blank" href="https://www.deepl.com/?ref=www.englishstuff.online"> DeepL API</a> is used for these translations</small>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+
+
+{% endcache %}

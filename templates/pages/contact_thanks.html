@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load cache %}
+{% load markdown_extras %}
+{% load crispy_forms_tags %}
+
+{% cache 604800 contact_page %}
+
+    {% block head_title %}Thanks | English Stuff Online{% endblock %}
+
+    {% block content %}
+
+        <div class="container my-5">
+            <h1 class="text-success text-center my-5">Thanks</h1>
+            <p class="text-success text-center my-5">We will get back to you as soon as we can!</p>
+        </div>
+
+        <div class="container my-5 text-dark">
+            <div class="row justify-content-md-center">
+
+            </div>
+        </div>
+        {% include "partials/footer.html" %}
+
+
+    {% endblock  %}
+
+
+{% endcache %}

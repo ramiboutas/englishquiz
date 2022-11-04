@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load cache static %}
+
+{% cache 604800 newsfeed_subscribe %}
+
+    {% block head_title %}Subscribe | English Stuff Online{% endblock %}
+
+    {% block content %}
+
+        <div class="container my-5">
+            <h1 class="text-success text-center my-5">Subscribe</h1>
+            <p class="text-success text-center my-5">Subscribe to our Newsletter to receive interesting English tips</p>
+        </div>
+        <div class="container py-5">
+            <div class="row justify-content-md-center" >
+                {% include 'newsfeed/subscription_form.html' with form=form form_type='subscribe' %}
+            </div>
+        </div>
+
+        {% include "partials/footer.html" %}
+
+    {% endblock %}
+
+    {% block footer_extra %}
+        <script type="text/javascript" src="{% static 'newsfeed/js/newsletter_subscription.js' %}"></script>
+    {% endblock %}
+
+
+{% endcache %}

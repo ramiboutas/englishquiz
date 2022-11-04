@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load cache static %}
+
+{% cache 86400 latest_issue %}
+
+    {% block head_title %}Issue #{{ issue.issue_number }}{% endblock %}
+
+
+    {% block meta_tags %}
+        <meta name="description" content="{{ issue.short_description }}">
+        <meta name="keywords" content="{{ site_meta_keywords }}">
+        <meta property="og:title" content="{{ issue.title }}">
+        <meta property="og:description" content="{{ issue.short_description }}">
+        <meta name="twitter:title" content="{{ issue.title }}">
+        <meta name="twitter:description" content="{{ issue.short_description }}">
+    {% endblock  %}
+
+
+
+    {% block content %}
+
+        <div class="container my-5">
+            <h1 class="text-success text-center mt-5">Issue #{{ issue.issue_number }}: {{ issue.title }}</h1>
+            <p class="text-muted text-center mb-5">{{ issue.publish_date|date:"D d M Y" }}</p>
+
+            <p>{{ issue.short_description }}</p>
+
+
+        </div>
+
+        <div class="container my-5 text-dark">
+            <div class="row justify-content-md-center">
+                {% include 'newsfeed/issue_posts.html' with posts=object_list %}
+            </div>
+        </div>
+
+        {% include "partials/footer.html" %}
+
+    {% endblock  %}
+
+
+
+{% endcache %}

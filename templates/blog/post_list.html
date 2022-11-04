@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load cache %}
+
+
+{% cache 604800 blog_page %}
+
+    {% block head_title %} Blog {% endblock  %}
+
+    {% block content %}
+
+        <h1 class="text-success text-center py-5">Blog</h1>
+
+
+
+        <div class="container py-5">
+            <div class="row justify-content-md-center">
+
+                <h2 class="text-success py-3">Popular posts</h2>
+                {% for post in popular_posts %}
+                    <div class="col-md-6 my-5">
+                        <h3><span class="badge bg-success">{{ post.views }}</span> <a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>  </h3>
+                        <p>{{ post.description }}</p>
+                        <small class="text-muted">{{ post.created  }}</small>
+                    </div>
+                {% endfor %}
+
+                <h2 class="text-success py-3">Last posts</h2>
+                {% for post in popular_posts %}
+                    <div class="col-md-6 my-5">
+                        <h3><a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>  </h3>
+                        <p>{{ post.description }}</p>
+                        <small class="text-muted">{{ post.created  }}</small>
+                    </div>
+                {% endfor %}
+
+                <a class="btn btn-lg btn-outline-success border-0 my-5" href="{% url 'blog_allposts' %}">Check more posts <i class="bi bi-arrow-right-short"></i> </a>
+
+
+
+            </div>
+        </div>
+
+
+
+        {% include "partials/footer.html" %}
+
+
+    {% endblock  %}
+
+
+{% endcache %}

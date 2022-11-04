@@ -1,0 +1,27 @@
+{% load humanize %}
+
+{% for quiz in quiz_list %}
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
+        <div class="card" style="background-color: Beige;">
+            <img src="{{ quiz.image_url }}" width="400" height="250" class="card-img-top" alt="...">
+            <small class="text-muted">Photo by <a class="text-muted" target="_blank" href="{{ quiz.image_credits_url }}">{{ quiz.image_credits_url }}</a> </small>
+            <div class="card-body ">
+                <p class="text-secondary">Difficulty
+                    <span class="text-success float-end">
+                        {% if quiz.level > 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle-fill"></i> <i class="bi bi-circle-fill"></i> {% endif %}
+                        {% if quiz.level == 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> {% endif %}
+                        {% if quiz.level < 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> <i class="bi bi-circle"></i> {% endif %}
+                    </span>
+                </p>
+                <p class="text-secondary">Views
+                    <span class="text-success float-end"> {{ quiz.views | intcomma }} </span>
+                </p>
+                <a href="{{ quiz.get_detail_url }}" class="btn btn-lg btn-success w-100 fs-3">{{ quiz.name}}</a>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
+        <p class="text-center text-success">Sorry, we didn't find anything for you <i class="bi bi-emoji-frown"></i></p>
+    </div>
+{% endfor %}

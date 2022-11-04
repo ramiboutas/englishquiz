@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load cache static %}
+{% load markdown_extras %}
+
+{% cache 86400 post_detail post.pk %}
+
+    {% block head_title %} {{ post.title }}  {% endblock %}
+
+    {% block meta_tags %}
+        <meta name="description" content="{{ post.get_meta_description }}">
+        <meta name="keywords" content="{{ post.get_meta_keywords }}">
+        <meta property="og:title" content="{{ post.get_meta_title }}">
+        <meta property="og:description" content="{{ post.get_meta_description }}">
+        <meta name="twitter:title" content="{{ post.get_meta_title }}">
+        <meta name="twitter:description" content="{{ post.get_meta_description }}">
+    {% endblock  %}
+
+
+    {% block content %}
+
+        <div class="container my-5">
+            <h1 class="text-success text-center mt-5">{{ post.title }} </h1>
+            <p class="text-muted text-center mb-5"> <i class="bi bi-book"></i>  {{ post.reading_time }} minutes</p>
+
+
+            <div class="row">
+                <div class="col">
+                    <small class="text-muted">{{ post.created  }}</small>
+                </div>
+                <div class="col">
+                    {% if post.pdf_created %}
+                        <a class="btn btn-outline-danger float-end" target="_blank" href="{{ post.pdf.url }}">Download as PDF <i class="bi bi-download"></i></a>
+
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container my-5 text-dark">
+            <div class="row justify-content-md-center">
+                {{ post.content | markdown | safe }}
+            </div>
+        </div>
+
+
+        <a class="btn btn-outline-success border-0 my-5" href="{% url 'blog_allposts' %}"><i class="bi bi-arrow-left"></i> More posts  </a>
+
+        {% include "partials/footer.html" %}
+
+
+    {% endblock  %}
+
+
+
+{% endcache %}

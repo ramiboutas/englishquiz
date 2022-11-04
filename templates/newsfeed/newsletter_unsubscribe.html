@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+{% load cache static %}
+
+{% cache 604800 newsfeed_unsubscribe %}
+
+    {% block head_title %}Unsubscribe | English Stuff Online{% endblock %}
+
+    {% block content %}
+
+        <div class="container my-5">
+            <h1 class="text-success text-center my-5">Unsubscribe</h1>
+            <p class="text-success text-center my-5">Want to unsubscribe from our Newsletter? This makes us sad 😔</p>
+        </div>
+        <div class="container py-5">
+            <div class="row justify-content-md-center" >
+                {% include 'newsfeed/subscription_form.html' with form=form form_type='unsubscribe' %}
+            </div>
+        </div>
+
+        {% include "partials/footer.html" %}
+
+    {% endblock %}
+
+    {% block footer_extra %}
+        <script type="text/javascript" src="{% static 'newsfeed/js/newsletter_subscription.js' %}"></script>
+    {% endblock %}
+
+
+{% endcache %}

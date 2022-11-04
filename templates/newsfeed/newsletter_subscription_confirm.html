@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load cache static %}
+
+{% cache 604800 newsfeed_subscription_confirm %}
+
+    {% block head_title %}Subscription Status | English Stuff Online{% endblock %}
+
+    {% block content %}
+        {% if subscribed %}
+            <h1 class="text-success text-center my-5">Subscription confirmed!</h1>
+            <p class="text-success text-center my-5">Thank you for subscribing to our Newsletter!</p>
+
+        {% else %}
+            <h1 class="text-success text-center my-5">Subscription link expired!</h1>
+            <p class="text-success text-center my-5">Subscription confirmation link has expired or is invalid.
+                Please click on the button below to receive an e-mail with a new confirmation link.</p>
+
+            <div class="container py-5">
+                <div class="row justify-content-md-center" >
+                    <form method="post" class="subscriptionForm col-md-6" action="{% url 'newsfeed:newsletter_subscribe' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="email_address" required id="id_email_address" value="{{ object.email_address }}">
+                        <button  class="btn btn-success mt-3 w-100" type="submit">Try Again</button>
+                    </form>
+                    <div class="subscriptionMessage"></div>
+                </div>
+            </div>
+
+        {% endif %}
+
+        {% include "partials/footer.html" %}
+    {% endblock %}
+
+
+    {% block head_extra %}
+        <script type="text/javascript" src="{% static 'newsfeed/js/newsletter_subscription.js' %}"></script>
+    {% endblock %}
+
+{% endcache %}

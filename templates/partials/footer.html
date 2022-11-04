@@ -1,0 +1,90 @@
+
+<div class="container">
+    <footer class="py-5">
+        <div class="row">
+            <div class="col-6 col-md-2 mb-3">
+                <h5>About us</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'pages_home' %}" class="nav-link p-0 text-muted">🏠 Home</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'blog_postlist' %}" class="nav-link p-0 text-muted">📝 Blog</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'pages_contact' %}" class="nav-link p-0 text-muted">📨 Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Learn with</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'quiz_list' %}" class="nav-link p-0 text-muted">🎁 Quizzes</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="https://www.amazon.com/gp/search?ie=UTF8&tag=ramiboutas-20&linkCode=ur2&linkId=5426de81b33b3ae4a8968132504692a4&camp=1789&creative=9325&index=books&keywords=learn English"
+                            target="_blank" class="nav-link p-0 text-muted">📚 Books <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Transparency</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a target="_blank" href="https://github.com/ramiboutas/englishquiz" class="nav-link p-0 text-muted">💻 Source code  <i class="bi bi-box-arrow-up-right"></i></a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'pages_flexpage' slug='privacy' %}" class="nav-link p-0 text-muted">👤 Privacy policy</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'pages_flexpage' slug='terms' %}" class="nav-link p-0 text-muted">⚙️ Terms of service</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-5 offset-md-1 mb-3">
+                <form method="post" class="subscriptionForm" action="{% url 'newsfeed:newsletter_subscribe' %}">
+                    {% csrf_token %}
+                    <h5>Subscribe to our newsletter</h5>
+                    <p>Subscribe to our Newsletter to receive interesting English tips</p>
+                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                        <input type="email" name="email_address" class="emailinput form-control" required id="id_email_address" placeholder="Email address">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </div>
+                    <div class="subscriptionMessage"></div>
+                </form>
+            </div>
+        </div>
+
+        <small>
+            This page may contain affiliate links. If you use these links to buy something we may earn a commission. Thanks.
+        </small>
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+            <p>© {{ copyright_year }}  Material by <a target="_blank" href="https://www.toweracademy.es">Phil</a>. Website by
+                <a target="_blank" href="https://github.com/ramiboutas/">Rami</a>
+            </p>
+            <ul class="list-unstyled d-flex">
+                <li class="ms-3">
+                    <a  class="me-1" href="{% url 'socialmedia_telegram' %}"><i class="bi bi-telegram"></i></a>
+                </li>
+                <li class="ms-3">
+                    <a target="_blank" class="me-1" href="https://www.linkedin.com/company/english-stuff-online"><i class="bi bi-linkedin"></i></a>
+                </li>
+                <li class="ms-3">
+                    <a target="_blank" class="me-1" href="https://twitter.com/EnglishStuffOn"><i class="bi bi-twitter"></i></a>
+                </li>
+                <li class="ms-3">
+                    <a target="_blank" class="me-1" href="https://www.facebook.com/englishstuffonline/"><i class="bi bi-facebook"></i></a>
+                </li>
+                <li class="ms-3">
+                    <a target="_blank" class="me-1" href="https://github.com/ramiboutas/englishquiz"><i class="bi bi-github"></i></a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+</div>
