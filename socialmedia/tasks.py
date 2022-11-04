@@ -13,7 +13,7 @@ from quiz.models import Question
 from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
 from socialmedia.apis.telegram import TelegramAPI
 from socialmedia.apis.twitter import TweetAPI
-from socialmedia.models import RegularSocialPost, ScheduledSocialPost
+from socialmedia.models import RegularSocialPost
 from socialmedia.text import get_blog_post_promotion_text, get_question_promotion_text
 from utils.mail import mail_admins_with_an_exception
 
@@ -78,12 +78,6 @@ def create_image_from_instance(instance):
 
 
 @shared_task(bind=True)
-def create_image_from_scheduled_social_post_instance(self, **kwargs):
-    instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
-    create_image_from_instance(instance)
-
-
-@shared_task(bind=True)
 def create_image_from_regular_social_post_instance(self, **kwargs):
     instance = RegularSocialPost.objects.get(pk=kwargs["pk"])
     create_image_from_instance(instance)
@@ -142,38 +136,6 @@ def share_random_question_instance(self, **kwargs):
 
 
 # Social posts
-
-
-@shared_task(bind=True)
-def promote_scheduled_social_post_instance(self, **kwargs):
-    """
-    Social post - triggered by post_save signal
-    """
-    time.sleep(
-        10
-    )  # for safety: in case we want to first create an image from the post instance
-    try:
-        instance = ScheduledSocialPost.objects.get(pk=kwargs["pk"])
-
-        if instance.promote_in_telegram:
-            TelegramAPI().send_message(instance.text)
-
-        if instance.promote_in_linkedin:
-            # LinkedinCompanyPageAPI().create_ugcPost(instance.text)
-            LinkedinCompanyPageAPI().share_post_with_image(instance)
-
-        if instance.text.__len__() < 280 and instance.promote_in_twitter:
-            TweetAPI().create(instance.text)
-
-        # if instance.promote_in_facebook:
-        #     FacebookPageAPI().create_post(instance.text)
-
-        # Instagram
-        # TO DO
-
-    except Exception as e:
-        mail_admins_with_an_exception(e)
-        raise e
 
 
 @shared_task(bind=True)

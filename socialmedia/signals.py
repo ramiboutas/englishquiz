@@ -13,26 +13,10 @@ from socialmedia.models import (
     InstagramPost,
     LinkedinPost,
     RegularSocialPost,
-    ScheduledSocialPost,
     TelegramMessage,
     Tweet,
 )
-from socialmedia.tasks import (
-    create_image_from_regular_social_post_instance,
-    create_image_from_scheduled_social_post_instance,
-    promote_scheduled_social_post_instance,
-)
-
-
-@receiver(post_save, sender=ScheduledSocialPost)
-def schedule_social_post_for_promoting(sender, instance, **kwargs):
-    """
-    Schedules a social post (Social Post = Post in Linkedin, Message in Telegram, Tweet in Twitter)
-    """
-
-    promote_scheduled_social_post_instance.apply_async(
-        eta=instance.promote_date, kwargs={"pk": instance.pk}
-    )
+from socialmedia.tasks import create_image_from_regular_social_post_instance
 
 
 @receiver(post_save, sender=RegularSocialPost)
@@ -44,19 +28,6 @@ def trigger_image_creation_task_for_regular_posts(sender, instance, **kwargs):
 
     if instance.image_text and not instance.image:
         create_image_from_regular_social_post_instance.apply_async(
-            countdown=1, kwargs={"pk": instance.pk}
-        )
-
-
-@receiver(post_save, sender=ScheduledSocialPost)
-def trigger_image_creation_task_for_scheduled_posts(sender, instance, **kwargs):
-    """
-    Triggers the creation of images - ScheduledSocialPost
-    """
-    instance.refresh_from_db()
-
-    if instance.image_text and not instance.image:
-        create_image_from_scheduled_social_post_instance.apply_async(
             countdown=1, kwargs={"pk": instance.pk}
         )
 

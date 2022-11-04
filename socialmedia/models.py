@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import auto_prefetch
 from django.conf import settings
 from django.db import models
 
@@ -24,11 +25,10 @@ class BackgroundImage(models.Model):
         return self.name
 
 
-class AbstractSocialPost(models.Model):
+class RegularSocialPost(auto_prefetch.Model):
     """
-    Common information about a Social Post (Abstract Model)
-    Social Post = Post in Linkedin, Message in Telegram, Tweet in Twitter
-    Limit of characters: Twitter: 280   Instagram: 2,200     Facebook: 63,206   Telegram: 4,400
+    Social Post what will be promoted in social media on a daily basis.
+
     """
 
     text = models.TextField(max_length=2000)
@@ -99,26 +99,6 @@ class AbstractSocialPost(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
     )
-
-    class Meta:
-        abstract = True
-
-
-class ScheduledSocialPost(AbstractSocialPost):
-    """
-    Social Post what will be promoted in social media on a specific data and time.
-    """
-
-    promote_date = models.DateTimeField()
-
-    def __str__(self):
-        return self.text
-
-
-class RegularSocialPost(AbstractSocialPost):
-    """
-    Social Post what will be promoted in social media on a daily basis.
-    """
 
     promoted = models.BooleanField(default=False, editable=False)
 

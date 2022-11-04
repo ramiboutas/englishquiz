@@ -1,5 +1,6 @@
 django
 django-htmx
+django-auto-prefetch
 django-analytical
 django-simple-captcha
 django-crispy-forms

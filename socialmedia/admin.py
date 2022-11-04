@@ -8,7 +8,6 @@ from .models import (
     InstagramPost,
     LinkedinPost,
     RegularSocialPost,
-    ScheduledSocialPost,
     TelegramMessage,
     Tweet,
 )
@@ -20,38 +19,6 @@ class BackgroundImageAdmin(admin.ModelAdmin):
         "name",
         "image",
     ]
-
-
-@admin.register(ScheduledSocialPost)
-class ScheduledSocialPostAdmin(admin.ModelAdmin):
-    search_fields = [
-        "text",
-    ]
-
-    readonly_fields = [
-        "created",
-        "updated",
-        "created_by",
-    ]
-
-    list_filter = [
-        "created",
-        "updated",
-        "promote_date",
-        "created_by",
-    ]
-
-    list_display = [
-        "text",
-        "created",
-        "promote_date",
-        "created_by",
-    ]
-
-    def save_model(self, request, obj, form, change):
-        if not obj.pk:
-            obj.created_by = request.user
-        super().save_model(request, obj, form, change)
 
 
 @admin.register(RegularSocialPost)
