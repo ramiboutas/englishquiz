@@ -38,13 +38,12 @@ class AnswerInline(NestedStackedInline):
 class QuestionInline(NestedStackedInline):
     search_fields = ["text_one"]
     list_filter = ["lection"]
-    readonly_fields = [
-        "promoted",
-    ]
+    exclude = ("created_by", "promoted", )
     model = Question
     extra = 10
     fk_name = "lection"
     inlines = [AnswerInline]
+
 
 
 # Lection
@@ -58,6 +57,13 @@ class LectionAdmin(NestedModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     model = Quiz
     inlines = [QuestionInline]
+
+    def save_related(self, request, form, formsets, change):
+        for formset in formsets:
+            question_list = formset.save(commit=False)
+            for question in question_list:
+                question.created_by = request.user
+        return super().save_related(request, form, formsets, change)
 
 
 # Question
@@ -73,9 +79,15 @@ class QuestionAdmin(admin.ModelAdmin):
         "text_three",
         "type",
         "explanation",
+        "created_by",
     ]
     list_filter = ["type", "promoted"]
     list_display = ["full_text", "type", "promoted"]
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 # Translation models

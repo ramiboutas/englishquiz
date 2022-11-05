@@ -381,9 +381,9 @@ else:
 
 
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_HEADERS = "access-control-allow-origin"
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = "access-control-allow-origin"
 
 CORS_ALLOWED_ORIGINS = [
     "https://spaces.ramiboutas.com",

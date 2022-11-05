@@ -21,11 +21,11 @@ repos:
     rev: v3.9.0
     hooks:
     - id: reorder-python-imports
-    exclude: migrations/
     args:
     - --py37-plus
     - --add-import
     - 'from __future__ import annotations'
+    exclude: migrations/
 -   repo: https://github.com/PyCQA/flake8
     rev: 5.0.4
     hooks:
