@@ -70,7 +70,7 @@ coverage==6.5.0
     # via -r requirements.in
 crispy-bootstrap5==0.6
     # via -r requirements.in
-cryptography==38.0.1
+cryptography==38.0.3
     # via
     #   pyhanko
     #   pyhanko-certvalidator
