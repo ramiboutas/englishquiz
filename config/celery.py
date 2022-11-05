@@ -10,7 +10,7 @@ from django.conf import settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 app = Celery("config")
-app.config_from_object(settings)
+app.config_from_object(settings, namespace="CELERY")
 app.conf.timezone = settings.TIME_ZONE
 app.autodiscover_tasks(lambda: [n.name for n in apps.get_app_configs()])
 
