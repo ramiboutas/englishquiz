@@ -6,20 +6,11 @@ from celery import Celery
 from celery.schedules import crontab
 from django.apps import apps
 from django.conf import settings
-from dotenv import load_dotenv  # python-dotenv
-
-load_dotenv(
-    dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
-)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-broker_url = "redis://127.0.0.1:6379/3"
-result_backend = "redis://127.0.0.1:6379/3"
-
-
 app = Celery("config")
-app.config_from_object(settings, namespace="CELERY")
+app.config_from_object(settings)
 app.conf.timezone = settings.TIME_ZONE
 app.autodiscover_tasks(lambda: [n.name for n in apps.get_app_configs()])
 

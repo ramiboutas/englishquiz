@@ -261,6 +261,11 @@ INSTAGRAM_PAGE_ID = os.environ.get("INSTAGRAM_PAGE_ID")
 INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
 
+# celery
+broker_url = "redis://127.0.0.1:6379/3"
+result_backend = "redis://127.0.0.1:6379/3"
+
+
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get("DEEPL_AUTH_KEY")
 
