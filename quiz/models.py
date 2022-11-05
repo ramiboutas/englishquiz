@@ -17,9 +17,8 @@ QUIZ_LEVEL_CHOICES = (
 
 QUESTION_TYPE_CHOICES = (
     (1, "1: One text input"),
-    (2, "2: Two text input"),
+    (2, "2: Two text inputs"),
     (5, "5: One choice selection"),
-    (6, "6: Multiple choice selection"),
 )
 
 
@@ -101,7 +100,7 @@ class Question(auto_prefetch.Model):
     @property
     def full_text(self):
         text = ""
-        if self.type == 1:
+        if self.type == 1 or self.type == 2:
             text += f"{self.text_one} ____ {self.text_two}"
             if self.text_three:
                 text += f" ____ {self.text_three}"

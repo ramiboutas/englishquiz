@@ -66,7 +66,7 @@ def get_question_text(instance):
     It generates text from a Question instance
     """
     text = ""
-    if instance.type == 1:
+    if instance.type == 1 or instance.type == 2:
         text += "What do you think that comes in the gap of the next sentence? 🤔\n\n"
         text += f"📚 {instance.text_one} ____ {instance.text_two}"
         if instance.text_three:

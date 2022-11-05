@@ -38,12 +38,14 @@ class AnswerInline(NestedStackedInline):
 class QuestionInline(NestedStackedInline):
     search_fields = ["text_one"]
     list_filter = ["lection"]
-    exclude = ("created_by", "promoted", )
+    exclude = (
+        "created_by",
+        "promoted",
+    )
     model = Question
     extra = 10
     fk_name = "lection"
     inlines = [AnswerInline]
-
 
 
 # Lection

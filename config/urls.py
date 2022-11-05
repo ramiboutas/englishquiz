@@ -49,12 +49,10 @@ urlpatterns = [
         },
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    
     # third-party apps
     path("captcha/", include("captcha.urls")),
     path("markdownx/", include("markdownx.urls")),
     path("newsfeed/", include("newsfeed.urls", namespace="newsfeed")),
-
     # own apps
     path("social-media/", include("socialmedia.urls")),
     path("blog/", include("blog.urls")),

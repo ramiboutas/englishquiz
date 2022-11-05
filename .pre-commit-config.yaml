@@ -12,6 +12,7 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
+    exclude: migrations/
 -   repo: https://github.com/psf/black
     rev: 22.10.0
     hooks:
@@ -40,11 +41,13 @@ repos:
     rev: v3.2.0
     hooks:
     -   id: pyupgrade
+    exclude: migrations/
 -   repo: https://github.com/adamchainz/django-upgrade
     rev: "1.11.0"  # replace with latest tag on GitHub
     hooks:
     -   id: django-upgrade
         args: [--target-version, "4.1"]   # Replace with Django version
+    exclude: migrations/
 -   repo: https://github.com/thibaudcolas/curlylint
     rev: v0.13.1
     hooks:

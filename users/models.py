@@ -13,5 +13,9 @@ class User(AbstractUser):
     def number_of_social_posts(self):
         return self.regularsocialpost_set.all().count()
 
+    @property
+    def number_of_quiz_questions(self):
+        return self.question_set.all().count()
+
     class Meta:
         db_table = "auth_user"
