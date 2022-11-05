@@ -8,16 +8,17 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = BaseUserAdmin.list_display + (
+    list_display = (
+        "username",
         "blog_post_seconds",
-        "number_of_social_posts",
-        "number_of_quiz_questions",
+        "social_posts",
+        "quiz_questions",
         "total_euros",
     )
     readonly_fields = BaseUserAdmin.readonly_fields + (
         "blog_post_seconds",
-        "number_of_social_posts",
-        "number_of_quiz_questions",
+        "social_posts",
+        "quiz_questions",
         "total_euros",
     )
     fieldsets = (
@@ -26,8 +27,8 @@ class UserAdmin(BaseUserAdmin):
             {
                 "fields": (
                     "blog_post_seconds",
-                    "number_of_social_posts",
-                    "number_of_quiz_questions",
+                    "social_posts",
+                    "quiz_questions",
                     "total_euros",
                 )
             },
