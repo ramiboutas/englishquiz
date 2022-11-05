@@ -7,6 +7,12 @@ from celery.schedules import crontab
 from django.apps import apps
 from django.conf import settings
 
+from dotenv import load_dotenv  # python-dotenv
+
+load_dotenv(
+    dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+)
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
