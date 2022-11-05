@@ -45,6 +45,28 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # My apps
+    "pages.apps.PagesConfig",
+    "quiz.apps.QuizConfig",
+    "socialmedia.apps.socialmediaConfig",
+    "blog.apps.BlogConfig",
+    "users.apps.UsersConfig",
+    # Thid-party apps
+    "markdownx",  # cloned
+    "django_htmx",
+    "analytical",
+    "captcha",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "django_minify_html",
+    "django_celery_beat",
+    "django_celery_results",
+    "taggit",
+    "django_social_share",
+    "newsfeed",
+    "nested_inline",
+    "corsheaders",
+    # Django contrib apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -54,32 +76,6 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django.contrib.sitemaps",
     # 'django.contrib.sites',
-    # own apps
-    "pages",
-    "quiz",
-    "socialmedia",
-    "blog",
-    "users",
-    # thid-party apps
-    "markdownx",  # cloned
-    "django_htmx",
-    "analytical",
-    "captcha",
-    "crispy_forms",
-    "crispy_bootstrap5",
-    "django_minify_html",
-    # 'compressor',
-    "django_celery_beat",
-    "django_celery_results",
-    "taggit",
-    "django_social_share",
-    # django-newsletter:
-    # 'easy_thumbnails',
-    # 'tinymce',
-    # 'newsletter',
-    "newsfeed",
-    "nested_inline",
-    "corsheaders",
 ]
 
 
@@ -267,8 +263,8 @@ INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
 
 # celery
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/4"
-CELERY_RESULT_BACKEND = "django-db"
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/3"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/3"
 CELERY_BEAT_SCHEDULE = {
     "share_random_question": {
         "task": "socialmedia.tasks.share_random_question_instance",
