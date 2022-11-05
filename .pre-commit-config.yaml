@@ -17,11 +17,15 @@ repos:
     hooks:
     - id: black
     exclude: migrations/
--   repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    exclude: migrations/
+-   repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.9.0
     hooks:
-    - id: isort
+    - id: reorder-python-imports
+    exclude: migrations/
+    args:
+    - --py37-plus
+    - --add-import
+    - 'from __future__ import annotations'
 -   repo: https://github.com/PyCQA/flake8
     rev: 5.0.4
     hooks:
@@ -31,6 +35,7 @@ repos:
         - flake8-comprehensions
         - flake8-tidy-imports
         - flake8-typing-imports
+    exclude: migrations/
 -   repo: https://github.com/asottile/pyupgrade
     rev: v3.2.0
     hooks:

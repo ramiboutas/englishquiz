@@ -2,9 +2,15 @@
 from __future__ import annotations
 
 from django.contrib import admin
-from nested_inline.admin import NestedModelAdmin, NestedStackedInline
+from nested_inline.admin import NestedModelAdmin
+from nested_inline.admin import NestedStackedInline
 
-from .models import Answer, DeeplLanguage, Lection, Question, Quiz, TranslatedQuestion
+from .models import Answer
+from .models import DeeplLanguage
+from .models import Lection
+from .models import Question
+from .models import Quiz
+from .models import TranslatedQuestion
 
 
 class LectionInline(admin.StackedInline):

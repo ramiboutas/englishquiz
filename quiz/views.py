@@ -5,12 +5,18 @@ import random
 import deepl
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django_htmx.http import trigger_client_event
 
-from .models import Answer, DeeplLanguage, Lection, Question, Quiz, TranslatedQuestion
+from .models import Answer
+from .models import DeeplLanguage
+from .models import Lection
+from .models import Question
+from .models import Quiz
+from .models import TranslatedQuestion
 
 
 @cache_page(3600 * 24 * 1)

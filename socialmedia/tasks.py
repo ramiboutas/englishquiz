@@ -6,7 +6,9 @@ from io import BytesIO
 
 from celery import shared_task
 from django.core.files import File
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
 from blog.models import BlogPost
 from quiz.models import Question
@@ -14,7 +16,8 @@ from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
 from socialmedia.apis.telegram import TelegramAPI
 from socialmedia.apis.twitter import TweetAPI
 from socialmedia.models import RegularSocialPost
-from socialmedia.text import get_blog_post_promotion_text, get_question_promotion_text
+from socialmedia.text import get_blog_post_promotion_text
+from socialmedia.text import get_question_promotion_text
 from utils.mail import mail_admins_with_an_exception
 
 

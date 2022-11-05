@@ -3,7 +3,8 @@ from __future__ import annotations
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
-from .models import LinkedinPost, TelegramMessage
+from .models import LinkedinPost
+from .models import TelegramMessage
 
 
 @cache_page(3600 * 24 * 1)

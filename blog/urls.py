@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from django.urls import path
 
-from .views import all_posts_view, pdf_post_view, post_detail_view, post_list_view
+from .views import all_posts_view
+from .views import pdf_post_view
+from .views import post_detail_view
+from .views import post_list_view
 
 urlpatterns = [
     path("", post_list_view, name="blog_postlist"),

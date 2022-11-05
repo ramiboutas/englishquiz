@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from django.contrib import admin, messages
+from django.contrib import admin
+from django.contrib import messages
 from newsfeed.admin import NewsletterAdmin
 from newsfeed.models import Newsletter
 
-from .models import Contact, FlexPage
+from .models import Contact
+from .models import FlexPage
 from .tasks import send_email_newsletter_task
 
 admin.site.unregister(Newsletter)

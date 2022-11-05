@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from django.urls import path
 
-from .views import contact_view, flexpage_detail_view, home_view
+from .views import contact_view
+from .views import flexpage_detail_view
+from .views import home_view
 
 urlpatterns = [
     path("", home_view, name="pages_home"),

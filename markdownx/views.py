@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.http import JsonResponse
 from django.utils.module_loading import import_string
-from django.views.generic.edit import BaseFormView, View
+from django.views.generic.edit import BaseFormView
+from django.views.generic.edit import View
 
 from .forms import ImageForm
 from .settings import MARKDOWNX_MARKDOWNIFY_FUNCTION

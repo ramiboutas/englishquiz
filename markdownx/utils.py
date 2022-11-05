@@ -3,10 +3,8 @@ from __future__ import annotations
 from markdown import markdown
 from PIL import Image
 
-from .settings import (
-    MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS,
-    MARKDOWNX_MARKDOWN_EXTENSIONS,
-)
+from .settings import MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
+from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS
 
 # TODO: try catch for file.open when image is corrupted
 

@@ -5,12 +5,10 @@ from django.conf import settings
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 
-from .settings import (
-    MARKDOWNX_EDITOR_RESIZABLE,
-    MARKDOWNX_SERVER_CALL_LATENCY,
-    MARKDOWNX_UPLOAD_URLS_PATH,
-    MARKDOWNX_URLS_PATH,
-)
+from .settings import MARKDOWNX_EDITOR_RESIZABLE
+from .settings import MARKDOWNX_SERVER_CALL_LATENCY
+from .settings import MARKDOWNX_UPLOAD_URLS_PATH
+from .settings import MARKDOWNX_URLS_PATH
 
 try:
     DEBUG = getattr(settings, "DEBUG", False)

@@ -7,7 +7,8 @@ from __future__ import annotations
 
 from django.urls import re_path
 
-from .views import ImageUploadView, MarkdownifyView
+from .views import ImageUploadView
+from .views import MarkdownifyView
 
 urlpatterns = [
     re_path("upload/", ImageUploadView.as_view(), name="markdownx_upload"),

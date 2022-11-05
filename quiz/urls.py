@@ -4,9 +4,8 @@ from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 
-from quiz.models import Question
-
 from . import views
+from quiz.models import Question
 
 info_dict = {
     "queryset": Question.objects.all(),

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from socialmedia.apis.facebook import FacebookPageAPI
@@ -8,14 +9,12 @@ from socialmedia.apis.instagram import InstagramAPI
 from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
 from socialmedia.apis.telegram import TelegramAPI
 from socialmedia.apis.twitter import TweetAPI
-from socialmedia.models import (
-    FacebookPost,
-    InstagramPost,
-    LinkedinPost,
-    RegularSocialPost,
-    TelegramMessage,
-    Tweet,
-)
+from socialmedia.models import FacebookPost
+from socialmedia.models import InstagramPost
+from socialmedia.models import LinkedinPost
+from socialmedia.models import RegularSocialPost
+from socialmedia.models import TelegramMessage
+from socialmedia.models import Tweet
 from socialmedia.tasks import create_image_from_regular_social_post_instance
 
 

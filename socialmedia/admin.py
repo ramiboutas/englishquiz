@@ -2,15 +2,13 @@ from __future__ import annotations
 
 from django.contrib import admin
 
-from .models import (
-    BackgroundImage,
-    FacebookPost,
-    InstagramPost,
-    LinkedinPost,
-    RegularSocialPost,
-    TelegramMessage,
-    Tweet,
-)
+from .models import BackgroundImage
+from .models import FacebookPost
+from .models import InstagramPost
+from .models import LinkedinPost
+from .models import RegularSocialPost
+from .models import TelegramMessage
+from .models import Tweet
 
 
 @admin.register(BackgroundImage)

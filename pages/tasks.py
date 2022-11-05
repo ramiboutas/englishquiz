@@ -4,7 +4,8 @@ from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
-from newsfeed.models import Newsletter, Subscriber
+from newsfeed.models import Newsletter
+from newsfeed.models import Subscriber
 from newsfeed.utils.send_newsletters import send_email_newsletter
 
 from pages.models import Contact

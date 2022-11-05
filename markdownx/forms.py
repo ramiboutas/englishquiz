@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from collections import namedtuple
 from io import BytesIO
-from os import SEEK_END, SEEK_SET, path
+from os import path
+from os import SEEK_END
+from os import SEEK_SET
 from uuid import uuid4
 
 from django import forms
@@ -10,14 +12,13 @@ from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .exceptions import MarkdownxImageUploadError
-from .settings import (
-    MARKDOWNX_IMAGE_MAX_SIZE,
-    MARKDOWNX_MEDIA_PATH,
-    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION,
-    MARKDOWNX_UPLOAD_CONTENT_TYPES,
-    MARKDOWNX_UPLOAD_MAX_SIZE,
-)
-from .utils import scale_and_crop, xml_has_javascript
+from .settings import MARKDOWNX_IMAGE_MAX_SIZE
+from .settings import MARKDOWNX_MEDIA_PATH
+from .settings import MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
+from .settings import MARKDOWNX_UPLOAD_CONTENT_TYPES
+from .settings import MARKDOWNX_UPLOAD_MAX_SIZE
+from .utils import scale_and_crop
+from .utils import xml_has_javascript
 
 
 class ImageForm(forms.Form):
