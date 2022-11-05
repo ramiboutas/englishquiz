@@ -64,4 +64,5 @@ jobs:
           source venv/bin/activate
           python -m pip install --upgrade pip setuptools wheel pip-tools
           pip-sync
+          python manage.py collectstatic --noinput
           python manage.py migrate
