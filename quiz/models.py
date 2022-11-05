@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import auto_prefetch
+
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -89,6 +91,13 @@ class Question(auto_prefetch.Model):
     type = models.PositiveSmallIntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
     explanation = models.CharField(max_length=250, blank=True, null=True)
     promoted = models.BooleanField(default=False)
+
+    created_by = auto_prefetch.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
 
     @property
     def full_text(self):
