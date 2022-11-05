@@ -275,7 +275,9 @@ INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
 # celery
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/4"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/4"
+#CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/4"
+CELERY_RESULT_BACKEND = 'django-db'
+
 
 
 # DeepL API
@@ -377,6 +379,7 @@ if PRODUCTION:
     PREPEND_WWW = True
 
     # caching
+    CELERY_CACHE_BACKEND = 'default'
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
