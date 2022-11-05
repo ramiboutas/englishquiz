@@ -46,7 +46,7 @@ repos:
     rev: "1.11.0"  # replace with latest tag on GitHub
     hooks:
     -   id: django-upgrade
-        args: [--target-version, "4.1"]   # Replace with Django version
+        args: [--target-version, "4.0"]   # Replace with Django version
     exclude: migrations/*
 -   repo: https://github.com/thibaudcolas/curlylint
     rev: v0.13.1
