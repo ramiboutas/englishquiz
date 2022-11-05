@@ -274,8 +274,8 @@ INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
 
 # celery
-broker_url = "redis://127.0.0.1:6379/3"
-result_backend = "redis://127.0.0.1:6379/3"
+broker_url = "redis://127.0.0.1:6379/4"
+result_backend = "redis://127.0.0.1:6379/4"
 
 
 # DeepL API
