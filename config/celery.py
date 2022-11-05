@@ -4,23 +4,17 @@ import os
 
 from celery import Celery
 from celery.schedules import crontab
-from django.apps import apps
 from django.conf import settings
-
-from dotenv import load_dotenv  # python-dotenv
-
-load_dotenv(
-    dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
-)
-
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 app = Celery("config")
 app.config_from_object(settings, namespace="CELERY")
 app.conf.timezone = settings.TIME_ZONE
-app.autodiscover_tasks(lambda: [n.name for n in apps.get_app_configs()])
 
+# Not needed: https://github.com/celery/celery/issues/3341
+# app.autodiscover_tasks(lambda: [n.name for n in apps.get_app_configs()])
+app.autodiscover_tasks()
 app.conf.beat_schedule = {
     "share_random_question": {
         "task": "socialmedia.tasks.share_random_question_instance",
@@ -40,7 +34,7 @@ app.conf.beat_schedule = {
     },
     "send_email_newsletter": {
         "task": "send_email_newsletter_task",
-        "schedule": crontab(minute=0, hour="*"),
+        "schedule": crontab(minute=0, hour="8"),
     },
     "delete_responded_contact_instances": {
         "task": "delete_responded_contact_instances",

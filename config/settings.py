@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 
 import django
+import dotenv
 from django.utils.encoding import force_str
 
 # https://stackoverflow.com/questions/70382084/import-error-force-text-from-django-utils-encoding
@@ -15,6 +17,16 @@ django.utils.encoding.force_text = force_str
 # django.conf.urls.url = django.urls.re_path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Load env vars from .env file if not testing
+try:
+    command = sys.argv[1]
+except IndexError:  # pragma: no cover
+    command = "help"
+
+if command != "test":  # pragma: no cover
+    dotenv.load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
