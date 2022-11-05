@@ -45,7 +45,7 @@ class RegularSocialPost(auto_prefetch.Model):
         blank=True,
     )
 
-    background_image_obj = models.ForeignKey(
+    background_image_obj = auto_prefetch.ForeignKey(
         BackgroundImage,
         null=True,
         blank=True,
@@ -93,7 +93,7 @@ class RegularSocialPost(auto_prefetch.Model):
         editable=False,
     )
 
-    created_by = models.ForeignKey(
+    created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,

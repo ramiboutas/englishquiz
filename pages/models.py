@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import auto_prefetch
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -8,14 +9,14 @@ from slugger import AutoSlugField
 from markdownx.models import MarkdownxField
 
 
-class Contact(models.Model):
+class Contact(auto_prefetch.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField()
     message = models.TextField(max_length=250)
     response = models.TextField(max_length=250, null=True, blank=True)
     responded = models.BooleanField(default=False)
     responded_on = models.DateField(null=True, blank=True)
-    responded_by = models.ForeignKey(
+    responded_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL
     )
 
@@ -30,7 +31,7 @@ class Contact(models.Model):
         return self.name
 
 
-class FlexPage(models.Model):
+class FlexPage(auto_prefetch.Model):
     """
     Definition of a FlexPage object
     """
@@ -38,7 +39,7 @@ class FlexPage(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
     public = models.BooleanField(default=False)
-    created_by = models.ForeignKey(
+    created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="flexpages",

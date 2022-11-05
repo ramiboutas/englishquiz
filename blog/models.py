@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import auto_prefetch
 import readtime
 from django.conf import settings
 from django.db import models
@@ -11,7 +12,7 @@ from markdownx.models import MarkdownxField
 from utils.keywords import get_keywords_from_text
 
 
-class BlogPost(models.Model):
+class BlogPost(auto_prefetch.Model):
     DIFFICULTY_LEVEL = [
         ("elementary", "Elementary"),
         ("intermediate", "Intermediate"),
@@ -28,7 +29,7 @@ class BlogPost(models.Model):
     )
     tags = TaggableManager()
     public = models.BooleanField(default=False)
-    created_by = models.ForeignKey(
+    created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="blog_posts",
         on_delete=models.CASCADE,

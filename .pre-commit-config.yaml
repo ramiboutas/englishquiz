@@ -19,6 +19,7 @@ repos:
     exclude: migrations/
 -   repo: https://github.com/pycqa/isort
     rev: 5.10.1
+    exclude: migrations/
     hooks:
     - id: isort
 -   repo: https://github.com/PyCQA/flake8

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-# from django.conf import settings
+import auto_prefetch
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -54,8 +54,8 @@ class Quiz(models.Model):
         ordering = ("-views",)
 
 
-class Lection(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+class Lection(auto_prefetch.Model):
+    quiz = auto_prefetch.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True)
     views = models.PositiveIntegerField(default=0)
@@ -81,8 +81,8 @@ class Lection(models.Model):
         ordering = ("name",)
 
 
-class Question(models.Model):
-    lection = models.ForeignKey(Lection, on_delete=models.CASCADE)
+class Question(auto_prefetch.Model):
+    lection = auto_prefetch.ForeignKey(Lection, on_delete=models.CASCADE)
     text_one = models.CharField(max_length=200, null=True, blank=True)
     text_two = models.CharField(max_length=200, null=True, blank=True)
     text_three = models.CharField(max_length=200, null=True, blank=True)
@@ -177,8 +177,8 @@ class Question(models.Model):
         ordering = ("id",)
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+class Answer(auto_prefetch.Model):
+    question = auto_prefetch.ForeignKey(Question, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
     correct = models.BooleanField(default=False)
 
@@ -203,9 +203,9 @@ class DeeplLanguage(models.Model):
         self.save()
 
 
-class TranslatedQuestion(models.Model):
-    language = models.ForeignKey(DeeplLanguage, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+class TranslatedQuestion(auto_prefetch.Model):
+    language = auto_prefetch.ForeignKey(DeeplLanguage, on_delete=models.CASCADE)
+    question = auto_prefetch.ForeignKey(Question, on_delete=models.CASCADE)
     original_text = models.CharField(max_length=650)
     translated_text = models.CharField(max_length=650)
 
