@@ -17,5 +17,14 @@ class User(AbstractUser):
     def number_of_quiz_questions(self):
         return self.question_set.all().count()
 
+    @property
+    def total_euros(self):
+        euros_list = [
+            0.02 * self.blog_post_seconds,  # 0.02 €/second or 1.20€ / min of content
+            0.5 * self.number_of_social_posts,  # 0.50 € / social post
+            0.5 * self.number_of_quiz_questions,  # 0.50 € / quiz question
+        ]
+        return sum(euros_list)
+
     class Meta:
         db_table = "auth_user"

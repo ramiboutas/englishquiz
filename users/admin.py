@@ -12,11 +12,13 @@ class UserAdmin(BaseUserAdmin):
         "blog_post_seconds",
         "number_of_social_posts",
         "number_of_quiz_questions",
+        "total_euros",
     )
     readonly_fields = BaseUserAdmin.readonly_fields + (
         "blog_post_seconds",
         "number_of_social_posts",
         "number_of_quiz_questions",
+        "total_euros",
     )
     fieldsets = (
         (
@@ -26,6 +28,7 @@ class UserAdmin(BaseUserAdmin):
                     "blog_post_seconds",
                     "number_of_social_posts",
                     "number_of_quiz_questions",
+                    "total_euros",
                 )
             },
         ),
