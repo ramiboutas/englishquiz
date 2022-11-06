@@ -19,7 +19,10 @@ django.utils.encoding.force_text = force_str
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Load env vars from .env file if not testing
+# Load env vars
+
+env_for_tests_file = BASE_DIR / ".env-for-tests"
+
 try:
     command = sys.argv[1]
 except IndexError:  # pragma: no cover
@@ -28,6 +31,13 @@ except IndexError:  # pragma: no cover
 if command != "test":  # pragma: no cover
     dotenv.load_dotenv(dotenv_path=BASE_DIR / ".env")
 
+elif env_for_tests_file.is_file():
+    # for local testing (using sqlite, for example)
+    dotenv.load_dotenv(dotenv_path=env_for_tests_file)
+
+
+# The name of the class to use for starting the test suite.
+TEST_RUNNER = "config.test.TestRunner"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
