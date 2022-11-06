@@ -56,10 +56,10 @@ jobs:
         MY_SERVER_PORT: ${{ secrets.MY_SERVER_PORT }}
       uses: appleboy/ssh-action@master
       with:
-        host: "$MY_SERVER_HOST"
-        username: "$MY_SERVER_USERNAME"
-        key: "$MY_SERVER_KEY"
-        port: "$MY_SERVER_PORT"
+        host: "${MY_SERVER_HOST}"
+        username: "${MY_SERVER_USERNAME}"
+        key: "${MY_SERVER_KEY}"
+        port: "${MY_SERVER_PORT}"
         # fingerprint: ${{ secrets.MY_SERVER_FINGERPRINT }}
         # if a try to run the shell script I get: bash: /home/***/my_server_scripts/englishquiz/after_deployment.sh: Permission denied
         # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
