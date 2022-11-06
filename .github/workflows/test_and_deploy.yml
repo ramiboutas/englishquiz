@@ -49,20 +49,12 @@ jobs:
       run: |
         python manage.py test
     - name: Deploy to server, executing remote ssh commands using ssh key
-      env:
-        MY_SERVER_HOST: ${{ secrets.MY_SERVER_HOST }}
-        MY_SERVER_USERNAME: ${{ secrets.MY_SERVER_USERNAME }}
-        MY_SERVER_KEY: ${{ secrets.MY_SERVER_KEY }}
-        MY_SERVER_PORT: ${{ secrets.MY_SERVER_PORT }}
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ MY_SERVER_HOST }}
+        host: ${{ secrets.MY_SERVER_HOST }}
         username: ${{ MY_SERVER_USERNAME }}
-        key: ${{ MY_SERVER_KEY }}
-        port: ${{ MY_SERVER_PORT }}
-        # fingerprint: ${{ secrets.MY_SERVER_FINGERPRINT }}
-        # if a try to run the shell script I get: bash: /home/***/my_server_scripts/englishquiz/after_deployment.sh: Permission denied
-        # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
+        key: ${{ secrets.MY_SERVER_USERNAME }}
+        port: ${{ secrets.MY_SERVER_PORT }}
         script: |
           cd /home/rami/englishquiz
           git pull
