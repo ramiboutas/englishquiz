@@ -19,10 +19,7 @@ django.utils.encoding.force_text = force_str
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Load env vars
-
-env_for_tests_file = BASE_DIR / ".env-for-tests"
-
+# Load env vars from .env file if not testing
 try:
     command = sys.argv[1]
 except IndexError:  # pragma: no cover
@@ -31,13 +28,19 @@ except IndexError:  # pragma: no cover
 if command != "test":  # pragma: no cover
     dotenv.load_dotenv(dotenv_path=BASE_DIR / ".env")
 
-elif env_for_tests_file.is_file():
-    # for local testing (using sqlite, for example)
-    dotenv.load_dotenv(dotenv_path=env_for_tests_file)
-
 
 # The name of the class to use for starting the test suite.
+
 TEST_RUNNER = "config.test.TestRunner"
+
+
+# Production
+PRODUCTION = os.environ.get("PRODUCTION", "") == "1"
+
+# Use Postgres (otherwise Sqlite)
+USE_POSTGRES = os.environ.get("USE_POSTGRES", "") == "1"
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -155,24 +158,14 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-USE_SQLITE3_DB = str(os.environ.get("USE_SQLITE3_DB")) == "1"
+if USE_POSTGRES:
+    POSTGRES_DB = os.environ.get("POSTGRES_DB", "")
+    POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "")
+    POSTGRES_USER = os.environ.get("POSTGRES_USER", "")
+    POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "")
+    POSTGRES_PORT = os.environ.get("POSTGRES_PORT", "")
+    POSTGRES_TESTS_DB = os.environ.get("POSTGRES_TESTS_DB", "")
 
-POSTGRES_DB = os.environ.get("POSTGRES_DB")
-POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
-POSTGRES_USER = os.environ.get("POSTGRES_USER")
-POSTGRES_HOST = os.environ.get("POSTGRES_HOST")
-POSTGRES_PORT = os.environ.get("POSTGRES_PORT")
-POSTGRES_TESTS_DB = os.environ.get("POSTGRES_TESTS_DB")
-
-
-if USE_SQLITE3_DB:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -184,6 +177,13 @@ else:
             "TEST": {
                 "NAME": "test_db",
             },
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
