@@ -52,9 +52,12 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.MY_SERVER_HOST }}
-        username: ${{ MY_SERVER_USERNAME }}
-        key: ${{ secrets.MY_SERVER_USERNAME }}
+        username: ${{ secrets.MY_SERVER_USERNAME }}
+        key: ${{ secrets.MY_SERVER_KEY }}
         port: ${{ secrets.MY_SERVER_PORT }}
+        # fingerprint: ${{ secrets.MY_SERVER_FINGERPRINT }}
+        # if a try to run the shell script I get: bash: /home/***/my_server_scripts/englishquiz/after_deployment.sh: Permission denied
+        # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
         script: |
           cd /home/rami/englishquiz
           git pull
