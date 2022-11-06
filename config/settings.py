@@ -41,7 +41,6 @@ PRODUCTION = os.environ.get("PRODUCTION", "") == "1"
 USE_POSTGRES = os.environ.get("USE_POSTGRES", "") == "1"
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
