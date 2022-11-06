@@ -59,7 +59,7 @@ jobs:
         # if a try to run the shell script I get: bash: /home/***/my_server_scripts/englishquiz/after_deployment.sh: Permission denied
         # /home/${{ secrets.MY_SERVER_USERNAME }}/my_server_scripts/englishquiz/after_deployment.sh
         script: |
-          cd /home/rami/englishquiz
+          cd /home/${{ secrets.MY_SERVER_USERNAME }}/englishquiz
           git pull
           source venv/bin/activate
           python -m pip install --upgrade pip setuptools wheel pip-tools
