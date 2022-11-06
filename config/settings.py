@@ -333,7 +333,7 @@ if USE_SPACES:
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-    AWS_s3_endpoint_url = "https://fra1.digitaloceanspaces.com"
+    AWS_S3_ENDPOINT_URL = "https://fra1.digitaloceanspaces.com"
     AWS_S3_CUSTOM_DOMAIN = "spaces.ramiboutas.com"
     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400", "ACL": "public-read"}
 
@@ -344,12 +344,12 @@ if USE_SPACES:
     STATICFILES_STORAGE = "config.storage_backends.StaticRootStorage"
 
     AWS_STATIC_LOCATION = "englishstuff-static"
-    STATIC_URL = "https://{}/{}/".format(AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/"
     STATIC_ROOT = f"{AWS_STATIC_LOCATION}/"
 
     AWS_MEDIA_LOCATION = "englishstuff-media"
 
-    MEDIA_URL = "{}/{}/".format(AWS_S3_CUSTOM_DOMAIN, AWS_MEDIA_LOCATION)
+    MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_MEDIA_LOCATION}/"
     MEDIA_ROOT = f"{AWS_MEDIA_LOCATION}/"
 
 else:
