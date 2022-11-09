@@ -10,4 +10,6 @@ class TestRunner(DiscoverRunner):
             return super().run_tests(*args, **kwargs)
 
 
-TEST_SETTINGS = {}
+TEST_SETTINGS = {
+    "SECRET_KEY": "afafadssadf"
+}
