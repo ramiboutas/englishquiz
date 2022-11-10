@@ -4,7 +4,6 @@ from django.contrib.admin.options import ModelAdmin
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.urls import reverse
 
 from blog.admin import BlogPostAdmin
 from blog.models import BlogPost
@@ -18,7 +17,6 @@ class MockRequest:
 
 
 class AdminTests(TestCase):
-
     def setUp(self, *args, **kwargs):
         self.site = AdminSite()
         super().__init__(*args, **kwargs)
