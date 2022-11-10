@@ -32,7 +32,9 @@ class BlogPost(auto_prefetch.Model):
     created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="blog_posts",
-        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
     slug = AutoSlugField(populate_from="title")
     content = MarkdownxField()
