@@ -37,8 +37,6 @@ class BlogPostAdmin(MarkdownxModelAdmin):
     ]
 
     def save_model(self, request, obj, form, change):
-        print(request)
-        print(request.user)
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
