@@ -77,14 +77,14 @@ class BlogPostModelTest(TestCase):
         self.assertEqual(post_mins, readtime.of_markdown(self.blogpost_content).minutes)
         self.assertEqual(post_secs, readtime.of_markdown(self.blogpost_content).seconds)
 
-    # def test_absolute_and_detail_url(self):
-    #     target_url = "/blog/general/test-title/"
-    #     self.assertEqual(self.post.get_absolute_url(), target_url)
-    #     self.assertEqual(self.post.get_detail_url(), target_url)
+    def test_absolute_and_detail_url(self):
+        target_url = "/blog/general/test-title/"
+        self.assertEqual(self.post.get_absolute_url(), target_url)
+        self.assertEqual(self.post.get_detail_url(), target_url)
 
-    # def test_get_pdf_url(self):
-    #     target_url = "/blog/general/test-title/pdf/"
-    #     self.assertEqual(self.post.get_pdf_url(), target_url)
+    def test_get_pdf_url(self):
+        target_url = "/blog/general/test-title/pdf/"
+        self.assertEqual(self.post.get_pdf_url(), target_url)
 
     def test_last_posts_cls_method(self):
         last_posts = self.post.__class__.get_last_posts()
