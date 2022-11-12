@@ -17,7 +17,7 @@ extension_configs = {
 
 @register.filter()
 @stringfilter
-def markdown(value):
+def markdown(value):  # pragma: no cover
     # More extensions:
     # https://python-markdown.github.io/extensions/
     return md.markdown(

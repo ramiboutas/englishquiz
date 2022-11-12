@@ -10,7 +10,7 @@ from blog.models import BlogPost
 User = get_user_model()
 
 
-class BlogPostModelTest(TestCase):
+class BlogModelTests(TestCase):
     """
     Testing the BlogPost model.
     """
@@ -81,10 +81,6 @@ class BlogPostModelTest(TestCase):
         target_url = "/blog/general/test-title/"
         self.assertEqual(self.post.get_absolute_url(), target_url)
         self.assertEqual(self.post.get_detail_url(), target_url)
-
-    def test_get_pdf_url(self):
-        target_url = "/blog/general/test-title/pdf/"
-        self.assertEqual(self.post.get_pdf_url(), target_url)
 
     def test_last_posts_cls_method(self):
         last_posts = self.post.__class__.get_last_posts()

@@ -16,7 +16,7 @@ class MockRequest:
         self.user = user
 
 
-class AdminTests(TestCase):
+class BlogAdminTests(TestCase):
     def setUp(self, *args, **kwargs):
         self.site = AdminSite()
         super().__init__(*args, **kwargs)

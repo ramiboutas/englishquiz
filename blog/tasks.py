@@ -12,7 +12,7 @@ from .models import BlogPost
 
 
 @shared_task(bind=True)
-def create_blog_post_pdf(self, **kwargs):
+def create_blog_post_pdf(self, **kwargs):  # pragma: no cover
     instance = BlogPost.objects.get(pk=kwargs["pk"])
     template = get_template("blog/post_pdf.html")
     html = template.render({"post": instance})

@@ -28,14 +28,3 @@ def post_detail_view(request, slug, level):
     post.add_view()
     context = {"post": post}
     return render(request, "blog/post_detail.html", context)
-
-
-def pdf_post_view(request, slug, level):
-    post = get_object_or_404(BlogPost, slug=slug, level=level)
-    from .tasks import html_to_pdf
-
-    # getting the template
-    pdf = html_to_pdf("blog/post_pdf.html", context_dict={"post": post})
-
-    # rendering the template
-    return pdf
