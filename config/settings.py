@@ -317,7 +317,7 @@ if EMAIL_PORT is not None:
     EMAIL_PORT = int(EMAIL_PORT)
 
 
-if PRODUCTION and not DEBUG:
+if PRODUCTION:
     EMAIL_USE_TLS = True
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 else:

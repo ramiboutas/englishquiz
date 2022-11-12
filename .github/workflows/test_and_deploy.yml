@@ -52,7 +52,7 @@ jobs:
         POSTGRES_PASSWORD: postgres
         POSTGRES_PORT: 5432
         DEBUG: "0"
-        PRODUCTION: "1"
+        PRODUCTION: "0"
       run: |
         python manage.py test
     - name: Deploy to server, executing remote ssh commands using ssh key
