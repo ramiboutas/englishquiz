@@ -17,6 +17,13 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a health check
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - name: Check out repo
       uses: actions/checkout@v2
@@ -36,7 +43,7 @@ jobs:
         python -m pip install -r requirements.txt
     - name: Run Tests
       env:
-        USE_SQLITE3_DB: "0"
+        USE_POSTGRES: "1"
         USE_SPACES: "0"
         DJANGO_SECRET_KEY: CI_CD_TEST_KEY
         POSTGRES_DB: testing_db
