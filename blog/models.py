@@ -43,7 +43,7 @@ class BlogPost(auto_prefetch.Model):
         blank=True,
         null=True,
     )
-    pdf_created = models.BooleanField(default=False)
+    create_pdf = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
     promoted = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)

@@ -15,5 +15,5 @@ def trigger_blog_post_pdf_creation(sender, instance, **kwargs):
     # We refresh from db to avoid multiple calls to the task create_blog_post_pdf
     instance.refresh_from_db()
 
-    if instance.public and not instance.pdf_created:
+    if instance.create_pdf:
         create_blog_post_pdf.apply_async(countdown=1, kwargs={"pk": instance.pk})

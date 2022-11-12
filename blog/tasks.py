@@ -22,5 +22,5 @@ def create_blog_post_pdf(self, **kwargs):
         instance.pdf = ContentFile(
             result.getvalue(), f'{("BlogPost_")}_{instance.slug}.pdf'
         )
-        instance.pdf_created = True
+        instance.create_pdf = False
         instance.save()

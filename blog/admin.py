@@ -16,7 +16,6 @@ class BlogPostAdmin(MarkdownxModelAdmin):
         "created_by",
         "views",
         "promoted",
-        "pdf_created",
         "reading_time",
         "reading_time_in_seconds",
     ]
