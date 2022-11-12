@@ -71,9 +71,6 @@ class BlogPost(auto_prefetch.Model):
     def get_detail_url(self):
         return self.get_absolute_url()
 
-    def get_pdf_url(self):
-        return reverse("blog_postpdf", kwargs={"slug": self.slug, "level": self.level})
-
     @classmethod
     def get_last_posts(cls, post_count=10):
         return cls.objects.filter(public=True).order_by("-created")[:post_count]
