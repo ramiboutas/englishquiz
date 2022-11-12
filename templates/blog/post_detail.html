@@ -28,9 +28,8 @@
                     <small class="text-muted">{{ post.created  }}</small>
                 </div>
                 <div class="col">
-                    {% if post.pdf_created %}
+                    {% if post.pdf %}
                         <a class="btn btn-outline-danger float-end" target="_blank" href="{{ post.pdf.url }}">Download as PDF <i class="bi bi-download"></i></a>
-
                     {% endif %}
                 </div>
             </div>
