@@ -20,7 +20,7 @@ class User(AbstractUser):
     @property
     def total_euros(self):
         euros_list = [
-            0.02 * self.blog_post_seconds,  # 0.02 €/second or 1.20€ / min of content
+            0.03 * self.blog_post_seconds,  # 0.03 €/second 
             0.5 * self.social_posts,  # 0.50 € / social post
             0.5 * self.quiz_questions,  # 0.50 € / quiz question
         ]
