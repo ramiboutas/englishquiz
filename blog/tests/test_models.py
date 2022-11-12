@@ -81,7 +81,7 @@ class BlogPostModelTest(TestCase):
     #     target_url = "/blog/general/test-title/"
     #     self.assertEqual(self.post.get_absolute_url(), target_url)
     #     self.assertEqual(self.post.get_detail_url(), target_url)
-    
+
     # def test_get_pdf_url(self):
     #     target_url = "/blog/general/test-title/pdf/"
     #     self.assertEqual(self.post.get_pdf_url(), target_url)
@@ -99,14 +99,13 @@ class BlogPostModelTest(TestCase):
         self.assertEqual(popular_posts[0], self.yesterday_post)
         self.assertEqual(popular_posts[1], self.last_week_post)
         self.assertEqual(popular_posts[2], self.post)
-    
+
     def test_get_all_posts(self):
         all_posts = self.post.__class__.get_all_posts()
         self.assertEqual(all_posts.count(), 3)
         self.assertIn(self.post, all_posts)
         self.assertIn(self.yesterday_post, all_posts)
         self.assertIn(self.last_week_post, all_posts)
-
 
     def test_add_view(self):
         self.post.add_view()
@@ -121,7 +120,7 @@ class BlogPostModelTest(TestCase):
         self.assertIsInstance(meta_keywords, str)
         self.assertGreater(len(meta_keywords), 1)
         self.assertTrue("," in meta_keywords)
-        
+
     def test_get_meta_title(self):
         title = self.post.get_meta_title()
         self.assertEqual(title, "Test title")

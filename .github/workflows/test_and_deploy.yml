@@ -17,13 +17,6 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a health check
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
     - name: Check out repo
       uses: actions/checkout@v2
@@ -44,19 +37,14 @@ jobs:
     - name: Run Tests
       env:
         DEBUG: 0
-        PRODUCTION: 0
         USE_POSTGRES: 1
-        USE_SPACES: 0
         DJANGO_SECRET_KEY: CI_CD_TEST_KEY
         POSTGRES_DB: testing_db
         POSTGRES_HOST: localhost
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         POSTGRES_PORT: 5432
-        CELERY_BROKER_URL: redis://127.0.0.1:6379
-        REDIS_CACHING_LOCATION: redis://127.0.0.1:6379
       run: |
-        celery -A config worker --loglevel=INFO
         python manage.py test
     - name: Deploy to server, executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@master

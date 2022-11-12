@@ -28,28 +28,30 @@ except IndexError:  # pragma: no cover
 if command != "test":  # pragma: no cover
     dotenv.load_dotenv(dotenv_path=BASE_DIR / ".env")
 
-
 # The name of the class to use for starting the test suite.
-
 TEST_RUNNER = "config.test.TestRunner"
 
-
-# Production
-PRODUCTION = os.environ.get("PRODUCTION", "") == "1"
-
-# Use Postgres (otherwise Sqlite)
-USE_POSTGRES = os.environ.get("USE_POSTGRES", "") == "1"
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
+# Django secret key
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "some-tests-need-a-secret-key")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get("DEBUG")) == "1"
-PRODUCTION = str(os.environ.get("PRODUCTION")) == "1"
+# Debug flag
+DEBUG = os.environ.get("DEBUG", "") == "1"
+
+# Use redis caching
+USE_REDIS_CACHING = os.environ.get("USE_REDIS_CACHING", "") == "1"
+
+# Use Postgres (otherwise SqLite)
+USE_POSTGRES = os.environ.get("USE_POSTGRES", "") == "1"
+
+# Use real email backend
+USE_EMAIL_BACKEND = os.environ.get("USE_EMAIL_BACKEND", "") == "1"
+
+# Use Digital Ocean Spaces service (Storage)
+USE_SPACES = os.environ.get("USE_SPACES", "") == "1"
+
+# https for production
+HTTPS = os.environ.get("HTTPS", "") == "1"
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -286,57 +288,61 @@ INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 DEEPL_AUTH_KEY = os.environ.get("DEEPL_AUTH_KEY")
 
 
+# crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+# Newsfeed settings https://github.com/saadmk11/django-newsfeed
+NEWSFEED_EMAIL_BATCH_WAIT = 5
+NEWSFEED_EMAIL_BATCH_SIZE = 15
+NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+NEWSFEED_SITE_BASE_URL = "https://englishstuff.online"
+NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+
 # celery
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
 
-
 # caching
-REDIS_CACHING_LOCATION = os.environ.get("REDIS_CACHING_LOCATION", "")
-CELERY_CACHE_BACKEND = "default"
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": REDIS_CACHING_LOCATION,
+
+
+if USE_REDIS_CACHING:
+    REDIS_CACHING_LOCATION = os.environ.get("REDIS_CACHING_LOCATION", "")
+    CELERY_CACHE_BACKEND = "default"
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": REDIS_CACHING_LOCATION,
+        }
     }
-}
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        }
+    }
 
-# crispy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-
-# newsfeed settings https://github.com/saadmk11/django-newsfeed
-NEWSFEED_EMAIL_BATCH_WAIT = 5
-NEWSFEED_EMAIL_BATCH_SIZE = 15
-NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-NEWSFEED_SITE_BASE_URL = (
-    "https://englishstuff.online" if PRODUCTION else "http://localhost:8000"
-)
-NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
-
-
-# Settings for smtp
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = os.environ.get("EMAIL_PORT")
-if EMAIL_PORT is not None:
-    EMAIL_PORT = int(EMAIL_PORT)
-
-
-if PRODUCTION:
+# SMTP Email
+if USE_EMAIL_BACKEND:
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT_STR = os.environ.get("EMAIL_PORT")
+    EMAIL_PORT = int(EMAIL_PORT_STR) if EMAIL_PORT_STR is not None else 1234
     EMAIL_USE_TLS = True
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
 else:
     EMAIL_USE_TLS = False
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Storage
-USE_SPACES = os.environ.get("USE_SPACES") == "1"
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dev"),
 ]
@@ -382,17 +388,14 @@ else:
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = "Access-Control-Allow-Origin"
+# CORS_ALLOWED_ORIGINS = ["https://spaces.ramiboutas.com", ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "https://spaces.ramiboutas.com",
-# ]
-
-if PRODUCTION:
+if HTTPS:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SECURE_HSTS_SECONDS = 31536000  # 31536000 # usual: 31536000 (1 year)
+    SECURE_HSTS_SECONDS = 31_536_000  # 31536000 # usual: 31536000 (1 year)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = False
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_PRELOAD = True
-    PREPEND_WWW = True
+    PREPEND_WWW = False
