@@ -53,7 +53,10 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         POSTGRES_PORT: 5432
+        CELERY_BROKER_URL: redis://127.0.0.1:6379
+        REDIS_CACHING_LOCATION: redis://127.0.0.1:6379
       run: |
+        celery -A config worker --loglevel=INFO
         python manage.py test
     - name: Deploy to server, executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@master

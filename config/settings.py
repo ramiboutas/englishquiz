@@ -282,16 +282,26 @@ INSTAGRAM_PAGE_ID = os.environ.get("INSTAGRAM_PAGE_ID")
 INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
 
 
-# celery
-if PRODUCTION:
-    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
-    CELERY_RESULT_BACKEND = "django-db"
-    CELERY_RESULT_EXTENDED = True
-
-
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get("DEEPL_AUTH_KEY")
 
+
+# celery
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_EXTENDED = True
+
+
+# caching
+REDIS_CACHING_LOCATION = os.environ.get("REDIS_CACHING_LOCATION", "")
+CELERY_CACHE_BACKEND = "default"
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_CACHING_LOCATION,
+    }
+}
 
 # crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -386,14 +396,3 @@ if PRODUCTION:
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_PRELOAD = True
     PREPEND_WWW = True
-
-
-    # caching
-    REDIS_CACHING_LOCATION = os.environ.get("REDIS_CACHING_LOCATION", "")
-    CELERY_CACHE_BACKEND = "default"
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": REDIS_CACHING_LOCATION,
-        }
-    }
