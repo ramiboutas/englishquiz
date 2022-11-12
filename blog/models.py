@@ -63,12 +63,12 @@ class BlogPost(auto_prefetch.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
+    def get_absolute_url(self):  # pragma: no cover
         return reverse(
             "blog_postdetail", kwargs={"slug": self.slug, "level": self.level}
         )
 
-    def get_detail_url(self):
+    def get_detail_url(self):  # pragma: no cover
         return self.get_absolute_url()
 
     def get_pdf_url(self):
