@@ -1,10 +1,16 @@
 import random
-# from django.contrib.sites.models import Site
-from django.core.management.base import BaseCommand, CommandError
+
+from django.core.management.base import BaseCommand
+from django.core.management.base import CommandError
 from django.db import transaction
 from django.utils.text import slugify
 
-from quiz.models import Quiz, Lection, Question, Answer
+from quiz.models import Answer
+from quiz.models import Lection
+from quiz.models import Question
+from quiz.models import Quiz
+
+# from django.contrib.sites.models import Site
 
 
 class Command(BaseCommand):
@@ -38,42 +44,50 @@ def create_quiz_and_related_objects():
 
     def make_questions(lection, names):
         Question.objects.bulk_create(
-            [Question(lection=lection, text_one=name, type=5) for name in names]
+            [
+                Question(lection=lection, text_one=name, type=random.choice([1, 5]))
+                for name in names
+            ]
         )
 
     def make_lections(quiz, names):
-        lections = Lection.objects.bulk_create(
+        Lection.objects.bulk_create(
             [Lection(quiz=quiz, name=name, slug=slugify(name)) for name in names]
         )
-    
+
     def make_answers(question):
         correct_answer = random.choice([1, 2, 3])
-        answers = []
-        for i in range(1,4):
-            answers.append(Answer(
-                question=question,
-                name=f"Answer {i}",
-                correct=i==correct_answer
+
+        if question.type == 5:
+            answers = []
+            for i in range(1, 4):
+                answers.append(
+                    Answer(
+                        question=question,
+                        name=f"Answer {i}",
+                        correct=i == correct_answer,
+                    )
                 )
+            Answer.objects.bulk_create(answers)
+
+        elif question.type == 1:
+            Answer.objects.create(
+                question=question, name="The correct answer", correct=True
             )
-        Answer.objects.bulk_create(answers)
 
     quiz = Quiz.objects.create(
-        name = "Phrasal verbs",
-        level = 5,
+        name="Phrasal verbs",
+        level=5,
         image_url="https://picsum.photos/300/200",
         image_credits_url="https://picsum.photos/",
     )
-    
+
     make_lections(quiz, lection_names)
 
-    qs_lections = Lection.objects.all()
+    lections = Lection.objects.all()
 
-    for lection in qs_lections:            
+    for lection in lections:
         make_questions(lection, question_names)
-
-        qs_questions = Question.objects.filter(lection=lection)
-        for question in qs_questions:
+        questions = Question.objects.filter(lection=lection)
+        for question in questions:
             make_answers(question)
-    
-

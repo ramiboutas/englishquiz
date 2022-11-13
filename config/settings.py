@@ -29,7 +29,6 @@ if command != "test":  # pragma: no cover
     dotenv.load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 # The name of the class to use for starting the test suite.
-# TEST_RUNNER = "config.test.TestRunner"
 TEST_RUNNER = "django_rich.test.RichRunner"
 
 # Django secret key
@@ -37,6 +36,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "some-tests-need-a-secret-key")
 
 # Debug flag
 DEBUG = os.environ.get("DEBUG", "") == "1"
+
 
 # Use redis caching
 USE_REDIS_CACHING = os.environ.get("USE_REDIS_CACHING", "") == "1"
