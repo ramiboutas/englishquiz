@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Load env vars from .env file if not testing
-try:   # pragma: no cover
+try:  # pragma: no cover
     command = sys.argv[1]
 except IndexError:  # pragma: no cover
     command = "help"
@@ -29,7 +29,8 @@ if command != "test":  # pragma: no cover
     dotenv.load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 # The name of the class to use for starting the test suite.
-TEST_RUNNER = "config.test.TestRunner"
+# TEST_RUNNER = "config.test.TestRunner"
+TEST_RUNNER = "django_rich.test.RichRunner"
 
 # Django secret key
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "some-tests-need-a-secret-key")
@@ -71,6 +72,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     # My apps
+    "core.apps.CoreConfig",
     "pages.apps.PagesConfig",
     "quiz.apps.QuizConfig",
     "socialmedia.apps.socialmediaConfig",
@@ -180,7 +182,7 @@ if USE_POSTGRES:  # pragma: no cover
             },
         }
     }
-else:    # pragma: no cover
+else:  # pragma: no cover
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -310,7 +312,7 @@ CELERY_RESULT_EXTENDED = True
 # caching
 
 
-if USE_REDIS_CACHING:   # pragma: no cover
+if USE_REDIS_CACHING:  # pragma: no cover
     REDIS_CACHING_LOCATION = os.environ.get("REDIS_CACHING_LOCATION", "")
     CELERY_CACHE_BACKEND = "default"
     CACHES = {
@@ -327,7 +329,7 @@ else:
     }
 
 # SMTP Email
-if USE_EMAIL_BACKEND:   # pragma: no cover
+if USE_EMAIL_BACKEND:  # pragma: no cover
     EMAIL_HOST = os.environ.get("EMAIL_HOST")
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
@@ -336,7 +338,7 @@ if USE_EMAIL_BACKEND:   # pragma: no cover
     EMAIL_USE_TLS = True
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-else:    # pragma: no cover
+else:  # pragma: no cover
     EMAIL_USE_TLS = False
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -347,7 +349,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dev"),
 ]
 
-if USE_SPACES:   # pragma: no cover
+if USE_SPACES:  # pragma: no cover
     # Stuff that could be useful (comments):
     # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
     # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
@@ -379,7 +381,7 @@ if USE_SPACES:   # pragma: no cover
     MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_MEDIA_LOCATION}/"
     MEDIA_ROOT = f"{AWS_MEDIA_LOCATION}/"
 
-else:   # pragma: no cover
+else:  # pragma: no cover
     STATIC_URL = "/static/"
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
     MEDIA_URL = "/media/"
@@ -392,7 +394,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = "Access-Control-Allow-Origin"
 # CORS_ALLOWED_ORIGINS = ["https://spaces.ramiboutas.com", ]
 
-if HTTPS:   # pragma: no cover
+if HTTPS:  # pragma: no cover
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_HSTS_SECONDS = 31_536_000  # 31536000 # usual: 31536000 (1 year)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = False

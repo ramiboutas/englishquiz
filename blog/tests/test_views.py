@@ -1,7 +1,7 @@
 from django.test import TestCase
+from django.urls import reverse
 
 from blog.models import BlogPost
-from django.urls import reverse
 
 
 class BlogViewTests(TestCase):
@@ -23,7 +23,6 @@ class BlogViewTests(TestCase):
             )
         self.posts = BlogPost.objects.bulk_create(posts)
         self.post = self.posts[0]
-        
 
     def test_post_list_view(self):
         url = reverse("blog_postlist")
@@ -36,11 +35,9 @@ class BlogViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "blog/all_posts.html")
-    
 
     def test_post_detail_view(self):
         url = self.post.get_absolute_url()
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "blog/post_detail.html")
-

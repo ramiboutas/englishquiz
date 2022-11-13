@@ -13,6 +13,7 @@ django-newsfeed
 django-nested-inline
 django-cors-headers
 django-minify-html
+django-rich
 django-slugger
 django-storages
 boto3

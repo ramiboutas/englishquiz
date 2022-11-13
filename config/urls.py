@@ -45,6 +45,6 @@ urlpatterns = [
     path("", include("pages.urls")),
 ]
 
-if settings.DEBUG:   # pragma: no cover
+if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
