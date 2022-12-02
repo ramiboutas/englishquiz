@@ -5,6 +5,7 @@ django-analytical
 django-simple-captcha
 django-crispy-forms
 crispy-bootstrap5
+celery
 django-celery-beat
 django-celery-results
 django-taggit
