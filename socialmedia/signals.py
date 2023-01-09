@@ -60,14 +60,14 @@ def delete_tweet(sender, instance, **kwargs):
 
 
 @receiver(pre_save, sender=LinkedinPost)
-def delete_linkedin_company_ugc_post(sender, instance, **kwargs):
+def delete_linkedin_company_post(sender, instance, **kwargs):
     """
-    It deletes a UGC post from the Linkedin company page
+    It deletes a post from the Linkedin company page
     """
 
     if instance.api_delete and not instance.api_deleted:
         try:
-            LinkedinPostAPI().delete_post(instance)
+            LinkedinPostAPI().delete_post(instance.urn_li_share)
             instance.api_deleted = True
         except Exception as e:
             raise e
