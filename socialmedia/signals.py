@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 from socialmedia.apis.facebook import FacebookPageAPI
 from socialmedia.apis.instagram import InstagramAPI
-from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
+from socialmedia.apis.linkedin import LinkedinPostAPI
 from socialmedia.apis.telegram import TelegramAPI
 from socialmedia.apis.twitter import TweetAPI
 from socialmedia.models import FacebookPost
@@ -67,7 +67,7 @@ def delete_linkedin_company_ugc_post(sender, instance, **kwargs):
 
     if instance.api_delete and not instance.api_deleted:
         try:
-            LinkedinCompanyPageAPI().delete_ugcPost(instance)
+            LinkedinPostAPI().delete_post(instance)
             instance.api_deleted = True
         except Exception as e:
             raise e
