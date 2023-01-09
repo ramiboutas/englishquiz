@@ -8,7 +8,7 @@ from .models import InstagramPost
 from .models import LinkedinPost
 from .models import RegularSocialPost
 from .models import TelegramMessage
-from .models import Tweet
+from .models import Tweet, FavoriteTweetSearch
 
 
 @admin.register(BackgroundImage)
@@ -50,6 +50,20 @@ class RegularSocialPostAdmin(admin.ModelAdmin):
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+
+
+@admin.register(FavoriteTweetSearch)
+class FavoriteTweetSearchAdmin(admin.ModelAdmin):
+    list_filter = [
+        "lang_code",
+    ]
+
+    list_display = [
+        "name",
+        "number_of_likes",
+        "lang_code",
+    ]
 
 
 @admin.register(Tweet)

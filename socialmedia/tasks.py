@@ -95,6 +95,10 @@ def update_linkedin_company_page_access_token(self, **kwargs):
         mail_admins_with_an_exception(e)
         raise e
 
+@shared_task(bind=True)
+def like_recent_tweets(self, **kwargs):
+    TweetAPI().like_recent_tweets()
+
 
 #  Question promotion
 @shared_task(bind=True)

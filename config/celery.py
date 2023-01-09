@@ -32,6 +32,10 @@ app.conf.beat_schedule = {
             "expires": 0,
         },
     },
+    "like_recent_tweets": {
+        "task": "socialmedia.tasks.like_recent_tweets",
+        "schedule": crontab(minute=15),
+    },
     "send_email_newsletter": {
         "task": "send_email_newsletter_task",
         "schedule": crontab(minute=0, hour="8"),

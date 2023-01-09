@@ -4,7 +4,7 @@ import tweepy
 from django.conf import settings
 
 from socialmedia.models import Tweet
-
+from socialmedia.models import FavoriteTweetSearch
 
 class AbtractTwiterAPI:
     def __init__(self) -> None:
@@ -47,7 +47,19 @@ class TweetAPI(AbtractTwiterAPI):
         tweet_obj.retweet_count = response.retweet_count
         tweet_obj.text = response.text
         tweet_obj.save()
+    
+    def like_recent_tweets(self):
+        searches = FavoriteTweetSearch.objects.all()
+        for search in searches:
+            tweet_list = tweepy.Cursor(
+                self.api.search_tweets,
+                search.name,
+                lang=search.lang_code,
+                result_type="recent",
+            ).items(search.number_of_likes)
 
-
-class TwitterMediaUploadAPI(AbtractTwiterAPI):
-    pass
+            for tweet in tweet_list:
+                try:
+                    tweet.favorite()
+                except:
+                    pass
