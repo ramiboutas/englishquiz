@@ -141,8 +141,6 @@ django-timezone-field==5.0
     # via django-celery-beat
 flake8==5.0.4
     # via -r requirements.in
-future==0.18.2
-    # via arabic-reshaper
 gunicorn==20.1.0
     # via -r requirements.in
 hiredis==2.0.0
