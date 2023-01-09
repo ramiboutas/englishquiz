@@ -34,7 +34,7 @@ app.conf.beat_schedule = {
     },
     "like_recent_tweets": {
         "task": "socialmedia.tasks.like_recent_tweets",
-        "schedule": crontab(minute=15),
+        "schedule": crontab(minute=26),
     },
     "send_email_newsletter": {
         "task": "send_email_newsletter_task",
