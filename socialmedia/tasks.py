@@ -12,7 +12,7 @@ from PIL import ImageFont
 
 from blog.models import BlogPost
 from quiz.models import Question
-from socialmedia.apis.linkedin import LinkedinCompanyPageAPI
+from socialmedia.apis.linkedin import update_access_token, LinkedinPostAPI
 from socialmedia.apis.telegram import TelegramAPI
 from socialmedia.apis.twitter import TweetAPI
 from socialmedia.models import RegularSocialPost
@@ -90,7 +90,7 @@ def create_image_from_regular_social_post_instance(self, **kwargs):
 @shared_task(bind=True)
 def update_linkedin_company_page_access_token(self, **kwargs):
     try:
-        LinkedinCompanyPageAPI().update_access_token()
+        update_access_token()
     except Exception as e:
         mail_admins_with_an_exception(e)
         raise e
@@ -112,7 +112,7 @@ def share_random_question_instance(self, **kwargs):
             TelegramAPI().send_message(text)
 
             # Linkedin
-            LinkedinCompanyPageAPI().create_ugcPost(text)
+            LinkedinPostAPI().create_post(text)
 
             # Twitter
             if text.__len__() < 280:
@@ -146,9 +146,9 @@ def share_regular_social_post(self, **kwargs):
     """
     Regular social post - triggered by celery beat (periodic task)
     """
-    time.sleep(
-        10
-    )  # for safety: in case we want to first create an image from the post instance
+    # for safety: in case we want to first create an image from the post instance
+    time.sleep(10)  
+    
     try:
         # Getting random social post
         social_posts = RegularSocialPost.objects.filter(promoted=False)
@@ -163,7 +163,7 @@ def share_regular_social_post(self, **kwargs):
                 TelegramAPI().send_message(instance.text)
 
             if instance.promote_in_linkedin:
-                LinkedinCompanyPageAPI().create_ugcPost(instance.text)
+                LinkedinPostAPI().create_post(instance.text)
 
             if instance.promote_in_twitter and instance.text.__len__() < 280:
                 TweetAPI().create(instance.text)
@@ -208,7 +208,7 @@ def share_regular_blog_post(self, **kwargs):
             TelegramAPI().send_message(text)
 
             # Linkedin
-            LinkedinCompanyPageAPI().create_ugcPost(text)
+            LinkedinPostAPI().create_post(text)
 
             # Twitter
             if text.__len__() < 280:
