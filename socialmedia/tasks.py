@@ -151,11 +151,11 @@ def share_random_question_as_poll():
     text = get_guess_the_answer_text()
     
     # Linkedin
-    LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
+    # LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
     
     # Telegram
     TelegramAPI().send_poll(
-        text + "\n\n" + question_text,
+        question_text,
         options=options,
         explanation=obj.explanation,
         correct_option_id=obj.get_correct_answer_order)

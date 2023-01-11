@@ -28,6 +28,10 @@ class TelegramAPI:
         )
     
     def send_poll(self, text:str, options:list[str]=None, explanation:str=None, correct_option_id:int=None):
+        # TODO: fix:
+        # TypeError(f'Object of type {o.__class__.__name__} ' 
+        # TypeError: Object of type method is not JSON serializable
+        
         self.bot.send_poll(
             chat_id=self.channel,
             question=text,
