@@ -97,9 +97,6 @@ class Question(auto_prefetch.Model):
         on_delete=models.SET_NULL,
     )
     
-    @property
-    def type_(self):
-        return self.type
 
     @property
     def full_text(self):

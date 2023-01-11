@@ -143,9 +143,8 @@ def share_random_question_instance(self, **kwargs):
         raise e
 
 
-@shared_task(bind=True)
 def share_random_question_as_poll(self, **kwargs):
-    qs = Question.objects.filter(type_=5)
+    qs = Question.objects.filter(type=5)
     obj =  random.choice(list(qs))
     question_text = obj.full_text
     options = obj.get_answer_list()
