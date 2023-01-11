@@ -142,8 +142,8 @@ def share_random_question_instance(self, **kwargs):
         mail_admins_with_an_exception(e)
         raise e
 
-
-def share_random_question_as_poll():
+@shared_task(bind=True)
+def share_random_question_as_poll(self, **kwargs):
     qs = Question.objects.filter(type=5)
     obj =  random.choice(list(qs))
     question_text = obj.full_text
@@ -151,14 +151,15 @@ def share_random_question_as_poll():
     text = get_guess_the_answer_text()
     
     # Linkedin
-    # LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
+    LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
     
     # Telegram
-    TelegramAPI().send_poll(
-        question_text,
-        options=options,
-        explanation=obj.explanation,
-        correct_option_id=obj.get_correct_answer_order)
+    # TODO: fix bug with TelegramAPI.send_poll
+    # TelegramAPI().send_poll(
+        # question_text,
+        # options=options,
+        # explanation=obj.explanation,
+        # correct_option_id=obj.get_correct_answer_order)
     
     
 
