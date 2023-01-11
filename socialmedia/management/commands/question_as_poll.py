@@ -3,7 +3,6 @@
 from django.core.management.base import BaseCommand
 from socialmedia.tasks import share_random_question_as_poll
 
-# from django.contrib.sites.models import Site
 
 
 class Command(BaseCommand):
