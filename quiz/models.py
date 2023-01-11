@@ -113,6 +113,16 @@ class Question(auto_prefetch.Model):
                 text += f"\n {self.text_three}"
         return text
 
+    def get_answer_list(self):
+        # for polls
+        return [a.name for a in self.answer_set.all()]
+    
+    def get_correct_answer_order(self):
+        # for polls
+        for index, a in enumerate(self.answer_set.all()):
+            if a.correct:
+                return index
+
     def get_detail_url(self):
         return reverse(
             "question_detail",
@@ -123,6 +133,7 @@ class Question(auto_prefetch.Model):
                 "id_question": self.id,
             },
         )
+    
 
     def get_absolute_url(self):
         return self.get_detail_url()

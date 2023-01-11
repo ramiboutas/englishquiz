@@ -26,6 +26,15 @@ class TelegramAPI:
             text=response.text,
             date=response.date,
         )
+    
+    def send_poll(self, text:str, options:list[str]=None, explanation:str=None, correct_option_id:int=None):
+        self.bot.send_poll(
+            chat_id=self.channel,
+            question=text,
+            options=options,
+            explanation=explanation,
+            correct_option_id=correct_option_id
+        )
 
     def delete_message(self, telegram_obj):
         self.bot.delete_message(telegram_obj.chat_id, telegram_obj.message_id)

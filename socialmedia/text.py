@@ -28,6 +28,16 @@ def get_salutation_text():
     return random.choice(salutation_options)
 
 
+def get_guess_the_answer_text():
+    text_options = [
+        "Guess the answer!",
+        "What do you think the answer is?",
+        "What goes in the gap?",
+    ]
+    return random.choice(text_options)
+
+
+
 # Blog Post
 def get_blog_post_promotion_text(instance):
     """

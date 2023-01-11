@@ -18,6 +18,7 @@ from socialmedia.apis.twitter import TweetAPI
 from socialmedia.models import RegularSocialPost
 from socialmedia.text import get_blog_post_promotion_text
 from socialmedia.text import get_question_promotion_text
+from socialmedia.text import get_guess_the_answer_text
 from utils.mail import mail_admins_with_an_exception
 
 
@@ -142,9 +143,28 @@ def share_random_question_instance(self, **kwargs):
         raise e
 
 
+@shared_task(bind=True)
+def share_random_question_as_poll(self, **kwargs):
+    qs = Question.objects.filter(type=5)
+    obj =  random.choice(list(qs))
+    question_text = obj.full_text
+    options = obj.get_answer_list()
+    text = get_guess_the_answer_text()
+    
+    # Linkedin
+    LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
+    
+    # Telegram
+    TelegramAPI().send_poll(
+        text + "\n\n" + question_text,
+        options=options,
+        explanation=obj.explanation,
+        correct_option_id=obj.get_correct_answer_order)
+    
+    
+
+
 # Social posts
-
-
 @shared_task(bind=True)
 def share_regular_social_post(self, **kwargs):
     """

@@ -36,6 +36,10 @@ app.conf.beat_schedule = {
         "task": "socialmedia.tasks.like_recent_tweets",
         "schedule": crontab(minute=26),
     },
+    "share_random_question_as_poll": {
+        "task": "socialmedia.tasks.share_random_question_as_poll",
+        "schedule": crontab(hour="11, 19", minute=30),
+    },
     "send_email_newsletter": {
         "task": "send_email_newsletter_task",
         "schedule": crontab(minute=0, hour="8"),

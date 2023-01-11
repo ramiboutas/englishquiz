@@ -94,6 +94,22 @@ class LinkedinPostAPI:
             )
         except KeyError:
             raise KeyError
+    
+    def create_poll(self, text: str, question_text:str=None, options: list[str]=None):
+        url = "https://api.linkedin.com/rest/posts"
+        if question_text is None or options is None:
+            return
+        self._add_text(text)
+        self.post_data["content"] =  {
+            "poll": {
+                "question" : question_text,
+                "options" : [{"text": option} for option in options],
+                "settings" : { "duration" : "THREE_DAYS" }
+                }
+            }
+        response = requests.post(url, headers=self.headers, json=self.post_data)
+        return response
+        
             
             
     def upload_image(self, file_bytes: bytes):
