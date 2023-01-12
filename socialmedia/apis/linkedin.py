@@ -79,13 +79,19 @@ class LinkedinPostAPI:
                 "media": {"title": "File from englishstuff.online", "id": image_asset}
             }
             self.image_asset = image_asset
-
+    
+    def _escape_text(self, text):
+        chars = ["," , "{" , "}" , "@" , "[" , "]" , "(" , ")" , "<" , ">" , "#" , "" , "*" , "_" , "~"]
+        for char in chars:
+            text.replace(char, "\\"+char)
+        return text
+        
     def create_post(self, text: str, file_bytes: bytes = None):
         url = "https://api.linkedin.com/rest/posts"
+        text = self._escape_text(text)
         self._add_text(text)
         self._add_media(file_bytes)
         response = requests.post(url, headers=self.headers, json=self.post_data)
-        return response
         try:
             urn_li_share = response.headers["x-restli-id"]
             LinkedinPost.objects.create(

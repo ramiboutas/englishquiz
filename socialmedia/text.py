@@ -83,11 +83,15 @@ def get_question_text(instance):
             text += f" ____ {instance.text_three}\n"
     if instance.type == 5:
         text += "Which option fits better in the gap of the next sentence? 🤔\n\n"
-        text += f"📚 {instance.text_one}\n\n"
-        text += "💡 Options:\n"
+        text += f"📚 {instance.text_one}\n"
+        if instance.text_two:
+            text += f"📚 {instance.text_two}\n"
+        if instance.text_three:
+            text += f"📚 {instance.text_three}\n"
+        text += "\n💡 Options:\n"
         for answer in instance.answer_set.all():
             text += f" 🔹 {answer.name}\n"
-
+            
     return text
 
 
@@ -105,7 +109,7 @@ def get_question_promotion_text(instance, make_short=False):
         text += f"Here a small question for you {cool_emoji} \n\n"
     text += f"{question_text} \n\n"
     text += "Check out the right answer here:\n"
-    text += f"👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n"
+    text += f"👉 https://www.englishstuff.online{instance.get_detail_url()} \n\n"
     text += f'{common_hashtags} #{instance.lection.quiz.name.replace(" ", "")}'
 
     return text
