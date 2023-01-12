@@ -85,6 +85,7 @@ class LinkedinPostAPI:
         self._add_text(text)
         self._add_media(file_bytes)
         response = requests.post(url, headers=self.headers, json=self.post_data)
+        return response
         try:
             urn_li_share = response.headers["x-restli-id"]
             LinkedinPost.objects.create(
