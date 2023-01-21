@@ -35,7 +35,7 @@ def get_poll_explanation_text(question_obj):
         "What goes in the gap?",
     ]
     text = random.choice(text_options)
-    text += " Check you answer here: "
+    text += "\n\nCheck you answer here 👉 "
     text += f"https://www.englishstuff.online{question_obj.get_detail_url()}"
     
     return text
