@@ -28,13 +28,17 @@ def get_salutation_text():
     return random.choice(salutation_options)
 
 
-def get_guess_the_answer_text():
+def get_poll_explanation_text(question_obj):
     text_options = [
         "Guess the answer!",
         "What do you think the answer is?",
         "What goes in the gap?",
     ]
-    return random.choice(text_options)
+    text = random.choice(text_options)
+    text += " Check you answer here: "
+    text += f"https://www.englishstuff.online{question_obj.get_detail_url()}"
+    
+    return text
 
 
 

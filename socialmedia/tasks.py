@@ -18,7 +18,7 @@ from socialmedia.apis.twitter import TweetAPI
 from socialmedia.models import RegularSocialPost
 from socialmedia.text import get_blog_post_promotion_text
 from socialmedia.text import get_question_promotion_text
-from socialmedia.text import get_guess_the_answer_text
+from socialmedia.text import get_poll_explanation_text
 from utils.mail import mail_admins_with_an_exception
 
 
@@ -148,7 +148,7 @@ def share_random_question_as_poll(self, **kwargs):
     obj =  random.choice(list(qs))
     question_text = obj.full_text
     options = obj.get_answer_list()
-    text = get_guess_the_answer_text()
+    text = get_poll_explanation_text(obj)
     
     # Linkedin
     LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
