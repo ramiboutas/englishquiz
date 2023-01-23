@@ -37,9 +37,8 @@ def get_poll_explanation_text(question_obj):
     text = random.choice(text_options)
     text += "\n\nCheck the right answer here 👉 "
     text += f"https://www.englishstuff.online{question_obj.get_detail_url()}"
-    
-    return text
 
+    return text
 
 
 # Blog Post
@@ -95,7 +94,7 @@ def get_question_text(instance):
         text += "\n💡 Options:\n"
         for answer in instance.answer_set.all():
             text += f" 🔹 {answer.name}\n"
-            
+
     return text
 
 

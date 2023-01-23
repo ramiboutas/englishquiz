@@ -18,6 +18,7 @@
 
 
     {% block content %}
+        {% include 'partials/navbar.html' %}
 
         <div class="container my-5">
             <h1 class="text-success text-center mt-5">Issue #{{ latest_issue.issue_number }}: {{ latest_issue.title }}</h1>

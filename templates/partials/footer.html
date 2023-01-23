@@ -40,9 +40,6 @@
                     <li class="nav-item mb-2">
                         <a href="{% url 'pages_flexpage' slug='privacy' %}" class="nav-link p-0 text-muted">👤 Privacy policy</a>
                     </li>
-                    <li class="nav-item mb-2">
-                        <a href="{% url 'pages_flexpage' slug='terms' %}" class="nav-link p-0 text-muted">⚙️ Terms of service</a>
-                    </li>
                 </ul>
             </div>
 
@@ -51,10 +48,12 @@
                     {% csrf_token %}
                     <h5>Subscribe to our newsletter</h5>
                     <p>Subscribe to our Newsletter to receive interesting English tips</p>
+
                     <div class="d-flex flex-column flex-sm-row w-100 gap-2">
                         <input type="email" name="email_address" class="emailinput form-control" required id="id_email_address" placeholder="Email address">
                         <button class="btn btn-primary" type="submit">Subscribe</button>
                     </div>
+                    <small>By subscribing you agree to our <a href="{% url 'pages_flexpage' slug='privacy' %}" >Privacy policy</a> </small>
                     <div class="subscriptionMessage"></div>
                 </form>
             </div>

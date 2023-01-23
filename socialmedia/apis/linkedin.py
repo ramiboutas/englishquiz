@@ -12,7 +12,6 @@ from django.conf import settings
 from socialmedia.models import LinkedinPost
 
 
-
 def update_access_token():
     # https://docs.microsoft.com/en-us/linkedin/shared/authentication/programmatic-refresh-tokens?view=li-lms-2022-06
     access_token = settings.LINKEDIN_ORGANIZATION_ACCESS_TOKEN
@@ -41,7 +40,6 @@ def update_access_token():
         "LINKEDIN_ORGANIZATION_ACCESS_TOKEN",
         os.environ["LINKEDIN_ORGANIZATION_ACCESS_TOKEN"],
     )
-
 
 
 class LinkedinPostAPI:
@@ -79,13 +77,29 @@ class LinkedinPostAPI:
                 "media": {"title": "File from englishstuff.online", "id": image_asset}
             }
             self.image_asset = image_asset
-    
+
     def _escape_text(self, text):
-        chars = ["," , "{" , "}" , "@" , "[" , "]" , "(" , ")" , "<" , ">" , "#" , "" , "*" , "_" , "~"]
+        chars = [
+            ",",
+            "{",
+            "}",
+            "@",
+            "[",
+            "]",
+            "(",
+            ")",
+            "<",
+            ">",
+            "#",
+            "",
+            "*",
+            "_",
+            "~",
+        ]
         for char in chars:
-            text.replace(char, "\\"+char)
+            text.replace(char, "\\" + char)
         return text
-        
+
     def create_post(self, text: str, file_bytes: bytes = None):
         url = "https://api.linkedin.com/rest/posts"
         text = self._escape_text(text)
@@ -101,24 +115,24 @@ class LinkedinPostAPI:
             )
         except KeyError:
             raise KeyError
-    
-    def create_poll(self, text: str, question_text:str=None, options: list[str]=None):
+
+    def create_poll(
+        self, text: str, question_text: str = None, options: list[str] = None
+    ):
         url = "https://api.linkedin.com/rest/posts"
         if question_text is None or options is None:
             return
         self._add_text(text)
-        self.post_data["content"] =  {
+        self.post_data["content"] = {
             "poll": {
-                "question" : question_text,
-                "options" : [{"text": option} for option in options],
-                "settings" : { "duration" : "THREE_DAYS" }
-                }
+                "question": question_text,
+                "options": [{"text": option} for option in options],
+                "settings": {"duration": "THREE_DAYS"},
             }
+        }
         response = requests.post(url, headers=self.headers, json=self.post_data)
         return response
-        
-            
-            
+
     def upload_image(self, file_bytes: bytes):
         upload_url, image_asset = self._initilize_image_upload()
         put_headers = {"Authorization": "Bearer " + self.access_token}

@@ -181,6 +181,7 @@ class TelegramMessage(models.Model):
     def __str__(self) -> str:
         return self.text[:100]
 
+
 class FavoriteTweetSearch(models.Model):
     name = models.CharField(max_length=50)
     lang_code = models.CharField(max_length=2)
@@ -188,6 +189,7 @@ class FavoriteTweetSearch(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Tweet(models.Model):
     """ "

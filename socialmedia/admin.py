@@ -4,11 +4,12 @@ from django.contrib import admin
 
 from .models import BackgroundImage
 from .models import FacebookPost
+from .models import FavoriteTweetSearch
 from .models import InstagramPost
 from .models import LinkedinPost
 from .models import RegularSocialPost
 from .models import TelegramMessage
-from .models import Tweet, FavoriteTweetSearch
+from .models import Tweet
 
 
 @admin.register(BackgroundImage)
@@ -50,7 +51,6 @@ class RegularSocialPostAdmin(admin.ModelAdmin):
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
 
 
 @admin.register(FavoriteTweetSearch)

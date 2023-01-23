@@ -3,8 +3,9 @@ from __future__ import annotations
 import tweepy
 from django.conf import settings
 
-from socialmedia.models import Tweet
 from socialmedia.models import FavoriteTweetSearch
+from socialmedia.models import Tweet
+
 
 class AbtractTwiterAPI:
     def __init__(self) -> None:
@@ -47,7 +48,7 @@ class TweetAPI(AbtractTwiterAPI):
         tweet_obj.retweet_count = response.retweet_count
         tweet_obj.text = response.text
         tweet_obj.save()
-    
+
     def like_recent_tweets(self):
         searches = FavoriteTweetSearch.objects.all()
         for search in searches:

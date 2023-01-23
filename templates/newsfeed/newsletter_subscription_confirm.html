@@ -6,6 +6,7 @@
     {% block head_title %}Subscription Status | English Stuff Online{% endblock %}
 
     {% block content %}
+        {% include 'partials/navbar.html' %}
         {% if subscribed %}
             <h1 class="text-success text-center my-5">Subscription confirmed!</h1>
             <p class="text-success text-center my-5">Thank you for subscribing to our Newsletter!</p>

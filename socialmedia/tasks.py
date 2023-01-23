@@ -12,13 +12,14 @@ from PIL import ImageFont
 
 from blog.models import BlogPost
 from quiz.models import Question
-from socialmedia.apis.linkedin import update_access_token, LinkedinPostAPI
+from socialmedia.apis.linkedin import LinkedinPostAPI
+from socialmedia.apis.linkedin import update_access_token
 from socialmedia.apis.telegram import TelegramAPI
 from socialmedia.apis.twitter import TweetAPI
 from socialmedia.models import RegularSocialPost
 from socialmedia.text import get_blog_post_promotion_text
-from socialmedia.text import get_question_promotion_text
 from socialmedia.text import get_poll_explanation_text
+from socialmedia.text import get_question_promotion_text
 from utils.mail import mail_admins_with_an_exception
 
 
@@ -96,6 +97,7 @@ def update_linkedin_company_page_access_token(self, **kwargs):
         mail_admins_with_an_exception(e)
         raise e
 
+
 @shared_task(bind=True)
 def like_recent_tweets(self, **kwargs):
     TweetAPI().like_recent_tweets()
@@ -142,26 +144,25 @@ def share_random_question_instance(self, **kwargs):
         mail_admins_with_an_exception(e)
         raise e
 
+
 @shared_task(bind=True)
 def share_random_question_as_poll(self, **kwargs):
     qs = Question.objects.filter(type=5)
-    obj =  random.choice(list(qs))
+    obj = random.choice(list(qs))
     question_text = obj.full_text
     options = obj.get_answer_list()
     text = get_poll_explanation_text(obj)
-    
+
     # Linkedin
     LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
-    
+
     # Telegram
     # TODO: fix bug with TelegramAPI.send_poll
     # TelegramAPI().send_poll(
-        # question_text,
-        # options=options,
-        # explanation=obj.explanation,
-        # correct_option_id=obj.get_correct_answer_order)
-    
-    
+    # question_text,
+    # options=options,
+    # explanation=obj.explanation,
+    # correct_option_id=obj.get_correct_answer_order)
 
 
 # Social posts
@@ -171,8 +172,8 @@ def share_regular_social_post(self, **kwargs):
     Regular social post - triggered by celery beat (periodic task)
     """
     # for safety: in case we want to first create an image from the post instance
-    time.sleep(10)  
-    
+    time.sleep(10)
+
     try:
         # Getting random social post
         social_posts = RegularSocialPost.objects.filter(promoted=False)

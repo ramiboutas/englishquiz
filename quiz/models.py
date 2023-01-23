@@ -96,7 +96,6 @@ class Question(auto_prefetch.Model):
         blank=True,
         on_delete=models.SET_NULL,
     )
-    
 
     @property
     def full_text(self):
@@ -117,7 +116,7 @@ class Question(auto_prefetch.Model):
     def get_answer_list(self):
         # for polls
         return [a.name for a in self.answer_set.all()]
-    
+
     def get_correct_answer_order(self):
         # for polls
         for index, a in enumerate(self.answer_set.all()):
@@ -134,7 +133,6 @@ class Question(auto_prefetch.Model):
                 "id_question": self.id,
             },
         )
-    
 
     def get_absolute_url(self):
         return self.get_detail_url()
