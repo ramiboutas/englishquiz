@@ -33,3 +33,4 @@ psycopg2-binary
 gunicorn
 redis
 hiredis
+geoip2

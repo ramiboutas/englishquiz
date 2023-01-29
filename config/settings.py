@@ -343,6 +343,11 @@ else:  # pragma: no cover
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
+# geoip2
+
+GEOIP_PATH = BASE_DIR / "geoip2dbs"
+
+
 # Storage
 
 STATICFILES_DIRS = [
