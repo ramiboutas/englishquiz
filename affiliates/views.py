@@ -6,6 +6,14 @@ from affiliates.models import Book, BookAffiliateLink
 
 
 
+@cache_page(3600 * 24 * 1)
+def book_list(request):
+    book_list = Book.objects.all()
+    context = {"book_list": book_list}
+    return render(request, "affiliates/book_list.html", context)
+
+
+
 def book_detail(request, slug):
     book = Book.objects.get(slug=slug)
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')    
@@ -35,4 +43,4 @@ def search_books(request):
         level__in=[level_one, level_two, level_three]
     )
     context = {"book_list": book_list}
-    return render(request, "quiz/partials/book_list.html", context)
+    return render(request, "book/partials/book_list.html", context)

@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     "socialmedia.apps.socialmediaConfig",
     "blog.apps.BlogConfig",
     "users.apps.UsersConfig",
+    "affiliates.apps.AffiliatesConfig",
     # Thid-party apps
     "markdownx",  # cloned
     "django_htmx",

@@ -24,7 +24,6 @@ AFFILIATE_REGION_SCOPE_CHOICES = (
 )
 
 
-
 class Book(auto_prefetch.Model):
     name = models.CharField(max_length=64)
     level = models.CharField(max_length=2, default="b2", choices=BOOK_LEVEL_CHOICES)
@@ -38,7 +37,7 @@ class Book(auto_prefetch.Model):
         return self.get_detail_url()
 
     def get_list_url(self):
-        return reverse("quiz_list")
+        return reverse("book_list")
 
     def __str__(self):
         return self.name

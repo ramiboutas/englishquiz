@@ -11,5 +11,5 @@ urlpatterns = [
     path("contact/", contact_view, name="pages_contact"),
     # path("hx/contact/thanks/", contact_thanks_view, name="pages_contact"),
     # This path goes at the end
-    path("<slug:slug>/", flexpage_detail_view, name="pages_flexpage"),
+    path("p/<slug:slug>/", flexpage_detail_view, name="pages_flexpage"),
 ]

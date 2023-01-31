@@ -1,15 +1,21 @@
 from django.contrib import admin
-
-# Register your models here.
-
-
-from affiliates.models import Book
+from nested_inline.admin import NestedModelAdmin
+from nested_inline.admin import NestedStackedInline
 
 
+from affiliates.models import Book, BookAffiliateLink
 
-@affiliates.register(Book)
+
+class BookAffiliateLinkInline(admin.StackedInline):
+    model = BookAffiliateLink
+    extra = 5
+    
+@admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    readonly_fields = ["views"]
     list_filter = ["name"]
     prepopulated_fields = {"slug": ("name",)}
+
+    inlines = [
+        BookAffiliateLinkInline,
+    ]

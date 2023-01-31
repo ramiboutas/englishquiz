@@ -11,23 +11,15 @@ info_dict = {
     "queryset": Book.objects.all(),
 }
 
-sitemap_dict = {"sitemaps": {"question": GenericSitemap(info_dict, priority=0.8)}}
+sitemap_dict = {"sitemaps": {"books": GenericSitemap(info_dict, priority=0.8)}}
 
 
 urlpatterns = [
-    path("list/", views.quiz_list, name="book_list"),
-    path("<slug:slug>/", views.quiz_detail, name="book_detail"),
+    path("books/", views.book_list, name="book_list"),
+    path("book/<slug:slug>/", views.book_detail, name="book_detail"),
 
     # htmx
-    path("hx/search-books/", views.search_quizzes, name="search_books"),
-    
-    # htmx - question translation
-    path(
-        "hx/question/translate/<int:id_question>/<int:id_language>/",
-        views.translate_question_text,
-        name="quiz_translate_question_text",
-    ),
-    
+    path("hx/search-books/", views.search_books, name="search_books"),
     
     # sitemaps
     path(

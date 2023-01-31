@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load cache %}
+
+
+{% cache 604800 book_detail book.pk region %}
+
+    {% load question_related_tags %}
+
+    {% block head_title %}{{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
+
+    {% block content %}
+
+    <h1> TODO: Book detail </h1>
+
+
+    {% endblock %}
+
+
+{% endcache %}
