@@ -1,4 +1,6 @@
 import auto_prefetch
+from markdownx.models import MarkdownxField
+
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -6,6 +8,7 @@ from django.utils.text import slugify
 
 
 BOOK_LEVEL_CHOICES = (
+    (None, "Not applicable"),
     ("a1", "A1"),
     ("a2", "A2"),
     ("b1", "B1"),
@@ -15,7 +18,6 @@ BOOK_LEVEL_CHOICES = (
 )
 
 AFFILIATE_REGION_SCOPE_CHOICES = (
-    ("global", "Global"),
     ("US", "USA"),
     ("DE", "Germany"),
     ("ES", "Spain"),
@@ -26,7 +28,9 @@ AFFILIATE_REGION_SCOPE_CHOICES = (
 
 class Book(auto_prefetch.Model):
     name = models.CharField(max_length=64)
-    level = models.CharField(max_length=2, default="b2", choices=BOOK_LEVEL_CHOICES)
+    description = MarkdownxField()
+    image_url = models.URLField(blank=True, null=True)
+    level = models.CharField(max_length=2, null=True, blank=True, default="b2", choices=BOOK_LEVEL_CHOICES)
     slug = models.SlugField(blank=True, unique=True)
     featured = models.BooleanField(default=False)
 
@@ -39,6 +43,9 @@ class Book(auto_prefetch.Model):
     def get_list_url(self):
         return reverse("book_list")
 
+    def get_related_books(self):
+        pass
+    
     def __str__(self):
         return self.name
     
@@ -49,9 +56,11 @@ class Book(auto_prefetch.Model):
 
 
 class BookAffiliateLink(auto_prefetch.Model):
-    book = auto_prefetch.ForeignKey(Book, on_delete=models.CASCADE)
+    book = auto_prefetch.ForeignKey(Book, on_delete=models.CASCADE, related_name="affiliate_links")
+    label = models.CharField(max_length=64)
     url = models.URLField()
-    region = models.CharField(max_length=6, choices=AFFILIATE_REGION_SCOPE_CHOICES)
+    is_global = models.BooleanField(default=False)
+    country_code = models.CharField(max_length=2, choices=AFFILIATE_REGION_SCOPE_CHOICES)
 
     def __str__(self):
         return self.url

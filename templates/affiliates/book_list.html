@@ -9,14 +9,12 @@
     {% block content %}
         {% include 'partials/navbar.html' %}
 
-
-        <h1 class="text-success text-center py-5"> Books 📚</h1>
-
+        <h1 class="text-success text-center py-5">Books 📚</h1>
 
         <h2 class="text-center py-3">Get a <strong class="text-success"> book 📗 </strong> to boost your English. </h2>
         <h3 class="text-center text-success display-5 py-3"> <i class="bi bi-pencil"></i> <i class="bi bi-chat-dots"></i> <i class="bi bi-display"></i> </h3>
 
-        <form class="" hx-get="{% url 'search_books' %}" hx-trigger="change" hx-target="#quizzes" hx-indicator=".htmx-indicator">
+        <form class="" hx-get="{% url 'search_books' %}" hx-trigger="change" hx-target="#books" hx-indicator=".htmx-indicator">
             <div class="container py-5">
                 <div class="row justify-content-md-center">
                     <span class="htmx-indicator text-center text-success">
@@ -56,9 +54,9 @@
         </form>
 
         <div class="container py-5">
-            <div class="row justify-content-md-center" id="quizzes">
+            <div class="row justify-content-md-center" id="books">
                 
-                {% comment %} {% include "book/partials/quiz_list.html" %} {% endcomment %}
+                {% include "affiliates/partials/book_list.html" %}
 
             </div>
         </div>

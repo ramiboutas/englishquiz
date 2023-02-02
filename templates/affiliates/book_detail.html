@@ -1,16 +1,66 @@
 {% extends "base.html" %}
 {% load cache %}
-
+{% load markdown_extras %}
 
 {% cache 604800 book_detail book.pk region %}
 
-    {% load question_related_tags %}
-
-    {% block head_title %}{{ question.lection.quiz.name }} | {{ question.lection.name }} | {{ question.text_one }} ___ {{ question.text_two }} {% endblock %}
+    {% block head_title %} {{ book.name }} {% endblock %}
 
     {% block content %}
+    
+    {% include 'partials/navbar.html' %}
 
-    <h1> TODO: Book detail </h1>
+    
+
+    <div class="container py-5">
+
+    
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <img class="w-100" src="{{ book.image_url }}" alt="">
+        </div>
+
+
+        <div class="col-md-6 col-sm-12">
+            <h1 class="text-success text-center">{{ book.name }}</h1>
+
+            <p>{{ book.description | markdown | safe }}</p>
+
+            <div class="row ">
+                {% for link in affiliate_links %}
+                <div class="col">
+                    <button type="button" class="btn btn-outline-success w-100">{{ link.label }}</button>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <p>
+                <small> This page contains affiliate links. If you use these links to buy something we may earn a commission. Thanks for supporting us. </small>
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="container py-5">
+        <h2 class="text-success"> Related books
+            <a class="btn btn-outline-success float-end" href="{{ book.get_list_url }}">All books 📚</a> 
+        </h2>
+        
+
+        <div class="row justify-content-md-center">
+            
+            {% include "affiliates/partials/book_list.html" with book_list=related_books %}
+
+        </div>
+    </div>
+
+    {% include "partials/footer.html" %}
+
+
+   
+    
+
 
 
     {% endblock %}
