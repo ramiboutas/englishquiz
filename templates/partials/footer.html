@@ -24,9 +24,7 @@
                         <a href="{% url 'quiz_list' %}" class="nav-link p-0 text-muted">🎁 Quizzes</a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a href="https://www.amazon.com/gp/search?ie=UTF8&tag=ramiboutas-20&linkCode=ur2&linkId=5426de81b33b3ae4a8968132504692a4&camp=1789&creative=9325&index=books&keywords=learn English"
-                            target="_blank" class="nav-link p-0 text-muted">📚 Books <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
+                        <a href="{% url 'book_list' %}" class="nav-link p-0 text-muted">📚 Books </a>
                     </li>
                 </ul>
             </div>
@@ -58,10 +56,6 @@
                 </form>
             </div>
         </div>
-
-        <small>
-            This page may contain affiliate links. If you use these links to buy something we may earn a commission. Thanks.
-        </small>
 
         <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
             <p>© {{ copyright_year }}  Material by <a target="_blank" href="https://www.toweracademy.es">Phil</a>. Website by

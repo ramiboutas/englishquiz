@@ -41,4 +41,12 @@
         "yake",
         "ZBMDVB"
     ],
+
+    "[django-html]": {
+
+    },
+    "files.associations": {
+        "*.html": "html"
+    }
+
 }

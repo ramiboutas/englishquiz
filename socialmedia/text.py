@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import random
 
 
@@ -68,6 +69,7 @@ def get_quiz_promotion_text(instance):
 
 
 # Question
+
 
 def get_question_text(instance):
     """

@@ -17,10 +17,8 @@ sitemap_dict = {"sitemaps": {"books": GenericSitemap(info_dict, priority=0.8)}}
 urlpatterns = [
     path("books/", views.book_list, name="book_list"),
     path("book/<slug:slug>/", views.book_detail, name="book_detail"),
-
     # htmx
     path("hx/search-books/", views.search_books, name="search_books"),
-    
     # sitemaps
     path(
         "books/sitemap.xml",
@@ -28,5 +26,4 @@ urlpatterns = [
         sitemap_dict,
         name="django.contrib.sitemaps.views.sitemap",
     ),
-
 ]

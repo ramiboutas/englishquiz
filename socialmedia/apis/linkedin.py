@@ -160,8 +160,11 @@ class LinkedinPostAPI:
 
     def _initilize_image_upload(self):
         url = "https://api.linkedin.com/rest/images?action=initializeUpload"
-
-        post_data = {"initializeUploadRequest": {"owner": "urn:li:person:" + author_id}}
+        post_data = {
+            "initializeUploadRequest": {
+                "owner": "urn:li:organization:" + self.organization_id
+            }
+        }
         response = requests.post(url, json=post_data, headers=self.headers)
         data = json.loads(response.text)
         upload_url = data["value"]["uploadUrl"]
