@@ -9,8 +9,9 @@ AFFILIATE_REGION_SCOPE_CHOICES = (
     ("US", "USA"),
     ("DE", "Germany"),
     ("ES", "Spain"),
-    ("FR", "France"),
     ("IT", "Italy"),
+    ("FR", "France"),
+    ("UK", "United Kingdom"),
 )
 
 BOOK_LEVEL_CHOICES = (
