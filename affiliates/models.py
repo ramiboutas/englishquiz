@@ -76,7 +76,7 @@ class Book(auto_prefetch.Model):
 
     def get_related_books(self, n=3):
         return self.__class__.objects.exclude(pk=self.pk).filter(
-            level=self.level,
+            level__in=[self.level-1, self.level, self.level+1],
             test_type=self.test_type,
             category=self.category,
             )[:n]
