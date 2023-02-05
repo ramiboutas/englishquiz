@@ -40,15 +40,12 @@ def book_detail(request, slug):
     return render(request, "affiliates/book_detail.html", context)
 
 
-@cache_page(3600 * 24 * 7)
+@cache_page(3600 * 24 * 1)
 def search_books(request):
     search_term = request.GET.get("q")
     test_types = request.GET.getlist("test_type")
-    print(test_types)
     categories = request.GET.getlist("category")
-    print(categories)
     levels = request.GET.getlist("level")
-    print(levels)
     book_list = Book.objects.filter(
         name__icontains=search_term,
         test_type__in=test_types,

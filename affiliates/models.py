@@ -58,6 +58,7 @@ class Book(auto_prefetch.Model):
     name = models.CharField(max_length=128)
     description = MarkdownxField()
     image_url = models.URLField(blank=True, null=True)
+    thumbnail_url = models.URLField(blank=True, null=True)
     level = models.PositiveSmallIntegerField(default=3, choices=BOOK_LEVEL_CHOICES)
     test_type = models.CharField(default="general", max_length=16, choices=BOOK_TEST_TYPE_CHOICES)
     category = models.CharField(default="general", max_length=16, choices=BOOK_CATEGORY_CHOICES)
