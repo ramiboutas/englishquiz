@@ -33,8 +33,8 @@ app.conf.beat_schedule = {
         "schedule": crontab(hour="11, 19", minute=30),
     },
     "update_featured_books": {
-        "task": "core.tasks.update_featured_books",
-        "schedule": crontab(hour=20, minute=26),
+        "task": "affiliates.tasks.update_featured_books",
+        "schedule": crontab(hour=20, minute=40),
     },
     "send_email_newsletter": {
         "task": "send_email_newsletter_task",
