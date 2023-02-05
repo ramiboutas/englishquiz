@@ -1,7 +1,9 @@
 {% for book in book_list %}
 	<div class="col-sm-12 col-md-4 col-lg-3 mb-5">
 		<div class="card" style="background-color: Beige;">
-			<img src="{{ book.thumbnail_url }}" class="card-img-top" alt="{{ book.name }}">
+			<a href="{{ book.get_detail_url }}">
+				<img src="{{ book.thumbnail_url }}" class="card-img-top" alt="{{ book.name }}">
+			</a>
 			<div class="card-body">
 				<p class="text-secondary">Category
 					<span class="text-success float-end"> {{ book.get_category_display }} </span>

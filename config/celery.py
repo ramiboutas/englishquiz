@@ -19,18 +19,10 @@ app.conf.beat_schedule = {
     "share_random_question": {
         "task": "socialmedia.tasks.share_random_question_instance",
         "schedule": crontab(hour="10, 15", minute=00),
-        "options": {
-            "expires": 0,
-        },
     },
     "share_regular_social_post": {
         "task": "socialmedia.tasks.share_regular_social_post",
-        "schedule": crontab(
-            hour=12, minute=30
-        ),  # when more instances available: add crontab(hour='8,13', minute=00)
-        "options": {
-            "expires": 0,
-        },
+        "schedule": crontab(hour=12, minute=30),  # when more instances available: add crontab(hour='8,13', minute=00)
     },
     "like_recent_tweets": {
         "task": "socialmedia.tasks.like_recent_tweets",
@@ -39,6 +31,10 @@ app.conf.beat_schedule = {
     "share_random_question_as_poll": {
         "task": "socialmedia.tasks.share_random_question_as_poll",
         "schedule": crontab(hour="11, 19", minute=30),
+    },
+    "update_featured_books": {
+        "task": "core.tasks.update_featured_books",
+        "schedule": crontab(hour=20, minute=20),
     },
     "send_email_newsletter": {
         "task": "send_email_newsletter_task",

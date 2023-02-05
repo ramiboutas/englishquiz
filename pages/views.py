@@ -6,11 +6,16 @@ from django.shortcuts import render
 from pages.forms import ContactForm
 from pages.models import FlexPage
 from quiz.models import Quiz
+from affiliates.models import Book
 
 
 def home_view(request):
     quiz_list = Quiz.objects.all()
-    context = {"quiz_list": quiz_list}
+    featured_books = Book.objects.filter(featured=True)
+    context = {
+        "quiz_list": quiz_list,
+        "featured_books": featured_books,
+        }
     return render(request, "pages/home.html", context)
 
 

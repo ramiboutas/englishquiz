@@ -61,6 +61,15 @@
             </div>
         </div>
 
+        <div class="container py-5">
+            <h2 class="text-success">Featured books
+                <a class="btn btn-outline-success float-end" href="{% url 'book_list' %}">All books 📚</a>
+            </h2>
+            <div class="row justify-content-md-center">
+                {% include "affiliates/partials/book_list.html" with book_list=featured_books %}
+            </div>
+        </div>
+
 
         {% include "partials/footer.html" %}
 
