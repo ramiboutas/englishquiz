@@ -55,13 +55,13 @@ class CountryVisitor(auto_prefetch.Model):
         ordering = ("-views",)
 
 class Book(auto_prefetch.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=128)
     description = MarkdownxField()
     image_url = models.URLField(blank=True, null=True)
     level = models.PositiveSmallIntegerField(default=3, choices=BOOK_LEVEL_CHOICES)
     test_type = models.CharField(default="general", max_length=16, choices=BOOK_TEST_TYPE_CHOICES)
     category = models.CharField(default="general", max_length=16, choices=BOOK_CATEGORY_CHOICES)
-    slug = models.SlugField(blank=True, unique=True)
+    slug = models.SlugField(max_length=128, blank=True, unique=True)
     featured = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
 
