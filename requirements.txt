@@ -83,7 +83,7 @@ coverage==6.5.0
     # via -r requirements.in
 crispy-bootstrap5==0.6
     # via -r requirements.in
-cryptography==38.0.3
+cryptography==39.0.1
     # via
     #   pyhanko
     #   pyhanko-certvalidator
@@ -201,7 +201,7 @@ networkx==2.8.7
     # via yake
 numpy==1.23.3
     # via yake
-oauthlib==3.2.1
+oauthlib==3.2.2
     # via
     #   requests-oauthlib
     #   tweepy
