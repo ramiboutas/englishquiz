@@ -8,5 +8,5 @@ from affiliates.models import Book
 def update_featured_books(self, **kwargs):
     qs = Book.objects.all()
     qs.update(featured=False)
-    new_featured = qs[:8]
+    new_featured = qs[:6]
     Book.objects.filter(id__in=new_featured).update(featured=True)
