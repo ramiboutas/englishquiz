@@ -22,7 +22,9 @@ app.conf.beat_schedule = {
     },
     "share_regular_social_post": {
         "task": "socialmedia.tasks.share_regular_social_post",
-        "schedule": crontab(hour=12, minute=30),  # when more instances available: add crontab(hour='8,13', minute=00)
+        "schedule": crontab(
+            hour=12, minute=30
+        ),  # when more instances available: add crontab(hour='8,13', minute=00)
     },
     "like_recent_tweets": {
         "task": "socialmedia.tasks.like_recent_tweets",

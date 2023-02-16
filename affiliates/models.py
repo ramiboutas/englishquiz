@@ -50,9 +50,10 @@ class CountryVisitor(auto_prefetch.Model):
     def add_view(self):
         self.views += 1
         self.save()
-    
+
     class Meta:
         ordering = ("-views",)
+
 
 class Book(auto_prefetch.Model):
     name = models.CharField(max_length=128)
@@ -60,8 +61,12 @@ class Book(auto_prefetch.Model):
     image_url = models.URLField(blank=True, null=True)
     thumbnail_url = models.URLField(blank=True, null=True)
     level = models.PositiveSmallIntegerField(default=3, choices=BOOK_LEVEL_CHOICES)
-    test_type = models.CharField(default="general", max_length=16, choices=BOOK_TEST_TYPE_CHOICES)
-    category = models.CharField(default="general", max_length=16, choices=BOOK_CATEGORY_CHOICES)
+    test_type = models.CharField(
+        default="general", max_length=16, choices=BOOK_TEST_TYPE_CHOICES
+    )
+    category = models.CharField(
+        default="general", max_length=16, choices=BOOK_CATEGORY_CHOICES
+    )
     slug = models.SlugField(max_length=128, blank=True, unique=True)
     featured = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
@@ -77,11 +82,11 @@ class Book(auto_prefetch.Model):
 
     def get_related_books(self, n=3):
         return self.__class__.objects.exclude(pk=self.pk).filter(
-            level__in=[self.level-1, self.level, self.level+1],
+            level__in=[self.level - 1, self.level, self.level + 1],
             test_type=self.test_type,
             category=self.category,
-            )[:n]
-    
+        )[:n]
+
     def add_view(self):
         self.views += 1
         self.save()
@@ -95,7 +100,6 @@ class Book(auto_prefetch.Model):
 
     class Meta:
         ordering = ("-views",)
-
 
 
 class BookAffiliateLink(auto_prefetch.Model):

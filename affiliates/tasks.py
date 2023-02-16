@@ -1,7 +1,6 @@
-
 from celery import shared_task
-from affiliates.models import Book
 
+from affiliates.models import Book
 
 
 @shared_task(bind=True)

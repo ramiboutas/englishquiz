@@ -113,6 +113,12 @@ class Question(auto_prefetch.Model):
                 text += f"\n {self.text_three}"
         return text
 
+    def progress_percentage(self, extra=0):
+        lection_questions = list(Question.objects.filter(lection=self.lection))
+        index = lection_questions.index(self) + extra
+        progress_percentage = int(index * 100 / len(lection_questions))
+        return progress_percentage
+
     def get_answer_list(self):
         # for polls
         return [a.name for a in self.answer_set.all()]
@@ -138,34 +144,10 @@ class Question(auto_prefetch.Model):
         return self.get_detail_url()
 
     def check_answer_url(self):
-        return reverse(
-            "check_answer",
-            kwargs={
-                "slug_quiz": self.lection.quiz.slug,
-                "level_quiz": self.lection.quiz.level,
-                "slug_lection": self.lection.slug,
-                "id_question": self.id,
-            },
-        )
+        return reverse("quiz_check_answer", kwargs={"id_question": self.id})
 
     def update_progress_bar_url(self):
-        return reverse(
-            "update_progress_bar",
-            kwargs={
-                "slug_quiz": self.lection.quiz.slug,
-                "level_quiz": self.lection.quiz.level,
-                "slug_lection": self.lection.slug,
-                "id_question": self.id,
-            },
-        )
-
-    def get_translation_modal_url(self):  # not used, used Bootstrap Bundle JS instead
-        return reverse("quiz_get_translation_modal", kwargs={"id_question": self.id})
-
-    def remove_translation_modal_url(
-        self,
-    ):  # not used, used Bootstrap Bundle JS instead
-        return reverse("quiz_remove_translation_modal", kwargs={"id_question": self.id})
+        return reverse("quiz_update_progress_bar", kwargs={"id_question": self.id})
 
     def is_first(self):
         return self.__class__.objects.filter(lection=self.lection).first() == self
@@ -225,7 +207,6 @@ class TranslatedQuestion(auto_prefetch.Model):
     question = auto_prefetch.ForeignKey(Question, on_delete=models.CASCADE)
     original_text = models.CharField(max_length=650)
     translated_text = models.CharField(max_length=650)
-
     created = models.DateField(auto_now_add=True, null=True)
     updated = models.DateField(auto_now=True, null=True)
 

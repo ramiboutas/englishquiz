@@ -3,10 +3,11 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
 from affiliates.models import Book
-from affiliates.models import CountryVisitor
-from affiliates.models import BOOK_LEVEL_CHOICES
 from affiliates.models import BOOK_CATEGORY_CHOICES
+from affiliates.models import BOOK_LEVEL_CHOICES
 from affiliates.models import BOOK_TEST_TYPE_CHOICES
+
+from core.models import CountryVisitor
 from utils.host import get_country_code
 
 
@@ -21,7 +22,7 @@ def book_list(request):
     }
     return render(request, "affiliates/book_list.html", context)
 
-
+# TODO: use a decorator: add_country_visitor
 def book_detail(request, slug):
     book = Book.objects.get(slug=slug)
     book.add_view()
@@ -35,7 +36,7 @@ def book_detail(request, slug):
     context = {
         "book": book,
         "affiliate_links": affiliate_links,
-        "related_books": book.get_related_books()
+        "related_books": book.get_related_books(),
     }
     return render(request, "affiliates/book_detail.html", context)
 

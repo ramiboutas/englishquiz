@@ -2,10 +2,10 @@
 
 {% for quiz in quiz_list %}
     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-        <div class="card" style="background-color: Beige;">            
+        <div class="card" style="background-color: Beige;">
             <a href="{{ quiz.get_detail_url }}">
-				<img src="{{ quiz.image_url }}" width="400" height="250" class="card-img-top" alt="{{ quiz.name}}">
-			</a>
+                <img src="{{ quiz.image_url }}" width="400" height="250" class="card-img-top" alt="{{ quiz.name}}">
+            </a>
             <small class="text-muted">Photo by <a class="text-muted" target="_blank" href="{{ quiz.image_credits_url }}">{{ quiz.image_credits_url }}</a> </small>
             <div class="card-body ">
                 <p class="text-secondary">Difficulty

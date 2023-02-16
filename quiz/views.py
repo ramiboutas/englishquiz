@@ -17,6 +17,11 @@ from .models import Lection
 from .models import Question
 from .models import Quiz
 from .models import TranslatedQuestion
+from core.models import CountryVisitor
+from utils.host import get_country_code
+from .text import get_correct_message
+from .text import get_incorrect_message
+from .translate import get_translated_question_text
 
 
 @cache_page(3600 * 24 * 1)
@@ -51,70 +56,37 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
     lection.add_view()
+
     question = get_object_or_404(Question, id=id_question, lection=lection)
-    questions = list(Question.objects.filter(lection=lection))
-    index = questions.index(question)
-    number_of_questions = questions.__len__()
-    progress_percentage = int(index * 100 / number_of_questions)
-    language_objects = DeeplLanguage.objects.all()
+
+    # TODO: this is for analitics purposes. Remove after summer 2023
+    if question.is_first:
+        country_code = get_country_code(request)
+        if country_code:
+            country_visitor, _ = CountryVisitor.objects.get_or_create(country_code=country_code)
+            country_visitor.add_view()
+    
     context = {
         "question": question,
-        "progress_percentage": progress_percentage,
-        "language_objects": language_objects,
+        "progress_percentage": question.progress_percentage(),
+        "language_objects": DeeplLanguage.objects.all(),
     }
     return render(request, "quiz/question_detail.html", context)
 
 
-def remove_question_translation_modal(request, id_question):
-    return HttpResponse(status=200)
-
-
-@cache_page(3600 * 24 * 30)
-def get_question_translation_modal(request, id_question):
-    question = get_object_or_404(Question, id=id_question)
-    context = {"question": question}
-    return render(request, "quiz/partials/question_translation_modal.html", context)
-
 
 def translate_question_text(request, id_question, id_language):
     language = get_object_or_404(DeeplLanguage, id=id_language)
-    question = get_object_or_404(Question, id=id_question)
-
     language.add_view()
-
-    try:
-        translated_question = TranslatedQuestion.objects.get(
-            language=language, question=question
-        )
-
-    except TranslatedQuestion.DoesNotExist:
-        # https://github.com/DeepLcom/deepl-python
-        translator = deepl.Translator(settings.DEEPL_AUTH_KEY)
-
-        if language.supports_formality:
-            result = translator.translate_text(
-                question.full_text, target_lang=language.code, formality="less"
-            )
-
-        else:
-            result = translator.translate_text(
-                question.full_text, target_lang=language.code
-            )
-
-        translated_question = TranslatedQuestion.objects.create(
-            language=language,
-            question=question,
-            original_text=question.full_text,
-            translated_text=result.text,
-        )
-
-    context = {"translated_text": translated_question.translated_text}
+    question = get_object_or_404(Question, id=id_question)
+    question_translated_text = get_translated_question_text(question, language)
+    context = {"translated_text": question_translated_text}
     return render(request, "quiz/partials/question_translated_text.html", context)
 
 
 @csrf_exempt
 @cache_page(3600 * 24 * 7)
-def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
+def check_answer(request, id_question):
     question = get_object_or_404(Question, id=id_question)
 
     if question.type == 1:  # one text input
@@ -156,49 +128,23 @@ def check_answer(request, slug_quiz, level_quiz, slug_lection, id_question):
         context = {"question": question, "selected_answer": selected_answer}
 
     if question_answered_correctly is True:
-        correct_messages = [
-            "Great!",
-            "Correct!",
-            "Well done!",
-            "Terrific!",
-            "Fantastic!",
-            "Excellent!",
-            "Super!",
-            "Marvelous!",
-            "Outstanding!",
-            ":)",
-        ]
-        context["correct_message"] = random.choice(correct_messages)
+        context["correct_message"] = get_correct_message()
         response = render(request, "quiz/partials/question_correct.html", context)
 
     else:
-        incorrect_messages = [
-            "Next time you'll get it!",
-            "There's a more accurate answer!",
-            "Oops!",
-            "Wrong :(",
-            "Not quite correct!",
-            ":(",
-        ]
-        context["incorrect_message"] = random.choice(incorrect_messages)
+        context["incorrect_message"] = get_incorrect_message()
         response = render(request, "quiz/partials/question_incorrect.html", context)
 
     trigger_client_event(
         response,
         "answerCheckedEvent",
         {},
-    )  # this is the trigger event
+    )
     return response
 
 
 @cache_page(3600 * 24 * 7)
-def update_progress_bar(request, slug_quiz, level_quiz, slug_lection, id_question):
-    quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
-    lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
-    question = get_object_or_404(Question, id=id_question, lection=lection)
-    questions = list(Question.objects.filter(lection=lection))
-    index = questions.index(question) + 1
-    number_of_questions = questions.__len__()
-    progress_percentage = int(index * 100 / number_of_questions)
-    context = {"progress_percentage": progress_percentage}
+def update_progress_bar(request, id_question):
+    question = get_object_or_404(Question, id=id_question)
+    context = {"progress_percentage": question.progress_percentage(extra=1)}
     return render(request, "quiz/partials/progress_bar.html", context)

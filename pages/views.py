@@ -3,10 +3,10 @@ from __future__ import annotations
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
+from affiliates.models import Book
 from pages.forms import ContactForm
 from pages.models import FlexPage
 from quiz.models import Quiz
-from affiliates.models import Book
 
 
 def home_view(request):
@@ -15,7 +15,7 @@ def home_view(request):
     context = {
         "quiz_list": quiz_list,
         "featured_books": featured_books,
-        }
+    }
     return render(request, "pages/home.html", context)
 
 

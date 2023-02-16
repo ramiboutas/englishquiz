@@ -27,9 +27,10 @@ class BookAdmin(admin.ModelAdmin):
         BookAffiliateLinkInline,
     ]
 
+
 @admin.register(CountryVisitor)
 class CountryVisitorAdmin(admin.ModelAdmin):
-    
+
     list_display = [
         "country_code",
         "views",

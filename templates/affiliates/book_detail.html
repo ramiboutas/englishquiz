@@ -13,13 +13,13 @@
                 <div class="col-md-6 col-sm-12">
                     <img class="w-100" src="{{ book.image_url }}" alt="">
                     <p class="text-secondary">Category: {{ book.get_category_display }} |
-                                                Test type: {{ book.get_test_type_display }} |
-                                                Level: {{ book.get_level_display }}
+                        Test type: {{ book.get_test_type_display }} |
+                        Level: {{ book.get_level_display }}
                     </p>
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <h1 class="text-success text-center">{{ book.name }}</h1>
-                    
+
                     <p>{{ book.description | markdown | safe }}</p>
 
                     <div class="row ">
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        
+
         {% include "partials/footer.html" %}
     {% endblock %}
 {% endcache %}
