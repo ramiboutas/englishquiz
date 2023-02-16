@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from affiliates.models import Book
 from affiliates.models import BookAffiliateLink
-from affiliates.models import CountryVisitor
 
 
 class BookAffiliateLinkInline(admin.StackedInline):
@@ -27,11 +26,3 @@ class BookAdmin(admin.ModelAdmin):
         BookAffiliateLinkInline,
     ]
 
-
-@admin.register(CountryVisitor)
-class CountryVisitorAdmin(admin.ModelAdmin):
-
-    list_display = [
-        "country_code",
-        "views",
-    ]

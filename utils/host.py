@@ -1,8 +1,6 @@
 from django.contrib.gis.geoip2 import GeoIP2
 from geoip2.errors import AddressNotFoundError
 
-from affiliates.models import CountryVisitor
-from functools import wraps
 
 def get_country_code(request):
     x_forwarded_for = request.headers.get("x-forwarded-for")
