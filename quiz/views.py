@@ -11,14 +11,13 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django_htmx.http import trigger_client_event
 
+from utils.host import add_country_visitor
 from .models import Answer
 from .models import DeeplLanguage
 from .models import Lection
 from .models import Question
 from .models import Quiz
 from .models import TranslatedQuestion
-from core.models import CountryVisitor
-from utils.host import get_country_code
 from .text import get_correct_message
 from .text import get_incorrect_message
 from .translate import get_translated_question_text
@@ -56,16 +55,9 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
     lection.add_view()
-
     question = get_object_or_404(Question, id=id_question, lection=lection)
-
-    # TODO: this is for analitics purposes. Remove after summer 2023
     if question.is_first:
-        country_code = get_country_code(request)
-        if country_code:
-            country_visitor, _ = CountryVisitor.objects.get_or_create(country_code=country_code)
-            country_visitor.add_view()
-    
+        add_country_visitor(request)
     context = {
         "question": question,
         "progress_percentage": question.progress_percentage(),

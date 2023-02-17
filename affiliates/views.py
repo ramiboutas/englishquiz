@@ -7,8 +7,7 @@ from affiliates.models import BOOK_CATEGORY_CHOICES
 from affiliates.models import BOOK_LEVEL_CHOICES
 from affiliates.models import BOOK_TEST_TYPE_CHOICES
 
-from core.models import CountryVisitor
-from utils.host import get_country_code
+from utils.host import add_country_visitor
 
 
 @cache_page(3600 * 24 * 1)
@@ -22,14 +21,11 @@ def book_list(request):
     }
     return render(request, "affiliates/book_list.html", context)
 
-# TODO: use a decorator: add_country_visitor
+
 def book_detail(request, slug):
     book = Book.objects.get(slug=slug)
     book.add_view()
-    country_code = get_country_code(request)
-    if country_code:
-        country_visitor, _ = CountryVisitor.objects.get_or_create(country_code=country_code)
-        country_visitor.add_view()
+    country_code = add_country_visitor(request)
     affiliate_links = book.affiliate_links.filter(
         Q(country_code=country_code) | Q(is_global=True)
     )
