@@ -18,7 +18,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     "share_random_question": {
         "task": "socialmedia.tasks.share_random_question_instance",
-        "schedule": crontab(hour="10, 15", minute=00),
+        "schedule": crontab(hour=14, minute=00),
     },
     "share_regular_social_post": {
         "task": "socialmedia.tasks.share_regular_social_post",
@@ -32,22 +32,26 @@ app.conf.beat_schedule = {
     },
     "share_random_question_as_poll": {
         "task": "socialmedia.tasks.share_random_question_as_poll",
-        "schedule": crontab(hour="11, 19", minute=30),
+        "schedule": crontab(hour=9, minute=30),
     },
     "update_featured_books": {
         "task": "affiliates.tasks.update_featured_books",
         "schedule": crontab(hour=20, minute=55),
     },
     "send_email_newsletter": {
-        "task": "send_email_newsletter_task",
-        "schedule": crontab(minute=0, hour="8"),
+        "task": "pages.tasks.send_email_newsletter_task",
+        "schedule": crontab(hour=8, minute=0),
+    },
+    "remove_unverified_newsletter_subscribers": {
+        "task": "core.tasks.remove_unverified_newsletter_subscribers",
+        "schedule": crontab(hour=1, minute=0),
     },
     "delete_responded_contact_instances": {
-        "task": "delete_responded_contact_instances",
-        "schedule": crontab(hour=3, minute=00),
+        "task": "pages.tasks.delete_responded_contact_instances",
+        "schedule": crontab(hour=3, minute=0),
     },
     "update_linkedin_company_page_access_token": {
-        "task": "update_linkedin_company_page_access_token",
+        "task": "socialmedia.tasks.update_linkedin_company_page_access_token",
         "schedule": crontab(0, 0, day_of_month="1", month_of_year="1,3,5,7,9,11"),
     },
 }
