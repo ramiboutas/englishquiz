@@ -7,7 +7,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("socialmedia", "0013_regularsocialpost_created_by_and_more"),
     ]

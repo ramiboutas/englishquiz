@@ -8,7 +8,6 @@ from markdownx.admin import MarkdownxModelAdmin
 
 @admin.register(BlogPost)
 class BlogPostAdmin(MarkdownxModelAdmin):
-
     search_fields = ["title", "content"]
     readonly_fields = [
         "created",

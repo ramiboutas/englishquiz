@@ -10,7 +10,6 @@ class BlogViewTests(TestCase):
     """
 
     def setUp(self):
-
         posts = []
         for count in range(10):
             posts.append(

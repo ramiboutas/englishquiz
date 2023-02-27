@@ -8,7 +8,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("socialmedia", "0022_alter_regularsocialpost_created_by_and_more"),

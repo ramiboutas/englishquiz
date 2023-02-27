@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("quiz", "0005_remove_deepllanguage_formality_and_more"),
     ]

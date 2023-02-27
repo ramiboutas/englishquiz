@@ -80,7 +80,6 @@ class ImageForm(forms.Form):
             and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
             and xml_has_javascript(uploaded_image.read())
         ):
-
             raise MarkdownxImageUploadError(
                 "Failed security monitoring: SVG file contains JavaScript."
             )
@@ -180,11 +179,9 @@ class ImageForm(forms.Form):
         file_size = upload.size
 
         if content_type not in MARKDOWNX_UPLOAD_CONTENT_TYPES:
-
             raise MarkdownxImageUploadError.unsupported_format()
 
         elif file_size > MARKDOWNX_UPLOAD_MAX_SIZE:
-
             raise MarkdownxImageUploadError.invalid_size(
                 current=file_size, expected=MARKDOWNX_UPLOAD_MAX_SIZE
             )

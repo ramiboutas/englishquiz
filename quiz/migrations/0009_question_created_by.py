@@ -8,7 +8,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("quiz", "0008_alter_deepllanguage_options_deepllanguage_views"),

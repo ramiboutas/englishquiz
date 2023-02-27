@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("socialmedia", "0009_alter_facebookpost_facebook_id"),
     ]

@@ -6,7 +6,6 @@ from affiliates.models import Book
 from affiliates.models import BOOK_CATEGORY_CHOICES
 from affiliates.models import BOOK_LEVEL_CHOICES
 from affiliates.models import BOOK_TEST_TYPE_CHOICES
-
 from utils.host import add_country_visitor
 
 

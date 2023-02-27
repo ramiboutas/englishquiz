@@ -17,15 +17,14 @@ def get_correct_message():
     return random.choice(messages)
 
 
-
 def get_incorrect_message():
     messages = [
-            "Next time you'll get it!",
-            "There's a more accurate answer!",
-            "Oops!",
-            "Wrong :(",
-            "Not quite correct!",
-            ":(",
-            "Not quite right!",
-        ]
+        "Next time you'll get it!",
+        "There's a more accurate answer!",
+        "Oops!",
+        "Wrong :(",
+        "Not quite correct!",
+        ":(",
+        "Not quite right!",
+    ]
     return random.choice(messages)

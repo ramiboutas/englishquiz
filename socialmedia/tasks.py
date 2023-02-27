@@ -111,7 +111,6 @@ def share_random_question_instance(self, **kwargs):
         questions = Question.objects.filter(promoted=False)
 
         if questions.exists():
-
             question = random.choice(list(questions))
             text = get_question_promotion_text(question)
 
@@ -134,7 +133,6 @@ def share_random_question_instance(self, **kwargs):
             question.promoted = True
             question.save()
         else:
-
             # TO DO: send email to admin: all questions were promoted!
 
             # Set all question instances to promoted=False
@@ -179,7 +177,6 @@ def share_regular_social_post(self, **kwargs):
         social_posts = RegularSocialPost.objects.filter(promoted=False)
 
         if social_posts.exists():
-
             instance = random.choice(list(social_posts))
 
             # sharing
@@ -224,7 +221,6 @@ def share_regular_blog_post(self, **kwargs):
         posts = BlogPost.objects.filter(promoted=False)
 
         if posts.exists():
-
             instance = random.choice(list(posts))
 
             text = get_blog_post_promotion_text(instance)
@@ -248,7 +244,6 @@ def share_regular_blog_post(self, **kwargs):
             instance.promoted = True
             instance.save()
         else:
-
             # TO DO: send email to admin: all blog posts were promoted!
 
             # Set all blog posts¡ instances to promoted=False

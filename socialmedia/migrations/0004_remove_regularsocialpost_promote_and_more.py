@@ -5,7 +5,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("socialmedia", "0003_remove_regularsocialpost_image_text_and_more"),
     ]

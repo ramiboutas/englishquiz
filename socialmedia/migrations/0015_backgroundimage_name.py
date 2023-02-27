@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("socialmedia", "0014_backgroundimage_regularsocialpost_image_text_and_more"),
     ]

@@ -1,8 +1,9 @@
 from __future__ import annotations
-from django.utils import timezone
+
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils import timezone
 from newsfeed.models import Newsletter
 from newsfeed.models import Subscriber
 from newsfeed.utils.send_newsletters import send_email_newsletter
@@ -14,9 +15,9 @@ from core.models import Contact
 def remove_unverified_newsletter_subscribers(self, **kwargs):
     qs = Subscriber.objects.filter(
         verification_sent_date__lt=timezone.now() - timezone.timedelta(days=4),
-        verified = False,
-        subscribed = False,
-        )
+        verified=False,
+        subscribed=False,
+    )
     qs.delete()
 
 
@@ -58,4 +59,3 @@ def subscribe_contacted_person_to_newsletter(self, **kwargs):
 def delete_responded_contact_instances(self, **kwargs):
     one_week_ago = timezone.now() - timezone.timedelta(days=7)
     Contact.objects.filter(responded_on__lt=one_week_ago).delete()
-

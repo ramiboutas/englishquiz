@@ -5,7 +5,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("socialmedia", "0017_alter_backgroundimage_name"),
     ]

@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("quiz", "0006_translatedquestion_created_and_more"),
     ]

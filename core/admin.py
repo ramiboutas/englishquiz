@@ -1,14 +1,12 @@
 from __future__ import annotations
 
+from django.contrib import admin
+from django.contrib import messages
 from newsfeed.admin import NewsletterAdmin
 from newsfeed.models import Newsletter
 
-from django.contrib import admin
-from core.models import CountryVisitor
-from django.contrib import admin
-from django.contrib import messages
-
 from core.models import Contact
+from core.models import CountryVisitor
 from core.models import FlexPage
 from core.tasks import send_email_newsletter_task
 
@@ -17,7 +15,6 @@ admin.site.unregister(Newsletter)
 
 @admin.register(CountryVisitor)
 class CountryVisitorAdmin(admin.ModelAdmin):
-
     list_display = [
         "country_code",
         "views",

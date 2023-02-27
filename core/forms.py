@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from captcha.fields import CaptchaField
-
 from django.forms import ModelForm
 
 from core.models import Contact

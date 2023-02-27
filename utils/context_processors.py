@@ -11,7 +11,6 @@ def get_copyright_year(year):
 
 
 def general(request):
-
     return {
         "copyright_year": get_copyright_year(timezone.now().year),
         "site_title": settings.SITE_TITLE,
