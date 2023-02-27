@@ -3,9 +3,9 @@ from __future__ import annotations
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import Contact
-from pages.tasks import send_email_to_contacted_person
-from pages.tasks import subscribe_contacted_person_to_newsletter
+from core.models import Contact
+from core.tasks import send_email_to_contacted_person
+from core.tasks import subscribe_contacted_person_to_newsletter
 
 
 @receiver(post_save, sender=Contact)

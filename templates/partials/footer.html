@@ -6,13 +6,13 @@
                 <h5>About us</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a href="{% url 'pages_home' %}" class="nav-link p-0 text-muted">🏠 Home</a>
+                        <a href="{% url 'core_home' %}" class="nav-link p-0 text-muted">🏠 Home</a>
                     </li>
                     <li class="nav-item mb-2">
                         <a href="{% url 'blog_postlist' %}" class="nav-link p-0 text-muted">📝 Blog</a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a href="{% url 'pages_contact' %}" class="nav-link p-0 text-muted">📨 Contact</a>
+                        <a href="{% url 'core_contact' %}" class="nav-link p-0 text-muted">📨 Contact</a>
                     </li>
                 </ul>
             </div>
@@ -36,7 +36,7 @@
                         <a target="_blank" href="https://github.com/ramiboutas/englishquiz" class="nav-link p-0 text-muted">💻 Source code  <i class="bi bi-box-arrow-up-right"></i></a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a href="{% url 'pages_flexpage' slug='privacy' %}" class="nav-link p-0 text-muted">👤 Privacy policy</a>
+                        <a href="{% url 'core_flexpage' slug='privacy' %}" class="nav-link p-0 text-muted">👤 Privacy policy</a>
                     </li>
                 </ul>
             </div>
@@ -51,7 +51,7 @@
                         <input type="email" name="email_address" class="emailinput form-control" required id="id_email_address" placeholder="Email address">
                         <button class="btn btn-primary" type="submit">Subscribe</button>
                     </div>
-                    <small>By subscribing you agree to our <a href="{% url 'pages_flexpage' slug='privacy' %}" >Privacy policy</a> </small>
+                    <small>By subscribing you agree to our <a href="{% url 'core_flexpage' slug='privacy' %}" >Privacy policy</a> </small>
                     <div class="subscriptionMessage"></div>
                 </form>
             </div>

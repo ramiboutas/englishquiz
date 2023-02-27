@@ -42,7 +42,7 @@ urlpatterns = [
     path("social-media/", include("socialmedia.urls")),
     path("blog/", include("blog.urls")),
     path("quiz/", include("quiz.urls")),
-    path("", include("pages.urls")),
+    path("", include("core.urls")),
     path("", include("affiliates.urls")),
 ]
 

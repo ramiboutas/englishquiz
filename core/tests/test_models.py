@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.test import TestCase
 
-from .models import Contact
+from core.models import Contact
 
 
 class ContactTest(TestCase):

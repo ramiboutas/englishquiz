@@ -39,7 +39,7 @@ app.conf.beat_schedule = {
         "schedule": crontab(hour=20, minute=55),
     },
     "send_email_newsletter": {
-        "task": "pages.tasks.send_email_newsletter_task",
+        "task": "core.tasks.send_email_newsletter_task",
         "schedule": crontab(hour=8, minute=0),
     },
     "remove_unverified_newsletter_subscribers": {
@@ -47,7 +47,7 @@ app.conf.beat_schedule = {
         "schedule": crontab(hour=1, minute=0),
     },
     "delete_responded_contact_instances": {
-        "task": "pages.tasks.delete_responded_contact_instances",
+        "task": "core.tasks.delete_responded_contact_instances",
         "schedule": crontab(hour=3, minute=0),
     },
     "update_linkedin_company_page_access_token": {

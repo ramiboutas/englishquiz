@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from captcha.fields import CaptchaField
+
 from django.forms import ModelForm
 
-from .models import Contact
+from core.models import Contact
 
 
 # Create the form class.

@@ -73,7 +73,6 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     # My apps
     "core.apps.CoreConfig",
-    "pages.apps.PagesConfig",
     "quiz.apps.QuizConfig",
     "socialmedia.apps.socialmediaConfig",
     "blog.apps.BlogConfig",
