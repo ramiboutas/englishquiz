@@ -95,7 +95,7 @@ deepl==1.11.0
     # via -r requirements.in
 deprecated==1.2.13
     # via redis
-django==4.0.9
+django==4.0.10
     # via
     #   -r requirements.in
     #   crispy-bootstrap5

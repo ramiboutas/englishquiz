@@ -1,7 +1,7 @@
 autopep8
 boto3
 celery
-django
+django==4.0.10
 django-htmx
 django-auto-prefetch
 django-analytical
