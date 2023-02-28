@@ -1,3 +1,6 @@
+autopep8
+boto3
+celery
 django
 django-htmx
 django-auto-prefetch
@@ -5,11 +8,9 @@ django-analytical
 django-simple-captcha
 django-crispy-forms
 crispy-bootstrap5
-celery
 django-celery-beat
 django-celery-results
 django-taggit
-django-social-share
 django-newsfeed
 django-nested-inline
 django-cors-headers
@@ -17,7 +18,8 @@ django-minify-html
 django-rich
 django-slugger
 django-storages
-boto3
+django-request
+geoip2
 python-dotenv
 readtime
 yake
@@ -28,9 +30,7 @@ markdown
 deepl
 flake8
 coverage
-autopep8
 psycopg2-binary
 gunicorn
 redis
 hiredis
-geoip2

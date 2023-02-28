@@ -19,9 +19,8 @@ def get_country_code(request):
         pass
     except AddressNotFoundError:
         pass
-    finally:
-        return None
 
+    return None
 
 
 def add_country_visitor(request):
