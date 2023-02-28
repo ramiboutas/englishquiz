@@ -103,7 +103,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django.contrib.sitemaps",
-    "django.contrib.sites",
+    # "django.contrib.sites",
 ]
 
 
@@ -129,9 +129,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "request.middleware.RequestMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "request.middleware.RequestMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "django_minify_html.middleware.MinifyHtmlMiddleware",
 ]
@@ -235,6 +235,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # analytics
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
+
+#django-request
+REQUEST_BASE_URL="https://www.englishstuff.online"
 
 # site info
 SITE_TITLE = "English Stuff Online"
