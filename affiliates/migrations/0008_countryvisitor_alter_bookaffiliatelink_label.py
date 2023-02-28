@@ -5,7 +5,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("affiliates", "0007_alter_book_options_book_views"),
     ]

@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import auto_prefetch
+from django.conf import settings
+from django.db import models
+from django.urls import reverse
 from slugger import AutoSlugField
 
-from django.db import models
-from django.conf import settings
-from django.urls import reverse
-
 from markdownx.models import MarkdownxField
+
 
 class FlexPage(auto_prefetch.Model):
     """
@@ -50,7 +50,6 @@ class FlexPage(auto_prefetch.Model):
         self.save()
 
 
-
 class CountryVisitor(models.Model):
     country_code = models.CharField(max_length=5)
     views = models.PositiveIntegerField(default=0)
@@ -64,7 +63,6 @@ class CountryVisitor(models.Model):
 
     class Meta:
         ordering = ("-views",)
-
 
 
 class Contact(auto_prefetch.Model):

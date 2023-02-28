@@ -24,7 +24,6 @@ urlpatterns = [
     ),
     # htmx
     path("hx/search-quizzes/", views.search_quizzes, name="search_quizzes"),
-    
     path(
         "hx/<int:id_question>/check-answer/",
         views.check_answer,
@@ -35,7 +34,6 @@ urlpatterns = [
         views.update_progress_bar,
         name="quiz_update_progress_bar",
     ),
-
     # htmx - question translation
     path(
         "hx/question/translate/<int:id_question>/<int:id_language>/",

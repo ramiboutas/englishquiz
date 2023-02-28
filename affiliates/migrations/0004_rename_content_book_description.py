@@ -3,7 +3,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("affiliates", "0003_book_content_book_image_url_and_more"),
     ]

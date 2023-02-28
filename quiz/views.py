@@ -11,7 +11,6 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django_htmx.http import trigger_client_event
 
-from utils.host import add_country_visitor
 from .models import Answer
 from .models import DeeplLanguage
 from .models import Lection
@@ -21,6 +20,7 @@ from .models import TranslatedQuestion
 from .text import get_correct_message
 from .text import get_incorrect_message
 from .translate import get_translated_question_text
+from utils.host import add_country_visitor
 
 
 @cache_page(3600 * 24 * 1)
@@ -64,7 +64,6 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
         "language_objects": DeeplLanguage.objects.all(),
     }
     return render(request, "quiz/question_detail.html", context)
-
 
 
 def translate_question_text(request, id_question, id_language):

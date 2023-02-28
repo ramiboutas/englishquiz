@@ -8,7 +8,6 @@ import markdownx.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("affiliates", "0002_remove_bookaffiliatelink_region_and_more"),
     ]

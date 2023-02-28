@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("affiliates", "0004_rename_content_book_description"),
     ]

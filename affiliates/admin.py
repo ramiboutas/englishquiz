@@ -25,4 +25,3 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [
         BookAffiliateLinkInline,
     ]
-

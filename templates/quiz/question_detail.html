@@ -13,7 +13,7 @@
 
         <!-- when the answer is checked, we update the progress bar -->
         <div hx-get="{{ question.update_progress_bar_url }}" hx-target="#progress-bar" hx-swap="innerHTML"
-            hx-trigger="answerCheckedEvent from:body"></div>
+             hx-trigger="answerCheckedEvent from:body"></div>
 
         <div class="container">
             <h1 class="lead fs-6 text-center mt-2"> {{ question.lection.quiz.name }} - {{ question.lection.name }}</h1>
@@ -21,11 +21,11 @@
                 <div class="d-grid gap-2 d-flex justify-content-center">
                     {% if not question.is_first %}
                         <a class="btn btn-secondary border-0 me-md-2"
-                            href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
+                           href="{{ question.previous_object.get_detail_url }}"><i class="bi bi-arrow-left"></i></a>
                     {% endif %}
                     <div id="progress-bar" class="col-8">{% include "quiz/partials/progress_bar.html" %}</div>
                     <a  class="btn btn-secondary border-0" href="{{ question.lection.quiz.get_detail_url }}"
-                        data-bs-toggle="tooltip" data-bs-placement="center" title="Close"><i class="bi bi-x-lg"></i></a>
+                       data-bs-toggle="tooltip" data-bs-placement="center" title="Close"><i class="bi bi-x-lg"></i></a>
                 </div>
             </div>
         </div>
@@ -40,17 +40,17 @@
                             <p class="fs-2 text-center py-1">
                                 {% if question.text_one %} {{ question.text_one }} {% endif %}
                                 <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
-                                    onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
+                                       onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
                                 {% if question.text_two %} {{ question.text_two }} {% endif %}
                             </p>
                         {% elif question.type == 2 %}
                             <p class="fs-2 text-center py-1">
                                 {% if question.text_one %} {{ question.text_one }} {% endif %}
                                 <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
-                                    onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
+                                       onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_one" value="">
                                 {% if question.text_two %} {{ question.text_two }} {% endif %}
                                 <input style="background-color: Beige; width: 100px;" class="text-center border-3 border-top-0 border-end-0 border-start-0"
-                                    onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_two" value="">
+                                       onkeypress="this.style.width = ((this.value.length + 10) * 15) + 'px';" type="text" name="answer_input_two" value="">
                                 {% if question.text_three %} {{ question.text_three }} {% endif %}
                             </p>
                         {% elif question.type == 5 %}
@@ -86,9 +86,9 @@
                         </div>
                         <div class="col-8">
                             <button id="" class="btn btn-lg btn-secondary w-100 h-100"
-                                hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers"
-                                hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
-                                data-bs-toggle="tooltip" data-bs-placement="center" title="Check my answer">Check
+                                    hx-post="{{ question.check_answer_url }}" hx-trigger="click" hx-target="#answers"
+                                    hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML"
+                                    data-bs-toggle="tooltip" data-bs-placement="center" title="Check my answer">Check
                             </button>
                         </div>
                     </div>
@@ -114,8 +114,8 @@
                         <div class="mt-5">
                             {% for language_object in language_objects %}
                                 <a hx-get="{% get_question_translation_url id_language=language_object.id id_question=question.id %}"
-                                    hx-target="#translated-text-here" hx-swap="outerHTML"
-                                    class="btn btn-outline-primary m-1" role="button">{{ language_object.name }}</a>
+                                   hx-target="#translated-text-here" hx-swap="outerHTML"
+                                   class="btn btn-outline-primary m-1" role="button">{{ language_object.name }}</a>
                             {% endfor %}
                         </div>
 

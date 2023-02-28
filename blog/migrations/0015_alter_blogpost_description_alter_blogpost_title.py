@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("blog", "0014_remove_blogpost_recreate_pdf"),
     ]

@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("affiliates", "0006_alter_book_category_alter_book_test_type"),
     ]

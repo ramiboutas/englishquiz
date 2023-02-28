@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("socialmedia", "0004_remove_regularsocialpost_promote_and_more"),
     ]

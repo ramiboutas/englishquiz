@@ -6,7 +6,6 @@ from django.db import models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("blog", "0011_blogpost_pdf_alter_blogpost_description"),
     ]
