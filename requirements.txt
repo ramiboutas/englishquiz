@@ -106,6 +106,7 @@ django==4.0.9
     #   django-minify-html
     #   django-newsfeed
     #   django-ranged-response
+    #   django-request
     #   django-rich
     #   django-simple-captcha
     #   django-slugger
@@ -135,13 +136,13 @@ django-newsfeed==0.8.8
     # via -r requirements.in
 django-ranged-response==0.2.0
     # via django-simple-captcha
+django-request==1.6.2
+    # via -r requirements.in
 django-rich==1.4.0
     # via -r requirements.in
 django-simple-captcha==0.5.17
     # via -r requirements.in
 django-slugger==1.1.2
-    # via -r requirements.in
-django-social-share==2.2.1
     # via -r requirements.in
 django-storages==1.13.1
     # via -r requirements.in
@@ -247,6 +248,7 @@ python-crontab==2.6.0
 python-dateutil==2.8.2
     # via
     #   botocore
+    #   django-request
     #   python-crontab
 python-dotenv==0.21.0
     # via -r requirements.in

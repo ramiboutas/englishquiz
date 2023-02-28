@@ -87,3 +87,8 @@ class Contact(auto_prefetch.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    def save(self, *args, **kwargs):
+        not_allowed_strings = ["http://", "https://", "www.", "money", "$", "€"]
+        if not any(x in self.message for x in not_allowed_strings):
+            super().save(*args, **kwargs)
