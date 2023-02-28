@@ -237,8 +237,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
 
 # site info
-SITE_ID = 1
-REQUEST_BASE_URL = "https://www.englishstuff.online/"
 SITE_TITLE = "English Stuff Online"
 META_KEYWORDS = "learn, English, learning, practice, quiz, advanced, \
     prepositions, collocations, stuff, exam, cambridge, trinity"
