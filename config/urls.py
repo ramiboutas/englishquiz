@@ -42,8 +42,8 @@ urlpatterns = [
     path("social-media/", include("socialmedia.urls")),
     path("blog/", include("blog.urls")),
     path("quiz/", include("quiz.urls")),
-    path("", include("core.urls")),
     path("", include("affiliates.urls")),
+    path("", include("core.urls")),
 ]
 
 if settings.DEBUG:  # pragma: no cover

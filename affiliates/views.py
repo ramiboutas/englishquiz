@@ -9,7 +9,7 @@ from affiliates.models import BOOK_TEST_TYPE_CHOICES
 from utils.host import add_country_visitor
 
 
-@cache_page(3600 * 24 * 1)
+@cache_page(3600 * 24 * 7)
 def book_list(request):
     book_list = Book.objects.all()
     context = {
@@ -36,7 +36,7 @@ def book_detail(request, slug):
     return render(request, "affiliates/book_detail.html", context)
 
 
-@cache_page(3600 * 24 * 1)
+@cache_page(3600 * 24 * 7)
 def search_books(request):
     search_term = request.GET.get("q")
     test_types = request.GET.getlist("test_type")
