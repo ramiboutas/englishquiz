@@ -9,5 +9,5 @@ from .views import home_view
 urlpatterns = [
     path("", home_view, name="core_home"),
     path("contact/", contact_view, name="core_contact"),
-    path("<slug:slug>/", flexpage_detail_view, name="core_flexpage"),
+    path("p/<slug:slug>/", flexpage_detail_view, name="core_flexpage"),
 ]
