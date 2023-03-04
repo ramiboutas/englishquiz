@@ -4,7 +4,7 @@
     {{ form | crispy }}
     <button class="btn btn-success mt-3 w-100" type="submit">{% if form_type == 'subscribe' %}Subscribe{% else %}Unsubscribe{% endif %}</button>
     {% if form_type == 'subscribe' %}
-        <small>By subscribing you agree to our <a href="{% url 'core_flexpage' slug='privacy' %}" >Privacy policy</a> </small>
+        <small>By subscribing you agree to our <a href="{% url 'core_flexpage' slug='privacy-policy' %}" >Privacy policy</a> </small>
     {% endif %}
     <div class="subscriptionMessage"></div>
 </form>
