@@ -24,6 +24,7 @@ def get_country_code(request):
 
     return None
 
+
 def add_country_visitor(request):
     country_code = get_country_code(request)
     if country_code:
