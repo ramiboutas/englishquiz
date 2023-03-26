@@ -1,7 +1,7 @@
 autopep8
 boto3
 celery
-django==4.0.10
+django
 django-htmx
 django-auto-prefetch
 django-analytical
@@ -18,7 +18,6 @@ django-minify-html
 django-rich
 django-slugger
 django-storages
-django-request
 geoip2
 python-dotenv
 readtime
