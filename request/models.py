@@ -20,12 +20,6 @@ AUTH_USER_MODEL = getattr(settings, "AUTH_USER_MODEL", "auth.User")
 
 
 
-
-def is_valid_ip(ip):
-    m = re.match(r"^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$", ip)
-    return bool(m) and all(map(lambda n: 0 <= int(n) <= 255, m.groups()))
-
-
 class Request(models.Model):
     # Response information.
     response = models.SmallIntegerField(
@@ -94,7 +88,7 @@ class Request(models.Model):
             request.META.get('X_FORWARDED_FOR', None),
             ]
         self.ip = next((item for item in ip_addr if item is not None), None)
-        if self.ip is None or self.ip is not is_valid_ip(self.ip):
+        if self.ip is None:
             self.ip = request_settings.IP_DUMMY
         self.referer = request.META.get("HTTP_REFERER", "")[:255]
         self.user_agent = request.META.get("HTTP_USER_AGENT", "")[:255]
