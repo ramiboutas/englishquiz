@@ -9,15 +9,12 @@ from django.utils.translation import gettext_lazy as _
 
 from . import settings as request_settings
 from .managers import RequestManager
-from .utils import (
-    HTTP_STATUS_CODES,
-    browsers,
-    engines,
-    request_is_ajax,
-)
+from .utils import browsers
+from .utils import engines
+from .utils import HTTP_STATUS_CODES
+from .utils import request_is_ajax
 
 AUTH_USER_MODEL = getattr(settings, "AUTH_USER_MODEL", "auth.User")
-
 
 
 class Request(models.Model):
@@ -62,7 +59,7 @@ class Request(models.Model):
         ordering = ("-time",)
 
     def __str__(self):
-        return "[{0}] {1} {2} {3}".format(
+        return "[{}] {} {} {}".format(
             self.time, self.method, self.path, self.response
         )
 
@@ -80,19 +77,19 @@ class Request(models.Model):
         # User information.
         # self.ip = request.META.get("REMOTE_ADDR", "")
         ip_addr = [
-            request.META.get('HTTP_REMOTE_ADDR', None),
-            request.META.get('HTTP_X_REAL_IP', None),
-            request.META.get('HTTP_X_FORWARDED_FOR', None),
-            request.META.get('REMOTE_ADDR', None),
-            request.META.get('X_REAL_IP', None),
-            request.META.get('X_FORWARDED_FOR', None),
-            ]
+            request.headers.get("remote-addr", None),
+            request.headers.get("x-real-ip", None),
+            request.headers.get("x-forwarded-for", None),
+            request.META.get("REMOTE_ADDR", None),
+            request.META.get("X_REAL_IP", None),
+            request.META.get("X_FORWARDED_FOR", None),
+        ]
         self.ip = next((item for item in ip_addr if item is not None), None)
         if self.ip is None:
             self.ip = request_settings.IP_DUMMY
-        self.referer = request.META.get("HTTP_REFERER", "")[:255]
-        self.user_agent = request.META.get("HTTP_USER_AGENT", "")[:255]
-        self.language = request.META.get("HTTP_ACCEPT_LANGUAGE", "")[:255]
+        self.referer = request.headers.get("referer", "")[:255]
+        self.user_agent = request.headers.get("user-agent", "")[:255]
+        self.language = request.headers.get("accept-language", "")[:255]
 
         if hasattr(request, "user") and hasattr(request.user, "is_authenticated"):
             is_authenticated = request.user.is_authenticated
