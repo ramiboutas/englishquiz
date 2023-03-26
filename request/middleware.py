@@ -29,6 +29,7 @@ class RequestMiddleware(MiddlewareMixin):
         if request.META.get('REMOTE_ADDR') in settings.IGNORE_IP:
             return response
 
+
         ignore = Patterns(False, *settings.IGNORE_USER_AGENTS)
         if ignore.resolve(request.META.get('HTTP_USER_AGENT', '')):
             return response
