@@ -19,6 +19,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         requests = Request.objects.filter(path__in=DENY_IPS_WITH_PATHS)
+        output = ""
         for request in requests:
-            output = f"deny {request.ip};"
+            output += f"deny {request.ip};\n"
         self.stdout.write(output)
