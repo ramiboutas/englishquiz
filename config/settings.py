@@ -236,8 +236,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
 
 
-#django-request
-REQUEST_BASE_URL="https://www.englishstuff.online"
+# django-request
+REQUEST_BASE_URL = "https://www.englishstuff.online"
 
 REQUEST_IGNORE_PATHS = (
     r"^admin.*",
@@ -245,6 +245,22 @@ REQUEST_IGNORE_PATHS = (
     "/favicon.ico",
 
 )
+
+# deny ips
+
+
+DENY_IPS_WITH_PATHS = [
+    "/wp-login.php",
+    "/.env",
+    "//wp1/wp-includes/wlwmanifest.xml",
+    "//2019/wp-includes/wlwmanifest.xml",
+    "//web/wp-includes/wlwmanifest.xml",
+    "//wp/wp-includes/wlwmanifest.xml",
+    "//site/wp-includes/wlwmanifest.xml",
+]
+
+NGIX_DENY_CONFIGURATION_FILE = "/etc/nginx/conf.d/deny.conf"
+
 
 # site info
 SITE_TITLE = "English Stuff Online"
