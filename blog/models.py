@@ -49,7 +49,7 @@ class BlogPost(auto_prefetch.Model):
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         ordering = ("-created",)
 
     @property

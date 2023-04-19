@@ -77,7 +77,7 @@ class Lection(auto_prefetch.Model):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         ordering = ("name",)
 
 
@@ -172,7 +172,7 @@ class Question(auto_prefetch.Model):
     def __str__(self):
         return f"{self.lection.quiz.name} - {self.lection.name} - {self.text_one}"
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         ordering = ("id",)
 
 

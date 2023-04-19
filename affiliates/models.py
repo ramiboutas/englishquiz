@@ -83,7 +83,7 @@ class Book(auto_prefetch.Model):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         ordering = ("-views",)
 
 
