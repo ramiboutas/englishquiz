@@ -240,7 +240,7 @@ GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
 REQUEST_BASE_URL="https://www.englishstuff.online"
 
 REQUEST_IGNORE_PATHS = (
-    r"^admin/",
+    r"^admin.*",
     "/robots.txt",
     "/favicon.ico",
 
