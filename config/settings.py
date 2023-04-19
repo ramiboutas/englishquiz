@@ -247,19 +247,28 @@ REQUEST_IGNORE_PATHS = (
 )
 
 # deny ips
-
+NGIX_DENY_CONFIGURATION_FILE = "/etc/nginx/conf.d/deny.conf"
 
 DENY_IPS_WITH_PATHS = [
     "/wp-login.php",
     "/.env",
     "//wp1/wp-includes/wlwmanifest.xml",
-    "//2019/wp-includes/wlwmanifest.xml",
-    "//web/wp-includes/wlwmanifest.xml",
     "//wp/wp-includes/wlwmanifest.xml",
+    "//2019/wp-includes/wlwmanifest.xml",
+    "//2020/wp-includes/wlwmanifest.xml",
+    "//web/wp-includes/wlwmanifest.xml",
     "//site/wp-includes/wlwmanifest.xml",
+    "//test/wp-includes/wlwmanifest.xml",
+    "//xmlrpc.php",
+    "//wordpress/wp-includes/wlwmanifest.xml",
+    "/ads.txt",
+    "//blog/wp-includes/wlwmanifest.xml",
+    "//shop/wp-includes/wlwmanifest.xml",
+    "//cms/wp-includes/wlwmanifest.xml",
+    "/security.txt",
+    "//lib/.env",
+    "//apps/.env",
 ]
-
-NGIX_DENY_CONFIGURATION_FILE = "/etc/nginx/conf.d/deny.conf"
 
 
 # site info
