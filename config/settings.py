@@ -250,7 +250,7 @@ REQUEST_IGNORE_PATHS = (
 NGIX_DENY_CONFIGURATION_FILE = "/etc/nginx/conf.d/deny.conf"
 
 DENY_IPS_WITH_PATHS = [
-    "wp-login.php",
+    ".php",
     ".env",
     "wlwmanifest.xml",
     "config.json",

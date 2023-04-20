@@ -24,6 +24,7 @@ class Command(BaseCommand):
 
         ips = set(r.ip for r in requests)
         for ip in ips:
+            print(ip)
             if not str(ip) in current:
                 output += f"deny {ip};\n"
 
