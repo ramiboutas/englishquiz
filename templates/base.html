@@ -1,12 +1,8 @@
 {% load static %}
-{% load analytical %}
-{% load google_analytics_gtag %}
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        {% analytical_head_top %}
-        {% google_analytics_gtag %}
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,12 +10,6 @@
         <title> {% block head_title %}{% endblock %} </title>
 
         <link rel=icon href="{% url 'favicon' %}" sizes=16x16 type=image/png>
-
-
-        <meta property="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'img/favicon.ico' %}">
-        <meta property="og:url" content="{{ request.build_absolute_uri }}">
-        <meta name="twitter:url" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'img/favicon.ico' %}">
-        <meta name="twitter:card" content="summary">
 
         {% block meta_tags %}
             <meta name="description" content="{{ site_meta_description }}">
@@ -42,11 +32,9 @@
 
         {% block head_extra %}{% endblock %}
 
-        {% analytical_head_bottom %}
     </head>
 
     <body class="container" style="background-color: Beige;" >
-        {% analytical_body_top %}
 
         {% include 'partials/messages.html' %}
 
@@ -55,10 +43,7 @@
 
 
         <!-- htmx -->
-        <script src="https://unpkg.com/htmx.org@1.8.0"
-                integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc"
-                crossorigin="anonymous">
-        </script>
+        <script src="https://unpkg.com/htmx.org@1.9.0/dist/htmx.min.js"> </script>
 
         <!-- Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
@@ -68,7 +53,5 @@
 
 
         {% block footer_extra %} {% endblock %}
-
-        {% analytical_body_bottom %}
     </body>
 </html>

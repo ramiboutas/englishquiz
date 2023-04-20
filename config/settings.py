@@ -81,7 +81,6 @@ INSTALLED_APPS = [
     # Thid-party apps
     "markdownx",  # cloned
     "django_htmx",
-    "analytical",
     "captcha",
     "crispy_forms",
     "crispy_bootstrap5",

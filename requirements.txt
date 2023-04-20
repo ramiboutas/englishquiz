@@ -103,8 +103,6 @@ django==4.2
     #   django-slugger
     #   django-storages
     #   django-taggit
-django-analytical==3.1.0
-    # via -r requirements.in
 django-auto-prefetch==1.5.1
     # via -r requirements.in
 django-celery-beat==2.5.0
