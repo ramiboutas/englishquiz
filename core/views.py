@@ -3,6 +3,10 @@ from __future__ import annotations
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
+from django.http import HttpRequest, HttpResponse
+from django.views.decorators.cache import cache_control
+from django.views.decorators.http import require_GET
+
 from affiliates.models import Book
 from core.forms import ContactForm
 from core.models import FlexPage
@@ -37,3 +41,16 @@ def contact_view(request):
 
     context = {"form": form}
     return render(request, "core/contact.html", context)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24 * 30, immutable=True, public=True)
+def favicon(request: HttpRequest) -> HttpResponse:
+    return HttpResponse(
+        (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+            + '<text y=".9em" font-size="90">🇬🇧</text>'
+            + "</svg>"
+        ),
+        content_type="image/svg+xml",
+    )

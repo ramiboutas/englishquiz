@@ -10,6 +10,7 @@ from django.urls import path
 from django.views.generic.base import TemplateView
 
 from quiz.models import Quiz
+from core.views import favicon
 
 info_dict = {
     "queryset": Quiz.objects.all(),
@@ -34,6 +35,7 @@ urlpatterns = [
         },
         name="django.contrib.sitemaps.views.sitemap",
     ),
+    path("favicon.ico", favicon, name="favicon"),
     # third-party apps
     path("captcha/", include("captcha.urls")),
     path("markdownx/", include("markdownx.urls")),

@@ -13,8 +13,8 @@
 
         <title> {% block head_title %}{% endblock %} </title>
 
-        <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
-        <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}">
+        <link rel=icon href="{% url 'favicon' %}" sizes=16x16 type=image/png>
+
 
         <meta property="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'img/favicon.ico' %}">
         <meta property="og:url" content="{{ request.build_absolute_uri }}">
