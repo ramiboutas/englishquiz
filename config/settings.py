@@ -254,6 +254,9 @@ DENY_IPS_WITH_PATHS = [
     ".env",
     "wlwmanifest.xml",
     "config.json",
+    ".production",
+    ".local",
+    ".remote",
 ]
 
 
