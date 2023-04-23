@@ -245,6 +245,8 @@ REQUEST_IGNORE_PATHS = (
 
 )
 
+REQUEST_TRAFFIC_MODULES = ("request.traffic.UniqueVisitor",)
+
 # deny ips
 NGIX_DENY_CONFIGURATION_FILE = "/etc/nginx/conf.d/deny.conf"
 
