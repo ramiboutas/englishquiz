@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     "nested_inline",
     "corsheaders",
     "request",
+    "dbbackup",
     # Django contrib apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -400,8 +401,8 @@ if USE_SPACES:  # pragma: no cover
     AWS_DEFAULT_ACL = "public-read"
     AWS_S3_SIGNATURE_VERSION = "s3v4"
 
-    DEFAULT_FILE_STORAGE = "config.storage_backends.MediaRootStorage"
-    STATICFILES_STORAGE = "config.storage_backends.StaticRootStorage"
+    DEFAULT_FILE_STORAGE = "config.storage.MediaRootStorage"
+    STATICFILES_STORAGE = "config.storage.StaticRootStorage"
 
     AWS_STATIC_LOCATION = "englishstuff-static"
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/"
@@ -417,6 +418,11 @@ else:  # pragma: no cover
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+# Backups
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": "/home/rami/do-server-backups/englishquiz/"}
 
 
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework

@@ -3,6 +3,7 @@ boto3
 celery
 django
 django-htmx
+django-dbbackup
 django-auto-prefetch
 django-simple-captcha
 django-crispy-forms

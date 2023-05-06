@@ -94,6 +94,7 @@ django==4.2
     #   django-celery-results
     #   django-cors-headers
     #   django-crispy-forms
+    #   django-dbbackup
     #   django-htmx
     #   django-minify-html
     #   django-newsfeed
@@ -115,6 +116,8 @@ django-crispy-forms==2.0
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
+django-dbbackup==4.0.2
+    # via -r requirements.in
 django-htmx==1.14.0
     # via -r requirements.in
 django-minify-html==1.5.0
@@ -249,6 +252,7 @@ python-telegram-bot==20.2
 pytz==2023.3
     # via
     #   celery
+    #   django-dbbackup
     #   django-timezone-field
     #   pyhanko
 pytz-deprecation-shim==0.1.0.post0
