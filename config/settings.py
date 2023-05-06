@@ -56,14 +56,14 @@ HTTPS = os.environ.get("HTTPS", "") == "1"
 
 INTERNAL_IPS = [
     "127.0.0.1",
-    "localhost",
+
 ]
 
 ALLOWED_HOSTS = [
     "englishstuff.online",
     "www.englishstuff.online",
     "207.154.205.99",
-    "localhost",
+    "englishstuff.local",
     "127.0.0.1",
 ]
 
