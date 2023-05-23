@@ -59,9 +59,7 @@ class Request(models.Model):
         ordering = ("-time",)
 
     def __str__(self):
-        return "[{}] {} {} {}".format(
-            self.time, self.method, self.path, self.response
-        )
+        return "[{}] {} {} {}".format(self.time, self.method, self.path, self.response)
 
     def get_user(self):
         return get_user_model().objects.get(pk=self.user_id)
