@@ -9,8 +9,8 @@ from django.urls import include
 from django.urls import path
 from django.views.generic.base import TemplateView
 
-from quiz.models import Quiz
 from core.views import favicon
+from quiz.models import Quiz
 
 info_dict = {
     "queryset": Quiz.objects.all(),
