@@ -32,9 +32,7 @@ class RequestAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related("user")
 
-    @admin.display(
-        description="From"
-    )
+    @admin.display(description="From")
     def request_from(self, obj):
         if obj.user_id:
             return format_html(
@@ -49,7 +47,6 @@ class RequestAdmin(admin.ModelAdmin):
             _("Show only requests from this IP address."),
         )
 
-
     def get_urls(self):
         def wrap(view):
             def wrapper(*args, **kwargs):
@@ -59,9 +56,7 @@ class RequestAdmin(admin.ModelAdmin):
 
         info = (self.model._meta.app_label, self.model._meta.model_name)
         return [
-            path(
-                "overview/", wrap(self.overview), name="{}_{}_overview".format(*info)
-            ),
+            path("overview/", wrap(self.overview), name="{}_{}_overview".format(*info)),
             path(
                 "overview/traffic/",
                 wrap(self.traffic),
@@ -103,5 +98,3 @@ class RequestAdmin(admin.ModelAdmin):
         return HttpResponse(
             json.dumps(modules.graph(days_qs)), content_type="text/javascript"
         )
-
-
