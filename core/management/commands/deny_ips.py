@@ -1,10 +1,10 @@
 import operator
-from pathlib import Path
 from functools import reduce
+from pathlib import Path
 
 from django.conf import settings
-from django.db.models import Q
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 
 from request.models import Request
 
@@ -16,13 +16,17 @@ class Command(BaseCommand):
         output = ""
         file = Path(settings.NGIX_DENY_CONFIGURATION_FILE)
 
-        requests = Request.objects.filter(reduce(operator.or_, (Q(path__contains=x)
-                                          for x in settings.DENY_IPS_WITH_PATHS)))
+        requests = Request.objects.filter(
+            reduce(
+                operator.or_,
+                (Q(path__contains=x) for x in settings.DENY_IPS_WITH_PATHS),
+            )
+        )
 
-        with open(file, "r") as f:
+        with open(file) as f:
             current = f.read()
 
-        ips = set(r.ip for r in requests)
+        ips = {r.ip for r in requests}
         for ip in ips:
             print(ip)
             if not str(ip) in current:

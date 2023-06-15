@@ -56,7 +56,6 @@ HTTPS = os.environ.get("HTTPS", "") == "1"
 
 INTERNAL_IPS = [
     "127.0.0.1",
-
 ]
 
 ALLOWED_HOSTS = [
@@ -243,7 +242,6 @@ REQUEST_IGNORE_PATHS = (
     r"^admin.*",
     "/robots.txt",
     "/favicon.ico",
-
 )
 
 REQUEST_TRAFFIC_MODULES = ("request.traffic.UniqueVisitor",)
