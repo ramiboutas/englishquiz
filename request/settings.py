@@ -36,6 +36,7 @@ PLUGINS = getattr(
         "request.plugins.TopPaths",
         "request.plugins.TopErrorPaths",
         "request.plugins.TopReferrers",
+        "request.plugins.TopLanguageCodes",
         "request.plugins.TopSearchPhrases",
         "request.plugins.TopBrowsers",
     ),
