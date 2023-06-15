@@ -56,7 +56,6 @@ HTTPS = os.environ.get("HTTPS", "") == "1"
 
 INTERNAL_IPS = [
     "127.0.0.1",
-
 ]
 
 ALLOWED_HOSTS = [
@@ -125,6 +124,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -243,7 +243,6 @@ REQUEST_IGNORE_PATHS = (
     r"^admin.*",
     "/robots.txt",
     "/favicon.ico",
-
 )
 
 REQUEST_TRAFFIC_MODULES = ("request.traffic.UniqueVisitor",)

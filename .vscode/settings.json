@@ -41,12 +41,12 @@
         "yake",
         "ZBMDVB"
     ],
-
-    "[django-html]": {
-
-    },
+    "[django-html]": {},
     "files.associations": {
         "*.html": "html"
-    }
-
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }
