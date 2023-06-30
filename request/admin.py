@@ -17,13 +17,30 @@ from .traffic import modules
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
-    list_display = ("time", "path", "response", "method", "request_from", "language", "language_code")
+    list_display = (
+        "time",
+        "path",
+        "response",
+        "method",
+        "request_from",
+        "language",
+        "language_code",
+    )
     fieldsets = (
         (_("Request"), {"fields": ("method", "path", "time", "is_secure", "is_ajax")}),
         (_("Response"), {"fields": ("response",)}),
         (
             _("User info"),
-            {"fields": ("referer", "user_agent", "ip", "user", "language", "language_code")},
+            {
+                "fields": (
+                    "referer",
+                    "user_agent",
+                    "ip",
+                    "user",
+                    "language",
+                    "language_code",
+                )
+            },
         ),
     )
     raw_id_fields = ("user",)
