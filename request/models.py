@@ -28,7 +28,6 @@ class Request(models.Model):
     path = models.CharField(_("path"), max_length=255)
     time = models.DateTimeField(_("time"), default=timezone.now, db_index=True)
 
-
     is_secure = models.BooleanField(_("is secure"), default=False)
     is_ajax = models.BooleanField(
         _("is ajax"),
@@ -50,7 +49,9 @@ class Request(models.Model):
         _("user agent"), max_length=255, blank=True, null=True
     )
     language = models.CharField(_("language"), max_length=255, blank=True, null=True)
-    language_code = models.CharField(_("language code"), max_length=255, blank=True, null=True)
+    language_code = models.CharField(
+        _("language code"), max_length=255, blank=True, null=True
+    )
 
     objects = RequestManager()
 
@@ -96,7 +97,7 @@ class Request(models.Model):
             if is_authenticated:
                 self.user = request.user
 
-        if  hasattr(request, "LANGUAGE_CODE"):
+        if hasattr(request, "LANGUAGE_CODE"):
             self.language_code = request.LANGUAGE_CODE
 
         if response:
