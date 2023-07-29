@@ -15,7 +15,7 @@ class TelegramAPI:
         response = self.bot.send_message(
             chat_id=self.channel,
             text=text,
-            parse_mode=telegram_bot.ParseMode.HTML,
+            parse_mode="html",
             disable_web_page_preview=False,
         )
 
