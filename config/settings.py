@@ -47,8 +47,6 @@ USE_POSTGRES = os.environ.get("USE_POSTGRES", "") == "1"
 # Use real email backend
 USE_EMAIL_BACKEND = os.environ.get("USE_EMAIL_BACKEND", "") == "1"
 
-# Use Digital Ocean Spaces service (Storage)
-USE_SPACES = os.environ.get("USE_SPACES", "") == "1"
 
 # https for production
 HTTPS = os.environ.get("HTTPS", "") == "1"
@@ -83,7 +81,6 @@ INSTALLED_APPS = [
     "captcha",
     "crispy_forms",
     "crispy_bootstrap5",
-    "django_minify_html",
     "django_celery_beat",
     "django_celery_results",
     "taggit",
@@ -92,6 +89,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "request",
     "dbbackup",
+    "django_minify_html",
     # Django contrib apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -122,12 +120,13 @@ MEDIA_URL = "/media/"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "request.middleware.RequestMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -380,44 +379,34 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dev"),
 ]
 
-if USE_SPACES:  # pragma: no cover
-    # Stuff that could be useful (comments):
-    # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
-    # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
-    # MEDIA_URL = f'https://{AWS_s3_endpoint_url}/{AWS_MEDIA_LOCATION}/'
-    # STATIC_URL = f'https://{AWS_s3_endpoint_url}/{AWS_STATIC_LOCATION}/'
+# media storage (aws s3)
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_DEFAULT_ACL = None
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+# s3 static settings (alternative)
+# AWS_STATIC_LOCATION = "nicecv-static"
+# STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/"
+# STATICFILES_STORAGE = "config.storage_backends.StaticRootStorage"
+# s3 public media settings
+AWS_MEDIA_LOCATION = "nicecv-media"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_MEDIA_LOCATION}/"
 
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+# static files (whitenoise)
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_ENDPOINT_URL = "https://fra1.digitaloceanspaces.com"
-    AWS_S3_CUSTOM_DOMAIN = (
-        "ramiboutas.fra1.cdn.digitaloceanspaces.com"  # spaces.ramiboutas.com
-    )
-    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400", "ACL": "public-read"}
-
-    AWS_DEFAULT_ACL = "public-read"
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
-
-    DEFAULT_FILE_STORAGE = "config.storage.MediaRootStorage"
-    STATICFILES_STORAGE = "config.storage.StaticRootStorage"
-
-    AWS_STATIC_LOCATION = "englishstuff-static"
-    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/"
-    STATIC_ROOT = f"{AWS_STATIC_LOCATION}/"
-
-    AWS_MEDIA_LOCATION = "englishstuff-media"
-
-    MEDIA_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_MEDIA_LOCATION}/"
-    MEDIA_ROOT = f"{AWS_MEDIA_LOCATION}/"
-
-else:  # pragma: no cover
-    STATIC_URL = "/static/"
-    STATIC_ROOT = os.path.join(BASE_DIR, "static")
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+STORAGES = {
+    "default": {
+        "BACKEND": "config.storage_backends.MediaRootStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Backups
 DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"

@@ -39,6 +39,8 @@ botocore==1.29.115
     # via
     #   boto3
     #   s3transfer
+brotli==1.0.9
+    # via whitenoise
 celery==5.2.7
     # via
     #   -r requirements.in
@@ -343,6 +345,8 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
+whitenoise[brotli]==6.5.0
+    # via -r requirements.in
 xhtml2pdf==0.2.9
     # via -r requirements.in
 yake==0.4.8

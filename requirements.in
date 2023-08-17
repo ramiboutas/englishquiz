@@ -33,3 +33,5 @@ psycopg2-binary
 gunicorn
 redis
 hiredis
+whitenoise[brotli]
+django-minify-html
