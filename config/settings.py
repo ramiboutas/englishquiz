@@ -59,6 +59,7 @@ INTERNAL_IPS = [
 ALLOWED_HOSTS = [
     "englishstuff.online",
     "www.englishstuff.online",
+    "hello.englishstuff.online",
     "207.154.205.99",
     "englishstuff.local",
     "127.0.0.1",
