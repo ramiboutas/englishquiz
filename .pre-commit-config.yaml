@@ -14,12 +14,12 @@ repos:
     -   id: check-added-large-files
     exclude: migrations/*
 -   repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.7.0
     hooks:
     - id: black
     exclude: migrations/*
--   repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.10.0
     hooks:
     - id: reorder-python-imports
     args:
@@ -28,7 +28,7 @@ repos:
     - 'from __future__ import annotations'
     exclude: migrations/*
 -   repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
     - id: flake8
     additional_dependencies:
@@ -38,12 +38,12 @@ repos:
         - flake8-typing-imports
     exclude: migrations/*
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.10.1
     hooks:
     -   id: pyupgrade
     exclude: migrations/*
 -   repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.13.0"  # replace with latest tag on GitHub
+    rev: "1.14.1"  # replace with latest tag on GitHub
     hooks:
     -   id: django-upgrade
         args: [--target-version, "4.0"]   # Replace with Django version
