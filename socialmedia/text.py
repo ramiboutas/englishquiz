@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import random
 
+from django.conf import settings
+
 
 def get_hashtag_str_from_post_instance_tags(instance):
     hashtag_str = ""
@@ -34,7 +36,7 @@ def get_poll_explanation_text(question_obj):
     ]
     text = random.choice(text_options)
     text += "\n\nCheck the right answer here 👉 "
-    text += f"https://www.englishstuff.online{question_obj.get_detail_url()}"
+    text += f"{settings.SITE_BASE_URL}{question_obj.get_detail_url()}"
 
     return text
 
@@ -48,9 +50,7 @@ def get_blog_post_promotion_text(instance):
     text = ""
     text += f"✍ Blog post: {instance.title}\n \n"
     text += f"{instance.description}\n \n"
-    text += (
-        f"More under: https://www.englishstuff.online{instance.get_detail_url()} \n \n"
-    )
+    text += f"More under: {settings.SITE_BASE_URL}{instance.get_detail_url()} \n \n"
     text += f"{hashtags_from_instance_tags}"
 
     return text
@@ -64,7 +64,7 @@ def get_quiz_promotion_text(instance):
     It generates text from a quiz instance
     """
     text = f"Check out this quiz: {instance.name} \n \n"
-    text += f"👉 https://www.englishstuff.online{instance.get_detail_url()} \n \n"
+    text += f"👉 {settings.SITE_BASE_URL}{instance.get_detail_url()} \n \n"
     return text
 
 
@@ -109,6 +109,6 @@ def get_question_promotion_text(instance, make_short=False):
         text += f"Here a small question for you {cool_emoji} \n\n"
     text += f"{question_text} \n\n"
     text += "Check out the right answer here:\n"
-    text += f"👉 https://www.englishstuff.online{instance.get_detail_url()} \n\n"
+    text += f"👉 {settings.SITE_BASE_URL}{instance.get_detail_url()} \n\n"
 
     return text

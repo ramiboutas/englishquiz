@@ -236,8 +236,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
 
 
+SITE_BASE_URL = "https://englishstuff.online"
+
+
 # django-request
-REQUEST_BASE_URL = "https://www.englishstuff.online"
+REQUEST_BASE_URL = SITE_BASE_URL
 
 REQUEST_IGNORE_PATHS = (
     r"^admin.*",
