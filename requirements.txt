@@ -269,7 +269,7 @@ redis==4.5.4
     # via -r requirements.in
 regex==2023.3.23
     # via segtok
-reportlab==3.6.12
+reportlab==3.6.13
     # via
     #   svglib
     #   xhtml2pdf
@@ -314,8 +314,6 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   svglib
-tomli==2.0.1
-    # via autopep8
 tweepy==4.13.0
     # via -r requirements.in
 typing-extensions==4.5.0
