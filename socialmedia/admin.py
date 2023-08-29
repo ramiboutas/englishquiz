@@ -2,47 +2,34 @@ from __future__ import annotations
 
 from django.contrib import admin
 
-from .models import BackgroundImage
-from .models import FacebookPost
-from .models import FavoriteTweetSearch
-from .models import InstagramPost
 from .models import LinkedinPost
-from .models import RegularSocialPost
+from .models import SocialPost
 from .models import TelegramMessage
-from .models import Tweet
 
 
-@admin.register(BackgroundImage)
-class BackgroundImageAdmin(admin.ModelAdmin):
-    list_display = [
-        "name",
-        "image",
-    ]
-
-
-@admin.register(RegularSocialPost)
-class RegularSocialPostAdmin(admin.ModelAdmin):
+@admin.register(SocialPost)
+class SocialPostAdmin(admin.ModelAdmin):
     search_fields = [
         "text",
     ]
 
     readonly_fields = [
-        "created",
-        "updated",
+        "created_at",
+        "updated_at",
         "promoted",
         "created_by",
     ]
 
     list_filter = [
-        "created",
-        "updated",
+        "created_at",
+        "updated_at",
         "promoted",
         "created_by",
     ]
 
     list_display = [
         "text",
-        "created",
+        "created_at",
         "promoted",
         "created_by",
     ]
@@ -51,48 +38,6 @@ class RegularSocialPostAdmin(admin.ModelAdmin):
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
-
-@admin.register(FavoriteTweetSearch)
-class FavoriteTweetSearchAdmin(admin.ModelAdmin):
-    list_filter = [
-        "lang_code",
-    ]
-
-    list_display = [
-        "name",
-        "number_of_likes",
-        "lang_code",
-    ]
-
-
-@admin.register(Tweet)
-class TweetAdmin(admin.ModelAdmin):
-    search_fields = [
-        "text",
-    ]
-
-    readonly_fields = [
-        "text",
-        "created_at",
-        "favorite_count",
-        "twitter_id",
-        "id_str",
-        "retweet_count",
-        "twitter_url",
-        "api_deleted",
-    ]
-
-    list_filter = [
-        "created_at",
-    ]
-
-    list_display = [
-        "text",
-        "twitter_id",
-        "retweet_count",
-        "favorite_count",
-    ]
 
 
 @admin.register(TelegramMessage)
@@ -151,53 +96,5 @@ class LinkedinPostAdmin(admin.ModelAdmin):
     list_display = [
         "text",
         "urn_li_share",
-        "api_deleted",
-    ]
-
-
-@admin.register(FacebookPost)
-class FacebookPostAdmin(admin.ModelAdmin):
-    search_fields = [
-        "text",
-    ]
-
-    readonly_fields = [
-        "facebook_id",
-        "text",
-        "date",
-        "api_deleted",
-    ]
-
-    list_filter = [
-        "date",
-    ]
-
-    list_display = [
-        "text",
-        "facebook_id",
-        "api_deleted",
-    ]
-
-
-@admin.register(InstagramPost)
-class InstagramPostAdmin(admin.ModelAdmin):
-    search_fields = [
-        "text",
-    ]
-
-    readonly_fields = [
-        "instagram_id",
-        "text",
-        "date",
-        "api_deleted",
-    ]
-
-    list_filter = [
-        "date",
-    ]
-
-    list_display = [
-        "text",
-        "instagram_id",
         "api_deleted",
     ]

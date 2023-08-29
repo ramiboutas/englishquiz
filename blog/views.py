@@ -23,8 +23,8 @@ def all_posts_view(request):
     return render(request, "blog/all_posts.html", context)
 
 
-def post_detail_view(request, slug, level):
-    post = get_object_or_404(BlogPost, slug=slug, level=level)
+def post_detail_view(request, slug):
+    post = get_object_or_404(BlogPost, slug=slug)
     post.add_view()
     context = {"post": post}
     return render(request, "blog/post_detail.html", context)

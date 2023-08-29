@@ -1,6 +1,5 @@
 from django.contrib.gis.geoip2 import GeoIP2
 from geoip2.errors import AddressNotFoundError
-from geoip2.errors import GeoIP2Error
 
 from core.models import CountryVisitor
 
@@ -22,14 +21,10 @@ def get_country_code(request):
     except AddressNotFoundError:
         pass
 
-    return None
-
 
 def add_country_visitor(request):
     country_code = get_country_code(request)
     if country_code:
-        country_visitor, _ = CountryVisitor.objects.get_or_create(
-            country_code=country_code
-        )
-        country_visitor.add_view()
+        visitor, _ = CountryVisitor.objects.get_or_create(country_code=country_code)
+        visitor.add_view()
     return country_code

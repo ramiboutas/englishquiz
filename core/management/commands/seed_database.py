@@ -26,16 +26,9 @@ class Command(BaseCommand):
 
         self.stdout.write("Seeding database...")
 
-        # update_site()
-
         create_quiz_and_related_objects()
 
         self.stdout.write("Done.")
-
-
-# def update_site():
-#     domain = "localhost:8000"
-#     Site.objects.filter(domain="example.com").update(domain=domain, name=domain)
 
 
 def create_quiz_and_related_objects():

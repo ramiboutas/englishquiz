@@ -22,16 +22,14 @@ class BlogPostAdmin(MarkdownxModelAdmin):
         "slug": ("title",),
     }
 
-    list_filter = ["level", "public", "created_by", "created"]
+    list_filter = ["public", "created_by", "created"]
     list_display = [
         "title",
-        "level",
         "public",
         "created_by",
         "views",
         "created",
         "reading_time",
-        "reading_time_in_seconds",
     ]
 
     def save_model(self, request, obj, form, change):

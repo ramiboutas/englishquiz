@@ -10,7 +10,7 @@ from request.models import Request
 
 
 class Command(BaseCommand):
-    help = "Seed database with sample data."
+    help = "Deny IPs"
 
     def handle(self, *args, **options):
         output = ""

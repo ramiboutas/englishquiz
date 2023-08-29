@@ -8,7 +8,7 @@ from newsfeed.models import Newsletter
 from core.models import Contact
 from core.models import CountryVisitor
 from core.models import FlexPage
-from core.tasks import send_email_newsletter_task
+from core.tasks import send_email_newsletter
 
 admin.site.unregister(Newsletter)
 
@@ -71,7 +71,7 @@ class NewsletterAdmin(NewsletterAdmin):
     def send_newsletters(self, request, queryset):
         newsletter_ids = list(queryset.values_list("id", flat=True))
 
-        send_email_newsletter_task.delay(
+        send_email_newsletter.delay(
             newsletters_ids=newsletter_ids,
             respect_schedule=False,
         )

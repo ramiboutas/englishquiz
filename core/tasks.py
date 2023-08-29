@@ -12,17 +12,7 @@ from core.models import Contact
 
 
 @shared_task(bind=True)
-def remove_unverified_newsletter_subscribers(self, **kwargs):
-    qs = Subscriber.objects.filter(
-        verification_sent_date__lt=timezone.now() - timezone.timedelta(days=4),
-        verified=False,
-        subscribed=False,
-    )
-    qs.delete()
-
-
-@shared_task(bind=True)
-def send_email_newsletter_task(newsletters_ids=None, respect_schedule=True):
+def send_email_newsletter(newsletters_ids=None, respect_schedule=True):
     newsletters = None
 
     if newsletters_ids:
@@ -32,17 +22,17 @@ def send_email_newsletter_task(newsletters_ids=None, respect_schedule=True):
 
 @shared_task(bind=True)
 def send_email_to_contacted_person(self, **kwargs):
-    instance = Contact.objects.get(pk=kwargs["pk"])
+    contact = Contact.objects.get(pk=kwargs["pk"])
     send_mail(
-        f"Contact #{instance.pk} | English Stuff Online",
-        instance.response,
+        f"Contact #{contact.pk} | English Stuff Online",
+        contact.response,
         settings.EMAIL_HOST_USER,
-        [instance.email],
+        [contact.email],
         fail_silently=False,
     )
-    instance.responded = True
-    instance.responded_on = timezone.now()
-    instance.save()
+    contact.responded = True
+    contact.responded_on = timezone.now()
+    contact.save()
 
 
 @shared_task(bind=True)
@@ -53,9 +43,3 @@ def subscribe_contacted_person_to_newsletter(self, **kwargs):
         subscriber.send_verification_email(created)
     instance.subscribed = True
     instance.save()
-
-
-@shared_task(bind=True)
-def delete_responded_contact_instances(self, **kwargs):
-    one_week_ago = timezone.now() - timezone.timedelta(days=7)
-    Contact.objects.filter(responded_on__lt=one_week_ago).delete()

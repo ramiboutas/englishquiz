@@ -35,3 +35,5 @@ redis
 hiredis
 whitenoise[brotli]
 django-minify-html
+django-tweets
+ipython

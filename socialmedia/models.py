@@ -25,73 +25,20 @@ class BackgroundImage(models.Model):
         return self.name
 
 
-class RegularSocialPost(auto_prefetch.Model):
+class SocialPost(auto_prefetch.Model):
     """
     Social Post what will be promoted in social media on a daily basis.
 
     """
 
     text = models.TextField(max_length=2000)
-
-    image_text = models.TextField(
-        max_length=100,
-        null=True,
-        blank=True,
-    )
-
-    image = models.ImageField(
-        upload_to="socialposts/images/",
-        null=True,
-        blank=True,
-    )
-
-    background_image_obj = auto_prefetch.ForeignKey(
-        BackgroundImage,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
-
-    share_image = models.BooleanField(
-        verbose_name="Share image",
-        default=False,
-    )
-
-    promote_in_linkedin = models.BooleanField(
-        verbose_name="Promote in Linkedin",
-        default=True,
-    )
-
-    promote_in_twitter = models.BooleanField(
-        verbose_name="Promote in Twitter",
-        default=True,
-    )
-
-    promote_in_telegram = models.BooleanField(
-        verbose_name="Promote in Telegram",
-        default=True,
-    )
-
-    promote_in_facebook = models.BooleanField(
-        verbose_name="Promote in Facebook",
-        default=True,
-    )
-
-    promote_in_instagram = models.BooleanField(
-        verbose_name="Promote in Instagram",
-        default=False,
-    )
-
-    created = models.DateTimeField(
-        auto_now_add=True, blank=True, null=True, editable=False
-    )
-
-    updated = models.DateTimeField(
-        auto_now=True,
-        blank=True,
-        null=True,
-        editable=False,
-    )
+    file = models.ImageField(upload_to="socialposts/files/", null=True, blank=True)
+    promote_in_linkedin = models.BooleanField(default=True)
+    promote_in_twitter = models.BooleanField(default=True)
+    promote_in_telegram = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, editable=False)
+    promoted = models.BooleanField(default=False, editable=False)
 
     created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -99,8 +46,6 @@ class RegularSocialPost(auto_prefetch.Model):
         blank=True,
         on_delete=models.SET_NULL,
     )
-
-    promoted = models.BooleanField(default=False, editable=False)
 
     def __str__(self):
         return self.text
@@ -159,126 +104,13 @@ class TelegramMessage(models.Model):
     """
 
     chat_id = models.BigIntegerField()
-
     message_id = models.BigIntegerField()
-
     link = models.CharField(max_length=100)
-
     text = models.TextField(max_length=4000)
-
     date = models.DateTimeField()
-
-    api_delete = models.BooleanField(
-        verbose_name="Delete from Telegram",
-        default=False,
-        help_text="It gets deleted from Telegram after clicking on Save",
-    )
-
+    api_delete = models.BooleanField(verbose_name="Delete from Telegram", default=False)
     api_deleted = models.BooleanField(
-        verbose_name="Already deleted from Telegram", default=False
-    )
-
-    def __str__(self) -> str:
-        return self.text[:100]
-
-
-class FavoriteTweetSearch(models.Model):
-    name = models.CharField(max_length=50)
-    lang_code = models.CharField(max_length=2)
-    number_of_likes = models.PositiveSmallIntegerField(default=5)
-
-    def __str__(self):
-        return self.name
-
-
-class Tweet(models.Model):
-    """ "
-    Definition of a Tweet Post object
-    """
-
-    twitter_id = models.PositiveBigIntegerField()
-
-    id_str = models.CharField(max_length=30)
-
-    text = models.TextField(max_length=300)
-
-    twitter_url = models.URLField(null=True)
-
-    created_at = models.DateTimeField()
-
-    retweet_count = models.PositiveIntegerField()
-
-    favorite_count = models.PositiveIntegerField()
-
-    api_delete = models.BooleanField(
-        verbose_name="Delete from Twitter",
-        default=False,
-        help_text="It gets deleted from Twitter after clicking on Save",
-    )
-
-    api_deleted = models.BooleanField(
-        verbose_name="Already deleted from Twitter", default=False
-    )
-
-    def __str__(self) -> str:
-        return self.text[:100]
-
-    def save(self, *args, **kwargs):
-        self.twitter_url = (
-            f"https://twitter.com/{settings.TWITTER_USERNAME}/status/{self.id_str}"
-        )
-        super().save(*args, **kwargs)
-
-
-class FacebookPost(models.Model):
-    """ "
-    Definition of a Facebook Post object
-    """
-
-    facebook_id = models.CharField(max_length=50)
-
-    text = models.TextField(max_length=1000)
-
-    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
-    api_delete = models.BooleanField(
-        verbose_name="Delete from Facebook",
-        default=False,
-        help_text="It gets deleted from Facebook after clicking on Save",
-    )
-
-    api_deleted = models.BooleanField(
-        verbose_name="Already deleted from Facebook", default=False
-    )
-
-    def __str__(self) -> str:
-        return self.text[:100]
-
-
-class InstagramPost(models.Model):
-    """ "
-    Definition of an Instagram Post object
-    """
-
-    instagram_id = models.CharField(max_length=50)
-
-    text = models.TextField(max_length=1000)
-
-    date = models.DateTimeField(
-        auto_now_add=True,
-        blank=True,
-        null=True,
-    )
-
-    api_delete = models.BooleanField(
-        verbose_name="Delete from Instagram",
-        default=False,
-        help_text="It gets deleted from Instagram after clicking on Save",
-    )
-
-    api_deleted = models.BooleanField(
-        verbose_name="Already deleted from Instagram",
-        default=False,
+        verbose_name="Deleted from Telegram", default=False
     )
 
     def __str__(self) -> str:

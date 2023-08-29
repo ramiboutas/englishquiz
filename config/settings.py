@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     "request",
     "dbbackup",
     "django_minify_html",
+    "django_tweets",
     # Django contrib apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -252,7 +253,7 @@ REQUEST_IGNORE_PATHS = (
 REQUEST_TRAFFIC_MODULES = ("request.traffic.UniqueVisitor",)
 
 # deny ips
-NGIX_DENY_CONFIGURATION_FILE = "/etc/nginx/conf.d/deny.conf"
+NGIX_DENY_CONFIGURATION_FILE = "/home/rami/backups/deny.conf"
 
 DENY_IPS_WITH_PATHS = [
     ".php",
@@ -407,9 +408,7 @@ STORAGES = {
 
 # Backups
 DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
-DBBACKUP_STORAGE_OPTIONS = {
-    "location": "/home/rami/do-server-backups/englishquiz/",
-}
+DBBACKUP_STORAGE_OPTIONS = {"location": "/home/rami/backups/englishquiz/"}
 
 
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework

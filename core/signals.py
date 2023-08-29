@@ -9,20 +9,22 @@ from core.tasks import subscribe_contacted_person_to_newsletter
 
 
 @receiver(post_save, sender=Contact)
-def manage_contact_instance(sender, instance, **kwargs):
+def manage_contact(sender, contact, **kwargs):
     """
     It sends an email to the  person who contacted us
 
     """
 
-    instance.refresh_from_db()
+    contact.refresh_from_db()
 
-    if instance.response and not instance.responded:
+    if contact.response and not contact.responded:
         send_email_to_contacted_person.apply_async(
-            countdown=5, kwargs={"pk": instance.pk}
+            countdown=5,
+            kwargs={"pk": contact.pk},
         )
 
-    if instance.subscribe and not instance.subscribed:
+    if contact.subscribe and not contact.subscribed:
         subscribe_contacted_person_to_newsletter.apply_async(
-            countdown=2, kwargs={"pk": instance.pk}
+            countdown=2,
+            kwargs={"pk": contact.pk},
         )

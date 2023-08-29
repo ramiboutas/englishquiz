@@ -6,28 +6,14 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from slugger import AutoSlugField
-from taggit.managers import TaggableManager
 
 from markdownx.models import MarkdownxField
 from utils.keywords import get_keywords_from_text
 
 
 class BlogPost(auto_prefetch.Model):
-    DIFFICULTY_LEVEL = [
-        ("elementary", "Elementary"),
-        ("intermediate", "Intermediate"),
-        ("advanced", "Advanced"),
-        ("general", "General"),
-    ]
-
     title = models.CharField(max_length=70)
     description = models.TextField(blank=False, null=True)
-    level = models.CharField(
-        choices=DIFFICULTY_LEVEL,
-        default="general",
-        max_length=30,
-    )
-    tags = TaggableManager()
     public = models.BooleanField(default=False)
     created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -64,9 +50,7 @@ class BlogPost(auto_prefetch.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse(
-            "blog_postdetail", kwargs={"slug": self.slug, "level": self.level}
-        )
+        return reverse("blog_postdetail", kwargs={"slug": self.slug})
 
     def get_detail_url(self):
         return self.get_absolute_url()

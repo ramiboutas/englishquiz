@@ -11,7 +11,7 @@ class User(AbstractUser):
 
     @property
     def social_posts(self):
-        return self.regularsocialpost_set.all().count()
+        return self.socialpost_set.all().count()
 
     @property
     def quiz_questions(self):
