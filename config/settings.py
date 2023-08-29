@@ -37,15 +37,8 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "some-tests-need-a-secret-key")
 # Debug flag
 DEBUG = os.environ.get("DEBUG", "") == "1"
 
-
-# Use redis caching
-USE_REDIS_CACHING = os.environ.get("USE_REDIS_CACHING", "") == "1"
-
 # Use Postgres (otherwise SqLite)
 USE_POSTGRES = os.environ.get("USE_POSTGRES", "") == "1"
-
-# Use real email backend
-USE_EMAIL_BACKEND = os.environ.get("USE_EMAIL_BACKEND", "") == "1"
 
 
 # https for production
@@ -70,6 +63,16 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # Django contrib apps
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.humanize",
+    "django.contrib.sitemaps",
+    # "django.contrib.sites",
     # My apps
     "core.apps.CoreConfig",
     "quiz.apps.QuizConfig",
@@ -93,33 +96,11 @@ INSTALLED_APPS = [
     "dbbackup",
     "django_minify_html",
     "django_tweets",
-    # Django contrib apps
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django.contrib.humanize",
-    "django.contrib.sitemaps",
-    # "django.contrib.sites",
+    "djcelery_email",
 ]
 
 
 AUTH_USER_MODEL = "users.User"
-
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
-
-
-# newsletter app
-# https://forum.djangoproject.com/t/importerror-cannot-import-name-ugettext-lazy-from-django-utils-translation/10943
-
-# from django.utils.translation import gettext_lazy, gettext
-# django.utils.translation.ugettext_lazy = gettext_lazy
-# django.utils.translation.ugettext = gettext
-
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -335,43 +316,31 @@ NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
 
 # celery
-
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+REDIS_URL = "redis://127.0.0.1:6379/7"
+CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = "django-db"
-CELERY_RESULT_EXTENDED = True
 
 # caching
-
-
-if USE_REDIS_CACHING:  # pragma: no cover
-    REDIS_CACHING_LOCATION = os.environ.get("REDIS_CACHING_LOCATION", "")
-    CELERY_CACHE_BACKEND = "default"
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": REDIS_CACHING_LOCATION,
-        }
+CELERY_CACHE_BACKEND = "default"
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
     }
-else:
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-        }
-    }
+}
+
 
 # SMTP Email
-if USE_EMAIL_BACKEND:  # pragma: no cover
-    EMAIL_HOST = os.environ.get("EMAIL_HOST")
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-    EMAIL_PORT_STR = os.environ.get("EMAIL_PORT")
-    EMAIL_PORT = int(EMAIL_PORT_STR) if EMAIL_PORT_STR is not None else 1234
-    EMAIL_USE_TLS = True
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-else:  # pragma: no cover
-    EMAIL_USE_TLS = False
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
+EMAIL_USE_TLS = str(os.environ.get("EMAIL_USE_TLS")) == "1"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # geoip2
@@ -380,7 +349,6 @@ GEOIP_PATH = BASE_DIR / "geoip2dbs"
 
 
 # Storage
-
 
 # media storage (aws s3)
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
@@ -410,12 +378,11 @@ STORAGES = {
 DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
 DBBACKUP_STORAGE_OPTIONS = {"location": "/home/rami/backups/englishquiz/"}
 
-
+# CORS
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = "Access-Control-Allow-Origin"
-# CORS_ALLOWED_ORIGINS = ["https://spaces.ramiboutas.com", ]
 
 if HTTPS:  # pragma: no cover
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

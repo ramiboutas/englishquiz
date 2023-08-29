@@ -37,3 +37,4 @@ whitenoise[brotli]
 django-minify-html
 django-tweets
 ipython
+django-celery-email

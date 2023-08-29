@@ -25,3 +25,13 @@
 * [Linkedin Page](https://www.linkedin.com/company/english-stuff-online/)
 * [Twitter Account](https://twitter.com/EnglishstuffOn)
 * [Telegram Channel](https://t.me/english_stuff_online)
+
+
+## About
+
+* [Privacy Policy](privacy-policy.md)
+
+
+## You may be interested in
+
+* [Creating a nice CV](https://nicecv.online/)

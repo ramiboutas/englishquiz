@@ -49,6 +49,7 @@ celery==5.2.7
     # via
     #   -r requirements.in
     #   django-celery-beat
+    #   django-celery-email
     #   django-celery-results
 certifi==2022.12.7
     # via
@@ -97,8 +98,10 @@ django==4.2
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
+    #   django-appconf
     #   django-auto-prefetch
     #   django-celery-beat
+    #   django-celery-email
     #   django-celery-results
     #   django-cors-headers
     #   django-crispy-forms
@@ -113,9 +116,13 @@ django==4.2
     #   django-storages
     #   django-taggit
     #   django-tweets
+django-appconf==1.0.5
+    # via django-celery-email
 django-auto-prefetch==1.5.1
     # via -r requirements.in
 django-celery-beat==2.5.0
+    # via -r requirements.in
+django-celery-email==3.0.0
     # via -r requirements.in
 django-celery-results==2.5.0
     # via -r requirements.in

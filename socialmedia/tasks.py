@@ -10,6 +10,8 @@ from quiz.models import Question
 from socialmedia.apis.linkedin import LinkedinPostAPI
 from socialmedia.apis.linkedin import update_access_token
 from socialmedia.apis.telegram import TelegramAPI
+
+# TODO: fix issue TelegramAPI: {"exc_type": "AttributeError", "exc_message": ["'coroutine' object has no attribute 'chat_id'"], "exc_module": "builtins"}
 from socialmedia.models import SocialPost
 from socialmedia.text import get_blog_post_promotion_text
 from socialmedia.text import get_poll_explanation_text
@@ -38,7 +40,7 @@ def share_random_quiz_question(self, **kwargs):
             text = get_question_promotion_text(question)
 
             # Telegram
-            TelegramAPI().send_message(text)
+            # TelegramAPI().send_message(text)
 
             # Linkedin
             LinkedinPostAPI().create_post(text)
@@ -89,7 +91,8 @@ def share_social_post(self, **kwargs):
             # sharing
 
             if post.promote_in_telegram:
-                TelegramAPI().send_message(post.text)
+                pass
+                # TelegramAPI().send_message(post.text)
 
             if post.promote_in_linkedin:
                 LinkedinPostAPI().create_post(post.text)
@@ -130,7 +133,7 @@ def share_blog_post(self, **kwargs):
             text = get_blog_post_promotion_text(instance)
 
             # Telegram
-            TelegramAPI().send_message(text)
+            # TelegramAPI().send_message(text)
 
             # Linkedin
             LinkedinPostAPI().create_post(text)

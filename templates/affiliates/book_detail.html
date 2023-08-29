@@ -23,17 +23,15 @@
                     <p>{{ book.description | markdown | safe }}</p>
 
                     <div class="row ">
-                        {% for link in affiliate_links %}
-                            <div class="col-6">
-                                <a class="btn btn-success w-100 m-2" href="{{ link.url }}" target="_blank">
-                                    {% if link.label %} {{ link.label }} {% else %} {{ link.url }} {% endif %}
-                                    <i class="bi bi-box-arrow-up-right"></i>
-                                </a>
-                            </div>
-                        {% endfor %}
+                        <div class="col-12">
+                            <a class="btn btn-success w-100 m-2" href="{{ book.affiliate_link }}" target="_blank">
+                                {% if book.affiliate_label %} {{ book.affiliate_label }} {% else %} {{ book.affiliate_link }} {% endif %}
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </div>
                     </div>
                     <p>
-                        <small> As an Amazon Associate I earn from qualifying purchases. </small>
+                        <small> {{ book.get_affiliate_disclosure_display }} </small>
                     </p>
                 </div>
 

@@ -14,7 +14,14 @@ AFFILIATE_REGION_SCOPE_CHOICES = (
     ("UK", "United Kingdom"),
 )
 
-BOOK_LEVEL_CHOICES = (
+
+DISCLOSURES = (
+    ("amazon", "As an Amazon Associate I earn from qualifying purchases."),
+    ("general", "We will earn some commisions from this links"),
+)
+
+
+BOOK_LEVELS = (
     (1, "Very Basic"),
     (2, "Basic"),
     (3, "Intermediate"),
@@ -24,7 +31,7 @@ BOOK_LEVEL_CHOICES = (
 )
 
 
-BOOK_TEST_TYPE_CHOICES = (
+BOOK_TEST_TYPES = (
     ("general", "General 🤓"),
     ("cambridge", "Cambridge 💂‍♂️"),
     ("ielts", "IELTS 🇬🇧"),
@@ -32,7 +39,7 @@ BOOK_TEST_TYPE_CHOICES = (
     ("celpip", "CELPIP 🏢"),
 )
 
-BOOK_CATEGORY_CHOICES = (
+BOOK_CATEGORIES = (
     ("general", "General 📗"),
     ("text-book", "Text books 📚"),
     ("writing", "Writing 📝"),
@@ -45,16 +52,22 @@ class Book(auto_prefetch.Model):
     description = MarkdownxField()
     image_url = models.URLField(blank=True, null=True)
     thumbnail_url = models.URLField(blank=True, null=True)
-    level = models.PositiveSmallIntegerField(default=3, choices=BOOK_LEVEL_CHOICES)
+    level = models.PositiveSmallIntegerField(default=3, choices=BOOK_LEVELS)
     test_type = models.CharField(
-        default="general", max_length=16, choices=BOOK_TEST_TYPE_CHOICES
+        default="general", max_length=16, choices=BOOK_TEST_TYPES
     )
     category = models.CharField(
-        default="general", max_length=16, choices=BOOK_CATEGORY_CHOICES
+        default="general", max_length=16, choices=BOOK_CATEGORIES
     )
     slug = models.SlugField(max_length=128, blank=True, unique=True)
     featured = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0)
+
+    affiliate_link = models.URLField(null=True)
+    affiliate_label = models.CharField(max_length=64, blank=True, null=True)
+    affiliate_disclosure = models.CharField(
+        max_length=16, choices=DISCLOSURES, default="amazon"
+    )
 
     def get_detail_url(self):
         return reverse("book_detail", kwargs={"slug": self.slug})
@@ -85,18 +98,3 @@ class Book(auto_prefetch.Model):
 
     class Meta(auto_prefetch.Model.Meta):
         ordering = ("-views",)
-
-
-class BookAffiliateLink(auto_prefetch.Model):
-    book = auto_prefetch.ForeignKey(
-        Book, on_delete=models.CASCADE, related_name="affiliate_links"
-    )
-    url = models.URLField()
-    label = models.CharField(max_length=64, blank=True, null=True)
-    is_global = models.BooleanField(default=False)
-    country_code = models.CharField(
-        max_length=2, choices=AFFILIATE_REGION_SCOPE_CHOICES
-    )
-
-    def __str__(self):
-        return self.url
