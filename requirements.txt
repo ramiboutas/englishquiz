@@ -4,17 +4,17 @@
 #
 #    pip-compile
 #
-aiohttp==3.8.4
+aiohttp==3.8.5
     # via geoip2
 aiosignal==1.3.1
     # via aiohttp
 amqp==5.1.1
     # via kombu
-anyio==3.6.2
+anyio==3.7.1
     # via httpcore
 arabic-reshaper==3.0.0
     # via xhtml2pdf
-asgiref==3.6.0
+asgiref==3.7.2
     # via django
 asn1crypto==1.5.1
     # via
@@ -23,46 +23,44 @@ asn1crypto==1.5.1
     #   pyhanko-certvalidator
 asttokens==2.2.1
     # via stack-data
-async-timeout==4.0.2
-    # via
-    #   aiohttp
-    #   redis
+async-timeout==4.0.3
+    # via aiohttp
 attrs==23.1.0
     # via aiohttp
-autopep8==2.0.2
+autopep8==2.0.4
     # via -r requirements.in
 backcall==0.2.0
     # via ipython
 beautifulsoup4==4.12.2
     # via readtime
-billiard==3.6.4.0
+billiard==4.1.0
     # via celery
-boto3==1.26.115
+boto3==1.28.36
     # via -r requirements.in
-botocore==1.29.115
+botocore==1.31.36
     # via
     #   boto3
     #   s3transfer
 brotli==1.0.9
     # via whitenoise
-celery==5.2.7
+celery==5.3.1
     # via
     #   -r requirements.in
     #   django-celery-beat
     #   django-celery-email
     #   django-celery-results
-certifi==2022.12.7
+certifi==2023.7.22
     # via
     #   httpcore
     #   httpx
     #   requests
 cffi==1.15.1
     # via cryptography
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via
     #   aiohttp
     #   requests
-click==8.1.3
+click==8.1.7
     # via
     #   celery
     #   click-didyoumean
@@ -74,15 +72,15 @@ click-didyoumean==0.3.0
     # via celery
 click-plugins==1.1.1
     # via celery
-click-repl==0.2.0
+click-repl==0.3.0
     # via celery
-coverage==7.2.3
+coverage==7.3.0
     # via -r requirements.in
 crispy-bootstrap5==0.7
     # via -r requirements.in
-cron-descriptor==1.2.35
+cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.0
+cryptography==41.0.3
     # via
     #   pyhanko
     #   pyhanko-certvalidator
@@ -92,9 +90,9 @@ cssselect2==0.7.0
     # via svglib
 decorator==5.1.1
     # via ipython
-deepl==1.14.0
+deepl==1.15.0
     # via -r requirements.in
-django==4.2
+django==4.2.4
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
@@ -115,18 +113,19 @@ django==4.2
     #   django-slugger
     #   django-storages
     #   django-taggit
+    #   django-timezone-field
     #   django-tweets
 django-appconf==1.0.5
     # via django-celery-email
-django-auto-prefetch==1.5.1
+django-auto-prefetch==1.7.0
     # via -r requirements.in
 django-celery-beat==2.5.0
     # via -r requirements.in
 django-celery-email==3.0.0
     # via -r requirements.in
-django-celery-results==2.5.0
+django-celery-results==2.5.1
     # via -r requirements.in
-django-cors-headers==3.14.0
+django-cors-headers==4.2.0
     # via -r requirements.in
 django-crispy-forms==2.0
     # via
@@ -134,9 +133,9 @@ django-crispy-forms==2.0
     #   crispy-bootstrap5
 django-dbbackup==4.0.2
     # via -r requirements.in
-django-htmx==1.14.0
+django-htmx==1.16.0
     # via -r requirements.in
-django-minify-html==1.5.0
+django-minify-html==1.6.0
     # via -r requirements.in
 django-nested-inline==0.4.6
     # via -r requirements.in
@@ -144,79 +143,79 @@ django-newsfeed==0.8.8
     # via -r requirements.in
 django-ranged-response==0.2.0
     # via django-simple-captcha
-django-rich==1.5.0
+django-rich==1.7.0
     # via -r requirements.in
-django-simple-captcha==0.5.17
+django-simple-captcha==0.5.18
     # via -r requirements.in
 django-slugger==1.1.2
     # via -r requirements.in
 django-storages==1.13.2
     # via -r requirements.in
-django-taggit==3.1.0
+django-taggit==4.0.0
     # via -r requirements.in
-django-timezone-field==5.0
+django-timezone-field==6.0
     # via django-celery-beat
 django-tweets==0.0.5
     # via -r requirements.in
 executing==1.2.0
     # via stack-data
-flake8==6.0.0
+flake8==6.1.0
     # via -r requirements.in
-frozenlist==1.3.3
+frozenlist==1.4.0
     # via
     #   aiohttp
     #   aiosignal
-geoip2==4.6.0
+geoip2==4.7.0
     # via -r requirements.in
-gunicorn==20.1.0
+gunicorn==21.2.0
     # via -r requirements.in
 h11==0.14.0
     # via httpcore
-hiredis==2.2.2
+hiredis==2.2.3
     # via -r requirements.in
 html5lib==1.1
     # via xhtml2pdf
-httpcore==0.16.3
+httpcore==0.17.3
     # via httpx
-httpx==0.23.3
+httpx==0.24.1
     # via python-telegram-bot
 idna==3.4
     # via
     #   anyio
+    #   httpx
     #   requests
-    #   rfc3986
     #   yarl
 ipython==8.14.0
     # via -r requirements.in
 jedi==0.19.0
     # via ipython
-jellyfish==0.11.2
+jellyfish==1.0.0
     # via yake
 jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-kombu==5.2.4
+kombu==5.3.1
     # via celery
-lxml==4.9.2
+lxml==4.9.3
     # via
     #   pyquery
     #   svglib
-markdown==3.4.3
+markdown==3.4.4
     # via -r requirements.in
-markdown-it-py==2.2.0
+markdown-it-py==3.0.0
     # via rich
-markdown2==2.4.8
+markdown2==2.4.10
     # via readtime
 matplotlib-inline==0.1.6
     # via ipython
-maxminddb==2.2.0
+maxminddb==2.4.0
     # via geoip2
 mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-minify-html==0.10.8
+minify-html==0.11.1
     # via django-minify-html
 multidict==6.0.4
     # via
@@ -224,7 +223,7 @@ multidict==6.0.4
     #   yarl
 networkx==3.1
     # via yake
-numpy==1.24.2
+numpy==1.25.2
     # via yake
 oauthlib==3.2.2
     # via
@@ -232,46 +231,48 @@ oauthlib==3.2.2
     #   tweepy
 oscrypto==1.3.0
     # via pyhanko-certvalidator
+packaging==23.1
+    # via gunicorn
 parso==0.8.3
     # via jedi
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==9.5.0
+pillow==10.0.0
     # via
     #   django-simple-captcha
     #   reportlab
     #   xhtml2pdf
-prompt-toolkit==3.0.38
+prompt-toolkit==3.0.39
     # via
     #   click-repl
     #   ipython
-psycopg2-binary==2.9.6
+psycopg2-binary==2.9.7
     # via -r requirements.in
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pycodestyle==2.10.0
+pycodestyle==2.11.0
     # via
     #   autopep8
     #   flake8
 pycparser==2.21
     # via cffi
-pyflakes==3.0.1
+pyflakes==3.1.0
     # via flake8
-pygments==2.15.1
+pygments==2.16.1
     # via
     #   ipython
     #   rich
-pyhanko==0.17.2
+pyhanko==0.20.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.20.1
+pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.8.0
+pypdf==3.15.4
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -279,39 +280,34 @@ pyquery==2.0.0
     # via readtime
 python-bidi==0.4.2
     # via xhtml2pdf
-python-crontab==2.7.1
+python-crontab==3.0.0
     # via django-celery-beat
 python-dateutil==2.8.2
     # via
     #   botocore
+    #   celery
     #   python-crontab
 python-dotenv==1.0.0
     # via -r requirements.in
-python-telegram-bot==20.2
+python-telegram-bot==20.4
     # via -r requirements.in
 pytz==2023.3
-    # via
-    #   celery
-    #   django-dbbackup
-    #   django-timezone-field
-    #   pyhanko
-pytz-deprecation-shim==0.1.0.post0
-    # via tzlocal
-pyyaml==6.0
+    # via django-dbbackup
+pyyaml==6.0.1
     # via pyhanko
 qrcode==7.4.2
     # via pyhanko
-readtime==2.0.0
+readtime==3.0.0
     # via -r requirements.in
-redis==4.5.4
+redis==5.0.0
     # via -r requirements.in
-regex==2023.3.23
+regex==2023.8.8
     # via segtok
-reportlab==3.6.12
+reportlab==3.6.13
     # via
     #   svglib
     #   xhtml2pdf
-requests==2.28.2
+requests==2.31.0
     # via
     #   deepl
     #   geoip2
@@ -321,18 +317,15 @@ requests==2.28.2
     #   tweepy
 requests-oauthlib==1.3.1
     # via tweepy
-rfc3986[idna2008]==1.5.0
-    # via httpx
-rich==13.3.4
+rich==13.5.2
     # via django-rich
-s3transfer==0.6.0
+s3transfer==0.6.2
     # via boto3
 segtok==1.5.11
     # via yake
 six==1.16.0
     # via
     #   asttokens
-    #   click-repl
     #   html5lib
     #   python-bidi
     #   python-dateutil
@@ -359,26 +352,25 @@ traitlets==5.9.0
     # via
     #   ipython
     #   matplotlib-inline
-tweepy==4.13.0
+tweepy==4.14.0
     # via
     #   -r requirements.in
     #   django-tweets
-typing-extensions==4.5.0
+typing-extensions==4.7.1
     # via qrcode
 tzdata==2023.3
     # via
+    #   celery
     #   django-celery-beat
-    #   pytz-deprecation-shim
-tzlocal==4.3
+tzlocal==5.0.1
     # via pyhanko
 unidecode==1.3.6
     # via django-slugger
 uritools==4.0.1
     # via pyhanko-certvalidator
-urllib3==1.26.15
+urllib3==1.26.16
     # via
     #   botocore
-    #   geoip2
     #   requests
 vine==5.0.0
     # via
@@ -394,12 +386,9 @@ webencodings==0.5.1
     #   tinycss2
 whitenoise[brotli]==6.5.0
     # via -r requirements.in
-xhtml2pdf==0.2.9
+xhtml2pdf==0.2.11
     # via -r requirements.in
 yake==0.4.8
     # via -r requirements.in
-yarl==1.8.2
+yarl==1.9.2
     # via aiohttp
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
