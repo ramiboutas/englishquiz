@@ -93,7 +93,7 @@ decorator==5.1.1
     # via ipython
 deepl==1.14.0
     # via -r requirements.in
-django==4.2
+django==4.2.3
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
