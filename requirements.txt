@@ -80,7 +80,7 @@ crispy-bootstrap5==0.7
     # via -r requirements.in
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.3
+cryptography==41.0.4
     # via
     #   pyhanko
     #   pyhanko-certvalidator
