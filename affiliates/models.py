@@ -98,3 +98,11 @@ class Book(auto_prefetch.Model):
 
     class Meta(auto_prefetch.Model.Meta):
         ordering = ("-views",)
+
+
+class BookAffiliateLink(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    url = models.URLField()
+    label = models.CharField(max_length=64)
+    is_global = models.BooleanField(default=True)
+    country_code = models.CharField(max_length=8)

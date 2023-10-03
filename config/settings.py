@@ -285,19 +285,6 @@ TWITTER_ACCESS_TOKEN = os.environ.get("TWITTER_ACCESS_TOKEN")
 TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
-
-# Facebook - socialmedia app
-FACEBOOK_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID")
-FACEBOOK_PAGE_ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN")
-FACEBOOK_APP_ID = os.environ.get("FACEBOOK_APP_ID")
-FACEBOOK_APP_SECRET_KEY = os.environ.get("FACEBOOK_APP_SECRET_KEY")
-
-
-# Instagram - socialmedia app
-INSTAGRAM_PAGE_ID = os.environ.get("INSTAGRAM_PAGE_ID")
-INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
-
-
 # DeepL API
 DEEPL_AUTH_KEY = os.environ.get("DEEPL_AUTH_KEY")
 
@@ -353,6 +340,8 @@ GEOIP_PATH = BASE_DIR / "geoip2dbs"
 # media storage (aws s3)
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_DEFAULT_ACL = None
 AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
