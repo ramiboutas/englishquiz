@@ -346,7 +346,7 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_DEFAULT_ACL = None
 AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-AWS_MEDIA_LOCATION = "englishstuff-media"
+AWS_MEDIA_LOCATION = "englishstuff/media"
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_MEDIA_LOCATION}/"
 
 # static files (whitenoise)
@@ -364,8 +364,15 @@ STORAGES = {
 }
 
 # Backups
-DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
-DBBACKUP_STORAGE_OPTIONS = {"location": "/home/rami/backups/englishquiz/"}
+DBBACKUP_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+DBBACKUP_STORAGE_OPTIONS = {
+    "access_key": AWS_ACCESS_KEY_ID,
+    "secret_key": AWS_SECRET_ACCESS_KEY,
+    "bucket_name": AWS_STORAGE_BUCKET_NAME,
+    "location": "englishstuff/backups/",
+    "default_acl": "private",
+}
+
 
 # CORS
 # https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
