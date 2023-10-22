@@ -382,6 +382,7 @@ CORS_ALLOW_HEADERS = "Access-Control-Allow-Origin"
 
 
 CORS_ALLOWED_ORIGINS = [
+    "https://englishstuff.online/",
     "https://pagead2.googlesyndication.com",
 ]
 
