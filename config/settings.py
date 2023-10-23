@@ -380,12 +380,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = "Access-Control-Allow-Origin"
 
-
-CORS_ALLOWED_ORIGINS = [
-    "https://englishstuff.online/",
-    "https://pagead2.googlesyndication.com",
-]
-
 if HTTPS:  # pragma: no cover
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_HSTS_SECONDS = 31_536_000  # 31536000 # usual: 31536000 (1 year)

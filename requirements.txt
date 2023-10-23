@@ -96,35 +96,48 @@ django==4.2.4
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
+    #   django-ads
     #   django-appconf
     #   django-auto-prefetch
+    #   django-braces
     #   django-celery-beat
     #   django-celery-email
     #   django-celery-results
+    #   django-classy-tags
     #   django-cors-headers
     #   django-crispy-forms
     #   django-dbbackup
     #   django-htmx
+    #   django-js-reverse
     #   django-minify-html
     #   django-newsfeed
     #   django-ranged-response
     #   django-rich
+    #   django-sekizai
     #   django-simple-captcha
     #   django-slugger
     #   django-storages
     #   django-taggit
     #   django-timezone-field
     #   django-tweets
+django-ads==1.1.1
+    # via -r requirements.in
 django-appconf==1.0.5
-    # via django-celery-email
+    # via
+    #   django-ads
+    #   django-celery-email
 django-auto-prefetch==1.7.0
     # via -r requirements.in
+django-braces==1.15.0
+    # via django-ads
 django-celery-beat==2.5.0
     # via -r requirements.in
 django-celery-email==3.0.0
     # via -r requirements.in
 django-celery-results==2.5.1
     # via -r requirements.in
+django-classy-tags==4.1.0
+    # via django-sekizai
 django-cors-headers==4.2.0
     # via -r requirements.in
 django-crispy-forms==2.0
@@ -135,6 +148,8 @@ django-dbbackup==4.0.2
     # via -r requirements.in
 django-htmx==1.16.0
     # via -r requirements.in
+django-js-reverse==0.10.2
+    # via django-ads
 django-minify-html==1.6.0
     # via -r requirements.in
 django-nested-inline==0.4.6
@@ -145,6 +160,8 @@ django-ranged-response==0.2.0
     # via django-simple-captcha
 django-rich==1.7.0
     # via -r requirements.in
+django-sekizai==4.1.0
+    # via django-ads
 django-simple-captcha==0.5.18
     # via -r requirements.in
 django-slugger==1.1.2
@@ -232,7 +249,9 @@ oauthlib==3.2.2
 oscrypto==1.3.0
     # via pyhanko-certvalidator
 packaging==23.1
-    # via gunicorn
+    # via
+    #   django-js-reverse
+    #   gunicorn
 parso==0.8.3
     # via jedi
 pexpect==4.8.0
@@ -241,6 +260,7 @@ pickleshare==0.7.5
     # via ipython
 pillow==10.0.0
     # via
+    #   django-ads
     #   django-simple-captcha
     #   reportlab
     #   xhtml2pdf

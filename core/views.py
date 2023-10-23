@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
+from django.views import View
 
 from affiliates.models import Book
 from core.forms import ContactForm
@@ -54,3 +55,12 @@ def favicon(request: HttpRequest) -> HttpResponse:
         ),
         content_type="image/svg+xml",
     )
+
+
+class AdsView(View):
+    """Replace pub-0000000000000000 with your own publisher ID"""
+
+    line = "google.com, pub-3031639002739313, DIRECT, f08c47fec0942fa0"
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponse(self.line)
