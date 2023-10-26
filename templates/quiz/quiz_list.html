@@ -1,6 +1,10 @@
-{% extends "base.html" %} {% load cache %} {% cache 604800 quiz_list %} {% block
-head_title %}Quizzes | English Stuff Online{% endblock %} {% block content %} {%
-include 'partials/navbar.html' %}
+{% extends "base.html" %} 
+{% load cache %}
+
+{% cache 604800 quiz_list %}
+{% block head_title %}Quizzes | English Stuff Online{% endblock %} {% block content %} 
+
+{% include 'partials/navbar.html' %}
 
 <h1 class="text-success text-center py-5">Learn English Online!</h1>
 
