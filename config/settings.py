@@ -86,17 +86,15 @@ INSTALLED_APPS = [
     "captcha",
     "crispy_forms",
     "crispy_bootstrap5",
-    "django_celery_beat",
-    "django_celery_results",
     "taggit",
     "newsfeed",
     "nested_inline",
     "corsheaders",
-    "request",
     "dbbackup",
     "django_minify_html",
     "django_tweets",
-    "djcelery_email",
+    "huey.contrib.djhuey",
+    "django_linkedin_posts",
 ]
 
 
@@ -111,7 +109,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "request.middleware.RequestMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
@@ -215,36 +212,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# analytics
-GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = "G-5ZBMDVB7S4"
-
-
 SITE_BASE_URL = "https://englishstuff.online"
-
-
-# django-request
-REQUEST_BASE_URL = SITE_BASE_URL
-
-REQUEST_IGNORE_PATHS = (
-    r"^admin.*",
-    "/robots.txt",
-    "/favicon.ico",
-)
-
-REQUEST_TRAFFIC_MODULES = ("request.traffic.UniqueVisitor",)
-
-# deny ips
-NGIX_DENY_CONFIGURATION_FILE = "/home/rami/backups/deny.conf"
-
-DENY_IPS_WITH_PATHS = [
-    ".php",
-    ".env",
-    "wlwmanifest.xml",
-    "config.json",
-    ".production",
-    ".local",
-    ".remote",
-]
 
 
 # site info
@@ -264,16 +232,11 @@ TELEGRAM_CHANNEL_NAME = "@english_stuff_online"
 # Linkedin - socialmedia app
 LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID")
 LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET")
-LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
-LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
-LINKEDIN_ORGANIZATION_ID = os.environ.get("LINKEDIN_ORGANIZATION_ID")
-LINKEDIN_ORGANIZATION_ACCESS_TOKEN = os.environ.get(
-    "LINKEDIN_ORGANIZATION_ACCESS_TOKEN"
-)
-LINKEDIN_ORGANIZATION_REFRESH_TOKEN = os.environ.get(
-    "LINKEDIN_ORGANIZATION_REFRESH_TOKEN"
-)
 
+LINKEDIN_AUTHOR_TPYE = "organization"  # "organization" or "person"
+LINKEDIN_AUTHOR_ID = os.environ.get("LINKEDIN_AUTHOR_ID")
+LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
+LINKEDIN_REFRESH_TOKEN = os.environ.get("LINKEDIN_REFRESH_TOKEN")
 
 # Twitter - socialmedia app
 TWITTER_USERNAME = "EnglishstuffOn"
@@ -302,37 +265,13 @@ NEWSFEED_SITE_BASE_URL = "https://englishstuff.online"
 NEWSFEED_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
 
-# celery
-REDIS_URL = "redis://127.0.0.1:6379/4"
-CELERY_BROKER_URL = REDIS_URL
-CELERY_RESULT_BACKEND = "django-db"
-
 # caching
-CELERY_CACHE_BACKEND = "default"
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": REDIS_URL,
+        "LOCATION": "redis://127.0.0.1:6379/4",
     }
 }
-
-
-# SMTP Email
-EMAIL_BACKEND = os.environ.get(
-    "EMAIL_BACKEND",
-    "django.core.mail.backends.console.EmailBackend",
-)
-EMAIL_USE_TLS = str(os.environ.get("EMAIL_USE_TLS")) == "1"
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
-EMAIL_PORT = os.environ.get("EMAIL_PORT")
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
-# geoip2
-
-GEOIP_PATH = BASE_DIR / "geoip2dbs"
 
 
 # Storage

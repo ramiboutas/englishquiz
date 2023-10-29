@@ -1,51 +1,50 @@
 {% extends "base.html" %}
-{% load cache %}
 {% load markdown_extras %}
-
-{% cache 604800 book_detail book.pk region %}
-    {% block head_title %} {{ book.name }} {% endblock %}
-
-    {% block content %}
-
-        {% include 'partials/navbar.html' %}
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <img class="w-100" src="{{ book.image_url }}" alt="">
-                    <p class="text-secondary">Category: {{ book.get_category_display }} |
-                        Test type: {{ book.get_test_type_display }} |
-                        Level: {{ book.get_level_display }}
-                    </p>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <h1 class="text-success text-center">{{ book.name }}</h1>
-
-                    <p>{{ book.description | markdown | safe }}</p>
-
-                    <div class="row ">
-                        <div class="col-12">
-                            <a class="btn btn-success w-100 m-2" href="{{ book.affiliate_link }}" target="_blank">
-                                {% if book.affiliate_label %} {{ book.affiliate_label }} {% else %} {{ book.affiliate_link }} {% endif %}
-                                <i class="bi bi-box-arrow-up-right"></i>
-                            </a>
-                        </div>
+{% block head_title %}{{ book.name }}{% endblock %}
+{% block content %}
+    {% include 'partials/navbar.html' %}
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <img class="w-100" src="{{ book.image_url }}" alt="">
+                <p class="text-secondary">
+                    Category: {{ book.get_category_display }} |
+                    Test type: {{ book.get_test_type_display }} |
+                    Level: {{ book.get_level_display }}
+                </p>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <h1 class="text-success text-center">{{ book.name }}</h1>
+                <p>{{ book.description | markdown | safe }}</p>
+                <div class="row ">
+                    <div class="col-12">
+                        <a class="btn btn-success w-100 m-2"
+                           href="{{ book.affiliate_link }}"
+                           target="_blank">
+                            {% if book.affiliate_label %}
+                                {{ book.affiliate_label }}
+                            {% else %}
+                                {{ book.affiliate_link }}
+                            {% endif %}
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
                     </div>
-                    <p>
-                        <small> {{ book.get_affiliate_disclosure_display }} </small>
-                    </p>
                 </div>
-
-                <div class="container py-5">
-                    <h2 class="text-success"> Related books
-                        <a class="btn btn-outline-success float-end" href="{% url 'book_list' %}">All books 📚</a>
-                    </h2>
-                    <div class="row justify-content-md-center">
-                        {% include "affiliates/partials/book_list.html" with book_list=related_books %}
-                    </div>
+                <p>
+                    <small>{{ book.get_affiliate_disclosure_display }}</small>
+                </p>
+            </div>
+            <div class="container py-5">
+                <h2 class="text-success">
+                    Related books
+                    <a class="btn btn-outline-success float-end"
+                       href="{% url 'book_list' %}">All books 📚</a>
+                </h2>
+                <div class="row justify-content-md-center">
+                    {% include "affiliates/partials/book_list.html" with book_list=related_books %}
                 </div>
             </div>
         </div>
-
-        {% include "partials/footer.html" %}
-    {% endblock %}
-{% endcache %}
+    </div>
+    {% include "partials/footer.html" %}
+{% endblock %}

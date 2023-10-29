@@ -6,7 +6,10 @@ from django.shortcuts import render
 
 from .models import BlogPost
 
+from django.views.decorators.cache import cache_page
 
+
+@cache_page(3600 * 24 * 7)
 def post_list_view(request):
     last_posts = BlogPost.get_last_posts()
     popular_posts = BlogPost.get_popular_posts()
@@ -14,6 +17,7 @@ def post_list_view(request):
     return render(request, "blog/post_list.html", context)
 
 
+@cache_page(3600 * 24 * 7)
 def all_posts_view(request):
     all_posts = BlogPost.get_all_posts()
     paginator = Paginator(all_posts, 10)
@@ -23,6 +27,7 @@ def all_posts_view(request):
     return render(request, "blog/all_posts.html", context)
 
 
+@cache_page(3600 * 24 * 7)
 def post_detail_view(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
     post.add_view()

@@ -78,7 +78,7 @@ class BlogModelTests(TestCase):
         self.assertEqual(post_secs, readtime.of_markdown(self.blogpost_content).seconds)
 
     def test_absolute_and_detail_url(self):
-        target_url = "/blog/general/test-title/"
+        target_url = "/blog/test-title/"
         self.assertEqual(self.post.get_absolute_url(), target_url)
         self.assertEqual(self.post.get_detail_url(), target_url)
 

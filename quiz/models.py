@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import random
+
 import auto_prefetch
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -168,6 +171,69 @@ class Question(auto_prefetch.Model):
             .order_by("id")
             .first()
         )
+
+    @classmethod
+    def get_random_object_to_promote(cls):
+        # Promote post without image for the moment
+        questions = cls.objects.filter(promoted=False, file=None)
+        if not questions.exists():
+            qs = cls.objects.all()
+            qs.update(promoted=False)
+            return qs[0]
+        return random.choice(list(questions))
+
+    def _get_question_text(self):
+        """
+        It generates text from a Question instance
+        """
+        text = ""
+        if self.type == 1 or self.type == 2:
+            text += (
+                "What do you think that comes in the gap of the next sentence? 🤔\n\n"
+            )
+            text += f"📚 {self.text_one} ____ {self.text_two}"
+            if self.text_three:
+                text += f" ____ {self.text_three}\n"
+        if self.type == 5:
+            text += "Which option fits better in the gap of the next sentence? 🤔\n\n"
+            text += f"📚 {self.text_one}\n"
+            if self.text_two:
+                text += f"📚 {self.text_two}\n"
+            if self.text_three:
+                text += f"📚 {self.text_three}\n"
+            text += "\n💡 Options:\n"
+            for answer in self.answer_set.all():
+                text += f" 🔹 {answer.name}\n"
+
+        return text
+
+    def get_question_promotion_text(self):
+        """
+        It generates text from a question instance
+        """
+        question_text = self._get_question_text()
+
+        # Producing text
+        text = ""
+
+        text += f"Here a small question for you!\n\n"
+        text += f"{question_text} \n\n"
+        text += "Check out the right answer here:\n"
+        text += f"👉 {settings.SITE_BASE_URL}{self.get_detail_url()} \n\n"
+
+        return text
+
+    def get_poll_explanation_text(self):
+        text_options = [
+            "Guess the answer!",
+            "What do you think the answer is?",
+            "What goes in the gap?",
+        ]
+        text = random.choice(text_options)
+        text += "\n\nCheck the right answer here 👉 "
+        text += f"{settings.SITE_BASE_URL}{self.get_detail_url()}"
+
+        return text
 
     def __str__(self):
         return f"{self.lection.quiz.name} - {self.lection.name} - {self.text_one}"

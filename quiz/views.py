@@ -20,7 +20,6 @@ from .models import TranslatedQuestion
 from .text import get_correct_message
 from .text import get_incorrect_message
 from .translate import get_translated_question_text
-from utils.host import add_country_visitor
 
 
 @cache_page(3600 * 24 * 1)
@@ -43,21 +42,19 @@ def search_quizzes(request):
     return render(request, "quiz/partials/quiz_list.html", context)
 
 
+@cache_page(3600 * 24 * 7)
 def quiz_detail(request, slug, level):
     quiz = get_object_or_404(Quiz, slug=slug, level=level)
-    quiz.add_view()
     lections = quiz.lection_set.all()
     context = {"quiz": quiz, "lections": lections}
     return render(request, "quiz/quiz_detail.html", context)
 
 
+@cache_page(3600 * 24 * 7)
 def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
     quiz = get_object_or_404(Quiz, slug=slug_quiz, level=level_quiz)
     lection = get_object_or_404(Lection, slug=slug_lection, quiz=quiz)
-    lection.add_view()
     question = get_object_or_404(Question, id=id_question, lection=lection)
-    if question.is_first:
-        add_country_visitor(request)
     context = {
         "question": question,
         "progress_percentage": question.progress_percentage(),
@@ -68,7 +65,6 @@ def question_detail(request, slug_quiz, level_quiz, slug_lection, id_question):
 
 def translate_question_text(request, id_question, id_language):
     language = get_object_or_404(DeeplLanguage, id=id_language)
-    language.add_view()
     question = get_object_or_404(Question, id=id_question)
     question_translated_text = get_translated_question_text(question, language)
     context = {"translated_text": question_translated_text}

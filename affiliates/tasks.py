@@ -1,10 +1,11 @@
-from celery import shared_task
+from huey import crontab
+from huey.contrib import djhuey as huey
 
 from affiliates.models import Book
 
 
-@shared_task(bind=True)
-def update_featured_books(self, **kwargs):
+@huey.db_periodic_task(crontab(hour="00", minute="30"))
+def update_featured_books():
     qs = Book.objects.all()
     qs.update(featured=False)
     new_featured = qs[:6]

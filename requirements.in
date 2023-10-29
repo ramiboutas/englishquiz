@@ -1,6 +1,5 @@
 autopep8
 boto3
-celery
 django
 django-htmx
 django-dbbackup
@@ -8,8 +7,6 @@ django-auto-prefetch
 django-simple-captcha
 django-crispy-forms
 crispy-bootstrap5
-django-celery-beat
-django-celery-results
 django-taggit
 django-newsfeed
 django-nested-inline
@@ -37,5 +34,6 @@ whitenoise[brotli]
 django-minify-html
 django-tweets
 ipython
-django-celery-email
-django-ads
+huey
+django-linkedin-posts
+djlint

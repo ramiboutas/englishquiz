@@ -50,21 +50,6 @@ class FlexPage(auto_prefetch.Model):
         self.save()
 
 
-class CountryVisitor(models.Model):
-    country_code = models.CharField(max_length=5)
-    views = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return self.country_code
-
-    def add_view(self):
-        self.views += 1
-        self.save()
-
-    class Meta:
-        ordering = ("-views",)
-
-
 class Contact(auto_prefetch.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField()

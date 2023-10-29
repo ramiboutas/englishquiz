@@ -1,52 +1,12 @@
 {
-    "cSpell.words": [
-        "appleboy",
-        "corsheaders",
-        "curlylint",
-        "Deepl",
-        "digitalmedia",
-        "djhtml",
-        "dotenv",
-        "englishquiz",
-        "englishstuff",
-        "facebookpost",
-        "feedshare",
-        "flexpages",
-        "htmx",
-        "instagrampost",
-        "isort",
-        "isready",
-        "linkedinpost",
-        "Markdownify",
-        "markdownx",
-        "newsfeed",
-        "postdetail",
-        "postpdf",
-        "pyupgrade",
-        "rami",
-        "ramiboutas",
-        "readtime",
-        "regularsocialpost",
-        "Restli",
-        "setuptools",
-        "socialmedia",
-        "socialposts",
-        "tabwidth",
-        "taggit",
-        "telegrammessage",
-        "testview",
-        "thid",
-        "tinymce",
-        "venv",
-        "yake",
-        "ZBMDVB"
-    ],
-    "[django-html]": {},
     "files.associations": {
-        "*.html": "html"
+        "*.html": "django-html"
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "python.formatting.provider": "none"
+    "[html][django-html][handlebars][hbs][mustache][jinja][jinja-html][nj][njk][nunjucks][twig]": {
+        "editor.defaultFormatter": "monosans.djlint"
+      }
+      
 }

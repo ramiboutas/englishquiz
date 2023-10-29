@@ -8,5 +8,4 @@ class socialmediaConfig(AppConfig):
     name = "socialmedia"
 
     def ready(self):
-        from . import signals  # noqa
         from . import tasks  # noqa

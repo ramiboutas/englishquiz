@@ -20,9 +20,9 @@ def book_list(request):
     return render(request, "affiliates/book_list.html", context)
 
 
+@cache_page(3600 * 24 * 7)
 def book_detail(request, slug):
     book = Book.objects.get(slug=slug)
-    book.add_view()
     context = {
         "book": book,
         "related_books": book.get_related_books(),

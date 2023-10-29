@@ -41,7 +41,6 @@ urlpatterns = [
     path("markdownx/", include("markdownx.urls")),
     path("newsfeed/", include("newsfeed.urls", namespace="newsfeed")),
     # own apps
-    path("social-media/", include("socialmedia.urls")),
     path("blog/", include("blog.urls")),
     path("quiz/", include("quiz.urls")),
     path("", include("affiliates.urls")),

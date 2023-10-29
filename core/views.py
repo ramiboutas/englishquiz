@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.http import require_GET
 from django.views import View
 
@@ -14,6 +14,7 @@ from core.models import FlexPage
 from quiz.models import Quiz
 
 
+@cache_page(3600 * 24 * 7)
 def home_view(request):
     quiz_list = Quiz.objects.all()
     featured_books = Book.objects.filter(featured=True)
@@ -24,6 +25,7 @@ def home_view(request):
     return render(request, "core/home.html", context)
 
 
+@cache_page(3600 * 24 * 30)
 def flexpage_detail_view(request, slug):
     object = get_object_or_404(FlexPage, slug=slug)
     context = {"page": object}

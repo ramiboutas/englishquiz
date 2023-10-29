@@ -3,8 +3,6 @@ from __future__ import annotations
 import telegram as telegram_bot
 from django.conf import settings
 
-from socialmedia.models import TelegramMessage
-
 
 class TelegramAPI:
     def __init__(self) -> None:
@@ -17,14 +15,6 @@ class TelegramAPI:
             text=text,
             parse_mode="html",
             disable_web_page_preview=False,
-        )
-
-        return TelegramMessage.objects.create(
-            chat_id=response.chat_id,
-            message_id=response.message_id,
-            link=response.link,
-            text=response.text,
-            date=response.date,
         )
 
     def send_poll(

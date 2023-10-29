@@ -6,19 +6,9 @@ from newsfeed.admin import NewsletterAdmin
 from newsfeed.models import Newsletter
 
 from core.models import Contact
-from core.models import CountryVisitor
 from core.models import FlexPage
-from core.tasks import send_email_newsletter
 
 admin.site.unregister(Newsletter)
-
-
-@admin.register(CountryVisitor)
-class CountryVisitorAdmin(admin.ModelAdmin):
-    list_display = [
-        "country_code",
-        "views",
-    ]
 
 
 @admin.register(FlexPage)
@@ -70,11 +60,6 @@ class ContactAdmin(admin.ModelAdmin):
 class NewsletterAdmin(NewsletterAdmin):
     def send_newsletters(self, request, queryset):
         newsletter_ids = list(queryset.values_list("id", flat=True))
-
-        send_email_newsletter.delay(
-            newsletters_ids=newsletter_ids,
-            respect_schedule=False,
-        )
 
         messages.add_message(
             request,

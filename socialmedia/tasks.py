@@ -1,154 +1,128 @@
 from __future__ import annotations
 
-import time
 import random
 
-from celery import shared_task
+from huey import crontab
+from huey.contrib import djhuey as huey
 
 from blog.models import BlogPost
 from quiz.models import Question
 from socialmedia.apis.linkedin import LinkedinPostAPI
 from socialmedia.apis.linkedin import update_access_token
-from socialmedia.apis.telegram import TelegramAPI
 
-# TODO: fix issue TelegramAPI: {"exc_type": "AttributeError", "exc_message": ["'coroutine' object has no attribute 'chat_id'"], "exc_module": "builtins"}
 from socialmedia.models import SocialPost
-from socialmedia.text import get_blog_post_promotion_text
-from socialmedia.text import get_poll_explanation_text
-from socialmedia.text import get_question_promotion_text
 
 from django_tweets.models import Tweet
 from django_tweets.models import TweetFile
+from django_linkedin_posts.models import Post as LiPost
+
+from utils.telegram import report_to_admin, send_message_to_telegram_chat
 
 
-@shared_task(bind=True)
-def update_linkedin_company_page_access_token(self, **kwargs):
+@huey.db_periodic_task(crontab(month="2,4,6,8,10,12", day="29", hour="11", minute="19"))
+def update_linkedin_access_token():
     try:
         update_access_token()
     except Exception as e:
         raise e
 
 
-@shared_task(bind=True)
-def share_random_quiz_question(self, **kwargs):
+@huey.db_periodic_task(crontab(hour="11", minute="00"))
+def share_random_quiz_question():
+    question = Question.get_random_object_to_promote()
+    text = question.get_question_promotion_text()
     try:
-        # Getting random question
-        questions = Question.objects.filter(promoted=False)
+        # Telegram
+        send_message_to_telegram_chat(text)
 
-        if questions.exists():
-            question = random.choice(list(questions))
-            text = get_question_promotion_text(question)
+        # Linkedin
+        li_post = LiPost.objects.create(comment=text)
+        li_post.share()
 
-            # Telegram
-            # TelegramAPI().send_message(text)
-
-            # Linkedin
-            LinkedinPostAPI().create_post(text)
-
-            # Twitter
-            if text.__len__() < 280:
-                tweet = Tweet.objects.create(text=text)
-                tweet.publish()
-
-            # Setting field promoted to True -> so the question cannot be reshared
-            question.promoted = True
-            question.save()
-        else:
-            # Set all question instances to promoted=False
-            Question.objects.all().update(promoted=False)
+        # Twitter
+        # if text.__len__() < 280:
+        #    tweet = Tweet.objects.create(text=text)
+        #    tweet.publish()
 
     except Exception as e:
-        raise e
+        report_to_admin(f"Error by promoting social post (id={question.id}):\n\n{e}")
+
+    finally:
+        # Setting field promoted to True -> so the social post cannot be reshared
+        question.promoted = True
+        question.save()
 
 
-@shared_task(bind=True)
-def share_random_quiz_question_as_poll(self, **kwargs):
+@huey.db_periodic_task(crontab(hour="15", minute="00"))
+def share_random_quiz_question_as_poll():
     qs = Question.objects.filter(type=5)
     obj = random.choice(list(qs))
     question_text = obj.full_text
     options = obj.get_answer_list()
-    text = get_poll_explanation_text(obj)
+    text = obj.get_poll_explanation_text()
 
     # Linkedin
+    # TODO: use LiPost or Poll (create in django-linkedin-posts)
     LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
 
 
-@shared_task(bind=True)
-def share_social_post(self, **kwargs):
-    """
-    Regular social post - triggered by celery beat (periodic task)
-    """
-    # for safety: in case we want to first create an image from the post instance
-    time.sleep(10)
+@huey.db_periodic_task(crontab(hour="8", minute="00"))
+def share_social_post():
+    """Share a random social post"""
 
+    post = SocialPost.get_random_object_to_promote()
     try:
-        # Getting random social post
-        social_posts = SocialPost.objects.filter(promoted=False)
+        # Telegram
+        if post.promote_in_telegram:
+            send_message_to_telegram_chat(post.text)
 
-        if social_posts.exists():
-            post = random.choice(list(social_posts))
+        # Linkedin
+        if post.promote_in_linkedin:
+            li_post = LiPost.objects.create(comment=post.text)
+            li_post.share()
 
-            # sharing
-
-            if post.promote_in_telegram:
-                pass
-                # TelegramAPI().send_message(post.text)
-
-            if post.promote_in_linkedin:
-                LinkedinPostAPI().create_post(post.text)
-
-            if post.promote_in_twitter and post.text.__len__() < 280:
-                tweet = Tweet.objects.create(text=post.text)
-
-                if post.file is not None:
-                    tweet_file = TweetFile.objects.create(file=post.file)
-                    uploaded_tweet_file = tweet_file.upload()
-                    tweet.files.add(uploaded_tweet_file)
-                tweet.publish()
-
-            # Setting field promoted to True -> so the social post cannot be reshared
-            post.promoted = True
-            post.save()
-
-        else:
-            # Set all the regular social post objects to promoted = False
-            SocialPost.objects.all().update(promoted=False)
+        # Twitter
+        # if post.promote_in_twitter and post.text.__len__() < 280:
+        #     tweet = Tweet.objects.create(text=post.text)
+        #     if post.file is not None:
+        #         tweet_file = TweetFile.objects.create(file=post.file)
+        #         uploaded_tweet_file = tweet_file.upload()
+        #         tweet.files.add(uploaded_tweet_file)
+        #     tweet.publish()
 
     except Exception as e:
-        raise e
+        report_to_admin(f"Error by promoting social post (id={post.id}):\n\n{e}")
+
+    finally:
+        # Setting field promoted to True -> so the social post cannot be reshared
+        post.promoted = True
+        post.save()
 
 
-@shared_task(bind=True)
-def share_blog_post(self, **kwargs):
-    """
-    Regular social post - triggered by celery beat (periodic task)
-    """
+@huey.db_periodic_task(crontab(day="1", hour="9", minute="30"))
+def share_blog_post():
+    """Sharing a blog post in social media"""
+    # Getting blog post
+    post = BlogPost.get_random_object_to_promote()
+    text = post.get_promotion_text()
+
     try:
-        # Getting blog post
-        posts = BlogPost.objects.filter(promoted=False)
+        # Telegram
+        send_message_to_telegram_chat(text)
 
-        if posts.exists():
-            instance = random.choice(list(posts))
+        # Linkedin
+        li_post = LiPost.objects.create(comment=text)
+        li_post.share()
 
-            text = get_blog_post_promotion_text(instance)
-
-            # Telegram
-            # TelegramAPI().send_message(text)
-
-            # Linkedin
-            LinkedinPostAPI().create_post(text)
-
-            # Twitter
-            if text.__len__() < 280:
-                tweet = Tweet.objects.create(text=text)
-                tweet.publish()
-
-            # Setting field promoted to True -> so the question cannot be reshared
-            instance.promoted = True
-            instance.save()
-        else:
-            # Set all blog posts¡ instances to promoted=False
-            BlogPost.objects.all().update(promoted=False)
+        # Twitter
+        # if text.__len__() < 280:
+        #     tweet = Tweet.objects.create(text=text)
+        #     tweet.publish()
 
     except Exception as e:
-        raise e
+        report_to_admin(f"Error by promoting blog post (id={post.id}):\n\n{e}")
+
+    finally:
+        # Setting field promoted to True -> so the question cannot be reshared
+        post.promoted = True
+        post.save()

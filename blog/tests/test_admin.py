@@ -35,7 +35,6 @@ class BlogAdminTests(TestCase):
         obj = BlogPost(
             title="Testing title",
             description="He comes my description",
-            tags="tag",
             content="here comes my content in ##Markdown",
         )
         ma = BlogPostAdmin(BlogPost, self.site)

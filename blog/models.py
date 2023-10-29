@@ -1,13 +1,17 @@
 from __future__ import annotations
 
-import auto_prefetch
+import random
 import readtime
+
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from slugger import AutoSlugField
 
+import auto_prefetch
+from slugger import AutoSlugField
 from markdownx.models import MarkdownxField
+
 from utils.keywords import get_keywords_from_text
 
 
@@ -79,3 +83,23 @@ class BlogPost(auto_prefetch.Model):
 
     def get_meta_title(self):
         return self.title
+
+    def get_promotion_text(self):
+        """
+        It generates text for promoting a blog post
+        """
+        text = ""
+        text += f"✍ Blog post: {self.title}\n\n"
+        text += f"{self.description}\n\n"
+        text += f"More under: {settings.SITE_BASE_URL}{self.get_detail_url()}\n\n"
+
+        return text
+
+    @classmethod
+    def get_random_object_to_promote(cls):
+        posts = cls.objects.filter(promoted=False)
+        if not posts.exists():
+            qs = cls.objects.all()
+            qs.update(promoted=False)
+            return qs[0]
+        return random.choice(list(posts))
