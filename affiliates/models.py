@@ -1,8 +1,13 @@
+import random
+
 import auto_prefetch
+
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 from django.utils.text import slugify
 
+from utils.telegram import report_to_admin
 from markdownx.models import MarkdownxField
 
 AFFILIATE_REGION_SCOPE_CHOICES = (
@@ -50,14 +55,17 @@ BOOK_CATEGORIES = (
 class Book(auto_prefetch.Model):
     name = models.CharField(max_length=128)
     description = MarkdownxField()
-    image_url = models.URLField(blank=True, null=True)
-    thumbnail_url = models.URLField(blank=True, null=True)
+    image = models.ImageField(upload_to="books", null=True)
     level = models.PositiveSmallIntegerField(default=3, choices=BOOK_LEVELS)
     test_type = models.CharField(
-        default="general", max_length=16, choices=BOOK_TEST_TYPES
+        default="general",
+        max_length=16,
+        choices=BOOK_TEST_TYPES,
     )
     category = models.CharField(
-        default="general", max_length=16, choices=BOOK_CATEGORIES
+        default="general",
+        max_length=16,
+        choices=BOOK_CATEGORIES,
     )
     slug = models.SlugField(max_length=128, blank=True, unique=True)
     featured = models.BooleanField(default=False)
@@ -66,8 +74,24 @@ class Book(auto_prefetch.Model):
     affiliate_link = models.URLField(null=True)
     affiliate_label = models.CharField(max_length=64, blank=True, null=True)
     affiliate_disclosure = models.CharField(
-        max_length=16, choices=DISCLOSURES, default="amazon"
+        max_length=16,
+        choices=DISCLOSURES,
+        default="amazon",
     )
+    promoted = models.BooleanField(default=False)
+
+    def get_remote_image(self):
+        from pathlib import Path
+        import urllib.request
+        from django.core.files import File
+
+        if self.image_url and not self.image:
+            tmpfilepath, _ = urllib.request.urlretrieve(self.image_url)
+            path = Path(tmpfilepath)
+            filename = path.name + "." + self.image_url.split(".")[-1]
+            with path.open(mode="rb") as f:
+                self.image = File(f, name=filename)
+                self.save()
 
     def get_detail_url(self):
         return reverse("book_detail", kwargs={"slug": self.slug})
@@ -98,6 +122,31 @@ class Book(auto_prefetch.Model):
 
     class Meta(auto_prefetch.Model.Meta):
         ordering = ("-views",)
+
+    def get_promotion_text(self):
+        """
+        It generates text for promoting a blog post
+        """
+        starting_list = [
+            "Check out this book if you are interested in learning in an organized way!",
+            "Have look at this book!",
+            "We all know that studying with a book is one best ways to get more knowledge. We recoomend this one for boosting your English!",
+        ]
+        text = ""
+        text += f"📗 {random.choice(starting_list)}\n\n"
+        text += f"Title: {self.name}\n\n"
+        text += f"Level: {self.get_level_display()}\n\n"
+        text += f"More here 👉 {settings.SITE_BASE_URL}{self.get_detail_url()}\n\n"
+
+        return text
+
+    @classmethod
+    def get_random_object_to_promote(cls):
+        qs = cls.objects.filter(promoted=False)
+        if not qs.exists():
+            qs = cls.objects.all()
+            report_to_admin(f"All books were promoted, please make more.")
+        return random.choice(list(qs))
 
 
 class BookAffiliateLink(models.Model):

@@ -13,6 +13,7 @@ from slugger import AutoSlugField
 from markdownx.models import MarkdownxField
 
 from utils.keywords import get_keywords_from_text
+from utils.telegram import report_to_admin
 
 
 class BlogPost(auto_prefetch.Model):
@@ -97,9 +98,8 @@ class BlogPost(auto_prefetch.Model):
 
     @classmethod
     def get_random_object_to_promote(cls):
-        posts = cls.objects.filter(promoted=False)
-        if not posts.exists():
+        qs = cls.objects.filter(promoted=False)
+        if not qs.exists():
             qs = cls.objects.all()
-            qs.update(promoted=False)
-            return qs[0]
-        return random.choice(list(posts))
+            report_to_admin(f"All blog posts were promoted, please make more.")
+        return random.choice(list(qs))

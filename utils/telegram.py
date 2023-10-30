@@ -1,3 +1,5 @@
+import requests
+
 import urllib.parse
 import urllib.request
 
@@ -29,4 +31,14 @@ def report_to_admin(text: str):
 def send_message_to_telegram_chat(text: str):
     base_url = f"https://api.telegram.org/bot{bot}/sendMessage"
     parameters = {"chat_id": settings.TELEGRAM_CHANNEL_NAME, "text": text}
+    make_request(endpoint=base_url, parameters=parameters)
+
+
+def send_image_to_telegram_chat(caption: str, image_url):
+    base_url = f"https://api.telegram.org/bot{bot}/sendPhoto"
+    parameters = {
+        "chat_id": settings.TELEGRAM_CHANNEL_NAME,
+        "caption": caption,
+        "photo": image_url,
+    }
     make_request(endpoint=base_url, parameters=parameters)

@@ -5,6 +5,8 @@ import auto_prefetch
 from django.conf import settings
 from django.db import models
 
+from utils.telegram import report_to_admin
+
 
 class SocialPost(auto_prefetch.Model):
     """
@@ -36,7 +38,6 @@ class SocialPost(auto_prefetch.Model):
         # Promote post without image for the moment
         posts = cls.objects.filter(promoted=False, file=None)
         if not posts.exists():
-            qs = cls.objects.all()
-            qs.update(promoted=False)
-            return qs[0]
+            posts = cls.objects.all()
+            report_to_admin(f"All posts were promoted, please make more.")
         return random.choice(list(posts))

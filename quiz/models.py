@@ -9,6 +9,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+
+from utils.telegram import report_to_admin
+
+
 QUIZ_LEVEL_CHOICES = (
     (1, "A1"),
     (2, "A2"),
@@ -174,12 +178,10 @@ class Question(auto_prefetch.Model):
 
     @classmethod
     def get_random_object_to_promote(cls):
-        # Promote post without image for the moment
-        questions = cls.objects.filter(promoted=False, file=None)
+        questions = cls.objects.filter(promoted=False)
         if not questions.exists():
-            qs = cls.objects.all()
-            qs.update(promoted=False)
-            return qs[0]
+            questions = cls.objects.all()
+            report_to_admin(f"All questions were promoted, please make more.")
         return random.choice(list(questions))
 
     def _get_question_text(self):

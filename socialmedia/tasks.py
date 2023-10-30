@@ -5,6 +5,7 @@ import random
 from huey import crontab
 from huey.contrib import djhuey as huey
 
+from affiliates.models import Book
 from blog.models import BlogPost
 from quiz.models import Question
 from socialmedia.apis.linkedin import LinkedinPostAPI
@@ -16,7 +17,11 @@ from django_tweets.models import Tweet
 from django_tweets.models import TweetFile
 from django_linkedin_posts.models import Post as LiPost
 
-from utils.telegram import report_to_admin, send_message_to_telegram_chat
+from utils.telegram import (
+    report_to_admin,
+    send_message_to_telegram_chat,
+    send_image_to_telegram_chat,
+)
 
 
 @huey.db_periodic_task(crontab(month="2,4,6,8,10,12", day="29", hour="11", minute="19"))
@@ -25,6 +30,27 @@ def update_linkedin_access_token():
         update_access_token()
     except Exception as e:
         raise e
+
+
+@huey.db_periodic_task(crontab(day="6", hour="9", minute="00"))
+def share_random_book():
+    book = Book.get_random_object_to_promote()
+    text = book.get_promotion_text()
+    try:
+        # Linkedin
+        li_post = LiPost.objects.create(comment=text, image=book.image)
+        li_post.upload_image()
+        li_post.share()
+
+        # Telegram
+        send_image_to_telegram_chat(text, book.image.url)
+    except Exception as e:
+        report_to_admin(f"Error by promoting social post (id={book.id}):\n\n{e}")
+
+    finally:
+        # Setting field promoted to True -> so the social post cannot be reshared
+        book.promoted = True
+        book.save()
 
 
 @huey.db_periodic_task(crontab(hour="11", minute="00"))
