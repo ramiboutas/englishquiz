@@ -133,9 +133,9 @@ class Book(auto_prefetch.Model):
             "We all know that studying with a book is one best ways to get more knowledge. We recoomend this one for boosting your English!",
         ]
         text = ""
-        text += f"📗 {random.choice(starting_list)}\n\n"
-        text += f"Title: {self.name}\n\n"
-        text += f"Level: {self.get_level_display()}\n\n"
+        text += f"{random.choice(starting_list)}\n\n"
+        text += f"📗 Title: {self.name}\n\n"
+        text += f"📊 Level: {self.get_level_display()}\n\n"
         text += f"More here 👉 {settings.SITE_BASE_URL}{self.get_detail_url()}\n\n"
 
         return text

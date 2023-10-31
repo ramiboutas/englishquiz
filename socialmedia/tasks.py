@@ -44,6 +44,7 @@ def share_random_book():
 
         # Telegram
         send_image_to_telegram_chat(text, book.image.url)
+        report_to_admin(f"Book promoted (id={book.id}):\n\n{text}")
     except Exception as e:
         report_to_admin(f"Error by promoting social post (id={book.id}):\n\n{e}")
 
@@ -53,7 +54,7 @@ def share_random_book():
         book.save()
 
 
-@huey.db_periodic_task(crontab(hour="11", minute="00"))
+@huey.db_periodic_task(crontab(hour="11,13", minute="00"))
 def share_random_quiz_question():
     question = Question.get_random_object_to_promote()
     text = question.get_question_promotion_text()
@@ -69,6 +70,8 @@ def share_random_quiz_question():
         # if text.__len__() < 280:
         #    tweet = Tweet.objects.create(text=text)
         #    tweet.publish()
+
+        report_to_admin(f"Quiz question promoted (id={question.id}):\n\n{text}")
 
     except Exception as e:
         report_to_admin(f"Error by promoting social post (id={question.id}):\n\n{e}")
@@ -90,6 +93,8 @@ def share_random_quiz_question_as_poll():
     # Linkedin
     # TODO: use LiPost or Poll (create in django-linkedin-posts)
     LinkedinPostAPI().create_poll(text, question_text=question_text, options=options)
+
+    report_to_admin(f"Quiz question as poll promoted (id={obj.id}):\n\n{text}")
 
 
 @huey.db_periodic_task(crontab(hour="8", minute="00"))
@@ -115,6 +120,7 @@ def share_social_post():
         #         uploaded_tweet_file = tweet_file.upload()
         #         tweet.files.add(uploaded_tweet_file)
         #     tweet.publish()
+        report_to_admin(f"Social post promoted (id={post.id}):\n\n{post.text}")
 
     except Exception as e:
         report_to_admin(f"Error by promoting social post (id={post.id}):\n\n{e}")
@@ -145,6 +151,7 @@ def share_blog_post():
         #     tweet = Tweet.objects.create(text=text)
         #     tweet.publish()
 
+        report_to_admin(f"Blog post promoted (id={post.id}):\n\n{text}")
     except Exception as e:
         report_to_admin(f"Error by promoting blog post (id={post.id}):\n\n{e}")
 
