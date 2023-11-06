@@ -39,6 +39,12 @@ botocore==1.31.36
     #   s3transfer
 brotli==1.0.9
     # via whitenoise
+bx-django-utils==67
+    # via django-huey-monitor
+bx-py-utils==88
+    # via
+    #   bx-django-utils
+    #   django-huey-monitor
 certifi==2023.7.22
     # via
     #   httpcore
@@ -78,12 +84,14 @@ deepl==1.15.0
 django==4.2.4
     # via
     #   -r requirements.in
+    #   bx-django-utils
     #   crispy-bootstrap5
     #   django-auto-prefetch
     #   django-cors-headers
     #   django-crispy-forms
     #   django-dbbackup
     #   django-htmx
+    #   django-huey-monitor
     #   django-linkedin-posts
     #   django-minify-html
     #   django-newsfeed
@@ -105,6 +113,8 @@ django-crispy-forms==2.0
 django-dbbackup==4.0.2
     # via -r requirements.in
 django-htmx==1.16.0
+    # via -r requirements.in
+django-huey-monitor==0.7.1
     # via -r requirements.in
 django-linkedin-posts==0.0.3
     # via -r requirements.in
@@ -161,7 +171,9 @@ httpcore==0.17.3
 httpx==0.24.1
     # via python-telegram-bot
 huey==2.5.0
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-huey-monitor
 idna==3.4
     # via
     #   anyio
@@ -274,6 +286,8 @@ python-dateutil==2.8.2
     # via botocore
 python-dotenv==1.0.0
     # via -r requirements.in
+python-stdnum==1.19
+    # via bx-django-utils
 python-telegram-bot==20.4
     # via -r requirements.in
 pytz==2023.3

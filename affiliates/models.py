@@ -128,9 +128,9 @@ class Book(auto_prefetch.Model):
         It generates text for promoting a blog post
         """
         starting_list = [
-            "Check out this book if you are interested in learning in an organized way!",
-            "Have look at this book!",
-            "We all know that studying with a book is one best ways to get more knowledge. We recoomend this one for boosting your English!",
+            "Check out this book if you are interested in learning in an organised way!",
+            "Check out this book!",
+            "We all know that studying with a book is one of the best ways to get more knowledge. We recommend this one to improve your English!",
         ]
         text = ""
         text += f"{random.choice(starting_list)}\n\n"
@@ -145,7 +145,7 @@ class Book(auto_prefetch.Model):
         qs = cls.objects.filter(promoted=False)
         if not qs.exists():
             qs = cls.objects.all()
-            report_to_admin(f"All books were promoted, please make more.")
+            report_to_admin("All books were promoted, please make more.")
         return random.choice(list(qs))
 
 

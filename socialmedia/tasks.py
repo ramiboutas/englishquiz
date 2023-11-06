@@ -19,8 +19,8 @@ from django_linkedin_posts.models import Post as LiPost
 
 from utils.telegram import (
     report_to_admin,
-    send_message_to_telegram_chat,
-    send_image_to_telegram_chat,
+    send_telegram_message,
+    send_telegram_image,
 )
 
 
@@ -43,7 +43,7 @@ def share_random_book():
         li_post.share()
 
         # Telegram
-        send_image_to_telegram_chat(text, book.image.url)
+        send_telegram_image(text, book.image.url)
         report_to_admin(f"Book promoted (id={book.id}):\n\n{text}")
     except Exception as e:
         report_to_admin(f"Error by promoting social post (id={book.id}):\n\n{e}")
@@ -60,7 +60,7 @@ def share_random_quiz_question():
     text = question.get_question_promotion_text()
     try:
         # Telegram
-        send_message_to_telegram_chat(text)
+        send_telegram_message(text)
 
         # Linkedin
         li_post = LiPost.objects.create(comment=text)
@@ -105,7 +105,7 @@ def share_social_post():
     try:
         # Telegram
         if post.promote_in_telegram:
-            send_message_to_telegram_chat(post.text)
+            send_telegram_message(post.text)
 
         # Linkedin
         if post.promote_in_linkedin:
@@ -140,7 +140,7 @@ def share_blog_post():
 
     try:
         # Telegram
-        send_message_to_telegram_chat(text)
+        send_telegram_message(text)
 
         # Linkedin
         li_post = LiPost.objects.create(comment=text)

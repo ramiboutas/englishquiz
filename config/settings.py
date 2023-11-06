@@ -93,8 +93,10 @@ INSTALLED_APPS = [
     "dbbackup",
     "django_minify_html",
     "django_tweets",
-    "huey.contrib.djhuey",
     "django_linkedin_posts",
+    "huey.contrib.djhuey",
+    "bx_django_utils",  # https://github.com/boxine/bx_django_utils
+    "huey_monitor",
 ]
 
 
@@ -227,6 +229,8 @@ META_DESCRIPTION = "English Stuff Online. \
 # Telegram - socialmedia app
 TELEGRAM_BOT_API_KEY = os.environ.get("TELEGRAM_BOT_API_KEY")
 TELEGRAM_CHANNEL_NAME = "@english_stuff_online"
+# reporting to chat
+TELEGRAM_REPORTING_CHAT_ID = os.environ.get("TELEGRAM_REPORTING_CHAT_ID")
 
 
 # Linkedin - socialmedia app

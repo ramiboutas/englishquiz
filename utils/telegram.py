@@ -24,21 +24,20 @@ def make_request(endpoint: str, parameters: dict):
 
 
 def report_to_admin(text: str):
-    chat_id = settings.TELEGRAM_REPORTING_CHAT_ID
-    send_message_to_telegram_chat(chat_id=chat_id, text=text)
+    send_telegram_message(chat_id=settings.TELEGRAM_REPORTING_CHAT_ID, text=text)
 
 
-def send_message_to_telegram_chat(text: str):
+def send_telegram_message(text: str, chat_id=settings.TELEGRAM_CHANNEL_NAME):
     base_url = f"https://api.telegram.org/bot{bot}/sendMessage"
-    parameters = {"chat_id": settings.TELEGRAM_CHANNEL_NAME, "text": text}
+    parameters = {"chat_id": chat_id, "text": text}
     make_request(endpoint=base_url, parameters=parameters)
 
 
-def send_image_to_telegram_chat(caption: str, image_url):
+def send_telegram_image(
+    caption: str,
+    image_url,
+    chat_id=settings.TELEGRAM_CHANNEL_NAME,
+):
     base_url = f"https://api.telegram.org/bot{bot}/sendPhoto"
-    parameters = {
-        "chat_id": settings.TELEGRAM_CHANNEL_NAME,
-        "caption": caption,
-        "photo": image_url,
-    }
+    parameters = {"chat_id": chat_id, "caption": caption, "photo": image_url}
     make_request(endpoint=base_url, parameters=parameters)

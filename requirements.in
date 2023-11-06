@@ -37,3 +37,4 @@ ipython
 huey
 django-linkedin-posts
 djlint
+django-huey-monitor
