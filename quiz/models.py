@@ -35,7 +35,6 @@ class Quiz(models.Model):
     slug = models.SlugField(blank=True, unique=True)
     image_url = models.URLField(max_length=200, blank=True, null=True)
     image_credits_url = models.URLField(max_length=200, null=True)
-    views = models.PositiveIntegerField(default=0)
 
     def get_detail_url(self):
         return reverse("quiz_detail", kwargs={"slug": self.slug, "level": self.level})
@@ -46,10 +45,6 @@ class Quiz(models.Model):
     def get_list_url(self):
         return reverse("quiz_list")
 
-    def add_view(self):
-        self.views += 1
-        self.save()
-
     def __str__(self):
         return f"{self.get_level_display()} - {self.name}"
 
@@ -57,25 +52,17 @@ class Quiz(models.Model):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
-    class Meta:
-        ordering = ("-views",)
-
 
 class Lection(auto_prefetch.Model):
     quiz = auto_prefetch.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     slug = models.SlugField(blank=True)
-    views = models.PositiveIntegerField(default=0)
 
     def get_first_question(self):
         return self.question_set.all().first()
 
     def get_absolute_url(self):
         return self.get_first_question().get_detail_url()
-
-    def add_view(self):
-        self.views += 1
-        self.save()
 
     def __str__(self):
         return f"{self.name} ({self.quiz.name})"
@@ -257,17 +244,9 @@ class DeeplLanguage(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=5)
     supports_formality = models.BooleanField(default=False)
-    views = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ["-views"]
 
     def __str__(self) -> str:
         return self.name
-
-    def add_view(self):
-        self.views += 1
-        self.save()
 
 
 class TranslatedQuestion(auto_prefetch.Model):

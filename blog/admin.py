@@ -13,7 +13,6 @@ class BlogPostAdmin(MarkdownxModelAdmin):
         "created",
         "updated",
         "created_by",
-        "views",
         "promoted",
         "reading_time",
         "reading_time_in_seconds",
@@ -23,14 +22,7 @@ class BlogPostAdmin(MarkdownxModelAdmin):
     }
 
     list_filter = ["public", "created_by", "created"]
-    list_display = [
-        "title",
-        "public",
-        "created_by",
-        "views",
-        "created",
-        "reading_time",
-    ]
+    list_display = ["title", "public", "created_by", "created", "reading_time"]
 
     def save_model(self, request, obj, form, change):
         if not obj.pk:

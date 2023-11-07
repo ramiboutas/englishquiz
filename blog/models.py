@@ -35,7 +35,6 @@ class BlogPost(auto_prefetch.Model):
         null=True,
     )
     create_pdf = models.BooleanField(default=False)
-    views = models.PositiveIntegerField(default=0)
     promoted = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
@@ -71,10 +70,6 @@ class BlogPost(auto_prefetch.Model):
     @classmethod
     def get_all_posts(cls):
         return cls.objects.all().order_by("-created")
-
-    def add_view(self):
-        self.views += 1
-        self.save()
 
     def get_meta_description(self):
         return self.description[0:160]

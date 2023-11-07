@@ -30,6 +30,5 @@ def all_posts_view(request):
 @cache_page(3600 * 24 * 7)
 def post_detail_view(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
-    post.add_view()
     context = {"post": post}
     return render(request, "blog/post_detail.html", context)

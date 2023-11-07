@@ -103,10 +103,6 @@ class BlogModelTests(TestCase):
         self.assertIn(self.yesterday_post, all_posts)
         self.assertIn(self.last_week_post, all_posts)
 
-    def test_add_view(self):
-        self.post.add_view()
-        self.assertEqual(self.post.views, 1)
-
     def test_get_meta_description(self):
         meta_description = self.post.get_meta_description()
         self.assertEqual(meta_description, "This is my description")

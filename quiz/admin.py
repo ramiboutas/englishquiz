@@ -21,7 +21,6 @@ class LectionInline(admin.StackedInline):
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    readonly_fields = ["views"]
     list_filter = ["name"]
     prepopulated_fields = {"slug": ("name",)}
     inlines = [
@@ -54,7 +53,6 @@ class QuestionInline(NestedStackedInline):
 @admin.register(Lection)
 class LectionAdmin(NestedModelAdmin):
     search_fields = ["name"]
-    readonly_fields = ["views"]
     list_filter = ["name", "quiz__name"]
     prepopulated_fields = {"slug": ("name",)}
     model = Quiz
@@ -98,10 +96,7 @@ class QuestionAdmin(admin.ModelAdmin):
 @admin.register(DeeplLanguage)
 class DeeplLanguageAdmin(admin.ModelAdmin):
     list_filter = ["supports_formality"]
-    readonly_fields = [
-        "views",
-    ]
-    list_display = ["name", "code", "supports_formality", "views"]
+    list_display = ["name", "code", "supports_formality"]
 
 
 @admin.register(TranslatedQuestion)

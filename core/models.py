@@ -24,7 +24,6 @@ class FlexPage(auto_prefetch.Model):
     )
     slug = AutoSlugField(populate_from="title")
     content = MarkdownxField()
-    views = models.PositiveIntegerField(default=0)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 
@@ -44,10 +43,6 @@ class FlexPage(auto_prefetch.Model):
 
     def get_detail_url(self):
         return self.get_absolute_url()
-
-    def add_view(self):
-        self.views += 1
-        self.save()
 
 
 class Contact(auto_prefetch.Model):

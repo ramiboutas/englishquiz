@@ -69,7 +69,6 @@ class Book(auto_prefetch.Model):
     )
     slug = models.SlugField(max_length=128, blank=True, unique=True)
     featured = models.BooleanField(default=False)
-    views = models.PositiveIntegerField(default=0)
 
     affiliate_link = models.URLField(null=True)
     affiliate_label = models.CharField(max_length=64, blank=True, null=True)
@@ -109,19 +108,12 @@ class Book(auto_prefetch.Model):
             category=self.category,
         )[:n]
 
-    def add_view(self):
-        self.views += 1
-        self.save()
-
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-
-    class Meta(auto_prefetch.Model.Meta):
-        ordering = ("-views",)
 
     def get_promotion_text(self):
         """
