@@ -15,9 +15,11 @@
                         {% if quiz.level < 4 %}<i class="bi bi-circle-fill"></i> <i class="bi bi-circle"></i> <i class="bi bi-circle"></i> {% endif %}
                     </span>
                 </p>
-                <p class="text-secondary">Views
-                    <span class="text-success float-end"> {{ quiz.views | intcomma }} </span>
-                </p>
+                <!--
+                    <p class="text-secondary">Views
+                        <span class="text-success float-end"> {{ quiz.views | intcomma }} </span>
+                    </p>
+                -->
                 <a href="{{ quiz.get_detail_url }}" class="btn btn-success w-100">{{ quiz.name}}</a>
             </div>
         </div>
