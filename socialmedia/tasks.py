@@ -23,21 +23,23 @@ from utils.telegram import (
     send_telegram_image,
 )
 
-QUESTION_AS_POLL_CRON_HOURS = "8,12"
-SOCIALPOST_CRON_HOURS = "10,14"
-QUESTION_CRON_HOURS = "9,15"
+QUESTION_AS_POLL_CRON_HOURS = "14"
+SOCIALPOST_CRON_HOURS = "16"
+QUESTION_CRON_HOURS = "10"
 
 
 @huey.db_periodic_task(crontab(hour=QUESTION_CRON_HOURS, minute="00"))
 def share_random_quiz_question():
     obj = Question.get_random_object_to_promote()
-    text = obj.get_question_promotion_text()
+
     try:
         # Telegram
-        send_telegram_message(text)
+        send_telegram_message(obj.get_question_promotion_text())
 
         # Linkedin
-        li_post = LiPost.objects.create(comment=text)
+        li_post = LiPost.objects.create(
+            comment=obj.get_question_promotion_text(add_link=False)
+        )
         li_post.share()
 
         # Twitter
@@ -45,7 +47,9 @@ def share_random_quiz_question():
         #    tweet = Tweet.objects.create(text=text)
         #    tweet.publish()
 
-        report_to_admin(f"Quiz question promoted (id={obj.id}):\n\n{text}")
+        report_to_admin(
+            f"Quiz question promoted (id={obj.id}):\n\n{obj.get_question_promotion_text(False)}"
+        )
 
     except Exception as e:
         report_to_admin(f"Error by promoting social post (id={obj.id}):\n\n{e}")
@@ -60,13 +64,18 @@ def share_random_quiz_question():
 def share_random_quiz_question_as_poll():
     obj = random.choice(list(Question.objects.filter(type=5)))  # TODO: create a method!
     options = obj.get_answer_list()
-    text = obj.get_poll_explanation_text()
 
     # Linkedin
     # TODO: use LiPost or Poll (create in django-linkedin-posts)
-    LinkedinPostAPI().create_poll(text, question_text=obj.full_text, options=options)
+    LinkedinPostAPI().create_poll(
+        obj.get_poll_explanation_text(add_link=False),
+        question_text=obj.full_text,
+        options=options,
+    )
 
-    report_to_admin(f"Quiz question as poll promoted (id={obj.id}):\n\n{text}")
+    report_to_admin(
+        f"Quiz question as poll promoted (id={obj.id}):\n\n{obj.get_poll_explanation_text()}"
+    )
 
 
 @huey.db_periodic_task(crontab(hour=SOCIALPOST_CRON_HOURS, minute="30"))
@@ -103,7 +112,7 @@ def share_social_post():
         obj.save()
 
 
-@huey.db_periodic_task(crontab(day="1", hour="9", minute="40"))
+@huey.db_periodic_task(crontab(day_of_week="2", hour="9", minute="40"))
 def share_blog_post():
     """Sharing a blog post in social media"""
     # Getting blog post
@@ -133,7 +142,7 @@ def share_blog_post():
         obj.save()
 
 
-@huey.db_periodic_task(crontab(day="6", hour="9", minute="50"))
+@huey.db_periodic_task(crontab(day_of_week="4", hour="9", minute="50"))
 def share_random_book():
     obj = Book.get_random_object_to_promote()
     text = obj.get_promotion_text()

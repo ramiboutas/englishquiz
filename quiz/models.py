@@ -196,7 +196,7 @@ class Question(auto_prefetch.Model):
 
         return text
 
-    def get_question_promotion_text(self):
+    def get_question_promotion_text(self, add_link=True):
         """
         It generates text from a question instance
         """
@@ -207,20 +207,22 @@ class Question(auto_prefetch.Model):
 
         text += f"Here a small question for you!\n\n"
         text += f"{question_text} \n\n"
-        text += "Check out the right answer here:\n"
-        text += f"👉 {settings.SITE_BASE_URL}{self.get_detail_url()} \n\n"
+        if add_link:
+            text += "Check out the right answer here:\n"
+            text += f"👉 {settings.SITE_BASE_URL}{self.get_detail_url()} \n\n"
 
         return text
 
-    def get_poll_explanation_text(self):
+    def get_poll_explanation_text(self, add_link=True):
         text_options = [
             "Guess the answer!",
             "What do you think the answer is?",
             "What goes in the gap?",
         ]
         text = random.choice(text_options)
-        text += "\n\nCheck the right answer here 👉 "
-        text += f"{settings.SITE_BASE_URL}{self.get_detail_url()}"
+        if add_link:
+            text += "\n\nCheck the right answer here 👉 "
+            text += f"{settings.SITE_BASE_URL}{self.get_detail_url()}"
 
         return text
 
