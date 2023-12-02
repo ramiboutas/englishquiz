@@ -16,6 +16,9 @@ from socialmedia.models import SocialPost
 from django_tweets.models import Tweet
 from django_tweets.models import TweetFile
 from django_linkedin_posts.models import Post as LiPost
+from django_linkedin_posts.models import Comment as LiComment
+from django_linkedin_posts.models import create_poll_with_options
+
 
 from utils.telegram import (
     report_to_admin,
@@ -23,38 +26,35 @@ from utils.telegram import (
     send_telegram_image,
 )
 
-QUESTION_AS_POLL_CRON_HOURS = "14"
+QUESTION_AS_POLL_CRON_HOURS = "10"
+QUESTION_CRON_HOURS = "14"
 SOCIALPOST_CRON_HOURS = "16"
-QUESTION_CRON_HOURS = "10"
 
 
 @huey.db_periodic_task(crontab(hour=QUESTION_CRON_HOURS, minute="00"))
 def share_random_quiz_question():
-    obj = Question.get_random_object_to_promote()
-
+    obj = random.choice(list(Question.objects.filter(promoted=False)))
+    text = obj.get_question_promotion_text(add_link=False)
+    text_with_link = obj.get_question_promotion_text(add_link=True)
     try:
         # Telegram
-        send_telegram_message(obj.get_question_promotion_text())
+        send_telegram_message(text_with_link)
 
         # Linkedin
-        li_post = LiPost.objects.create(
-            comment=obj.get_question_promotion_text(add_link=False)
-        )
+        li_post = LiPost.objects.create(text=text)
         li_post.share()
+        obj.linkedin_post = li_post
 
         # Twitter
         # if text.__len__() < 280:
         #    tweet = Tweet.objects.create(text=text)
         #    tweet.publish()
 
-        report_to_admin(
-            f"Quiz question promoted (id={obj.id}):\n\n{obj.get_question_promotion_text(False)}"
-        )
+        report_to_admin(f"Quiz question promoted (id={obj.id})")
 
     except Exception as e:
-        report_to_admin(f"Error by promoting social post (id={obj.id}):\n\n{e}")
-
-    finally:
+        report_to_admin(f"Error by promoting random question (id={obj.id}):\n\n{e}")
+    else:
         # Setting field promoted to True -> so the social post cannot be reshared
         obj.promoted = True
         obj.save()
@@ -64,18 +64,47 @@ def share_random_quiz_question():
 def share_random_quiz_question_as_poll():
     obj = random.choice(list(Question.objects.filter(type=5)))  # TODO: create a method!
     options = obj.get_answer_list()
-
+    comment = obj.get_poll_explanation_text(add_link=False)
+    question = obj.full_text
     # Linkedin
-    # TODO: use LiPost or Poll (create in django-linkedin-posts)
-    LinkedinPostAPI().create_poll(
-        obj.get_poll_explanation_text(add_link=False),
-        question_text=obj.full_text,
-        options=options,
-    )
+    poll = create_poll_with_options(comment, question, options, duration="ONE_DAY")
+    try:
+        poll.share()
+        obj.linkedin_poll = poll
+        obj.save()
+        report_to_admin(f"Quiz question as poll promoted (id={obj.id})")
+    except Exception as e:
+        report_to_admin(f"Error by promoting poll (id={obj.id}):\n\n{e}")
 
-    report_to_admin(
-        f"Quiz question as poll promoted (id={obj.id}):\n\n{obj.get_poll_explanation_text()}"
+
+@huey.db_periodic_task(crontab(day_of_week="2,6", hour="21", minute="25"))
+def comment_linkedin_polls_with_correct_answer():
+    questions = Question.objects.filter(
+        linkedin_poll__isnull=False, linkedin_poll_commented=False
     )
+    for question in questions:
+        c = LiComment.objects.create(
+            poll=question.linkedin_poll,
+            text=question.post_comment_with_right_answer(),
+        )
+        c.share()
+        question.linkedin_poll_commented = True
+        question.save()
+
+
+@huey.db_periodic_task(crontab(day_of_week="1,5", hour="21", minute="25"))
+def comment_linkedin_posts_with_correct_answer():
+    questions = Question.objects.filter(
+        linkedin_post__isnull=False, linkedin_post_commented=False
+    )
+    for question in questions:
+        c = LiComment.objects.create(
+            post=question.linkedin_post,
+            text=question.post_comment_with_right_answer(),
+        )
+        c.share()
+        question.linkedin_post_commented = True
+        question.save()
 
 
 @huey.db_periodic_task(crontab(hour=SOCIALPOST_CRON_HOURS, minute="30"))
@@ -90,7 +119,7 @@ def share_social_post():
 
         # Linkedin
         if obj.promote_in_linkedin:
-            li_post = LiPost.objects.create(comment=obj.text)
+            li_post = LiPost.objects.create(text=obj.text)
             li_post.share()
 
         # Twitter
@@ -101,7 +130,7 @@ def share_social_post():
         #         uploaded_tweet_file = tweet_file.upload()
         #         tweet.files.add(uploaded_tweet_file)
         #     tweet.publish()
-        report_to_admin(f"Social post promoted (id={obj.id}):\n\n{obj.text}")
+        report_to_admin(f"Social post promoted (id={obj.id})")
 
     except Exception as e:
         report_to_admin(f"Error by promoting social post (id={obj.id}):\n\n{e}")
@@ -124,7 +153,7 @@ def share_blog_post():
         send_telegram_message(text)
 
         # Linkedin
-        li_post = LiPost.objects.create(comment=text)
+        li_post = LiPost.objects.create(text=text)
         li_post.share()
 
         # Twitter
@@ -148,7 +177,7 @@ def share_random_book():
     text = obj.get_promotion_text()
     try:
         # Linkedin
-        li_post = LiPost.objects.create(comment=text, image=obj.image)
+        li_post = LiPost.objects.create(text=text, image=obj.image)
         li_post.upload_image()
         li_post.share()
 

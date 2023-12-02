@@ -116,7 +116,7 @@ django-htmx==1.16.0
     # via -r requirements.in
 django-huey-monitor==0.7.1
     # via -r requirements.in
-django-linkedin-posts==0.0.3
+django-linkedin-posts==0.0.4
     # via -r requirements.in
 django-minify-html==1.6.0
     # via -r requirements.in
@@ -196,7 +196,7 @@ jsbeautifier==1.14.9
     #   djlint
 json5==0.9.14
     # via djlint
-linkedin-posts==0.0.8
+linkedin-posts==0.0.11
     # via django-linkedin-posts
 lxml==4.9.3
     # via

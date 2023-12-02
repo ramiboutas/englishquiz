@@ -3,6 +3,8 @@ from __future__ import annotations
 import random
 
 import auto_prefetch
+from django_linkedin_posts.models import Poll as LiPoll
+from django_linkedin_posts.models import Post as LiPost
 
 from django.conf import settings
 from django.db import models
@@ -84,6 +86,24 @@ class Question(auto_prefetch.Model):
     explanation = models.CharField(max_length=250, blank=True, null=True)
     promoted = models.BooleanField(default=False)
 
+    linkedin_poll = auto_prefetch.OneToOneField(
+        LiPoll,
+        null=True,
+        blank=True,
+        editable=False,
+        on_delete=models.SET_NULL,
+    )
+    linkedin_poll_commented = models.BooleanField(default=False)
+
+    linkedin_post = auto_prefetch.OneToOneField(
+        LiPost,
+        null=True,
+        blank=True,
+        editable=False,
+        on_delete=models.SET_NULL,
+    )
+    linkedin_post_commented = models.BooleanField(default=False)
+
     created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -163,14 +183,6 @@ class Question(auto_prefetch.Model):
             .first()
         )
 
-    @classmethod
-    def get_random_object_to_promote(cls):
-        questions = cls.objects.filter(promoted=False)
-        if not questions.exists():
-            questions = cls.objects.all()
-            report_to_admin(f"All questions were promoted, please make more.")
-        return random.choice(list(questions))
-
     def _get_question_text(self):
         """
         It generates text from a Question instance
@@ -203,9 +215,7 @@ class Question(auto_prefetch.Model):
         question_text = self._get_question_text()
 
         # Producing text
-        text = ""
-
-        text += f"Here a small question for you!\n\n"
+        text = f"Here a small question for you!\n\n"
         text += f"{question_text} \n\n"
         if add_link:
             text += "Check out the right answer here:\n"
@@ -224,6 +234,17 @@ class Question(auto_prefetch.Model):
             text += "\n\nCheck the right answer here 👉 "
             text += f"{settings.SITE_BASE_URL}{self.get_detail_url()}"
 
+        return text
+
+    def post_comment_with_right_answer(self):
+        if self.type == 5:
+            right = self.answer_set.filter(correct=True)[0]
+            text = f"The right answer was: {right.name}\n\n"
+            text += f"Learn more 👉{settings.SITE_BASE_URL}{self.get_detail_url()}"
+            return text
+
+        text = "Check the right answer here 👉 "
+        text += f"{settings.SITE_BASE_URL}{self.get_detail_url()}"
         return text
 
     def __str__(self):

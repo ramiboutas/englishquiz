@@ -228,7 +228,7 @@ META_DESCRIPTION = "English Stuff Online. \
 
 # Telegram - socialmedia app
 TELEGRAM_BOT_API_KEY = os.environ.get("TELEGRAM_BOT_API_KEY")
-TELEGRAM_CHANNEL_NAME = "@english_stuff_online"
+TELEGRAM_CHANNEL_NAME = "@englishStuffOnline"
 # reporting to chat
 TELEGRAM_REPORTING_CHAT_ID = os.environ.get("TELEGRAM_REPORTING_CHAT_ID")
 
