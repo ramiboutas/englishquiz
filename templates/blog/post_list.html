@@ -1,22 +1,12 @@
 {% extends "base.html" %}
-{% block head_title %}Blog{% endblock %}
+{% block head_title %}Blog - Latest posts{% endblock %}
 {% block content %}
   {% include 'partials/navbar.html' %}
   <h1 class="text-success text-center py-5">Blog</h1>
   <div class="container py-5">
     <div class="row justify-content-md-center">
-      <h2 class="text-success py-3">Popular posts</h2>
-      {% for post in popular_posts %}
-        <div class="col-md-6 my-5">
-          <h3>
-            <a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-          </h3>
-          <p>{{ post.description }}</p>
-          <small class="text-muted">{{ post.created }}</small>
-        </div>
-      {% endfor %}
-      <h2 class="text-success py-3">Last posts</h2>
-      {% for post in popular_posts %}
+      <h2 class="text-success py-3">Latest posts</h2>
+      {% for post in posts %}
         <div class="col-md-6 my-5">
           <h3>
             <a class="text-secondary" href="{{ post.get_absolute_url }}">{{ post.title }}</a>

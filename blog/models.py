@@ -60,12 +60,8 @@ class BlogPost(auto_prefetch.Model):
         return self.get_absolute_url()
 
     @classmethod
-    def get_last_posts(cls, post_count=10):
+    def get_last_posts(cls, post_count=12):
         return cls.objects.filter(public=True).order_by("-created")[:post_count]
-
-    @classmethod
-    def get_popular_posts(cls, post_count=4):
-        return cls.objects.filter(public=True).order_by("-views")[:post_count]
 
     @classmethod
     def get_all_posts(cls):
