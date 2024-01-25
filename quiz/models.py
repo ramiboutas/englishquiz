@@ -83,7 +83,7 @@ class Question(auto_prefetch.Model):
     text_two = models.CharField(max_length=200, null=True, blank=True)
     text_three = models.CharField(max_length=200, null=True, blank=True)
     type = models.PositiveSmallIntegerField(default=1, choices=QUESTION_TYPE_CHOICES)
-    explanation = models.CharField(max_length=250, blank=True, null=True)
+    explanation = models.TextField(max_length=250, blank=True, null=True)
     promoted = models.BooleanField(default=False)
 
     linkedin_poll = auto_prefetch.OneToOneField(
@@ -93,7 +93,7 @@ class Question(auto_prefetch.Model):
         editable=False,
         on_delete=models.SET_NULL,
     )
-    linkedin_poll_commented = models.BooleanField(default=False)
+    linkedin_poll_commented = models.BooleanField(default=False, editable=False)
 
     linkedin_post = auto_prefetch.OneToOneField(
         LiPost,
@@ -102,7 +102,7 @@ class Question(auto_prefetch.Model):
         editable=False,
         on_delete=models.SET_NULL,
     )
-    linkedin_post_commented = models.BooleanField(default=False)
+    linkedin_post_commented = models.BooleanField(default=False, editable=False)
 
     created_by = auto_prefetch.ForeignKey(
         settings.AUTH_USER_MODEL,

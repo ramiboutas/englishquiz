@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from django.contrib import admin
 from nested_inline.admin import NestedModelAdmin
-from nested_inline.admin import NestedStackedInline
+from nested_inline.admin import NestedStackedInline, NestedTabularInline
 
 from .models import Answer
 from .models import DeeplLanguage
@@ -13,22 +13,14 @@ from .models import Quiz
 from .models import TranslatedQuestion
 
 
-class LectionInline(admin.StackedInline):
-    model = Lection
-    extra = 5
-
-
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     list_filter = ["name"]
     prepopulated_fields = {"slug": ("name",)}
-    inlines = [
-        LectionInline,
-    ]
 
 
-class AnswerInline(NestedStackedInline):
+class AnswerInline(NestedTabularInline):
     model = Answer
     extra = 3
     fk_name = "question"
@@ -37,10 +29,7 @@ class AnswerInline(NestedStackedInline):
 class QuestionInline(NestedStackedInline):
     search_fields = ["text_one"]
     list_filter = ["lection"]
-    exclude = (
-        "created_by",
-        "promoted",
-    )
+    exclude = ("created_by", "promoted")
     model = Question
     extra = 10
     fk_name = "lection"
@@ -71,7 +60,7 @@ class LectionAdmin(NestedModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    search_fields = ["full_text"]
+    search_fields = ["text_one", "text_two", "text_three"]
     readonly_fields = [
         "lection",
         "text_one",
