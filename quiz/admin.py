@@ -42,7 +42,7 @@ class QuestionInline(NestedStackedInline):
 @admin.register(Lection)
 class LectionAdmin(NestedModelAdmin):
     search_fields = ["name"]
-    list_filter = ["name", "quiz__name"]
+    list_filter = ["quiz__name", "quiz__level"]
     prepopulated_fields = {"slug": ("name",)}
     model = Quiz
     inlines = [QuestionInline]
